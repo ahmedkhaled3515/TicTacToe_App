@@ -5,6 +5,8 @@
         <group>
             <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/tictactoe/FXMLDocumentController.java</file>
             <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/tictactoe/FXMLDocument.fxml</file>
+            <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/tictactoe/Views/GameBoard.fxml</file>
+            <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/tictactoe/Views/GameBoardController.java</file>
             <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/tictactoe/TicTacToe.java</file>
         </group>
     </open-files>
