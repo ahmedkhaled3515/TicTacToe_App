@@ -19,6 +19,13 @@ import tictactoe.Views.DrawView.DrawPane;
 import tictactoe.Views.LoseView.LosePane;
 import tictactoe.Views.WinView.WinController;
 
+import tictactoe.Views.AvailablePlayer.PlayersListBase;
+import tictactoe.Views.login.loginBase;
+
+
+import tictactoe.Views.GameBoardBase;
+
+
 /**
  *
  * @author ak882
@@ -34,6 +41,12 @@ public class TicTacToe extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
+
+
+   
+
+  
+
         
         winPane = new WinPane(this);
         
