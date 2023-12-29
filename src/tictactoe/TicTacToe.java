@@ -7,6 +7,7 @@ package tictactoe;
 
 import HomeView.homeBase;
 import SelectmodeView.SelectModeBase;
+import SignupView.SignupBase;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -21,7 +22,7 @@ public class TicTacToe extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = new SelectModeBase();
+        Parent root = new SignupBase();
         
         Scene scene = new Scene(root);
         
