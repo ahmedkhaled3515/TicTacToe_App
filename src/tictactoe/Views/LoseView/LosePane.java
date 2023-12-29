@@ -87,7 +87,7 @@ public class LosePane extends Pane {
         playAgainImage.setLayoutY(510.0);
         playAgainImage.setPickOnBounds(true);
         playAgainImage.setPreserveRatio(true);
-        playAgainImage.setImage(new Image(getClass().getResource("replay.png").toExternalForm()));
+        playAgainImage.setImage(new Image(getClass().getResource("Replay2.png").toExternalForm()));
 
         mainMenuButton.setLayoutX(650.0);
         mainMenuButton.setLayoutY(400.0);

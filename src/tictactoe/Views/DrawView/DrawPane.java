@@ -75,7 +75,7 @@ public class DrawPane extends Pane {
         playAgainImage.setLayoutY(510.0);
         playAgainImage.setPickOnBounds(true);
         playAgainImage.setPreserveRatio(true);
-        playAgainImage.setImage(new Image(getClass().getResource("replay.png").toExternalForm()));
+        playAgainImage.setImage(new Image(getClass().getResource("Replay2.png").toExternalForm()));
 
         mainMenuButton.setLayoutX(650.0);
         mainMenuButton.setLayoutY(400.0);
@@ -147,7 +147,7 @@ public class DrawPane extends Pane {
     
     
      public void DrawPlayVideo() {
-        String videoFile = "file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/DrawView/DrawVideo.mp4";
+        String videoFile = "file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/DrawView/DrawVideo2.mp4";
 
         // Create a Media object
         Media media = new Media(videoFile);
