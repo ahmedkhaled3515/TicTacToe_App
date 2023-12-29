@@ -10,8 +10,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
 import tictactoe.Views.AvailablePlayer.PlayersListBase;
 import tictactoe.Views.login.loginBase;
+
+
+import tictactoe.Views.GameBoardBase;
 
 
 /**
@@ -22,7 +26,11 @@ public class TicTacToe extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = new PlayersListBase();
+
+   
+
+        Parent root = new GameBoardBase();
+
         
         Scene scene = new Scene(root);
         
