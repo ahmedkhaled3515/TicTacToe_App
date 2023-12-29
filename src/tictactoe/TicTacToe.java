@@ -10,6 +10,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import tictactoe.localmode.LocalViewBase;
+import tictactoe.machineView.MachineViewBase;
+
 
 /**
  *
@@ -19,7 +22,10 @@ public class TicTacToe extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+        Parent root = new MachineViewBase();
+        
+        //LocalViewBase();
+         //MachineViewBase();
         
         Scene scene = new Scene(root);
         
