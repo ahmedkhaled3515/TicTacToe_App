@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="tictactoe.Views.AvailablePlayer.PlayersListController">
+    <stylesheets>
+        <URL value="@playerslist.css" />
+    </stylesheets>
+   <children>
+      <AnchorPane prefHeight="679.0" prefWidth="998.0">
+         <children>
+            <ImageView fx:id="backgroundImg" fitHeight="686.0" fitWidth="1014.0">
+               <image>
+                  <Image url="@../../../../../../gaming-blank-banner-background_23-2150390423.jpg" />
+               </image>
+            </ImageView>
+            <Label fx:id="availableLabel" layoutX="545.0" layoutY="69.0" text="Available Players" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="50.0" />
+               </font>
+            </Label>
+            <Label fx:id="playerLabel" layoutX="564.0" layoutY="233.0" text="Player Name" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="30.0" />
+               </font>
+            </Label>
+            <Label fx:id="scoreLabel" layoutX="782.0" layoutY="233.0" text="Score" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="30.0" />
+               </font>
+            </Label>
+            <Button fx:id="inviteBtn" layoutX="884.0" layoutY="315.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="96.0" text="Invite" />
+            <Text fx:id="playerNametxt" fill="WHITE" layoutX="606.0" layoutY="343.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Player1">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Text>
+            <Text fx:id="playerScoretxt" fill="WHITE" layoutX="813.0" layoutY="343.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Text>
+            <ImageView fx:id="backBtn" fitHeight="73.0" fitWidth="100.0" layoutX="444.0" layoutY="69.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../../../symbole-fleche-gauche-violet.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
