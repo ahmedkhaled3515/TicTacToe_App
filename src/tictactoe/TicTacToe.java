@@ -5,12 +5,18 @@
  */
 package tictactoe;
 
+import HomeView.homeBase;
+import SelectmodeView.SelectModeBase;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+
+import tictactoe.localmode.LocalViewBase;
+import tictactoe.machineView.MachineViewBase;
+
 import tictactoe.Views.WinView.WinPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -18,6 +24,14 @@ import javafx.scene.media.MediaView;
 import tictactoe.Views.DrawView.DrawPane;
 import tictactoe.Views.LoseView.LosePane;
 import tictactoe.Views.WinView.WinController;
+
+import tictactoe.Views.AvailablePlayer.PlayersListBase;
+import tictactoe.Views.login.loginBase;
+
+
+import tictactoe.Views.GameBoardBase;
+
+
 
 /**
  *
@@ -34,8 +48,24 @@ public class TicTacToe extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
+
+        Parent root = new MachineViewBase();
+        
+        //LocalViewBase();
+         //MachineViewBase();
+
+        Parent root = new SelectModeBase();
+
+
+
+   
+
+  
+
+
         
         winPane = new WinPane(this);
+
         
        
         
