@@ -1,0 +1,24 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+
+.button{
+    
+    -fx-background-color: #48D2FE;
+    -fx-background-size:100% 100%;
+    -fx-text-fill: black;
+     -fx-font-weight: bold;
+    -fx-content-display: center;
+    -fx-background-radius: 30;
+}
+
+.text-styled {
+    -fx-font-size: 24px;
+    -fx-font-family: "Arial";
+    -fx-fill: #C5A0D7;
+    -fx-font-weight: bold;
+-fx-background-color: #336699;
+}
+
+

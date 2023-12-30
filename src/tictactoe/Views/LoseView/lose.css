@@ -1,0 +1,14 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.mainFxmlClass {
+
+}
+.hover-button {
+    -fx-background-color: d7049e;
+}
+
+.hover-button:hover {
+    -fx-background-color: lightcoral;
+}
