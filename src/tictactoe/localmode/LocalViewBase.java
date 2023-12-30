@@ -7,9 +7,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import tictactoe.TicTacToe;
 
 public  class LocalViewBase extends AnchorPane {
 
@@ -24,7 +26,7 @@ public  class LocalViewBase extends AnchorPane {
     
     private boolean startButtonClicked = false;
 
-    public LocalViewBase() {
+    public LocalViewBase(TicTacToe mainApp) {
 
         anchorPane = new AnchorPane();
         backgroundimage = new ImageView();
@@ -34,11 +36,6 @@ public  class LocalViewBase extends AnchorPane {
         playerTwoName = new TextField();
          imageView = new ImageView();
  
-        
-        
-        
-        
-        
         setMaxHeight(USE_PREF_SIZE);
         setMaxWidth(USE_PREF_SIZE);
         setMinHeight(USE_PREF_SIZE);
@@ -77,12 +74,12 @@ public  class LocalViewBase extends AnchorPane {
             public void handle(ActionEvent event) {
                 
                  if (startButtonClicked) {
-            startbutton.setStyle("-fx-background-color: C5A0D7; -fx-background-radius: 26 26 26 26;");
-        } else {
-            startbutton.setStyle("-fx-background-color: 72CFF9; -fx-background-radius: 26 26 26 26;");
-        }
-        startButtonClicked = !startButtonClicked;
-    }
+                    startbutton.setStyle("-fx-background-color: C5A0D7; -fx-background-radius: 26 26 26 26;");
+                 } else {
+                    startbutton.setStyle("-fx-background-color: 72CFF9; -fx-background-radius: 26 26 26 26;");
+                 }
+                    startButtonClicked = !startButtonClicked;
+                 }
         }); 
       
 

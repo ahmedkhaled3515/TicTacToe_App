@@ -72,7 +72,7 @@ public class LosePane extends Pane {
         playAgainButton.setOnMouseExited(event -> {
             playAgainButton.setStyle("-fx-background-color:C5A0D7 ;");
         });
-                playAgainButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        playAgainButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 mainApp.switchToDrawPane();

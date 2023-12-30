@@ -2,6 +2,8 @@ package tictactoe.Views.DrawView;
 
 import javafx.animation.RotateTransition;
 import javafx.animation.TranslateTransition;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.control.Button;
@@ -9,6 +11,7 @@ import javafx.scene.effect.InnerShadow;
 import javafx.scene.effect.Reflection;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
@@ -20,6 +23,7 @@ import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 import tictactoe.TicTacToe;
+import tictactoe.Views.LocalMode2Players.GameBoardBase2Players;
 
 public class DrawPane extends Pane {
 
@@ -30,6 +34,7 @@ public class DrawPane extends Pane {
     protected final ImageView mainMenuImage;
     protected final Text drawText;
 
+    
     public DrawPane(TicTacToe mainApp) {
 
         backgroundImage = new ImageView();
@@ -69,6 +74,16 @@ public class DrawPane extends Pane {
             playAgainButton.setStyle("-fx-background-color:C5A0D7;");
         });
         
+        playAgainButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                mainApp.switchToGameBoardBase2Players();
+             }
+        });
+        
+        
+        
+        
         playAgainImage.setFitHeight(33.0);
         playAgainImage.setFitWidth(38.0);
         playAgainImage.setLayoutX(660.0);
@@ -77,6 +92,9 @@ public class DrawPane extends Pane {
         playAgainImage.setPreserveRatio(true);
         playAgainImage.setImage(new Image(getClass().getResource("Replay2.png").toExternalForm()));
 
+        
+        
+        
         mainMenuButton.setLayoutX(650.0);
         mainMenuButton.setLayoutY(400.0);
         mainMenuButton.setMnemonicParsing(false);
@@ -90,6 +108,7 @@ public class DrawPane extends Pane {
         mainMenuButton.setOnMouseExited(event -> {
             mainMenuButton.setStyle("-fx-background-color:C5A0D7 ;");
         });
+
           
         mainMenuImage.setFitHeight(33.0);
         mainMenuImage.setFitWidth(38.0);
