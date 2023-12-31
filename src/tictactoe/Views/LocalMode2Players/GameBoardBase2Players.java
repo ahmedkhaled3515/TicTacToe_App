@@ -270,7 +270,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
         
         
         playMusicButton.setMnemonicParsing(false);
-        playMusicButton.setLayoutX(10.0);
+        playMusicButton.setLayoutX(30.0);
         playMusicButton.setLayoutY(100.0);
         playMusicButton.setFont(new Font(50)); 
         playMusicButton.setStyle("-fx-text-stroke: white;");
@@ -375,14 +375,14 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
         score2Pane.setTop(player2Text);
         
         
-        newGameButton.setLayoutX(352.0);
+        newGameButton.setLayoutX(300.0);
         newGameButton.setLayoutY(552.0);
         newGameButton.setMnemonicParsing(false);
         newGameButton.setPrefHeight(60.0);
-        newGameButton.setPrefWidth(130.0);
+        newGameButton.setPrefWidth(200.0);
         newGameButton.setStyle("-fx-background-radius: 15;");
         newGameButton.setText("New Game");
-        newGameButton.setFont(new Font("Arial Bold", 14.0));
+        newGameButton.setFont(new Font("Arial Bold", 27.0));
         newGameButton.setOpaqueInsets(new Insets(0.0));
         newGameButton.setStyle("-fx-background-color: #68CFD1 ;"); 
         newGameButton.setOnMouseEntered(event -> {
@@ -423,14 +423,14 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
         );
         
         
-        mainMenuButton.setLayoutX(528.0);
+        mainMenuButton.setLayoutX(510.0);
         mainMenuButton.setLayoutY(552.0);
         mainMenuButton.setMnemonicParsing(false);
         mainMenuButton.setPrefHeight(60.0);
-        mainMenuButton.setPrefWidth(130.0);
+        mainMenuButton.setPrefWidth(200.0);
         mainMenuButton.setStyle("-fx-background-radius: 15;");
         mainMenuButton.setText("Main Menu");
-        mainMenuButton.setFont(new Font("Arial Bold", 14.0));
+        mainMenuButton.setFont(new Font("Arial Bold", 27.0));
         mainMenuButton.setStyle("-fx-background-color: #68CFD1 ;");
         
         mainMenuButton.setOnMouseEntered(event -> {
