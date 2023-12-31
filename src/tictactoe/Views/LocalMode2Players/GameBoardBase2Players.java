@@ -444,6 +444,9 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
         mainMenuButton.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
             @Override
             public void handle(javafx.event.ActionEvent event) {
+                playMusicButton.setText("Play Music");
+                mediaPlayer.stop();
+                playMusicFlag=false;
                System.exit(0); 
             }
         }
