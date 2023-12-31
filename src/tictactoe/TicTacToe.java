@@ -52,17 +52,11 @@ public class TicTacToe extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-      //  Parent root = new MachineViewBase();
-        
-        //LocalViewBase();
-         //MachineViewBase();
-
-       // Parent root = new SelectModeBase();
-        winPane = new WinPane(this);
-
+        gameBoardBase2Players = new GameBoardBase2Players(this);
+      //  winPane = new WinPane(this);
         
        // Set up the scene with WinPane
-       scene = new Scene(winPane,1000,700);
+       scene = new Scene(gameBoardBase2Players,1000,700);
        scene.getStylesheets().add("/tictactoe/Views/WinView/win.css");
        stage.setScene(scene);
       //text.getStyleClass().add("styles");

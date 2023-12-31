@@ -49,12 +49,12 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
     protected final RowConstraints rowConstraints2;
     protected final BorderPane score1Pane;
     protected final Text player1Text;
-    protected final Text player1ScoreText;
+    protected Text player1ScoreText;
     protected final BorderPane drawPane;
     protected final Text drawScoreText;
     protected final Text drawText;
     protected final BorderPane score2Pane;
-    protected final Text player2ScoreText;
+    protected Text player2ScoreText;
     protected final Text player2Text;
     protected final Button newGameButton;
     protected final Button exitButton;
@@ -65,6 +65,12 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
     int indexA;
     int indexB;
     int indexC;
+    int xWinCounter;
+    int oWinCounter;
+    int drawCounter;
+    boolean drawCountFlag=true;
+    int x;
+    int mouseClickCounter;
     
     
     public GameBoardBase2Players(TicTacToe mainApp) {
@@ -103,7 +109,11 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
         newGameButton = new Button();
         exitButton = new Button();
         playerTurnText = new Text();
-        
+        xWinCounter=0;
+        oWinCounter=0;
+        drawCounter=0;
+        x=0;
+        mouseClickCounter=0;
         
         buttonArray[0] = button0;
         buttonArray[1] = button1;        
@@ -313,14 +323,14 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
            
         for(int i=0; i<9; i++){
             buttonArray[i].setDisable(false);
+            mouseClickCounter=0;
         }
         
         
         for(int i=0; i<9; i++){
             buttonArray[i].setStyle("-fx-background-color: #d7049e; -fx-text-fill: white;");
         }
-      
-        
+           
                 button0.setText("");
                 button1.setText("");
                 button2.setText("");
@@ -346,7 +356,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
         exitButton.setPrefHeight(60.0);
         exitButton.setPrefWidth(130.0);
         exitButton.setStyle("-fx-background-radius: 15;");
-        exitButton.setText("Exit");
+        exitButton.setText("Main Menu");
         exitButton.setFont(new Font("Arial Bold", 14.0));
         
         exitButton.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
@@ -400,8 +410,10 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
             }
             firstTurn();
             actionPerformedButtons();
-            newGameFlag=false;
+            newGameFlag=false;  
         }
+     
+        
     }
     
     
@@ -413,6 +425,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
                 Button fakeButton = button0;
                 ActionEvent fakeEvent = new ActionEvent(fakeButton, ActionEvent.ACTION_PERFORMED, "SimulateButtonClick");
                 actionPerformed(fakeEvent);
+                mouseClickCounter=mouseClickCounter+1;
             }
         });
         
@@ -422,6 +435,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
                 Button fakeButton = button1;
                 ActionEvent fakeEvent = new ActionEvent(fakeButton, ActionEvent.ACTION_PERFORMED, "SimulateButtonClick");
                 actionPerformed(fakeEvent);
+                mouseClickCounter=mouseClickCounter+1;
             }
         });
         
@@ -431,6 +445,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
                 Button fakeButton = button2;
                 ActionEvent fakeEvent = new ActionEvent(fakeButton, ActionEvent.ACTION_PERFORMED, "SimulateButtonClick");
                 actionPerformed(fakeEvent);
+                mouseClickCounter=mouseClickCounter+1;
             }
         });
         
@@ -440,6 +455,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
                 Button fakeButton = button3;
                 ActionEvent fakeEvent = new ActionEvent(fakeButton, ActionEvent.ACTION_PERFORMED, "SimulateButtonClick");
                 actionPerformed(fakeEvent);
+                mouseClickCounter=mouseClickCounter+1;
             }
         });   
 
@@ -449,6 +465,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
                 Button fakeButton = button4;
                 ActionEvent fakeEvent = new ActionEvent(fakeButton, ActionEvent.ACTION_PERFORMED, "SimulateButtonClick");
                 actionPerformed(fakeEvent);
+                mouseClickCounter=mouseClickCounter+1;
             }
         });        
         
@@ -458,6 +475,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
                 Button fakeButton = button5;
                 ActionEvent fakeEvent = new ActionEvent(fakeButton, ActionEvent.ACTION_PERFORMED, "SimulateButtonClick");
                 actionPerformed(fakeEvent);
+                mouseClickCounter=mouseClickCounter+1;
             }
         }); 
 
@@ -467,6 +485,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
                 Button fakeButton = button6;
                 ActionEvent fakeEvent = new ActionEvent(fakeButton, ActionEvent.ACTION_PERFORMED, "SimulateButtonClick");
                 actionPerformed(fakeEvent);
+                mouseClickCounter=mouseClickCounter+1;
             }
         }); 
 
@@ -476,6 +495,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
                 Button fakeButton = button7;
                 ActionEvent fakeEvent = new ActionEvent(fakeButton, ActionEvent.ACTION_PERFORMED, "SimulateButtonClick");
                 actionPerformed(fakeEvent);
+                mouseClickCounter=mouseClickCounter+1;
             }
         }); 
         
@@ -485,6 +505,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
                 Button fakeButton = button8;
                 ActionEvent fakeEvent = new ActionEvent(fakeButton, ActionEvent.ACTION_PERFORMED, "SimulateButtonClick");
                 actionPerformed(fakeEvent);
+                mouseClickCounter=mouseClickCounter+1;
             }
         }); 
 
@@ -523,151 +544,174 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
     
     public void firstTurn(){
         if(random.nextInt(2)==0){
-            player1Turn = true;
             playerTurnText.setFill(javafx.scene.paint.Color.valueOf("#d7049e"));
             playerTurnText.setStroke(javafx.scene.paint.Color.valueOf("#d7049e"));
             playerTurnText.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
             playerTurnText.setText("X turn");
+            player1Turn=true;
 
-        }else{
-            player1Turn = false;  
+        }else{  
             playerTurnText.setFill(javafx.scene.paint.Color.valueOf("#d7049e"));
             playerTurnText.setStroke(javafx.scene.paint.Color.valueOf("#d7049e"));
             playerTurnText.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
             playerTurnText.setText("O turn");
+            player1Turn=false;
         }
     }
     
     public void checkIfAnyPlayerWon(){
-        if(buttonArray[0].getText()=="X" &&
-           buttonArray[1].getText()=="X" &&
-           buttonArray[2].getText()=="X"){
-            checkIfXWins(0,1,2);
             
-        }
-        if(buttonArray[3].getText()=="X" &&
-           buttonArray[4].getText()=="X" &&
-           buttonArray[5].getText()=="X"){
-            checkIfXWins(3,4,5);
-            
-        } 
-        if(buttonArray[6].getText()=="X" &&
-           buttonArray[7].getText()=="X" &&
-           buttonArray[8].getText()=="X"){
-            checkIfXWins(6,7,8);
-            
-        }
-        if(buttonArray[0].getText()=="X" &&
-           buttonArray[3].getText()=="X" &&
-           buttonArray[6].getText()=="X"){
-            checkIfXWins(0,3,6);
-            
-        }
-        if(buttonArray[1].getText()=="X" &&
-           buttonArray[4].getText()=="X" &&
-           buttonArray[7].getText()=="X"){
-            checkIfXWins(1,4,7);
-            
-        } 
-        if(buttonArray[2].getText()=="X" &&
-           buttonArray[5].getText()=="X" &&
-           buttonArray[8].getText()=="X"){
-            checkIfXWins(2,5,8);
-            
-        }
-        if(buttonArray[0].getText()=="X" &&
-           buttonArray[4].getText()=="X" &&
-           buttonArray[8].getText()=="X"){
-            checkIfXWins(0,4,8);
-            
-        } 
-        if(buttonArray[2].getText()=="X" &&
-           buttonArray[4].getText()=="X" &&
-           buttonArray[6].getText()=="X"){
-            checkIfXWins(2,4,6);
-            
-        }
-        
-        if(buttonArray[0].getText()=="O" &&
-           buttonArray[1].getText()=="O" &&
-           buttonArray[2].getText()=="O"){
-            checkIfOWins(0,1,2);
-            
-        }
-        if(buttonArray[3].getText()=="O" &&
-           buttonArray[4].getText()=="O" &&
-           buttonArray[5].getText()=="O"){
-            checkIfOWins(3,4,5);
-            
-        } 
-        if(buttonArray[6].getText()=="O" &&
-           buttonArray[7].getText()=="O" &&
-           buttonArray[8].getText()=="O"){
-            checkIfOWins(6,7,8);
-            
-        }
-        if(buttonArray[0].getText()=="O" &&
-           buttonArray[3].getText()=="O" &&
-           buttonArray[6].getText()=="O"){
-            checkIfOWins(0,3,6);
-            
-        }
-        if(buttonArray[1].getText()=="O" &&
-           buttonArray[4].getText()=="O" &&
-           buttonArray[7].getText()=="O"){
-            checkIfOWins(1,4,7);
-            
-        } 
-        if(buttonArray[2].getText()=="O" &&
-           buttonArray[5].getText()=="O" &&
-           buttonArray[8].getText()=="O"){
-            checkIfOWins(2,5,8);
-            
-        }
-        if(buttonArray[0].getText()=="O" &&
-           buttonArray[4].getText()=="O" &&
-           buttonArray[8].getText()=="O"){
-            checkIfOWins(0,4,8);
-            
-        } 
-        if(buttonArray[2].getText()=="O" &&
-           buttonArray[4].getText()=="O" &&
-           buttonArray[6].getText()=="O"){
-            checkIfOWins(2,4,6);
-            
-        }
+            if(buttonArray[0].getText()=="X" &&
+               buttonArray[1].getText()=="X" &&
+               buttonArray[2].getText()=="X"){
+                xWins(0,1,2);
+
+            }
+            else if(buttonArray[3].getText()=="X" &&
+               buttonArray[4].getText()=="X" &&
+               buttonArray[5].getText()=="X"){
+                xWins(3,4,5);
+
+            } 
+            else if(buttonArray[6].getText()=="X" &&
+               buttonArray[7].getText()=="X" &&
+               buttonArray[8].getText()=="X"){
+                xWins(6,7,8);
+
+            }
+            else if(buttonArray[0].getText()=="X" &&
+               buttonArray[3].getText()=="X" &&
+               buttonArray[6].getText()=="X"){
+                xWins(0,3,6);
+
+            }
+            else if(buttonArray[1].getText()=="X" &&
+               buttonArray[4].getText()=="X" &&
+               buttonArray[7].getText()=="X"){
+                xWins(1,4,7);
+
+            } 
+            else if(buttonArray[2].getText()=="X" &&
+               buttonArray[5].getText()=="X" &&
+               buttonArray[8].getText()=="X"){
+                xWins(2,5,8);
+
+            }
+            else if(buttonArray[0].getText()=="X" &&
+               buttonArray[4].getText()=="X" &&
+               buttonArray[8].getText()=="X"){
+                xWins(0,4,8);
+
+            } 
+            else if(buttonArray[2].getText()=="X" &&
+               buttonArray[4].getText()=="X" &&
+               buttonArray[6].getText()=="X"){
+                xWins(2,4,6);
+
+            }
+
+            else if(buttonArray[0].getText()=="O" &&
+               buttonArray[1].getText()=="O" &&
+               buttonArray[2].getText()=="O"){
+                oWins(0,1,2);
+
+            }
+            else if(buttonArray[3].getText()=="O" &&
+               buttonArray[4].getText()=="O" &&
+               buttonArray[5].getText()=="O"){
+                oWins(3,4,5);
+
+            } 
+            else if(buttonArray[6].getText()=="O" &&
+               buttonArray[7].getText()=="O" &&
+               buttonArray[8].getText()=="O"){
+                oWins(6,7,8);
+
+            }
+            else if(buttonArray[0].getText()=="O" &&
+               buttonArray[3].getText()=="O" &&
+               buttonArray[6].getText()=="O"){
+                oWins(0,3,6);
+
+            }
+            else if(buttonArray[1].getText()=="O" &&
+               buttonArray[4].getText()=="O" &&
+               buttonArray[7].getText()=="O"){
+                oWins(1,4,7);
+
+            } 
+            else if(buttonArray[2].getText()=="O" &&
+               buttonArray[5].getText()=="O" &&
+               buttonArray[8].getText()=="O"){
+                oWins(2,5,8);
+
+            }
+            else if(buttonArray[0].getText()=="O" &&
+               buttonArray[4].getText()=="O" &&
+               buttonArray[8].getText()=="O"){
+                oWins(0,4,8);
+
+            } 
+            else if(buttonArray[2].getText()=="O" &&
+               buttonArray[4].getText()=="O" &&
+               buttonArray[6].getText()=="O"){
+                oWins(2,4,6);
+            }
+            else{
+                if(mouseClickCounter==8){
+                    x=x+1;
+                    drawScoreText.setText(Integer.toString(x)); 
+                    playerTurnText.setText("Draw");
+                }
+
+            }
+          
     }
     
-    public void checkIfXWins(int a, int b, int c){
+    public void xWins(int a, int b, int c){
 
-            buttonArray[a].setStyle("-fx-background-color: green; -fx-text-fill: white;");
-            buttonArray[b].setStyle("-fx-background-color: green; -fx-text-fill: white;");
-            buttonArray[c].setStyle("-fx-background-color: green; -fx-text-fill: white;");
+        indexA=a;
+        indexB=b;
+        indexC=c;
+        
+        buttonArray[a].setStyle("-fx-background-color: #68CFD1; -fx-text-fill: white;");
+        buttonArray[b].setStyle("-fx-background-color: #68CFD1; -fx-text-fill: white;");
+        buttonArray[c].setStyle("-fx-background-color: #68CFD1; -fx-text-fill: white;");
 
         for(int i=0; i<9; i++){
-            buttonArray[i].setDisable(true);
+            if(buttonArray[i] != buttonArray[indexA] && buttonArray[i] != buttonArray[indexB] && buttonArray[i] != buttonArray[indexC] ){
+                 buttonArray[i].setDisable(true);
+            }
         }
         
+     
         playerTurnText.setText("X Wins");
-        
+        xWinCounter=xWinCounter+1;
+        player1ScoreText.setText(Integer.toString(xWinCounter));
+
     }
     
-    public void checkIfOWins(int a, int b, int c){
+    public void oWins(int a, int b, int c){
         
         indexA=a;
         indexB=b;
         indexC=c;
         
-
-            buttonArray[a].setStyle("-fx-background-color: green; -fx-text-fill: white;");
-            buttonArray[b].setStyle("-fx-background-color: green; -fx-text-fill: white;");
-            buttonArray[c].setStyle("-fx-background-color: green; -fx-text-fill: white;");
+        buttonArray[a].setStyle("-fx-background-color: #68CFD1; -fx-text-fill: white;");
+        buttonArray[b].setStyle("-fx-background-color: #68CFD1; -fx-text-fill: white;");
+        buttonArray[c].setStyle("-fx-background-color: #68CFD1; -fx-text-fill: white;");
 
         for(int i=0; i<9; i++){
-            buttonArray[i].setDisable(true);
-        }
+            if(buttonArray[i] != buttonArray[indexA] && buttonArray[i] != buttonArray[indexB] && buttonArray[i] != buttonArray[indexC] ){
+                 buttonArray[i].setDisable(true);
+            }
+        }    
+
+        playerTurnText.setText("O Wins"); 
+        player1Turn=false;
+        oWinCounter=oWinCounter+1;
+        player2ScoreText.setText(Integer.toString(oWinCounter)); 
         
-        playerTurnText.setText("O Wins");   
     }
 
 }
