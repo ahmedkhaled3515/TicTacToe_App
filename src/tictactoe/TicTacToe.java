@@ -53,13 +53,14 @@ public class TicTacToe extends Application {
     public void start(Stage stage) throws Exception {
 
         gameBoardBase2Players = new GameBoardBase2Players(this);
-      //  winPane = new WinPane(this);
-        
-      stage.setResizable(true);
+       //winPane = new WinPane(this);
+       //losePane = new LosePane(this);
+       //drawPane = new DrawPane(this);
+       stage.setResizable(true);
       
        // Set up the scene with WinPane
        scene = new Scene(gameBoardBase2Players,1000,700);
-       scene.getStylesheets().add("/tictactoe/Views/WinView/win.css");
+      // scene.getStylesheets().add("/tictactoe/Views/WinView/win.css");
        stage.setScene(scene);
       //text.getStyleClass().add("styles");
        stage.show();

@@ -169,7 +169,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
 
         backgroundImage.setFitHeight(700.0);
         backgroundImage.setFitWidth(1000.0);
-        backgroundImage.setImage(new Image(getClass().getResource("background.jpg").toExternalForm()));
+        backgroundImage.setImage(new Image(getClass().getResource("backgroundImageGif.gif").toExternalForm()));
 
         boardGrid.setHgap(10.0);
         boardGrid.setLayoutX(265.0);
