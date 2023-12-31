@@ -1,11 +1,9 @@
-package tictactoe.Views;
+package tictactoe.Views.computerMode;
 
-import java.util.Observable;
-import javafx.collections.ObservableList;
+import java.util.ArrayList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -13,12 +11,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import static javafx.scene.layout.Region.USE_PREF_SIZE;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
-public  class GameBoardBase extends AnchorPane {
+public class ComputerModeBase extends AnchorPane {
 
     protected final ImageView imageView;
     protected final GridPane boardGrid;
@@ -54,7 +52,9 @@ public  class GameBoardBase extends AnchorPane {
     protected final Button newButton;
     protected final Button exitButton;
     boolean flag;
-    public GameBoardBase() {
+    Button[][] buttons=null;
+    int count;
+    public ComputerModeBase() {
 
         imageView = new ImageView();
         boardGrid = new GridPane();
@@ -73,17 +73,6 @@ public  class GameBoardBase extends AnchorPane {
         but20 = new Button();
         but21 = new Button();
         but22 = new Button();
-        Button[][] buttons={{but00,but01,but02},{but10,but11,but12},{but20,but21,but22}};
-        for(int i=0;i<3;i++)
-        {
-            for(int j=0;j<3;j++)
-            {
-                buttons[i][j].getStyleClass().add("x");
-                buttons[i][j].setOnAction(new buttonHandler());
-            }
-        }
-        
-
         scoreGrid = new GridPane();
         columnConstraints2 = new ColumnConstraints();
         columnConstraints3 = new ColumnConstraints();
@@ -100,22 +89,53 @@ public  class GameBoardBase extends AnchorPane {
         text1 = new Text();
         newButton = new Button();
         exitButton = new Button();
-        getStylesheets().add(getClass().getResource("Style.css").toExternalForm());
-        boardGrid.getStyleClass().add("board");
-        score1Pane.getStyleClass().add("score1");
-        score2Pane.getStyleClass().add("score2");
-        drawPane.getStyleClass().add("draw");
-        newButton.getStyleClass().add("buttons");
-        exitButton.getStyleClass().add("buttons");
+        flag=true;
+        buttons=new Button[3][3];
+        buttons[0][0] = but00;
+        buttons[0][1] = but01;
+        buttons[0][2] = but02;
+        buttons[1][0] = but10;
+        buttons[1][1] = but11;
+        buttons[1][2] = but12;
+        buttons[2][0] = but20;
+        buttons[2][1] = but21;
+        buttons[2][2] = but22;
+        
+        for(int i=0;i<3;i++)
+        {
+            for(int j=0;j<3;j++)
+            {
+                buttons[i][j].setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        Button button=(Button) event.getSource();
+                        if(button.getText().isEmpty())
+                        {
+                            button.setText("X");
+                            button.setTextFill(Color.web("#3E4D8C"));
+                            flag=!flag;
+                            count++;
+                            System.out.println(count);
+                            computerTurn();
+                        }
+                    }
+                } );
+            }
+        }
+        
+        
+
         setMaxHeight(USE_PREF_SIZE);
         setMaxWidth(USE_PREF_SIZE);
         setMinHeight(USE_PREF_SIZE);
         setMinWidth(USE_PREF_SIZE);
         setPrefHeight(700.0);
         setPrefWidth(1000.0);
+
         imageView.setFitHeight(700.0);
         imageView.setFitWidth(1000.0);
         imageView.setImage(new Image(getClass().getResource("background.jpg").toExternalForm()));
+        
         boardGrid.setHgap(10.0);
         boardGrid.setLayoutX(265.0);
         boardGrid.setLayoutY(171.0);
@@ -150,50 +170,60 @@ public  class GameBoardBase extends AnchorPane {
         but00.setMnemonicParsing(false);
         but00.setPrefHeight(130.0);
         but00.setPrefWidth(211.0);
+        but00.setStyle("-fx-background-color: C5A0D7; -fx-background-radius: 15; -fx-font-family: 'Comic Sans MS'; -fx-font-size: 50;");
 
         GridPane.setColumnIndex(but01, 1);
         but01.setMnemonicParsing(false);
         but01.setPrefHeight(200.0);
         but01.setPrefWidth(255.0);
+        but01.setStyle("-fx-background-color: C5A0D7; -fx-background-radius: 15; -fx-font-family: 'Comic Sans MS'; -fx-font-size: 50;");
 
         GridPane.setColumnIndex(but02, 2);
         but02.setMnemonicParsing(false);
         but02.setPrefHeight(144.0);
         but02.setPrefWidth(215.0);
+        but02.setStyle("-fx-background-color: C5A0D7; -fx-background-radius: 15; -fx-font-family: 'Comic Sans MS'; -fx-font-size: 50;");
 
         GridPane.setRowIndex(but10, 1);
         but10.setMnemonicParsing(false);
         but10.setPrefHeight(123.0);
         but10.setPrefWidth(212.0);
+        but10.setStyle("-fx-background-color: C5A0D7; -fx-background-radius: 15; -fx-font-family: 'Comic Sans MS'; -fx-font-size: 50;");
 
         GridPane.setColumnIndex(but11, 1);
         GridPane.setRowIndex(but11, 1);
         but11.setMnemonicParsing(false);
         but11.setPrefHeight(139.0);
         but11.setPrefWidth(260.0);
+        but11.setStyle("-fx-background-color: C5A0D7; -fx-background-radius: 15; -fx-font-family: 'Comic Sans MS'; -fx-font-size: 50;");
+//        but11.setText("X");
 
         GridPane.setColumnIndex(but12, 2);
         GridPane.setRowIndex(but12, 1);
         but12.setMnemonicParsing(false);
         but12.setPrefHeight(139.0);
         but12.setPrefWidth(242.0);
+        but12.setStyle("-fx-background-color: C5A0D7; -fx-background-radius: 15; -fx-font-family: 'Comic Sans MS'; -fx-font-size: 50;");
 
         GridPane.setRowIndex(but20, 2);
         but20.setMnemonicParsing(false);
         but20.setPrefHeight(127.0);
         but20.setPrefWidth(234.0);
+        but20.setStyle("-fx-background-color: C5A0D7; -fx-background-radius: 15; -fx-font-family: 'Comic Sans MS'; -fx-font-size: 50;");
 
         GridPane.setColumnIndex(but21, 1);
         GridPane.setRowIndex(but21, 2);
         but21.setMnemonicParsing(false);
         but21.setPrefHeight(196.0);
         but21.setPrefWidth(192.0);
+        but21.setStyle("-fx-background-color: C5A0D7; -fx-background-radius: 15; -fx-font-family: 'Comic Sans MS'; -fx-font-size: 50;");
 
         GridPane.setColumnIndex(but22, 2);
         GridPane.setRowIndex(but22, 2);
         but22.setMnemonicParsing(false);
         but22.setPrefHeight(161.0);
         but22.setPrefWidth(220.0);
+        but22.setStyle("-fx-background-color: C5A0D7; -fx-background-radius: 15; -fx-font-family: 'Comic Sans MS'; -fx-font-size: 50;");
 
         scoreGrid.setHgap(10.0);
         scoreGrid.setLayoutX(276.0);
@@ -219,6 +249,7 @@ public  class GameBoardBase extends AnchorPane {
 
         score1Pane.setPrefHeight(200.0);
         score1Pane.setPrefWidth(143.0);
+        score1Pane.setStyle("-fx-background-radius: 15; -fx-background-color: #48D2FE;");
 
         BorderPane.setAlignment(text, javafx.geometry.Pos.CENTER);
         text.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
@@ -238,6 +269,7 @@ public  class GameBoardBase extends AnchorPane {
         GridPane.setColumnIndex(drawPane, 1);
         drawPane.setPrefHeight(200.0);
         drawPane.setPrefWidth(200.0);
+        drawPane.setStyle("-fx-background-radius: 15; -fx-background-color: BCDBF9;");
 
         BorderPane.setAlignment(drawCountText, javafx.geometry.Pos.CENTER);
         drawCountText.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
@@ -257,6 +289,7 @@ public  class GameBoardBase extends AnchorPane {
         GridPane.setColumnIndex(score2Pane, 2);
         score2Pane.setPrefHeight(88.0);
         score2Pane.setPrefWidth(142.0);
+        score2Pane.setStyle("-fx-background-radius: 15; -fx-background-color: #3E4D8C;");
 
         BorderPane.setAlignment(score2CountText, javafx.geometry.Pos.CENTER);
         score2CountText.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
@@ -268,7 +301,7 @@ public  class GameBoardBase extends AnchorPane {
         BorderPane.setAlignment(text1, javafx.geometry.Pos.CENTER);
         text1.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
         text1.setStrokeWidth(0.0);
-        text1.setText("Player 2");
+        text1.setText("Computer");
         text1.setFont(new Font("Arial Bold", 18.0));
         BorderPane.setMargin(text1, new Insets(5.0, 0.0, 0.0, 0.0));
         score2Pane.setTop(text1);
@@ -278,7 +311,8 @@ public  class GameBoardBase extends AnchorPane {
         newButton.setMnemonicParsing(false);
         newButton.setPrefHeight(60.0);
         newButton.setPrefWidth(130.0);
-        newButton.setText("New game");
+        newButton.setStyle("-fx-background-radius: 15; -fx-background-color: C5A0D7;");
+        newButton.setText("Restart");
         newButton.setFont(new Font("Arial Bold", 14.0));
         newButton.setOpaqueInsets(new Insets(0.0));
 
@@ -287,6 +321,7 @@ public  class GameBoardBase extends AnchorPane {
         exitButton.setMnemonicParsing(false);
         exitButton.setPrefHeight(60.0);
         exitButton.setPrefWidth(130.0);
+        exitButton.setStyle("-fx-background-radius: 15; -fx-background-color: C5A0D7;");
         exitButton.setText("Exit");
         exitButton.setFont(new Font("Arial Bold", 14.0));
 
@@ -317,32 +352,40 @@ public  class GameBoardBase extends AnchorPane {
         getChildren().add(scoreGrid);
         getChildren().add(newButton);
         getChildren().add(exitButton);
-
+        
     }
-    public class buttonHandler implements EventHandler<ActionEvent>
+    public void computerTurn()
     {
+        int row;
+        int col;
+        if(count<8)
+        {
+            do{
+                row= (int)(Math.random() * 3) + 0;
+                col= (int)(Math.random() * 3) + 0;
+            }
+            while(!buttons[row][col].getText().isEmpty());
+            buttons[row][col].setText("O");
+            buttons[row][col].setTextFill(Color.web("#FF3B8B"));
+            count++;
+            System.out.println(count);
+        }
+        
+    }
+    
+    public class xHandler implements EventHandler<ActionEvent>{
 
         @Override
         public void handle(ActionEvent event) {
-            Button button = (Button) event.getSource();
+            
+            Button button=(Button) event.getSource();
             if(button.getText().isEmpty())
             {
-               if(flag)
-                {
-                    button.setText("X");
-                    button.getStyleClass().add("x");
-                    flag=false;
-                }
-                else
-                {
-                    button.setText("O");
-                    button.getStyleClass().add("o");
-                    flag=true;
-                } 
+                button.setText("X");
+                button.setTextFill(Color.web("#3E4D8C"));
+                flag=!flag;
             }
-            
-            
         }
-        
+       
     }
 }

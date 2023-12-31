@@ -30,6 +30,7 @@ import tictactoe.Views.login.loginBase;
 
 
 import tictactoe.Views.GameBoardBase;
+import tictactoe.Views.computerMode.ComputerModeBase;
 
 
 
@@ -49,31 +50,16 @@ public class TicTacToe extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        Parent root = new MachineViewBase();
+        Parent root = new ComputerModeBase();
         
         //LocalViewBase();
-         //MachineViewBase();
-
-        Parent root = new SelectModeBase();
-
-
-
-   
-
-  
-
-
-        
-        winPane = new WinPane(this);
-
-        
+        //MachineViewBase();        
        
         
        // Set up the scene with WinPane
-       scene = new Scene(winPane,1000,700);
-       scene.getStylesheets().add("/tictactoe/Views/WinView/win.css");
-       stage.setScene(scene);
+       scene = new Scene(root,1000,700);
        
+       stage.setScene(scene);
       //text.getStyleClass().add("styles");
        stage.show();
     }
