@@ -850,12 +850,19 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
             }else{
                 playMusicButton.setText("Stop Music");
                 mediaPlayer.play();
+                mediaPlayer.setOnEndOfMedia(() -> replayAudio());
                 playMusicFlag=true;
             }
         });
     }
     
     public void playMusicWhenTheGameboardOpen(){
+        mediaPlayer.seek(mediaPlayer.getStartTime());
+        mediaPlayer.play();
+        playMusicFlag=true;
+    }
+    
+        private void replayAudio() {
         mediaPlayer.seek(mediaPlayer.getStartTime());
         mediaPlayer.play();
     }
