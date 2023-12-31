@@ -55,6 +55,8 @@ public class TicTacToe extends Application {
         gameBoardBase2Players = new GameBoardBase2Players(this);
       //  winPane = new WinPane(this);
         
+      stage.setResizable(true);
+      
        // Set up the scene with WinPane
        scene = new Scene(gameBoardBase2Players,1000,700);
        scene.getStylesheets().add("/tictactoe/Views/WinView/win.css");

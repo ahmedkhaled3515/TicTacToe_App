@@ -25,6 +25,8 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -53,6 +55,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
     protected final Button button6;
     protected final Button button7;
     protected final Button button8;
+    protected final Button playMusicButton;
     protected final GridPane scoreGrid;
     protected final ColumnConstraints columnConstraints2;
     protected final ColumnConstraints columnConstraints3;
@@ -82,7 +85,10 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
     boolean drawCountFlag=true;
     int x;
     int mouseClickCounter;
-    
+    boolean playMusicFlag=true;
+    String soundFile;
+    Media sound;
+    MediaPlayer mediaPlayer;
     
     public GameBoardBase2Players(TicTacToe mainApp) {
 
@@ -103,6 +109,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
         button6 = new Button();
         button7 = new Button();
         button8 = new Button();
+        playMusicButton= new Button();
         scoreGrid = new GridPane();
         columnConstraints2 = new ColumnConstraints();
         columnConstraints3 = new ColumnConstraints();
@@ -125,6 +132,12 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
         drawCounter=0;
         x=0;
         mouseClickCounter=0;
+        
+        // Load the sound file
+        soundFile = "file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/LocalMode2Players/gameMusic.mp3";
+        sound = new Media(soundFile);
+        mediaPlayer = new MediaPlayer(sound);
+        
         
         buttonArray[0] = button0;
         buttonArray[1] = button1;        
@@ -254,6 +267,29 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
         button8.setPrefWidth(220.0);
         button8.setFont(new Font(50)); 
         button8.setStyle("-fx-text-stroke: white;");
+        
+        
+        playMusicButton.setMnemonicParsing(false);
+        playMusicButton.setLayoutX(10.0);
+        playMusicButton.setLayoutY(100.0);
+        playMusicButton.setFont(new Font(50)); 
+        playMusicButton.setStyle("-fx-text-stroke: white;");
+        playMusicButton.setPrefHeight(60.0);
+        playMusicButton.setPrefWidth(200.0);
+        playMusicButton.setStyle("-fx-background-radius: 15;");
+        playMusicButton.setText("Stop Music");
+        playMusicButton.setFont(new Font("Arial Bold", 27.0));
+        playMusicButton.setOpaqueInsets(new Insets(0.0));
+        playMusicButton.setStyle("-fx-background-color: #68CFD1 ;"); 
+        playMusicButton.setOnMouseEntered(event -> {
+            playMusicButton.setStyle("-fx-background-color: #00CBFE;");
+        });
+
+        playMusicButton.setOnMouseExited(event -> {
+            playMusicButton.setStyle("-fx-background-color: #68CFD1 ;"); 
+        });
+        
+        
         
         scoreGrid.setHgap(10.0);
         scoreGrid.setLayoutX(276.0);
@@ -449,7 +485,11 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
         getChildren().add(newGameButton);
         getChildren().add(mainMenuButton);
         getChildren().add(playerTurnText);
-
+        getChildren().add(playMusicButton);
+        
+        playMusicWhenTheGameboardOpen();
+        playMusic();    
+        
         if(newGameFlag==true){
             for(int i=0; i<9;i++){
                 buttonArray[i].setStyle("-fx-background-color: #d7049e; -fx-text-fill: white;");
@@ -587,6 +627,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
            }
        }
     }
+    
     
     public void firstTurn(){
         if(random.nextInt(2)==0){
@@ -794,5 +835,28 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
                     rotateTransition.play();
     }
     
+    public void playMusic(){
+        
+        playMusicButton.setOnAction(event -> {
+            mediaPlayer.seek(mediaPlayer.getStartTime());
+            
+            if(playMusicFlag==true){
+                playMusicButton.setText("Play Music");
+                mediaPlayer.stop();
+                playMusicFlag=false;
+            }else{
+                playMusicButton.setText("Stop Music");
+                mediaPlayer.play();
+                playMusicFlag=true;
+            }
+        });
+    }
+    
+    public void playMusicWhenTheGameboardOpen(){
+        mediaPlayer.seek(mediaPlayer.getStartTime());
+        mediaPlayer.play();
+    }
+
     
 }
+
