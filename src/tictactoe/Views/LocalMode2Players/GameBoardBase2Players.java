@@ -450,10 +450,10 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
                 playMusicButton.setText("Play Music");
                 mediaPlayer.stop();
                 playMusicFlag=false;
-                player1ScoreText.setText(" ");
-                player2ScoreText.setText(" ");
-                drawScoreText.setText(" ");
-               System.exit(0); 
+                player1ScoreText.setText("0");
+                player2ScoreText.setText("0");
+                drawScoreText.setText("0");
+                 System.exit(0); 
             }
         }
         );
