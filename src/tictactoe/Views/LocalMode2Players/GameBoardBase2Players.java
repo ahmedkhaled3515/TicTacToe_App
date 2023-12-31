@@ -10,6 +10,7 @@ import javafx.animation.TranslateTransition;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.control.Button;
 import javafx.scene.effect.InnerShadow;
@@ -25,8 +26,10 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -757,6 +760,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
                     drawScoreText.setText(Integer.toString(x)); 
                     playerTurnText.setText("Draw");
                     setEditsToPlayerTurnText();
+                    DrawPlayVideo();
                     
                 }
 
@@ -766,6 +770,9 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
     
     public void xWins(int a, int b, int c){
 
+         xWinsVideo();
+        
+        
         indexA=a;
         indexB=b;
         indexC=c;
@@ -787,6 +794,8 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
     }
     
     public void oWins(int a, int b, int c){
+        
+        oWinsVideo();
         
         indexA=a;
         indexB=b;
@@ -868,5 +877,120 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
     }
 
     
+      public void xWinsVideo() {
+        String videoFile = "file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/LocalMode2Players/XWinsVideo.mp4";
+
+        // Create a Media object
+        Media media = new Media(videoFile);
+
+        // Create a MediaPlayer
+        MediaPlayer mediaPlayer = new MediaPlayer(media);
+
+        // Create a MediaView to display the video
+        MediaView mediaView = new MediaView(mediaPlayer);
+
+        // Set the size of the MediaView to fit the screen without cropping
+        mediaView.setFitWidth(800.0);
+        mediaView.setFitHeight(800.0);
+
+        // Set the position of the MediaView within the WinPane
+        mediaView.setLayoutX(100.0); // Set X position
+        mediaView.setLayoutY(130.0);  // Set Y position
+
+        // Set the position of the MediaView within the WinPane
+        StackPane.setAlignment(mediaView, Pos.CENTER);
+
+        // Play the video
+        mediaPlayer.play();
+
+        // Add the MediaView to the WinPane
+        getChildren().add(mediaView);
+
+        // Set the event handler for when the media finishes playing
+        mediaPlayer.setOnEndOfMedia(() -> {
+            // Add any additional actions when the video finishes
+            System.out.println("Video finished");
+            mediaView.setVisible(false);
+        });
+    }  
+        
+      
+      public void oWinsVideo() {
+        String videoFile = "file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/LocalMode2Players/OWinsVideo.mp4";
+                               
+        // Create a Media object
+        Media media = new Media(videoFile);
+
+        // Create a MediaPlayer
+        MediaPlayer mediaPlayer = new MediaPlayer(media);
+
+        // Create a MediaView to display the video
+        MediaView mediaView = new MediaView(mediaPlayer);
+
+        // Set the size of the MediaView to fit the screen without cropping
+        mediaView.setFitWidth(800.0);
+        mediaView.setFitHeight(800.0);
+
+        // Set the position of the MediaView within the WinPane
+        mediaView.setLayoutX(100.0); // Set X position
+        mediaView.setLayoutY(130.0);  // Set Y position
+
+        // Set the position of the MediaView within the WinPane
+        StackPane.setAlignment(mediaView, Pos.CENTER);
+
+        // Play the video
+        mediaPlayer.play();
+
+        // Add the MediaView to the WinPane
+        getChildren().add(mediaView);
+
+        // Set the event handler for when the media finishes playing
+        mediaPlayer.setOnEndOfMedia(() -> {
+            // Add any additional actions when the video finishes
+            System.out.println("Video finished");
+            mediaView.setVisible(false);
+        });
+    } 
+        
+
+public void DrawPlayVideo() {
+        String videoFile = "file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/LocalMode2Players/DrawVideo2.mp4";
+                                
+        // Create a Media object
+        Media media = new Media(videoFile);
+
+        // Create a MediaPlayer
+        MediaPlayer mediaPlayer = new MediaPlayer(media);
+
+        // Create a MediaView to display the video
+        MediaView mediaView = new MediaView(mediaPlayer);
+
+        // Set the size of the MediaView to fit the screen without cropping
+        mediaView.setFitWidth(800.0);
+        mediaView.setFitHeight(800.0);
+
+        // Set the position of the MediaView within the WinPane
+        mediaView.setLayoutX(100.0); // Set X position
+        mediaView.setLayoutY(120.0);  // Set Y position
+
+        // Set the position of the MediaView within the WinPane
+        StackPane.setAlignment(mediaView, Pos.CENTER);
+
+        // Play the video
+        mediaPlayer.play();
+
+        // Add the MediaView to the WinPane
+        getChildren().add(mediaView);
+
+        // Set the event handler for when the media finishes playing
+        mediaPlayer.setOnEndOfMedia(() -> {
+            // Add any additional actions when the video finishes
+            System.out.println("Video finished");
+            mediaView.setVisible(false);
+        });
+     }
+      
+      
+      
 }
 

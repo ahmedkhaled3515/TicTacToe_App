@@ -3,17 +3,20 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/DrawView/DrawPane.java</file>
             <file>file:/D:/TicTacToe/TicTacToe_App/src/HomeView/HomeController.java</file>
-            <file>file:/D:/TicTacToe/TicTacToe_App/src/SelectmodeView/SelectModeController.java</file>
-            <file>file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/AvailablePlayer/PlayersListBase.java</file>
-            <file>file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/TicTacToe.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/GameBoardView/GameBoardBase.java</file>
             <file>file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/LocalMode2Players/GameBoardBase2Players.java</file>
             <file>file:/D:/TicTacToe/TicTacToe_App/src/HomeView/homeBase.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/FXMLDocumentBase.java</file>
             <file>file:/D:/TicTacToe/TicTacToe_App/src/SelectmodeView/SelectModeBase.java</file>
             <file>file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/localmode/LocalViewController.java</file>
             <file>file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/LoseView/LosePane.java</file>
             <file>file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/localmode/LocalViewBase.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/DrawView/DrawPane.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe_App/src/SelectmodeView/SelectModeController.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/AvailablePlayer/PlayersListBase.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/TicTacToe.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/LoseView/LoseController.java</file>
             <file>file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/WinView/WinPane.java</file>
         </group>
         <group>
@@ -31,6 +34,7 @@
             <file>file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/AvailablePlayer/PlayersListBase.java</file>
             <file>file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/TicTacToe.java</file>
             <file>file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/LoseView/LoseController.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/LocalMode2Players/LocalMode2PlayersController.java</file>
             <file>file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/WinView/WinPane.java</file>
         </group>
     </open-files>
