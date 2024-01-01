@@ -51,7 +51,7 @@ public class TicTacToe extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        Parent root = new ComputerModeBase(stage);
+        Parent root = new ComputerModeBase(stage,"O");
         
         //LocalViewBase();
         //MachineViewBase();        

@@ -62,8 +62,10 @@ public class ComputerModeBase extends AnchorPane {
     ArrayList<Integer> computerPositions;
     ArrayList<Integer> playerPositions;
     int i;
-    String currentPlayer="O";
+    String currentPlayer;
+    String computer;
     Stage parent;
+    int result;
     public class XOButton extends Button{
         int index;
         public XOButton(int index)
@@ -75,7 +77,7 @@ public class ComputerModeBase extends AnchorPane {
             return index;
         }
     }
-    public ComputerModeBase(Stage parent) {
+    public ComputerModeBase(Stage parent,String current) {
 
         imageView = new ImageView();
         boardGrid = new GridPane();
@@ -125,6 +127,17 @@ public class ComputerModeBase extends AnchorPane {
         playerPositions=new ArrayList<Integer>();
         computerPositions=new ArrayList<Integer>();
         this.parent=parent;
+        currentPlayer=current;
+        
+        
+        if(currentPlayer.equalsIgnoreCase("O"))
+        {
+            computer="X";
+            computerTurn(computer);
+        }
+        else
+            computer="O";
+        
         
         for(i=0;i<3;i++)
         {
@@ -134,27 +147,70 @@ public class ComputerModeBase extends AnchorPane {
                     @Override
                     public void handle(ActionEvent event) {
                         XOButton button=(XOButton) event.getSource();
+                        if(count>=9)
+                        {
+                            game=false;
+                        }
                         if(button.getText().isEmpty() && game)
                         {
-                            button.setText("X");
+                            button.setText(currentPlayer);
                             button.setTextFill(Color.web("#3E4D8C"));
                             flag=!flag;
                             count++;
-                            playerPositions.add(button.getIndex());
-                            checkWinner("X");
+                            evaluate();
                             if(game)
                             {
-                                makeAIMove(1);
+                                computerTurn(computer);
+                            }
+//                            playerPositions.add(button.getIndex());
+//                            checkWinner("X");
+//                            if(game)
+//                            {
+//                                makeAIMove(1);
+//                            }
+                        }
+                        if(!game)
+                        {
+                            result=evaluate();
+                            if(result == 1)
+                            {
+                                System.out.println("You won!!");
+                            }
+                            else if(result == -1)
+                            {
+                                System.out.println("You lose!!");
+                            }
+                            else if(result == 0)
+                            {
+                                System.out.println("Draw");
                             }
                         }
+                        
                     }
                 } );
             }
         }
+        
+        
         exitButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 parent.setScene(new Scene(new SelectModeBase(),1000,700));
+            }
+        });
+        newButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                computerTurn(computer);
+                for(int i=0;i<3;i++)
+                {
+                    for(int j=0;j<3;j++)
+                    {
+                        buttons[i][j].setText("");
+                    }
+                }
+                game=true;
+                count=0;
             }
         });
         setMaxHeight(USE_PREF_SIZE);
@@ -386,22 +442,103 @@ public class ComputerModeBase extends AnchorPane {
         getChildren().add(exitButton);
         
     }
-//    public void computerTurn()
-//    {
-//        int box;
-//        if(count<8)
-//        {
-//            do{
-//                box= (int)(Math.random() * 9) + 0;
-//            }
-//            while(!buttons[box].getText().isEmpty());
-//            buttons[box].setText("O");
-//            buttons[box].setTextFill(Color.web("#FF3B8B"));
-//            count++;
-//            computerPositions.add(box);
-//            checkWinner("O");
-//        }
-//    }
+    public void computerTurn(String play)
+    {
+        int row;
+        int col;
+        
+        if(count<9)
+        {
+            do{
+                row= (int)(Math.random() * 3);
+                col= (int)(Math.random() * 3);
+            }
+            while(!buttons[row][col].getText().isEmpty());
+            buttons[row][col].setText(play);
+            buttons[row][col].setTextFill(Color.web("#FF3B8B"));
+            count++;
+            if(count>=9)
+            {
+                game=false;
+            }
+            computerPositions.add(row);
+            evaluate();
+            
+        }
+        if(!game)
+        {
+            int result=evaluate();
+            if(result == 1)
+            {
+                System.out.println("You won!!");
+            }
+            else if(result == -1)
+            {
+                System.out.println("You lose!!");
+            }
+            else if(result == 0)
+            {
+                System.out.println("Draw");
+            }
+        }
+    }
+    public boolean checkDraw()
+    {
+        if(!checkWinner2(currentPlayer) && !checkWinner2(computer))
+        {
+            return true;
+        }
+        else
+            return false;
+    }
+    public boolean checkWinner2(String currentPlayer)
+    {
+        boolean win=false;
+        // check rows
+        for(int i=0;i<3;i++)
+        {
+            if(buttons[i][0].getText().equals(currentPlayer) && buttons[i][1].getText().equals(currentPlayer) && buttons[i][2].getText().equals(currentPlayer))
+            {
+                win=true;
+                game=false;
+            }
+        }
+        // check columns
+        for(int i=0;i<3;i++)
+        {
+            if(buttons[0][i].getText().equals(currentPlayer) && buttons[1][i].getText().equals(currentPlayer) && buttons[2][i].getText().equals(currentPlayer))
+            {
+                win=true; 
+                game=false;
+            }
+            
+        }
+        // check diagonals
+        if(buttons[0][0].getText().equals(currentPlayer) && buttons[1][1].getText().equals(currentPlayer) && buttons[2][2].getText().equals(currentPlayer))
+            {
+                win=true;
+                game=false;
+            }
+        if(buttons[2][0].getText().equals(currentPlayer) && buttons[1][1].getText().equals(currentPlayer) && buttons[0][2].getText().equals(currentPlayer))
+            {
+                win=true;
+                game=false;
+            }
+         
+        return win;
+    }
+    public int evaluate() {
+        if (checkWinner2(currentPlayer)) {
+            result= 1;
+        } else if (checkWinner2(computer)) {
+            result= -1;
+        }  
+        else if(checkDraw())
+        {
+            result=0;
+        }
+        return result;
+    }
     public boolean checkWinner(String player)
     {
         List<Integer> row1=Arrays.asList(0,1,2);
