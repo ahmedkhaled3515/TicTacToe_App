@@ -16,7 +16,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import static tictactoe.TicTacToe.scene;
 
 public  class MachineViewBase extends AnchorPane {
 
@@ -38,7 +37,7 @@ public  class MachineViewBase extends AnchorPane {
       
         
     
-    public MachineViewBase() {
+    public MachineViewBase(Stage stage) {
 
         imageView = new ImageView();
         titleText = new Text();
@@ -58,10 +57,9 @@ public  class MachineViewBase extends AnchorPane {
         getStyleClass().add("mainFxmlClass");
         getStylesheets().add("/tictactoe/machineView/machineview.css");
 
-        imageView.setFitHeight(710.0);
-        imageView.setFitWidth(1020.0);
-        imageView.setLayoutX(-4.0);
-        imageView.setLayoutY(-1.0);
+        imageView.setFitHeight(700);
+        imageView.setFitWidth(1000);
+        
         imageView.setImage(new Image(getClass().getResource("background.jpg").toExternalForm()));
 
         titleText.setFill(javafx.scene.paint.Color.valueOf("#c5a0d7"));
@@ -172,9 +170,8 @@ public  class MachineViewBase extends AnchorPane {
 
             @Override
             public void handle(Event event) {
-                Parent root = new SelectModeBase() ;
-                scene = new Scene(root);
-                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                Parent root = new SelectModeBase(stage) ;
+                Scene scene = new Scene(root);
                 stage.setScene(scene);
                 stage.show();
             }

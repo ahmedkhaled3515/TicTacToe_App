@@ -195,7 +195,7 @@ public class ComputerModeBase extends AnchorPane {
         exitButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                parent.setScene(new Scene(new SelectModeBase(),1000,700));
+                parent.setScene(new Scene(new SelectModeBase(parent),1000,700));
             }
         });
         newButton.setOnAction(new EventHandler<ActionEvent>() {

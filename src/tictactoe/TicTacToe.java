@@ -56,15 +56,10 @@ public class TicTacToe extends Application {
     private Scene scene;
 
     private Stage stage;
-    public static Scene scene ;
     
     @Override
     public void start(Stage stage) throws Exception {
-
-
-
-
-        Parent root = new homeBase();
+        Parent root = new homeBase(stage);
         scene = new Scene(root);
         //drawPane = new DrawPane(this);        
 
@@ -106,8 +101,8 @@ public class TicTacToe extends Application {
     }
     
     public void switchToLocalViewBase() {
-        localViewBase = new LocalViewBase(this);
-        setScene(localViewBase);
+//        localViewBase = new LocalViewBase(this);
+//        setScene(localViewBase);
     }
 
     private void setScene(Pane pane) {

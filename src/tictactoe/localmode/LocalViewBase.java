@@ -20,7 +20,6 @@ import javafx.scene.text.Text;
 import tictactoe.TicTacToe;
 
 import javafx.stage.Stage;
-import static tictactoe.TicTacToe.scene;
 import tictactoe.Views.GameBoardBase;
 
 
@@ -37,7 +36,7 @@ public  class LocalViewBase extends AnchorPane {
     
     private boolean startButtonClicked = false;
 
-    public LocalViewBase(TicTacToe mainApp) {
+    public LocalViewBase(Stage stage) {
 
         anchorPane = new AnchorPane();
         backgroundimage = new ImageView();
@@ -81,32 +80,32 @@ public  class LocalViewBase extends AnchorPane {
         startbutton.setStyle("-fx-background-color: C5A0D7; -fx-background-radius: 90;");
         startbutton.setText("start");
         startbutton.setFont(new Font("Arial", 26.0));
-       startbutton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                
-                 if (startButtonClicked) {
-
-                    startbutton.setStyle("-fx-background-color: C5A0D7; -fx-background-radius: 26 26 26 26;");
-                 } else {
-                    startbutton.setStyle("-fx-background-color: 72CFF9; -fx-background-radius: 26 26 26 26;");
-                 }
-                    startButtonClicked = !startButtonClicked;
-                 }
-
-            startbutton.setStyle("-fx-background-color: C5A0D7; -fx-background-radius: 26 26 26 26;");
-               Parent root = new GameBoardBase() ;
-                scene = new Scene(root);
-                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                stage.setScene(scene);
-                stage.show();
-        } else {
-            startbutton.setStyle("-fx-background-color: 72CFF9; -fx-background-radius: 26 26 26 26;");
-        }
-        startButtonClicked = !startButtonClicked;
-    }
-
-        }); 
+//      startbutton.setOnAction(new EventHandler<ActionEvent>() {
+//            @Override
+//            public void handle(ActionEvent event) {
+//                
+//                 if (startButtonClicked) {
+//
+//                    startbutton.setStyle("-fx-background-color: C5A0D7; -fx-background-radius: 26 26 26 26;");
+//                 } else {
+//                    startbutton.setStyle("-fx-background-color: 72CFF9; -fx-background-radius: 26 26 26 26;");
+//                 }
+//                    startButtonClicked = !startButtonClicked;
+//                 }
+//
+//            startbutton.setStyle("-fx-background-color: C5A0D7; -fx-background-radius: 26 26 26 26;");
+//               Parent root = new GameBoardBase() ;
+//                scene = new Scene(root);
+//                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+//                stage.setScene(scene);
+//                stage.show();
+//        } else {
+//            startbutton.setStyle("-fx-background-color: 72CFF9; -fx-background-radius: 26 26 26 26;");
+//        }
+//        startButtonClicked = !startButtonClicked;
+//    }
+//
+//        }); 
       
 
         playerOneName.setLayoutX(664.0);
@@ -133,9 +132,8 @@ public  class LocalViewBase extends AnchorPane {
 
             @Override
             public void handle(Event event) {
-                Parent root = new SelectModeBase() ;
-                scene = new Scene(root);
-                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                Parent root = new SelectModeBase(stage);
+                Scene scene = new Scene(root,1000,700);
                 stage.setScene(scene);
                 stage.show();
             }
