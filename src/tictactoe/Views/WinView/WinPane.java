@@ -171,7 +171,7 @@ public class WinPane extends AnchorPane {
     }
 
     public void WinPlayVideo() {
-        String videoFile = "file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/WinView/WinVideo.mp4";
+        String videoFile = "tictactoe/Views/WinView/WinVideo.mp4";
 
         // Create a Media object
         Media media = new Media(videoFile);

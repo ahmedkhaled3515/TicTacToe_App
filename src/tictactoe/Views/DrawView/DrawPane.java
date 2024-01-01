@@ -147,7 +147,8 @@ public class DrawPane extends Pane {
     
     
      public void DrawPlayVideo() {
-        String videoFile = "file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/DrawView/DrawVideo.mp4";
+        String videoFile = "file:/C:/Users/Dell/Desktop/Tic%20tac%20toe%20project/TicTacToe_App/src/tictactoe/Views/DrawView/DrawVideo.mp4";
+
 
         // Create a Media object
         Media media = new Media(videoFile);
