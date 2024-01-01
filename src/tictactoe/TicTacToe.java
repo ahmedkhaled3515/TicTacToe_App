@@ -47,15 +47,7 @@ public class TicTacToe extends Application {
 
         Parent root = new SignupBase();
 
-       
-
-
-
-   
-
-  
-
-
+                                                       
         
      //   winPane = new WinPane(this);
 
