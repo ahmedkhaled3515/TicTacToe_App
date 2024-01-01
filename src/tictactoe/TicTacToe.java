@@ -14,6 +14,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+
+import tictactoe.localmode.LocalViewBase;
+import tictactoe.machineView.MachineViewBase;
+
 import tictactoe.Views.WinView.WinPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -29,6 +33,7 @@ import tictactoe.Views.login.loginBase;
 import tictactoe.Views.GameBoardBase;
 
 
+
 /**
  *
  * @author ak882
@@ -39,27 +44,18 @@ public class TicTacToe extends Application {
     private WinPane winPane;
     private LosePane losePane;
     private DrawPane drawPane;
-    private Scene scene;
     private Stage stage;
+    public static Scene scene ;
     
     @Override
     public void start(Stage stage) throws Exception {
 
-        Parent root = new SignupBase();
 
-                                                       
-        
-     //   winPane = new WinPane(this);
+           Parent root = new homeBase();
+         scene = new Scene(root);
+        //drawPane = new DrawPane(this);        
 
-        
-       
-        
-       // Set up the scene with WinPane
-       scene = new Scene(root,1000,700);
-       scene.getStylesheets().add("/tictactoe/Views/WinView/win.css");
        stage.setScene(scene);
-       
-      //text.getStyleClass().add("styles");
        stage.show();
     }
 
@@ -72,12 +68,12 @@ public class TicTacToe extends Application {
     
     
         // Method to switch to the WinPane
-    public void switchToWinPane() {
+     public void switchToWinPane() {
         setScene(winPane);
     }
 
     // Method to switch to the LosePane
-    public void switchToLosePane() {
+   public void switchToLosePane() {
         losePane = new LosePane(this);
         setScene(losePane);
     }

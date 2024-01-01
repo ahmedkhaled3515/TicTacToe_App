@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" prefHeight="700.0" prefWidth="1000.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tictactoe.machineView.MachineViewController">
+    <stylesheets>
+        <URL value="@machineview.css" />
+    </stylesheets>
+   <children>
+      <ImageView fitHeight="710.0" fitWidth="1020.0" layoutX="-4.0" layoutY="-1.0">
+         <image>
+            <Image url="@../../../../../javaprojectimage/WhatsApp%20Image%202023-12-28%20at%2015.56.37_41642cc1.jpg" />
+         </image>
+      </ImageView>
+      <Text fx:id="titleText" fill="#c5a0d7" layoutX="657.0" layoutY="179.0" strokeType="OUTSIDE" strokeWidth="0.0" text="tic.tac.toe." wrappingWidth="263.6708984375">
+         <font>
+            <Font name="System Bold" size="39.0" />
+         </font>
+      </Text>
+      <Button fx:id="recording" layoutX="639.0" layoutY="398.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="264.0" style="-fx-background-color: C5A0D7; -fx-background-radius: 26 26 26 26;" text="Recording">
+         <font>
+            <Font size="29.0" />
+         </font>
+      </Button>
+      <Button fx:id="continuw" layoutX="639.0" layoutY="519.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="264.0" style="-fx-background-color: C5A0D7; -fx-background-radius: 26 26 26 26;" text="continue">
+         <font>
+            <Font size="29.0" />
+         </font>
+      </Button>
+      <Button fx:id="choseX" layoutX="669.0" layoutY="248.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="65.0" style="-fx-background-color: C5A0D7; -fx-background-radius: 15 15 15 15;" text="X">
+         <font>
+            <Font name="System Bold" size="29.0" />
+         </font>
+      </Button>
+      <Button fx:id="choseO" layoutX="819.0" layoutY="248.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="65.0" style="-fx-background-color: C5A0D7; -fx-background-radius: 15 15 15 15;" text="O">
+         <font>
+            <Font name="System Bold" size="29.0" />
+         </font>
+      </Button>
+      <ImageView fx:id="arrowback" fitHeight="52.0" fitWidth="65.0" layoutX="524.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../../javaprojectimage/WhatsApp%20Image%202023-12-28%20at%2019.55.48_a765c312.jpg" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>
