@@ -31,6 +31,7 @@ import tictactoe.Views.login.loginBase;
 
 
 import tictactoe.Views.GameBoardBase;
+import tictactoe.Views.LocalMode2Players.GameBoardBase2Players;
 
 
 
@@ -44,6 +45,11 @@ public class TicTacToe extends Application {
     private WinPane winPane;
     private LosePane losePane;
     private DrawPane drawPane;
+
+    private LocalViewBase localViewBase;
+    private GameBoardBase2Players gameBoardBase2Players;
+    private Scene scene;
+
     private Stage stage;
     public static Scene scene ;
     
@@ -51,11 +57,13 @@ public class TicTacToe extends Application {
     public void start(Stage stage) throws Exception {
 
 
+
            Parent root = new homeBase();
          scene = new Scene(root);
         //drawPane = new DrawPane(this);        
 
        stage.setScene(scene);
+
        stage.show();
     }
 
@@ -64,11 +72,13 @@ public class TicTacToe extends Application {
      */
     public static void main(String[] args) {
         launch(args);
+        
     }
     
+
     
-        // Method to switch to the WinPane
-     public void switchToWinPane() {
+    // Method to switch to the WinPane
+    public void switchToWinPane() {
         setScene(winPane);
     }
 
@@ -82,6 +92,16 @@ public class TicTacToe extends Application {
     public void switchToDrawPane() {
         drawPane = new DrawPane(this);
         setScene(drawPane);
+    }
+     
+    public void switchToGameBoardBase2Players(){
+        gameBoardBase2Players = new GameBoardBase2Players(this);
+        setScene(gameBoardBase2Players);   
+    }
+    
+    public void switchToLocalViewBase() {
+        localViewBase = new LocalViewBase(this);
+        setScene(localViewBase);
     }
 
     private void setScene(Pane pane) {

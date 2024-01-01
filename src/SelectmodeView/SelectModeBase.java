@@ -1,8 +1,13 @@
 package SelectmodeView;
 
+
+//import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+//import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcons;
+
 import HomeView.homeBase;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcons;
+
 import java.net.URL;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -31,9 +36,9 @@ public class SelectModeBase extends AnchorPane {
     protected final Button computer;
     protected final Button online;
     protected final AnchorPane anchorPane1;
-    protected final FontAwesomeIcon user;
+  //  protected final FontAwesomeIcon user;
     protected final AnchorPane anchorPane2;
-    protected final FontAwesomeIcon arrow;
+  //  protected final FontAwesomeIcon arrow;
 
     public SelectModeBase() {
 
@@ -44,9 +49,9 @@ public class SelectModeBase extends AnchorPane {
         computer = new Button();
         online = new Button();
         anchorPane1 = new AnchorPane();
-        user = new FontAwesomeIcon();
+    //    user = new FontAwesomeIcon();
         anchorPane2 = new AnchorPane();
-        arrow = new FontAwesomeIcon();
+    //    arrow = new FontAwesomeIcon();
 
         setId("AnchorPane");
         setPrefHeight(642.0);
@@ -160,7 +165,7 @@ public class SelectModeBase extends AnchorPane {
         anchorPane1.setLayoutY(53.0);
         anchorPane1.setPrefHeight(200.0);
         anchorPane1.setPrefWidth(200.0);
-
+/*
         user.setLayoutX(873.0);
         user.setLayoutY(143.0);
         user.setIcon(FontAwesomeIcons.USER);
@@ -171,11 +176,11 @@ public class SelectModeBase extends AnchorPane {
        user.scaleXProperty().add(1);
        user.scaleYProperty().add(1);
        user.scaleZProperty().add(1);
-
+*/
         anchorPane2.setLayoutX(50.0);
         anchorPane2.setPrefHeight(200.0);
         anchorPane2.setPrefWidth(200.0);
-
+/*
         arrow.setLayoutX(-40.0);
         arrow.setLayoutY(115.0);
         arrow.setIcon(FontAwesomeIcons.ARROW_LEFT);
@@ -184,6 +189,9 @@ public class SelectModeBase extends AnchorPane {
        arrow.scaleXProperty().add(1);
        arrow.scaleYProperty().add(1);
        arrow.scaleZProperty().add(1);
+
+*/
+
        arrow.setOnMouseClicked(new EventHandler() {
 
             @Override
@@ -196,14 +204,15 @@ public class SelectModeBase extends AnchorPane {
             }
         });
 
+
         anchorPane.getChildren().add(imageView);
         anchorPane0.getChildren().add(local);
         anchorPane.getChildren().add(anchorPane0);
         anchorPane.getChildren().add(computer);
         anchorPane.getChildren().add(online);
         anchorPane.getChildren().add(anchorPane1);
-        anchorPane.getChildren().add(user);
-        anchorPane2.getChildren().add(arrow);
+      //  anchorPane.getChildren().add(user);
+      //  anchorPane2.getChildren().add(arrow);
         anchorPane.getChildren().add(anchorPane2);
         getChildren().add(anchorPane);
 
