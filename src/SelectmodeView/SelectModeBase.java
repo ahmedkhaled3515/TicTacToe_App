@@ -4,6 +4,10 @@ package SelectmodeView;
 //import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 //import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcons;
 
+
+//import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+//import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcons;
+
 import HomeView.homeBase;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcons;
@@ -36,6 +40,9 @@ public class SelectModeBase extends AnchorPane {
     protected final Button computer;
     protected final Button online;
     protected final AnchorPane anchorPane1;
+//    protected final FontAwesomeIcon user;
+    protected final AnchorPane anchorPane2;
+//    protected final FontAwesomeIcon arrow;
   //  protected final FontAwesomeIcon user;
     protected final AnchorPane anchorPane2;
   //  protected final FontAwesomeIcon arrow;
@@ -49,6 +56,7 @@ public class SelectModeBase extends AnchorPane {
         computer = new Button();
         online = new Button();
         anchorPane1 = new AnchorPane();
+
     //    user = new FontAwesomeIcon();
         anchorPane2 = new AnchorPane();
     //    arrow = new FontAwesomeIcon();
@@ -63,9 +71,9 @@ public class SelectModeBase extends AnchorPane {
         anchorPane.setPrefHeight(654.0);
         anchorPane.setPrefWidth(1034.0);
 
-        imageView.setFitHeight(754.0);
-        imageView.setFitWidth(1088.0);
-        imageView.setLayoutY(-94.0);
+        imageView.setFitHeight(700.0);
+        imageView.setFitWidth(1000.0);
+//        imageView.setLayoutY(-94.0);
         imageView.setImage(new Image(getClass().getResource("WhatsApp Image 2023-12-28 at 3.56.37 PM.jpeg").toExternalForm()));
 
         anchorPane0.setLayoutX(549.0);
@@ -165,6 +173,7 @@ public class SelectModeBase extends AnchorPane {
         anchorPane1.setLayoutY(53.0);
         anchorPane1.setPrefHeight(200.0);
         anchorPane1.setPrefWidth(200.0);
+
 /*
         user.setLayoutX(873.0);
         user.setLayoutY(143.0);
@@ -211,6 +220,7 @@ public class SelectModeBase extends AnchorPane {
         anchorPane.getChildren().add(computer);
         anchorPane.getChildren().add(online);
         anchorPane.getChildren().add(anchorPane1);
+
       //  anchorPane.getChildren().add(user);
       //  anchorPane2.getChildren().add(arrow);
         anchorPane.getChildren().add(anchorPane2);

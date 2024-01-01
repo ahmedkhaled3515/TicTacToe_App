@@ -31,7 +31,12 @@ import tictactoe.Views.login.loginBase;
 
 
 import tictactoe.Views.GameBoardBase;
+
+import tictactoe.Views.computerMode.ComputerModeBase;
+import tictactoe.Views.computerMode.ComputerModeBase2;
+
 import tictactoe.Views.LocalMode2Players.GameBoardBase2Players;
+
 
 
 
@@ -58,8 +63,9 @@ public class TicTacToe extends Application {
 
 
 
-           Parent root = new homeBase();
-         scene = new Scene(root);
+
+        Parent root = new homeBase();
+        scene = new Scene(root);
         //drawPane = new DrawPane(this);        
 
        stage.setScene(scene);
