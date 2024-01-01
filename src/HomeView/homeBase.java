@@ -1,12 +1,21 @@
 package HomeView;
 
+import SelectmodeView.SelectModeBase;
 import java.net.URL;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Font;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import static tictactoe.TicTacToe.scene;
 
 public class homeBase extends AnchorPane {
 
@@ -59,6 +68,17 @@ public class homeBase extends AnchorPane {
         button.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
         button.setTextFill(javafx.scene.paint.Color.valueOf("#5a1e76"));
         button.setFont(new Font("Arial Black", 65.0));
+        button.setOnMouseClicked(new EventHandler() {
+
+            @Override
+            public void handle(Event event) {
+                Parent root = new SelectModeBase();
+                scene = new Scene(root);
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                stage.setScene(scene);
+                stage.show();
+            }
+        });
         borderPane.setCenter(anchorPane);
 
         anchorPane.getChildren().add(imageView);
