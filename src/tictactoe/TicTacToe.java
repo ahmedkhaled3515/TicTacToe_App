@@ -53,10 +53,10 @@ public class TicTacToe extends Application {
     public void start(Stage stage) throws Exception {
 
         gameBoardBase2Players = new GameBoardBase2Players(this);
-       //winPane = new WinPane(this);
+       // winPane = new WinPane(this);
        //losePane = new LosePane(this);
        //drawPane = new DrawPane(this);
-       stage.setResizable(true);
+       //stage.setResizable(true);
       
        // Set up the scene with WinPane
        scene = new Scene(gameBoardBase2Players,1000,700);
