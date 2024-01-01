@@ -17,6 +17,7 @@ import static javafx.scene.layout.Region.USE_PREF_SIZE;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import tictactoe.TicTacToe;
 
 public  class GameBoardBase extends AnchorPane {
 
@@ -54,7 +55,8 @@ public  class GameBoardBase extends AnchorPane {
     protected final Button newButton;
     protected final Button exitButton;
     boolean flag;
-    public GameBoardBase() {
+
+    public GameBoardBase(TicTacToe mainApp) {
 
         imageView = new ImageView();
         boardGrid = new GridPane();

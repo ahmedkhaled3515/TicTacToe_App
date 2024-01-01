@@ -57,7 +57,7 @@ public class LosePane extends Pane {
         backgroundImage.setPickOnBounds(true);
         backgroundImage.setPreserveRatio(true);
         backgroundImage.getStyleClass().add("win");
-        backgroundImage.setImage(new Image(getClass().getResource("BackgroundImage.png").toExternalForm()));
+        backgroundImage.setImage(new Image(getClass().getResource("backgroundImageGif.gif").toExternalForm()));
 
         playAgainButton.setLayoutX(650.0);
         playAgainButton.setLayoutY(500.0);
@@ -72,7 +72,7 @@ public class LosePane extends Pane {
         playAgainButton.setOnMouseExited(event -> {
             playAgainButton.setStyle("-fx-background-color:C5A0D7 ;");
         });
-                playAgainButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        playAgainButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 mainApp.switchToDrawPane();
@@ -87,7 +87,7 @@ public class LosePane extends Pane {
         playAgainImage.setLayoutY(510.0);
         playAgainImage.setPickOnBounds(true);
         playAgainImage.setPreserveRatio(true);
-        playAgainImage.setImage(new Image(getClass().getResource("replay.png").toExternalForm()));
+        playAgainImage.setImage(new Image(getClass().getResource("Replay2.png").toExternalForm()));
 
         mainMenuButton.setLayoutX(650.0);
         mainMenuButton.setLayoutY(400.0);
