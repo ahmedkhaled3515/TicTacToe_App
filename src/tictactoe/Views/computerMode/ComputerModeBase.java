@@ -65,7 +65,10 @@ public class ComputerModeBase extends AnchorPane {
     String currentPlayer;
     String computer;
     Stage parent;
-    int result;
+    int result=0;
+    int playerScore=0;
+    int computerScore=0;
+    int draw=0;
     public class XOButton extends Button{
         int index;
         public XOButton(int index)
@@ -139,55 +142,62 @@ public class ComputerModeBase extends AnchorPane {
             computer="O";
         
         
+//        for(i=0;i<3;i++)
+//        {
+//            for(int j=0;j<3;j++)
+//            {
+//                buttons[i][j].setOnAction(new EventHandler<ActionEvent>() {
+//                    @Override
+//                    public void handle(ActionEvent event) {
+//                        XOButton button=(XOButton) event.getSource();
+//                        if(count>=9)
+//                        {
+//                            game=false;
+//                        }
+//                        if(button.getText().isEmpty() && game)
+//                        {
+//                            button.setText(currentPlayer);
+//                            button.setTextFill(Color.web("#3E4D8C"));
+//                            flag=!flag;
+//                            count++;
+//                            evaluate();
+//                            if(game)
+//                            {
+//                                computerTurn(computer);
+//                            }
+////                            playerPositions.add(button.getIndex());
+////                            checkWinner("X");
+////                            if(game)
+////                            {
+////                                makeAIMove(1);
+////                            }
+//                        }
+//                        if(!game)
+//                        {
+//                            result=evaluate();
+//                            if(result == 1)
+//                            {
+//                                System.out.println("You won!!");
+//                            }
+//                            else if(result == -1)
+//                            {
+//                                System.out.println("You lose!!");
+//                            }
+//                            else if(result == 0)
+//                            {
+//                                System.out.println("Draw");
+//                            }
+//                        }
+//                        
+//                    }
+//                } );
+//            }
+//        }
         for(i=0;i<3;i++)
         {
             for(int j=0;j<3;j++)
             {
-                buttons[i][j].setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent event) {
-                        XOButton button=(XOButton) event.getSource();
-                        if(count>=9)
-                        {
-                            game=false;
-                        }
-                        if(button.getText().isEmpty() && game)
-                        {
-                            button.setText(currentPlayer);
-                            button.setTextFill(Color.web("#3E4D8C"));
-                            flag=!flag;
-                            count++;
-                            evaluate();
-                            if(game)
-                            {
-                                computerTurn(computer);
-                            }
-//                            playerPositions.add(button.getIndex());
-//                            checkWinner("X");
-//                            if(game)
-//                            {
-//                                makeAIMove(1);
-//                            }
-                        }
-                        if(!game)
-                        {
-                            result=evaluate();
-                            if(result == 1)
-                            {
-                                System.out.println("You won!!");
-                            }
-                            else if(result == -1)
-                            {
-                                System.out.println("You lose!!");
-                            }
-                            else if(result == 0)
-                            {
-                                System.out.println("Draw");
-                            }
-                        }
-                        
-                    }
-                } );
+                buttons[i][j].setOnAction((e)->clickAction(e));
             }
         }
         
@@ -338,6 +348,7 @@ public class ComputerModeBase extends AnchorPane {
         score1Pane.setPrefHeight(200.0);
         score1Pane.setPrefWidth(143.0);
         score1Pane.setStyle("-fx-background-radius: 15; -fx-background-color: #48D2FE;");
+        
 
         BorderPane.setAlignment(text, javafx.geometry.Pos.CENTER);
         text.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
@@ -350,7 +361,7 @@ public class ComputerModeBase extends AnchorPane {
         BorderPane.setAlignment(score1CountText, javafx.geometry.Pos.CENTER);
         score1CountText.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
         score1CountText.setStrokeWidth(0.0);
-        score1CountText.setText("0");
+        score1CountText.setText(""+playerScore);
         score1CountText.setFont(new Font("Arial Bold", 36.0));
         score1Pane.setCenter(score1CountText);
 
@@ -362,7 +373,7 @@ public class ComputerModeBase extends AnchorPane {
         BorderPane.setAlignment(drawCountText, javafx.geometry.Pos.CENTER);
         drawCountText.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
         drawCountText.setStrokeWidth(0.0);
-        drawCountText.setText("0");
+        drawCountText.setText(""+draw);
         drawCountText.setFont(new Font("Arial Bold", 36.0));
         drawPane.setCenter(drawCountText);
 
@@ -382,7 +393,7 @@ public class ComputerModeBase extends AnchorPane {
         BorderPane.setAlignment(score2CountText, javafx.geometry.Pos.CENTER);
         score2CountText.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
         score2CountText.setStrokeWidth(0.0);
-        score2CountText.setText("0");
+        score2CountText.setText(""+computerScore);
         score2CountText.setFont(new Font("Arial Bold", 36.0));
         score2Pane.setCenter(score2CountText);
 
@@ -442,12 +453,62 @@ public class ComputerModeBase extends AnchorPane {
         getChildren().add(exitButton);
         
     }
+    public void clickAction(ActionEvent event)
+    {
+        if(game)
+        {
+            
+        
+        evaluate();
+        XOButton button = (XOButton)event.getSource();
+        if(button.getText().isEmpty() && game)
+        {
+            button.setText(currentPlayer);
+            button.setTextFill(Color.web("#3E4D8C"));
+            count++;
+            if(count>=9)
+            {
+                game=false;
+            }
+            
+            if(game)
+            {
+                computerTurn(computer);
+            }
+            
+        }
+        evaluate();
+        if(!game)
+        {
+            if(result >0)
+            {
+                System.out.println("You Win!!!");
+                playerScore++;
+                score1CountText.setText(""+playerScore);
+
+            }
+            else if(result<0)
+            {
+                System.out.println("You Lost!!");
+                computerScore++;
+                score2CountText.setText(""+computerScore);
+
+            }
+            else{
+                System.out.println("Draw");
+                draw++;
+                drawCountText.setText(""+draw);
+
+            }
+        }
+        }
+    }
     public void computerTurn(String play)
     {
         int row;
         int col;
-        
-        if(count<9)
+        evaluate();
+        if(count<9 && game)
         {
             do{
                 row= (int)(Math.random() * 3);
@@ -462,25 +523,26 @@ public class ComputerModeBase extends AnchorPane {
                 game=false;
             }
             computerPositions.add(row);
-            evaluate();
+            
             
         }
-        if(!game)
-        {
-            int result=evaluate();
-            if(result == 1)
-            {
-                System.out.println("You won!!");
-            }
-            else if(result == -1)
-            {
-                System.out.println("You lose!!");
-            }
-            else if(result == 0)
-            {
-                System.out.println("Draw");
-            }
-        }
+        
+//        if(!game)
+//        {
+//            int result=evaluate();
+//            if(result == 1)
+//            {
+//                System.out.println("You won!!");
+//            }
+//            else if(result == -1)
+//            {
+//                System.out.println("You lose!!");
+//            }
+//            else if(result == 0)
+//            {
+//                System.out.println("Draw");
+//            }
+//        }
     }
     public boolean checkDraw()
     {
@@ -527,17 +589,19 @@ public class ComputerModeBase extends AnchorPane {
          
         return win;
     }
-    public int evaluate() {
-        if (checkWinner2(currentPlayer)) {
-            result= 1;
-        } else if (checkWinner2(computer)) {
-            result= -1;
-        }  
+    public void evaluate() {
+        if(checkWinner2(currentPlayer))
+        {
+            result=1;
+        }
+        else if(checkWinner2(computer))
+        {
+            result=-1;
+        }
         else if(checkDraw())
         {
             result=0;
         }
-        return result;
     }
     public boolean checkWinner(String player)
     {
