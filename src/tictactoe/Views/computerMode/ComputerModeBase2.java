@@ -1,13 +1,11 @@
 package tictactoe.Views.computerMode;
 
-import SelectmodeView.SelectModeBase;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -19,9 +17,8 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 
-public class ComputerModeBase extends AnchorPane {
+public class ComputerModeBase2 extends AnchorPane {
 
     protected final ImageView imageView;
     protected final GridPane boardGrid;
@@ -56,14 +53,12 @@ public class ComputerModeBase extends AnchorPane {
     protected final Text text1;
     protected final Button newButton;
     protected final Button exitButton;
-    boolean flag,game;
     Button[][] buttons=null;
     int count;
     ArrayList<Integer> computerPositions;
     ArrayList<Integer> playerPositions;
     int i;
     String currentPlayer="O";
-    Stage parent;
     public class XOButton extends Button{
         int index;
         public XOButton(int index)
@@ -75,7 +70,7 @@ public class ComputerModeBase extends AnchorPane {
             return index;
         }
     }
-    public ComputerModeBase(Stage parent) {
+    public ComputerModeBase2() {
 
         imageView = new ImageView();
         boardGrid = new GridPane();
@@ -110,8 +105,6 @@ public class ComputerModeBase extends AnchorPane {
         text1 = new Text();
         newButton = new Button();
         exitButton = new Button();
-        flag=true;
-        game=true;
         buttons=new Button[3][3];
         buttons[0][0] = but00;
         buttons[0][1] = but01;
@@ -122,41 +115,7 @@ public class ComputerModeBase extends AnchorPane {
         buttons[2][0] = but20;
         buttons[2][1] = but21;
         buttons[2][2] = but22;
-        playerPositions=new ArrayList<Integer>();
-        computerPositions=new ArrayList<Integer>();
-        this.parent=parent;
         
-        for(i=0;i<3;i++)
-        {
-            for(int j=0;j<3;j++)
-            {
-                buttons[i][j].setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent event) {
-                        XOButton button=(XOButton) event.getSource();
-                        if(button.getText().isEmpty() && game)
-                        {
-                            button.setText("X");
-                            button.setTextFill(Color.web("#3E4D8C"));
-                            flag=!flag;
-                            count++;
-                            playerPositions.add(button.getIndex());
-                            checkWinner("X");
-                            if(game)
-                            {
-                                makeAIMove(1);
-                            }
-                        }
-                    }
-                } );
-            }
-        }
-        exitButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                parent.setScene(new Scene(new SelectModeBase(),1000,700));
-            }
-        });
         setMaxHeight(USE_PREF_SIZE);
         setMaxWidth(USE_PREF_SIZE);
         setMinHeight(USE_PREF_SIZE);
@@ -385,25 +344,57 @@ public class ComputerModeBase extends AnchorPane {
         getChildren().add(newButton);
         getChildren().add(exitButton);
         
+        for (i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                buttons[i][j].setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        XOButton clickedButton = (XOButton) event.getSource();
+                        int index = clickedButton.getIndex();
+
+                        if (isValidMove(index)) {
+                            // Update the board with the player's move
+                            updateBoard(index);
+
+                            // Check for a winner or a draw
+                            if (checkWinner()) {
+                                // Handle the winner
+                                // Update the score and provide options to restart or exit
+                            } else if (isBoardFull()) {
+                                // Handle a draw
+                                // Update the score and provide options to restart or exit
+                            } else {
+                                // Switch to the AI's turn (Minimax algorithm)
+                                makeComputerMove();
+                            }
+                        }
+                    }
+                });
+            }
+        }
+        
     }
-//    public void computerTurn()
-//    {
-//        int box;
-//        if(count<8)
-//        {
-//            do{
-//                box= (int)(Math.random() * 9) + 0;
-//            }
-//            while(!buttons[box].getText().isEmpty());
-//            buttons[box].setText("O");
-//            buttons[box].setTextFill(Color.web("#FF3B8B"));
-//            count++;
-//            computerPositions.add(box);
-//            checkWinner("O");
-//        }
-//    }
-    public boolean checkWinner(String player)
-    {
+
+    private boolean isValidMove(int index) {
+        int row = index / 3;
+        int col = index % 3;
+        return buttons[row][col].getText().isEmpty();
+    }
+
+    private void updateBoard(int index) {
+        int row = index / 3;
+        int col = index % 3;
+        buttons[row][col].setText(currentPlayer);
+        if (currentPlayer.equals("O")) {
+            playerPositions.add(index);
+        } else {
+            computerPositions.add(index);
+        }
+        currentPlayer = (currentPlayer.equals("O")) ? "X" : "O";
+    }
+
+    private boolean checkWinner() {
+        List<List<Integer>> winningConditions = new ArrayList<>();
         List<Integer> row1=Arrays.asList(0,1,2);
         List<Integer> row2=Arrays.asList(3,4,5);
         List<Integer> row3=Arrays.asList(6,7,8);
@@ -412,168 +403,126 @@ public class ComputerModeBase extends AnchorPane {
         List<Integer> col3=Arrays.asList(2,5,8);
         List<Integer> diag1=Arrays.asList(0,4,8);
         List<Integer> diag2=Arrays.asList(6,4,2);
-        List<List> winPostions = new ArrayList<>();
-        winPostions.add(row1);
-        winPostions.add(row2);
-        winPostions.add(row3);
-        winPostions.add(col1);
-        winPostions.add(col2);
-        winPostions.add(col3);
-        winPostions.add(diag1);
-        winPostions.add(diag2);
-        boolean win=false;
-        for(List pos:winPostions)
-        {
-            if(playerPositions.containsAll(pos))
-            {
-                System.out.println("You Won!");
-                win=true;
-                game=false;
-            }
-            else if(computerPositions.containsAll(pos))
-            {
-                System.out.println("You Lost!!!");
-                game=false;
+        winningConditions.add(row1);
+        winningConditions.add(row2);
+        winningConditions.add(row3);
+        winningConditions.add(col1);
+        winningConditions.add(col2);
+        winningConditions.add(col3);
+        winningConditions.add(diag1);
+        winningConditions.add(diag2);
+
+        for (List<Integer> condition : winningConditions) {
+            if (playerPositions.containsAll(condition)) {
+                // Player wins
+                updateScore("Player 1");
+                return true;
+            } else if (computerPositions.containsAll(condition)) {
+                // Computer wins
+                updateScore("Computer");
+                return true;
             }
         }
-        return win;
-        
-    }
-    
-    private void makeAIMove(int depth) {
-        int[] bestMove = minimax(boardCopy(), depth, currentPlayer.equals("O"));
-
-        int row = bestMove[0];
-        int col = bestMove[1];
-
-        if (isValidMove(row, col)) {
-            buttons[row][col].setText("O");
-            buttons[row][col].setTextFill(Color.web("#FF0000"));
-            computerPositions.add(row * 3 + col);
-            count++;
-            checkWinner("O");
-        }
+        return false;
     }
 
-    private int[] minimax(char[][] board, int depth, boolean isMaximizing) {
-    // Base cases: check for a terminal state (win/lose/draw) or reach the specified depth
-    int score = evaluateBoard(board);
-    if (score == 10 || score == -10 || depth == 0) {
-        return new int[]{score, -1, -1}; // Return the score and move coordinates
-    }
-
-    // If maximizing player's turn (computer 'O')
-    if (isMaximizing) {
-        int bestScore = Integer.MIN_VALUE;
-        int[] bestMove = {-1, -1};
-
-        // Traverse all cells
+    private boolean isBoardFull() {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                if (board[i][j] == ' ') {
-                    // Make the move
-                    board[i][j] = 'O';
-
-                    // Recursive call for this move
-                    int currentScore = minimax(board, depth - 1, false)[0];
-
-                    // Undo the move
-                    board[i][j] = ' ';
-
-                    // Update the best move if needed
-                    if (currentScore > bestScore) {
-                        bestScore = currentScore;
-                        bestMove[0] = i;
-                        bestMove[1] = j;
-                    }
+                if (buttons[i][j].getText().isEmpty()) {
+                    return false;
                 }
             }
         }
+        // Board is full
+        updateScore("Draw");
+        return true;
+    }
 
-        return bestMove;
-    } else {
-        // If minimizing player's turn (player 'X')
-        int bestScore = Integer.MAX_VALUE;
-        int[] bestMove = {-1, -1};
+    private void makeComputerMove() {
+        int bestMove = getBestMove();
+        updateBoard(bestMove);
 
-        // Traverse all cells
+        // Check for a winner or a draw after the computer's move
+        if (!checkWinner() && !isBoardFull()) {
+            currentPlayer = "O"; // Switch back to player's turn
+        }
+    }
+
+    private int getBestMove() {
+        // Implement the Minimax algorithm to find the best move for the computer
+        // You need to add your own implementation here
+        int[] bestMove = minimax(2, "X"); // Depth and player ("X" for computer)
+        return bestMove[1];
+    }
+
+    private int[] minimax(int depth, String player) {
+        List<Integer> availableSpots = getAvailableSpots();
+
+        if (depth == 0 || isBoardFull()) {
+            return new int[]{evaluateBoard(), -1};
+        }
+
+        int bestScore = (player.equals("X")) ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+        int bestMove = -1;
+
+        for (Integer spot : availableSpots) {
+            int row = spot / 3;
+            int col = spot % 3;
+            buttons[row][col].setText(player);
+
+            if (player.equals("X")) {
+                int currentScore = minimax(depth - 1, "O")[0];
+                if (currentScore > bestScore) {
+                    bestScore = currentScore;
+                    bestMove = spot;
+                }
+            } else {
+                int currentScore = minimax(depth - 1, "X")[0];
+                if (currentScore < bestScore) {
+                    bestScore = currentScore;
+                    bestMove = spot;
+                }
+            }
+
+            buttons[row][col].setText(""); // Undo the move
+        }
+
+        return new int[]{bestScore, bestMove};
+    }
+
+    private List<Integer> getAvailableSpots() {
+        List<Integer> spots = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                if (board[i][j] == ' ') {
-                    // Make the move
-                    board[i][j] = 'X';
-
-                    // Recursive call for this move
-                    int currentScore = minimax(board, depth - 1, true)[0];
-
-                    // Undo the move
-                    board[i][j] = ' ';
-
-                    // Update the best move if needed
-                    if (currentScore < bestScore) {
-                        bestScore = currentScore;
-                        bestMove[0] = i;
-                        bestMove[1] = j;
-                    }
+                if (buttons[i][j].getText().isEmpty()) {
+                    spots.add(i * 3 + j);
                 }
             }
         }
-
-        return bestMove;
-    }
-}
-
-// Helper method to evaluate the current state of the board
-private int evaluateBoard(char[][] board) {
-    // Check rows, columns, and diagonals for a winner
-    for (int i = 0; i < 3; i++) {
-        if (board[i][0] == board[i][1] && board[i][1] == board[i][2]) {
-            if (board[i][0] == 'O') return 10;
-            else if (board[i][0] == 'X') return -10;
-        }
-
-        if (board[0][i] == board[1][i] && board[1][i] == board[2][i]) {
-            if (board[0][i] == 'O') return 10;
-            else if (board[0][i] == 'X') return -10;
-        }
+        return spots;
     }
 
-    if (board[0][0] == board[1][1] && board[1][1] == board[2][2]) {
-        if (board[0][0] == 'O') return 10;
-        else if (board[0][0] == 'X') return -10;
+    private int evaluateBoard() {
+        // You need to add your own implementation for board evaluation
+        // Return a positive value if the computer wins, a negative value if the player wins, and 0 for a draw
+        return 0;
     }
 
-    if (board[0][2] == board[1][1] && board[1][1] == board[2][0]) {
-        if (board[0][2] == 'O') return 10;
-        else if (board[0][2] == 'X') return -10;
-    }
-
-    // If no winner and the board is full, it's a draw
-    for (int i = 0; i < 3; i++) {
-        for (int j = 0; j < 3; j++) {
-            if (board[i][j] == ' ') {
-                return 0; // The game is not finished yet
-            }
+    private void updateScore(String winner) {
+        // Update the score based on the winner
+        if (winner.equals("Player 1")) {
+            int score = Integer.parseInt(score1CountText.getText()) + 1;
+            score1CountText.setText(String.valueOf(score));
+        } else if (winner.equals("Computer")) {
+            int score = Integer.parseInt(score2CountText.getText()) + 1;
+            score2CountText.setText(String.valueOf(score));
+        } else {
+            int score = Integer.parseInt(drawCountText.getText()) + 1;
+            drawCountText.setText(String.valueOf(score));
         }
     }
 
-    return 0; // It's a draw
-}
-
-    private char[][] boardCopy() {
-        char[][] copy = new char[3][3];
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                copy[i][j] = buttons[i][j].getText().isEmpty() ? ' ' : buttons[i][j].getText().charAt(0);
-            }
-        }
-        return copy;
-    }
-
-    private boolean isValidMove(int row, int col) {
-        return row >= 0 && row < 3 && col >= 0 && col < 3 && buttons[row][col].getText().isEmpty();
-    }
-    
     
     
 

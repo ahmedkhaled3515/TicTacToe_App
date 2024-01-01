@@ -31,6 +31,7 @@ import tictactoe.Views.login.loginBase;
 
 import tictactoe.Views.GameBoardBase;
 import tictactoe.Views.computerMode.ComputerModeBase;
+import tictactoe.Views.computerMode.ComputerModeBase2;
 
 
 
@@ -50,7 +51,7 @@ public class TicTacToe extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        Parent root = new ComputerModeBase();
+        Parent root = new ComputerModeBase(stage);
         
         //LocalViewBase();
         //MachineViewBase();        
