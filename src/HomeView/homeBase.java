@@ -15,7 +15,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Font;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import static tictactoe.TicTacToe.scene;
 
 public class homeBase extends AnchorPane {
 
@@ -25,7 +24,7 @@ public class homeBase extends AnchorPane {
     protected final AnchorPane anchorPane0;
     protected final Button button;
 
-    public homeBase() {
+    public homeBase(Stage stage) {
 
         borderPane = new BorderPane();
         anchorPane = new AnchorPane();
@@ -39,16 +38,15 @@ public class homeBase extends AnchorPane {
         getStyleClass().add("mainFxmlClass");
         getStylesheets().add("/HomeView/home.css");
 
-        borderPane.setLayoutX(-1.0);
-        borderPane.setPrefHeight(634.0);
-        borderPane.setPrefWidth(1034.0);
+        borderPane.setPrefHeight(700);
+        borderPane.setPrefWidth(1000);
 
         BorderPane.setAlignment(anchorPane, javafx.geometry.Pos.CENTER);
         anchorPane.setPrefHeight(200.0);
         anchorPane.setPrefWidth(200.0);
 
-        imageView.setFitHeight(634.0);
-        imageView.setFitWidth(1033.0);
+        imageView.setFitHeight(700);
+        imageView.setFitWidth(1000);
         imageView.setLayoutX(1.0);
         imageView.setStyle("-fx-background-radius: 100px;");
         imageView.setImage(new Image(getClass().getResource("WhatsApp Image 2023-12-28 at 3.56.37 PM.jpeg").toExternalForm()));
@@ -72,9 +70,8 @@ public class homeBase extends AnchorPane {
 
             @Override
             public void handle(Event event) {
-                Parent root = new SelectModeBase();
-                scene = new Scene(root);
-                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                Parent root = new SelectModeBase(stage);
+                Scene scene = new Scene(root,1000,700);
                 stage.setScene(scene);
                 stage.show();
             }

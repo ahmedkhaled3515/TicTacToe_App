@@ -43,13 +43,13 @@ public class loginBase extends AnchorPane {
         getStyleClass().add("mainFxmlClass");
         getStylesheets().add("/tictactoe/Views/login/login.css");
 
-        anchorPane.setLayoutY(-3.0);
-        anchorPane.setPrefHeight(640.0);
-        anchorPane.setPrefWidth(999.0);
+//        anchorPane.setLayoutY(-3.0);
+        anchorPane.setPrefHeight(700);
+        anchorPane.setPrefWidth(1000);
 
-        backgroundImg.setFitHeight(642.0);
-        backgroundImg.setFitWidth(1034.0);
-        backgroundImg.setLayoutX(-6.0);
+        backgroundImg.setFitHeight(700);
+        backgroundImg.setFitWidth(1000);
+//        backgroundImg.setLayoutX(-6.0);
         backgroundImg.setImage(new Image(getClass().getResource("gaming-blank-banner-background_23-2150390423.jpg").toExternalForm()));
 
         headLabel.setLayoutX(614.0);

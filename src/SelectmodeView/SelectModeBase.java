@@ -26,7 +26,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import static tictactoe.TicTacToe.scene;
 import tictactoe.Views.login.loginBase;
 import tictactoe.localmode.LocalViewBase;
 import tictactoe.machineView.MachineViewBase;
@@ -42,13 +41,13 @@ public class SelectModeBase extends AnchorPane {
     protected final AnchorPane anchorPane1;
 //    protected final FontAwesomeIcon user;
     protected final AnchorPane anchorPane2;
-//    protected final FontAwesomeIcon arrow;
+    protected final FontAwesomeIcon arrow;
   //  protected final FontAwesomeIcon user;
-    protected final AnchorPane anchorPane2;
+//    protected final AnchorPane anchorPane2;
   //  protected final FontAwesomeIcon arrow;
-
-    public SelectModeBase() {
-
+    Stage stage;
+    public SelectModeBase(Stage stage) {
+        this.stage=stage;
         anchorPane = new AnchorPane();
         imageView = new ImageView();
         anchorPane0 = new AnchorPane();
@@ -59,7 +58,7 @@ public class SelectModeBase extends AnchorPane {
 
     //    user = new FontAwesomeIcon();
         anchorPane2 = new AnchorPane();
-    //    arrow = new FontAwesomeIcon();
+        arrow = new FontAwesomeIcon();
 
         setId("AnchorPane");
         setPrefHeight(642.0);
@@ -67,9 +66,8 @@ public class SelectModeBase extends AnchorPane {
         getStyleClass().add("mainFxmlClass");
         getStylesheets().add("/SelectmodeView/selectmode.css");
 
-        anchorPane.setLayoutY(-2.0);
-        anchorPane.setPrefHeight(654.0);
-        anchorPane.setPrefWidth(1034.0);
+        anchorPane.setPrefHeight(700);
+        anchorPane.setPrefWidth(1000);
 
         imageView.setFitHeight(700.0);
         imageView.setFitWidth(1000.0);
@@ -101,11 +99,11 @@ public class SelectModeBase extends AnchorPane {
 
             @Override
             public void handle(Event event) {
-                Parent root = new LocalViewBase();
-                scene = new Scene(root);
-                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                stage.setScene(scene);
-                stage.show();
+//                Parent root = new LocalViewBase();
+//                scene = new Scene(root);
+//                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+//                stage.setScene(scene);
+//                stage.show();
             }
         });
         local.setId("local");
@@ -131,11 +129,7 @@ public class SelectModeBase extends AnchorPane {
 
             @Override
             public void handle(Event event) {
-                Parent root = new MachineViewBase();
-                scene = new Scene(root);
-                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                stage.setScene(scene);
-                stage.show();
+                stage.setScene(new Scene(new MachineViewBase(stage),1000,700));
             }
         });
                 
@@ -161,8 +155,7 @@ public class SelectModeBase extends AnchorPane {
             @Override
             public void handle(Event event) {
                 Parent root = new loginBase() ;
-                scene = new Scene(root);
-                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                Scene scene = new Scene(root,1000,700);
                 stage.setScene(scene);
                 stage.show();
             }
@@ -205,9 +198,8 @@ public class SelectModeBase extends AnchorPane {
 
             @Override
             public void handle(Event event) {
-                Parent root = new homeBase() ;
-                scene = new Scene(root);
-                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                Parent root = new homeBase(stage) ;
+                Scene scene = new Scene(root,1000,700);
                 stage.setScene(scene);
                 stage.show();
             }
