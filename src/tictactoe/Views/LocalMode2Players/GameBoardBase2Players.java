@@ -92,6 +92,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
     String soundFile;
     Media sound;
     MediaPlayer mediaPlayer;
+    MediaView mediaView;
     
     public GameBoardBase2Players(TicTacToe mainApp) {
 
@@ -140,7 +141,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
         soundFile = "file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/LocalMode2Players/gameMusic.mp3";
         sound = new Media(soundFile);
         mediaPlayer = new MediaPlayer(sound);
-        
+        mediaView= new MediaView(mediaPlayer);
         
         buttonArray[0] = button0;
         buttonArray[1] = button1;        
@@ -880,6 +881,8 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
         });
     }
     
+    
+    
     public void playMusicWhenTheGameboardOpen(){
         mediaPlayer.seek(mediaPlayer.getStartTime());
         mediaPlayer.play();
@@ -892,6 +895,18 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
     }
 
     
+    /*
+    public void playMusicWhenTheGameboardOpen(){
+        if(playMusicFlag==true){
+            mediaPlayer.play();
+            playMusicFlag=false;   
+        }else{
+            mediaPlayer.stop();
+            playMusicFlag=true;
+        }
+    }
+        
+    */
       public void xWinsVideo() {
         String videoFile = "file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/LocalMode2Players/XWinsVideo.mp4";
 
