@@ -50,8 +50,9 @@ public class WinPane extends AnchorPane {
     protected final Text winText;
     protected final Button playAgainButtonSound;
    // protected final Text3DMesh winText3D; 
-    
-    public WinPane(TicTacToe mainApp) {
+    Stage stage;
+    public WinPane(Stage stage) {
+        this.stage=stage;
         backgroundImage = new ImageView();
         playAgainButton = new Button();
         playAgainImage = new ImageView();
@@ -61,16 +62,17 @@ public class WinPane extends AnchorPane {
         winText = new Text();
         
 
-        setPrefSize(1000.0, 700.0);
+        setPrefHeight(700);
+        setPrefWidth(1000);
 
         backgroundImage.setFitHeight(700.0);
-        backgroundImage.setFitWidth(1100.0);
+        backgroundImage.setFitWidth(1000.0);
         backgroundImage.setLayoutX(0.0);
         backgroundImage.setLayoutY(0.0);
         backgroundImage.setPickOnBounds(true);
         backgroundImage.setPreserveRatio(true);
         backgroundImage.getStyleClass().add("win");
-        backgroundImage.setImage(new Image(getClass().getResource("backgroundImageGif.gif").toExternalForm()));
+        backgroundImage.setImage(new Image(getClass().getResource("/assets/images/backgroundImageGif.gif").toExternalForm()));
 
         playAgainButton.setLayoutX(650.0);
         playAgainButton.setLayoutY(500.0);
@@ -90,6 +92,7 @@ public class WinPane extends AnchorPane {
             @Override
             public void handle(MouseEvent event) {
                // mainApp.switchToLosePane();
+               
             }
         });
 
@@ -99,7 +102,7 @@ public class WinPane extends AnchorPane {
         playAgainImage.setLayoutY(510.0);
         playAgainImage.setPickOnBounds(true);
         playAgainImage.setPreserveRatio(true);
-        playAgainImage.setImage(new Image(getClass().getResource("Replay2.png").toExternalForm()));
+        playAgainImage.setImage(new Image(getClass().getResource("/assets/images/Replay2.png").toExternalForm()));
 
         
         mainMenuButton.setLayoutX(650.0);
@@ -123,7 +126,7 @@ public class WinPane extends AnchorPane {
         mainMenuImage.setLayoutY(410.0);
         mainMenuImage.setPickOnBounds(true);
         mainMenuImage.setPreserveRatio(true);
-        mainMenuImage.setImage(new Image(getClass().getResource("main-menu_3916045.png").toExternalForm()));
+        mainMenuImage.setImage(new Image(getClass().getResource("/assets/images/main-menu_3916045.png").toExternalForm()));
 
         /*
         winText3D = create3DTextMesh("Win");
@@ -183,10 +186,9 @@ public class WinPane extends AnchorPane {
     }
 
     public void WinPlayVideo() {
-        String videoFile = "tictactoe/Views/WinView/WinVideo.mp4";
 
         // Create a Media object
-        Media media = new Media(videoFile);
+        Media media = new Media(getClass().getResource("/assets/videos/WinVideo.mp4").toExternalForm());
 
         // Create a MediaPlayer
         MediaPlayer mediaPlayer = new MediaPlayer(media);

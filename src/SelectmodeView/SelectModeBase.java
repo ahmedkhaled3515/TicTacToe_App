@@ -42,7 +42,7 @@ public class SelectModeBase extends AnchorPane {
 //    protected final FontAwesomeIcon user;
     protected final AnchorPane anchorPane2;
     protected final FontAwesomeIcon arrow;
-  //  protected final FontAwesomeIcon user;
+    protected final FontAwesomeIcon user;
 //    protected final AnchorPane anchorPane2;
   //  protected final FontAwesomeIcon arrow;
     Stage stage;
@@ -56,7 +56,7 @@ public class SelectModeBase extends AnchorPane {
         online = new Button();
         anchorPane1 = new AnchorPane();
 
-    //    user = new FontAwesomeIcon();
+        user = new FontAwesomeIcon();
         anchorPane2 = new AnchorPane();
         arrow = new FontAwesomeIcon();
 
@@ -180,35 +180,32 @@ public class SelectModeBase extends AnchorPane {
         anchorPane1.setPrefHeight(200.0);
         anchorPane1.setPrefWidth(200.0);
 
-/*
-        user.setLayoutX(873.0);
-        user.setLayoutY(143.0);
+
         user.setIcon(FontAwesomeIcons.USER);
         user.setSize("7em");
         user.setId("user");
-       user.setLayoutX(950);
-       user.setLayoutY(130);
-       user.scaleXProperty().add(1);
-       user.scaleYProperty().add(1);
-       user.scaleZProperty().add(1);
-*/
+        user.setLayoutX(900);
+        user.setLayoutY(130);
+        user.scaleXProperty().add(1);
+        user.scaleYProperty().add(1);
+        user.scaleZProperty().add(1);
+
         anchorPane2.setLayoutX(50.0);
         anchorPane2.setPrefHeight(200.0);
         anchorPane2.setPrefWidth(200.0);
-/*
+
         arrow.setLayoutX(-40.0);
         arrow.setLayoutY(115.0);
         arrow.setIcon(FontAwesomeIcons.ARROW_LEFT);
         arrow.setSize("7em");
         arrow.setId("arrow");
-       arrow.scaleXProperty().add(1);
-       arrow.scaleYProperty().add(1);
-       arrow.scaleZProperty().add(1);
+        arrow.scaleXProperty().add(1);
+        arrow.scaleYProperty().add(1);
+        arrow.scaleZProperty().add(1);
 
-*/
+
 
        arrow.setOnMouseClicked(new EventHandler() {
-
             @Override
             public void handle(Event event) {
                 Parent root = new homeBase(stage) ;
@@ -226,9 +223,8 @@ public class SelectModeBase extends AnchorPane {
         anchorPane.getChildren().add(computer);
         anchorPane.getChildren().add(online);
         anchorPane.getChildren().add(anchorPane1);
-
-      //  anchorPane.getChildren().add(user);
-      //  anchorPane2.getChildren().add(arrow);
+        anchorPane.getChildren().add(user);
+        anchorPane2.getChildren().add(arrow);
         anchorPane.getChildren().add(anchorPane2);
         getChildren().add(anchorPane);
 

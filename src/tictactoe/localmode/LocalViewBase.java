@@ -47,7 +47,7 @@ public  class LocalViewBase extends AnchorPane {
         startbutton = new Button();
         playerOneName = new TextField();
         playerTwoName = new TextField();
-         imageView = new ImageView();
+        imageView = new ImageView();
          
          
  
@@ -88,7 +88,7 @@ public  class LocalViewBase extends AnchorPane {
         startbutton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Scene scene=new Scene(new GameBoardBase2Players(stage));
+                Scene scene=new Scene(new GameBoardBase2Players(stage,playerOneName.getText(),playerTwoName.getText()));
                 stage.setScene(scene);
                 //To change body of generated methods, choose Tools | Templates.
             }
@@ -136,7 +136,7 @@ public  class LocalViewBase extends AnchorPane {
         playerTwoName.setPrefWidth(234.0);
         playerTwoName.setPromptText("player two");
         playerTwoName.setStyle("-fx-background-radius: 26 26 26 26;");
-        playerTwoName.setFont(new Font(19.0));
+        playerTwoName.setFont(new Font("System Bold",19.0));
 
         imageView.setFitHeight(24.0);
         imageView.setFitWidth(99.0);

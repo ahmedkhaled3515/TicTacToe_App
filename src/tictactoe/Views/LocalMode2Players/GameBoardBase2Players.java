@@ -116,9 +116,10 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
     boolean button8Flag=true;
     
     boolean xStartFirst=true;
-    
-    public GameBoardBase2Players(Stage stage) {
-
+    String player1,player2;
+    public GameBoardBase2Players(Stage stage,String name1,String name2) {
+        player1=name1;
+        player2=name2;
         backgroundImage = new ImageView();
         boardGrid = new GridPane();
         columnConstraints = new ColumnConstraints();
@@ -371,7 +372,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
         BorderPane.setAlignment(player1Text, javafx.geometry.Pos.CENTER);
         player1Text.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
         player1Text.setStrokeWidth(0.0);
-        player1Text.setText("Player 1");
+        player1Text.setText(player1);
         player1Text.setFont(new Font("Arial Bold", 27.0));
         BorderPane.setMargin(player1Text, new Insets(5.0, 0.0, 0.0, 0.0));
         score1Pane.setTop(player1Text);
@@ -418,7 +419,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
         BorderPane.setAlignment(player2Text, javafx.geometry.Pos.CENTER);
         player2Text.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
         player2Text.setStrokeWidth(0.0);
-        player2Text.setText("Player 2");
+        player2Text.setText(player1);
         player2Text.setFont(new Font("Arial Bold", 27.0));
         BorderPane.setMargin(player2Text, new Insets(5.0, 0.0, 0.0, 0.0));
         score2Pane.setTop(player2Text);

@@ -1,5 +1,6 @@
 package tictactoe.machineView;
-
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcons;
 import HomeView.homeBase;
 import SelectmodeView.SelectModeBase;
 import java.net.URL;
@@ -27,20 +28,18 @@ public  class MachineViewBase extends AnchorPane {
     protected final Button choseX;
     protected final Button choseO;
     protected final ImageView arrowback;
-
-    
-     private boolean recordingClickState = false;
+    private boolean recordingClickState = false;
     private boolean continuwClickState = false;
     private boolean choseXClickState = false;
     private boolean choseOClickState = false;
-    
+    FontAwesomeIcon awesome;
     
     
       
         
     
     public MachineViewBase(Stage stage) {
-
+        awesome=new FontAwesomeIcon();
         imageView = new ImageView();
         titleText = new Text();
         recording = new Button();
@@ -119,12 +118,12 @@ public  class MachineViewBase extends AnchorPane {
             @Override
             public void handle(Event event) {
                        if (choseXClickState) {
-                         Parent root = new ComputerModeBase(stage,"x" );
+                         Parent root = new ComputerModeBase(stage,"X" );
                          Scene scene = new Scene(root,1000,700);
                             stage.setScene(scene);
                             stage.show();
                     } else {
-                        Parent root = new ComputerModeBase(stage ,"y" );
+                        Parent root = new ComputerModeBase(stage ,"O" );
                         Scene scene = new Scene(root,1000,700);
                            stage.setScene(scene);
                            stage.show();
