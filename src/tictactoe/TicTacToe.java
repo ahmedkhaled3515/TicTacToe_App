@@ -31,7 +31,12 @@ import tictactoe.Views.login.loginBase;
 
 
 import tictactoe.Views.GameBoardBase;
+
+import tictactoe.Views.computerMode.ComputerModeBase;
+import tictactoe.Views.computerMode.ComputerModeBase2;
+
 import tictactoe.Views.LocalMode2Players.GameBoardBase2Players;
+
 
 
 
@@ -51,21 +56,12 @@ public class TicTacToe extends Application {
     private Scene scene;
 
     private Stage stage;
-    
-    
     @Override
     public void start(Stage stage) throws Exception {
+        Parent root = new homeBase(stage);
+        scene = new Scene(root);
+        //drawPane = new DrawPane(this);        
 
-
-        gameBoardBase2Players = new GameBoardBase2Players(this);
-       // winPane = new WinPane(this);
-       //losePane = new LosePane(this);
-       //drawPane = new DrawPane(this);
-       //stage.setResizable(true);
-      
-       // Set up the scene with WinPane
-       scene = new Scene(gameBoardBase2Players,1000,700);
-      // scene.getStylesheets().add("/tictactoe/Views/WinView/win.css");
 
        stage.setScene(scene);
 
@@ -105,8 +101,8 @@ public class TicTacToe extends Application {
     }
     
     public void switchToLocalViewBase() {
-        localViewBase = new LocalViewBase(this);
-        setScene(localViewBase);
+//        localViewBase = new LocalViewBase(this);
+//        setScene(localViewBase);
     }
 
     private void setScene(Pane pane) {

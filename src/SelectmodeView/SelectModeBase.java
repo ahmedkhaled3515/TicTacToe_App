@@ -4,6 +4,10 @@ package SelectmodeView;
 //import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 //import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcons;
 
+
+//import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+//import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcons;
+
 import HomeView.homeBase;
 //import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 //import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcons;
@@ -22,7 +26,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-//import static tictactoe.TicTacToe.scene;
 import tictactoe.Views.login.loginBase;
 import tictactoe.localmode.LocalViewBase;
 import tictactoe.machineView.MachineViewBase;
@@ -36,12 +39,15 @@ public class SelectModeBase extends AnchorPane {
     protected final Button computer;
     protected final Button online;
     protected final AnchorPane anchorPane1;
-  //  protected final FontAwesomeIcon user;
+//    protected final FontAwesomeIcon user;
     protected final AnchorPane anchorPane2;
+    protected final FontAwesomeIcon arrow;
+  //  protected final FontAwesomeIcon user;
+//    protected final AnchorPane anchorPane2;
   //  protected final FontAwesomeIcon arrow;
-
-    public SelectModeBase() {
-
+    Stage stage;
+    public SelectModeBase(Stage stage) {
+        this.stage=stage;
         anchorPane = new AnchorPane();
         imageView = new ImageView();
         anchorPane0 = new AnchorPane();
@@ -49,9 +55,10 @@ public class SelectModeBase extends AnchorPane {
         computer = new Button();
         online = new Button();
         anchorPane1 = new AnchorPane();
+
     //    user = new FontAwesomeIcon();
         anchorPane2 = new AnchorPane();
-    //    arrow = new FontAwesomeIcon();
+        arrow = new FontAwesomeIcon();
 
         setId("AnchorPane");
         setPrefHeight(642.0);
@@ -59,13 +66,12 @@ public class SelectModeBase extends AnchorPane {
         getStyleClass().add("mainFxmlClass");
         getStylesheets().add("/SelectmodeView/selectmode.css");
 
-        anchorPane.setLayoutY(-2.0);
-        anchorPane.setPrefHeight(654.0);
-        anchorPane.setPrefWidth(1034.0);
+        anchorPane.setPrefHeight(700);
+        anchorPane.setPrefWidth(1000);
 
-        imageView.setFitHeight(754.0);
-        imageView.setFitWidth(1088.0);
-        imageView.setLayoutY(-94.0);
+        imageView.setFitHeight(700.0);
+        imageView.setFitWidth(1000.0);
+//        imageView.setLayoutY(-94.0);
         imageView.setImage(new Image(getClass().getResource("WhatsApp Image 2023-12-28 at 3.56.37 PM.jpeg").toExternalForm()));
 
         anchorPane0.setLayoutX(549.0);
@@ -123,11 +129,8 @@ public class SelectModeBase extends AnchorPane {
 
             @Override
             public void handle(Event event) {
-//                Parent root = new MachineViewBase();
-//                scene = new Scene(root);
-//                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//                stage.setScene(scene);
-//                stage.show();
+                stage.setScene(new Scene(new MachineViewBase(stage),1000,700));
+
             }
         });
                 
@@ -152,11 +155,11 @@ public class SelectModeBase extends AnchorPane {
 
             @Override
             public void handle(Event event) {
-//                Parent root = new loginBase() ;
-//                scene = new Scene(root);
-//                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//                stage.setScene(scene);
-//                stage.show();
+                Parent root = new loginBase() ;
+                Scene scene = new Scene(root,1000,700);
+                stage.setScene(scene);
+                stage.show();
+
             }
         });
         online.setId("online");
@@ -165,6 +168,7 @@ public class SelectModeBase extends AnchorPane {
         anchorPane1.setLayoutY(53.0);
         anchorPane1.setPrefHeight(200.0);
         anchorPane1.setPrefWidth(200.0);
+
 /*
         user.setLayoutX(873.0);
         user.setLayoutY(143.0);
@@ -192,17 +196,17 @@ public class SelectModeBase extends AnchorPane {
 
 */
 
-//       arrow.setOnMouseClicked(new EventHandler() {
-//
-//            @Override
-//            public void handle(Event event) {
-//                Parent root = new homeBase() ;
-//                scene = new Scene(root);
-//                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//                stage.setScene(scene);
-//                stage.show();
-//            }
-//        });
+       arrow.setOnMouseClicked(new EventHandler() {
+
+            @Override
+            public void handle(Event event) {
+                Parent root = new homeBase(stage) ;
+                Scene scene = new Scene(root,1000,700);
+                stage.setScene(scene);
+                stage.show();
+            }
+        });
+
 
 
         anchorPane.getChildren().add(imageView);
@@ -211,6 +215,7 @@ public class SelectModeBase extends AnchorPane {
         anchorPane.getChildren().add(computer);
         anchorPane.getChildren().add(online);
         anchorPane.getChildren().add(anchorPane1);
+
       //  anchorPane.getChildren().add(user);
       //  anchorPane2.getChildren().add(arrow);
         anchorPane.getChildren().add(anchorPane2);
