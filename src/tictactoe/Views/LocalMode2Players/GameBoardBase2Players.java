@@ -687,7 +687,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
                        buttonArray[i].setText("X");
                        player1Turn=false;
                        playerTurnText.setText("O Turn");
-                       checkIfAnyPlayerWon();
+//                 //      checkIfAnyPlayerWon();
                    }
                }else{
                        if(buttonArray[i].getText()==""){
@@ -698,7 +698,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
                        playerTurnText.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
                        player1Turn=true;
                        playerTurnText.setText("X Turn");   
-                       checkIfAnyPlayerWon();
+//                  //     checkIfAnyPlayerWon();
                    }   
                }
            }
@@ -890,6 +890,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
         setEditsToPlayerTurnText();
         player1Turn=false;
         oWinCounter=oWinCounter+1;
+        System.out.println(oWinCounter);
         player2ScoreText.setText(Integer.toString(oWinCounter)); 
         
     }
