@@ -75,7 +75,7 @@ public class LosePane extends Pane {
         playAgainButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                mainApp.switchToDrawPane();
+              //  mainApp.switchToDrawPane();
             }
         });
  

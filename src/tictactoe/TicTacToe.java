@@ -30,7 +30,6 @@ import tictactoe.Views.AvailablePlayer.PlayersListBase;
 import tictactoe.Views.login.loginBase;
 
 
-import tictactoe.Views.GameBoardBase;
 
 import tictactoe.Views.computerMode.ComputerModeBase;
 import tictactoe.Views.computerMode.ComputerModeBase2;
@@ -56,13 +55,13 @@ public class TicTacToe extends Application {
     private Scene scene;
 
     private Stage stage;
-    
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = new homeBase(stage);
         Parent root2=new ComputerModeBase(stage,"O");
         scene = new Scene(root2);
         //drawPane = new DrawPane(this);        
+
 
        stage.setScene(scene);
 
@@ -78,7 +77,7 @@ public class TicTacToe extends Application {
     }
     
 
-    
+  /*  
     // Method to switch to the WinPane
     public void switchToWinPane() {
         setScene(winPane);
@@ -95,17 +94,20 @@ public class TicTacToe extends Application {
         drawPane = new DrawPane(this);
         setScene(drawPane);
     }
-     
+     /*
     public void switchToGameBoardBase2Players(){
-        gameBoardBase2Players = new GameBoardBase2Players(this);
-        setScene(gameBoardBase2Players);   
+    //    gameBoardBase2Players = new GameBoardBase2Players(this);
+      //  setScene(gameBoardBase2Players);   
     }
+    
     
     public void switchToLocalViewBase() {
 //        localViewBase = new LocalViewBase(this);
 //        setScene(localViewBase);
     }
-
+*/
+    
+    /*
     private void setScene(Pane pane) {
         if (scene == null) {
             // Initialize the scene if it's null
@@ -117,5 +119,5 @@ public class TicTacToe extends Application {
         }
     }
     
-    
+    */
 }

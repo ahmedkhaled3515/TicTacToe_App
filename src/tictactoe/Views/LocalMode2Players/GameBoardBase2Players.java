@@ -1,22 +1,28 @@
 package tictactoe.Views.LocalMode2Players;
 
+import SelectmodeView.SelectModeBase;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.RotateTransition;
 import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.PerspectiveCamera;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.effect.Reflection;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
@@ -27,13 +33,16 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
+import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
+import javafx.scene.media.MediaErrorEvent;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import tictactoe.TicTacToe;
 
@@ -90,11 +99,25 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
     int mouseClickCounter;
     boolean playMusicFlag=true;
     String soundFile;
-    Media sound;
+    Media media;
     MediaPlayer mediaPlayer;
+    MediaPlayer mediaPlayer2;
     MediaView mediaView;
     
-    public GameBoardBase2Players(TicTacToe mainApp) {
+
+    boolean button0Flag=true;
+    boolean button1Flag=true;
+    boolean button2Flag=true;
+    boolean button3Flag=true;
+    boolean button4Flag=true;
+    boolean button5Flag=true;
+    boolean button6Flag=true;
+    boolean button7Flag=true;
+    boolean button8Flag=true;
+    
+    boolean xStartFirst=true;
+    
+    public GameBoardBase2Players(Stage stage) {
 
         backgroundImage = new ImageView();
         boardGrid = new GridPane();
@@ -137,11 +160,22 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
         x=0;
         mouseClickCounter=0;
         
+        gameboardMusicWhenTheScreenAppears();
+        playMusicFlag=false;
+        
+        
+       /* 
         // Load the sound file
         soundFile = "file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/LocalMode2Players/gameMusic.mp3";
         sound = new Media(soundFile);
         mediaPlayer = new MediaPlayer(sound);
         mediaView= new MediaView(mediaPlayer);
+        mediaView.setMediaPlayer(mediaPlayer);
+        playMusicWhenTheGameboardOpen();
+        playMusicFlag=false;
+        
+       */ 
+
         
         buttonArray[0] = button0;
         buttonArray[1] = button1;        
@@ -153,7 +187,6 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
         buttonArray[7] = button7;
         buttonArray[8] = button8;
 
-        
         button0.setStyle("-fx-background-color: #d7049e; -fx-text-fill: white;");
         button1.setStyle("-fx-background-color: #d7049e; -fx-text-fill: white;");
         button2.setStyle("-fx-background-color: #d7049e; -fx-text-fill: white;");
@@ -173,7 +206,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
 
         backgroundImage.setFitHeight(700.0);
         backgroundImage.setFitWidth(1000.0);
-        backgroundImage.setImage(new Image(getClass().getResource("backgroundImageGif.gif").toExternalForm()));
+        backgroundImage.setImage(new Image(getClass().getResource("/assets/images/backgroundImageGif.gif").toExternalForm()));
 
         boardGrid.setHgap(10.0);
         boardGrid.setLayoutX(265.0);
@@ -211,7 +244,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
         button0.setPrefWidth(211.0);
         button0.setFont(new Font(50)); 
         button0.setStyle("-fx-text-stroke: white;");
-
+        
         GridPane.setColumnIndex(button1, 1);
         button1.setMnemonicParsing(false);
         button1.setPrefHeight(200.0);
@@ -271,8 +304,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
         button8.setPrefWidth(220.0);
         button8.setFont(new Font(50)); 
         button8.setStyle("-fx-text-stroke: white;");
-        
-        
+ 
         playMusicButton.setMnemonicParsing(false);
         playMusicButton.setLayoutX(30.0);
         playMusicButton.setLayoutY(100.0);
@@ -288,13 +320,28 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
         playMusicButton.setOnMouseEntered(event -> {
             playMusicButton.setStyle("-fx-background-color: #00CBFE;");
         });
-
         playMusicButton.setOnMouseExited(event -> {
             playMusicButton.setStyle("-fx-background-color: #68CFD1 ;"); 
         });
-        
-        
-        
+        playMusicButton.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
+            @Override
+            public void handle(javafx.event.ActionEvent event) {
+             
+                
+                if(playMusicFlag==true){
+                    mouseClick();
+                    gameboardMusicWhenTheScreenAppears();
+                     playMusicButton.setText("Stop");
+                    playMusicFlag=false;
+                }else{
+                    mouseClick();
+                    mediaPlayer.stop();
+                    playMusicButton.setText("Play");
+                    playMusicFlag=true;
+                } 
+            }
+        });
+       
         scoreGrid.setHgap(10.0);
         scoreGrid.setLayoutX(276.0);
         scoreGrid.setLayoutY(43.0);
@@ -341,8 +388,6 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
         drawPane.setPrefWidth(200.0);
         drawPane.setStyle("-fx-background-radius: 15; -fx-background-color: white;");
         
-        
-        
         BorderPane.setAlignment(drawScoreText, javafx.geometry.Pos.CENTER);
         drawScoreText.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
         drawScoreText.setStrokeWidth(0.0);
@@ -378,7 +423,6 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
         BorderPane.setMargin(player2Text, new Insets(5.0, 0.0, 0.0, 0.0));
         score2Pane.setTop(player2Text);
         
-        
         newGameButton.setLayoutX(300.0);
         newGameButton.setLayoutY(552.0);
         newGameButton.setMnemonicParsing(false);
@@ -392,14 +436,14 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
         newGameButton.setOnMouseEntered(event -> {
             newGameButton.setStyle("-fx-background-color: #00CBFE;");
         });
-
         newGameButton.setOnMouseExited(event -> {
             newGameButton.setStyle("-fx-background-color: #68CFD1 ;"); 
         });
         newGameButton.setOnAction(new EventHandler<javafx.event.ActionEvent>() { 
         @Override
         public void handle(javafx.event.ActionEvent event) {
-           
+        allPlayingButtonsFalse(); 
+        mouseClick();
         for(int i=0; i<9; i++){
             buttonArray[i].setDisable(false);
             mouseClickCounter=0;
@@ -422,10 +466,12 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
                     firstTurn();
                     actionPerformedButtons();
                 }
+                
+                manageDrawButtons();
             }
         }
+                
         );
-        
         
         mainMenuButton.setLayoutX(510.0);
         mainMenuButton.setLayoutY(552.0);
@@ -436,21 +482,20 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
         mainMenuButton.setText("Main Menu");
         mainMenuButton.setFont(new Font("Arial Bold", 27.0));
         mainMenuButton.setStyle("-fx-background-color: #68CFD1 ;");
-        
         mainMenuButton.setOnMouseEntered(event -> {
             mainMenuButton.setStyle("-fx-background-color: #00CBFE;");
         });
-
         mainMenuButton.setOnMouseExited(event -> {
             mainMenuButton.setStyle("-fx-background-color: #68CFD1 ;"); 
         });
-        
         mainMenuButton.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
             @Override
             public void handle(javafx.event.ActionEvent event) {
+                
+                allPlayingButtonsFalse(); 
+                mouseClick();
                 playMusicButton.setText("Play Music");
                 mediaPlayer.stop();
-                playMusicFlag=false;
                 button0.setText("");
                 button1.setText("");
                 button2.setText("");
@@ -466,12 +511,19 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
                 for(int i=0; i<9; i++){
                     buttonArray[i].setDisable(false);
                 }
-                System.exit(0);
+              //  allPlayingButtonsFalse();
+                manageDrawButtons();
+                    Parent root = new  SelectModeBase(stage);
+                Scene scene = new Scene(root,1000,700);
+                stage.setScene(scene);
+                stage.show();
         }
         }
         );
         
-
+       
+        
+        
         playerTurnText.setLayoutX(770.0);
         playerTurnText.setLayoutY(345.0);
         playerTurnText.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
@@ -508,9 +560,8 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
         getChildren().add(mainMenuButton);
         getChildren().add(playerTurnText);
         getChildren().add(playMusicButton);
-        
-        playMusicWhenTheGameboardOpen();
-        playMusic();    
+
+      //  playMusic();    
         
         if(newGameFlag==true){
             for(int i=0; i<9;i++){
@@ -526,99 +577,118 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
     
     
     public void actionPerformedButtons(){
-        
         button0.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
             @Override
             public void handle(javafx.event.ActionEvent event) {
+                mouseClick();
+                
                 Button fakeButton = button0;
                 ActionEvent fakeEvent = new ActionEvent(fakeButton, ActionEvent.ACTION_PERFORMED, "SimulateButtonClick");
                 actionPerformed(fakeEvent);
                 mouseClickCounter=mouseClickCounter+1;
+                button0Flag=false;
+                checkIfAnyPlayerWon();
             }
         });
-        
         button1.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
             @Override
             public void handle(javafx.event.ActionEvent event) {
+                mouseClick();
+                
                 Button fakeButton = button1;
                 ActionEvent fakeEvent = new ActionEvent(fakeButton, ActionEvent.ACTION_PERFORMED, "SimulateButtonClick");
                 actionPerformed(fakeEvent);
                 mouseClickCounter=mouseClickCounter+1;
+                button1Flag=false;
+                checkIfAnyPlayerWon();
             }
         });
-        
         button2.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
             @Override
             public void handle(javafx.event.ActionEvent event) {
+                mouseClick();
                 Button fakeButton = button2;
                 ActionEvent fakeEvent = new ActionEvent(fakeButton, ActionEvent.ACTION_PERFORMED, "SimulateButtonClick");
                 actionPerformed(fakeEvent);
                 mouseClickCounter=mouseClickCounter+1;
+                button2Flag=false;
+                checkIfAnyPlayerWon();
             }
         });
-        
         button3.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
             @Override
             public void handle(javafx.event.ActionEvent event) {
+                mouseClick();
                 Button fakeButton = button3;
                 ActionEvent fakeEvent = new ActionEvent(fakeButton, ActionEvent.ACTION_PERFORMED, "SimulateButtonClick");
                 actionPerformed(fakeEvent);
                 mouseClickCounter=mouseClickCounter+1;
+                button3Flag=false;
+                checkIfAnyPlayerWon();
             }
         });   
-
-         button4.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
+        button4.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
             @Override
             public void handle(javafx.event.ActionEvent event) {
+                mouseClick();
                 Button fakeButton = button4;
                 ActionEvent fakeEvent = new ActionEvent(fakeButton, ActionEvent.ACTION_PERFORMED, "SimulateButtonClick");
                 actionPerformed(fakeEvent);
                 mouseClickCounter=mouseClickCounter+1;
+                button4Flag=false;
+                checkIfAnyPlayerWon();
             }
-        });        
-        
+        });          
         button5.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
             @Override
             public void handle(javafx.event.ActionEvent event) {
+                mouseClick();
                 Button fakeButton = button5;
                 ActionEvent fakeEvent = new ActionEvent(fakeButton, ActionEvent.ACTION_PERFORMED, "SimulateButtonClick");
                 actionPerformed(fakeEvent);
                 mouseClickCounter=mouseClickCounter+1;
+                button5Flag=false;
+                checkIfAnyPlayerWon();
             }
         }); 
-
-         button6.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
+        button6.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
             @Override
             public void handle(javafx.event.ActionEvent event) {
+                mouseClick();
                 Button fakeButton = button6;
                 ActionEvent fakeEvent = new ActionEvent(fakeButton, ActionEvent.ACTION_PERFORMED, "SimulateButtonClick");
                 actionPerformed(fakeEvent);
                 mouseClickCounter=mouseClickCounter+1;
+                button6Flag=false;
+                checkIfAnyPlayerWon();
             }
         }); 
-
         button7.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
             @Override
             public void handle(javafx.event.ActionEvent event) {
+                mouseClick();
                 Button fakeButton = button7;
                 ActionEvent fakeEvent = new ActionEvent(fakeButton, ActionEvent.ACTION_PERFORMED, "SimulateButtonClick");
                 actionPerformed(fakeEvent);
                 mouseClickCounter=mouseClickCounter+1;
+                button7Flag=false;
+                checkIfAnyPlayerWon();
             }
-        }); 
-        
+        });        
         button8.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
             @Override
             public void handle(javafx.event.ActionEvent event) {
+                mouseClick();
                 Button fakeButton = button8;
                 ActionEvent fakeEvent = new ActionEvent(fakeButton, ActionEvent.ACTION_PERFORMED, "SimulateButtonClick");
                 actionPerformed(fakeEvent);
                 mouseClickCounter=mouseClickCounter+1;
+                button8Flag=false;
+                checkIfAnyPlayerWon();
             }
         }); 
-
     }
-
+    
     @Override
     public void actionPerformed(ActionEvent e) {
        for(int i=0; i<9; i++){
@@ -632,7 +702,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
                        buttonArray[i].setText("X");
                        player1Turn=false;
                        playerTurnText.setText("O Turn");
-                       checkIfAnyPlayerWon();
+//                 //      checkIfAnyPlayerWon();
                    }
                }else{
                        if(buttonArray[i].getText()==""){
@@ -643,16 +713,14 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
                        playerTurnText.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
                        player1Turn=true;
                        playerTurnText.setText("X Turn");   
-                       checkIfAnyPlayerWon();
+//                  //     checkIfAnyPlayerWon();
                    }   
                }
            }
        }
     }
-    
-    
     public void firstTurn(){
-        if(random.nextInt(2)==0){
+        if(xStartFirst==true){
             playerTurnText.setFill(javafx.scene.paint.Color.WHITE);
             playerTurnText.setStroke(javafx.scene.paint.Color.valueOf("#d7049e"));
             playerTurnText.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
@@ -660,6 +728,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
             setEditsToPlayerTurnText();
             playerTurnText.setText("X Turn");
             player1Turn=true;
+            xStartFirst=false;
 
         }else{  
             playerTurnText.setFill(javafx.scene.paint.Color.WHITE);
@@ -669,9 +738,9 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
             setEditsToPlayerTurnText();
             playerTurnText.setText("O Turn");
             player1Turn=false;
+            xStartFirst=true;
         }
     }
-    
     public void checkIfAnyPlayerWon(){
             
             if(buttonArray[0].getText()=="X" &&
@@ -771,19 +840,27 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
                 oWins(2,4,6);
             }
             else{
-                if(mouseClickCounter==8){
+                if(button0Flag==false && 
+                   button1Flag==false &&
+                   button2Flag==false &&
+                   button3Flag==false && 
+                   button4Flag==false &&
+                   button5Flag==false &&
+                   button6Flag==false && 
+                   button7Flag==false &&
+                   button8Flag==false){
                     x=x+1;
                     drawScoreText.setText(Integer.toString(x)); 
                     playerTurnText.setText("Draw");
                     setEditsToPlayerTurnText();
                     DrawPlayVideo();
+                    manageDrawButtons();
                     
                 }
 
             }
           
     }
-    
     public void xWins(int a, int b, int c){
 
          xWinsVideo();
@@ -808,7 +885,6 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
         player1ScoreText.setText(Integer.toString(xWinCounter));
 
     }
-    
     public void oWins(int a, int b, int c){
         
         oWinsVideo();
@@ -831,10 +907,10 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
         setEditsToPlayerTurnText();
         player1Turn=false;
         oWinCounter=oWinCounter+1;
+        System.out.println(oWinCounter);
         player2ScoreText.setText(Integer.toString(oWinCounter)); 
         
     }
-
     public void setEditsToPlayerTurnText(){
                     InnerShadow innerShadow = new InnerShadow();
                     innerShadow.setOffsetX(3.0);
@@ -862,7 +938,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
                     rotateTransition.setCycleCount(RotateTransition.INDEFINITE);
                     rotateTransition.play();
     }
-    
+    /*
     public void playMusic(){
         
         playMusicButton.setOnAction(event -> {
@@ -880,20 +956,22 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
             }
         });
     }
-    
-    
-    
+
     public void playMusicWhenTheGameboardOpen(){
         mediaPlayer.seek(mediaPlayer.getStartTime());
         mediaPlayer.play();
         playMusicFlag=true;
     }
+    */
+
     
+    
+    /*
         private void replayAudio() {
         mediaPlayer.seek(mediaPlayer.getStartTime());
         mediaPlayer.play();
     }
-
+    */
     
     /*
     public void playMusicWhenTheGameboardOpen(){
@@ -911,13 +989,13 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
         String videoFile = "file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/LocalMode2Players/XWinsVideo.mp4";
 
         // Create a Media object
-        Media media = new Media(videoFile);
-
+        Media media = new Media(getClass().getResource("/assets/videos/XWinsVideo.mp4").toExternalForm());
+        
         // Create a MediaPlayer
-        MediaPlayer mediaPlayer = new MediaPlayer(media);
+        MediaPlayer mediaPlayer3 = new MediaPlayer(media);
 
         // Create a MediaView to display the video
-        MediaView mediaView = new MediaView(mediaPlayer);
+        MediaView mediaView = new MediaView(mediaPlayer3);
 
         // Set the size of the MediaView to fit the screen without cropping
         mediaView.setFitWidth(800.0);
@@ -931,31 +1009,29 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
         StackPane.setAlignment(mediaView, Pos.CENTER);
 
         // Play the video
-        mediaPlayer.play();
+        mediaPlayer3.play();
 
         // Add the MediaView to the WinPane
         getChildren().add(mediaView);
 
         // Set the event handler for when the media finishes playing
-        mediaPlayer.setOnEndOfMedia(() -> {
+        mediaPlayer3.setOnEndOfMedia(() -> {
             // Add any additional actions when the video finishes
             System.out.println("Video finished");
             mediaView.setVisible(false);
         });
     }  
-        
-      
       public void oWinsVideo() {
         String videoFile = "file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/LocalMode2Players/OWinsVideo.mp4";
                                
         // Create a Media object
-        Media media = new Media(videoFile);
+        Media media = new Media(getClass().getResource("/assets/videos/OWinsVideo.mp4").toExternalForm());
 
         // Create a MediaPlayer
-        MediaPlayer mediaPlayer = new MediaPlayer(media);
+        MediaPlayer mediaPlayer4 = new MediaPlayer(media);
 
         // Create a MediaView to display the video
-        MediaView mediaView = new MediaView(mediaPlayer);
+        MediaView mediaView = new MediaView(mediaPlayer4);
 
         // Set the size of the MediaView to fit the screen without cropping
         mediaView.setFitWidth(800.0);
@@ -969,31 +1045,29 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
         StackPane.setAlignment(mediaView, Pos.CENTER);
 
         // Play the video
-        mediaPlayer.play();
+        mediaPlayer4.play();
 
         // Add the MediaView to the WinPane
         getChildren().add(mediaView);
 
         // Set the event handler for when the media finishes playing
-        mediaPlayer.setOnEndOfMedia(() -> {
+        mediaPlayer4.setOnEndOfMedia(() -> {
             // Add any additional actions when the video finishes
             System.out.println("Video finished");
             mediaView.setVisible(false);
         });
     } 
-        
-
-public void DrawPlayVideo() {
+      public void DrawPlayVideo() {
         String videoFile = "file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/LocalMode2Players/DrawVideo2.mp4";
                                 
         // Create a Media object
-        Media media = new Media(videoFile);
+        Media media = new Media(getClass().getResource("/assets/videos/DrawVideo22.mp4").toExternalForm());
 
         // Create a MediaPlayer
-        MediaPlayer mediaPlayer = new MediaPlayer(media);
+        MediaPlayer mediaPlayer6 = new MediaPlayer(media);
 
         // Create a MediaView to display the video
-        MediaView mediaView = new MediaView(mediaPlayer);
+        MediaView mediaView = new MediaView(mediaPlayer6);
 
         // Set the size of the MediaView to fit the screen without cropping
         mediaView.setFitWidth(800.0);
@@ -1007,19 +1081,86 @@ public void DrawPlayVideo() {
         StackPane.setAlignment(mediaView, Pos.CENTER);
 
         // Play the video
-        mediaPlayer.play();
+        mediaPlayer6.play();
 
         // Add the MediaView to the WinPane
         getChildren().add(mediaView);
 
         // Set the event handler for when the media finishes playing
-        mediaPlayer.setOnEndOfMedia(() -> {
+        mediaPlayer6.setOnEndOfMedia(() -> {
             // Add any additional actions when the video finishes
             System.out.println("Video finished");
             mediaView.setVisible(false);
         });
      }
       
+      
+       public void mouseClick() {
+           // Use the correct path here
+         Media media =  new Media(getClass().getResource("/assets/sounds/mouseClick.mp3").toExternalForm());
+         mediaPlayer2 = new MediaPlayer(media);
+         mediaPlayer2.play(); 
+       }
+      
+      public void gameboardMusicWhenTheScreenAppears(){ 
+//         String path = "Views/LocalMode2Players/gameMusic.mp3";  // Use the correct path here
+         Media media = new Media(getClass().getResource("/assets/sounds/gameMusic.mp3").toExternalForm());
+         mediaPlayer = new MediaPlayer(media);
+         mediaPlayer.setAutoPlay(true); 
+      }
+
+       
+       
+      /*
+      
+              // Load the sound file
+        soundFile = "file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/LocalMode2Players/gameMusic.mp3";
+        media = new Media(soundFile);
+        mediaPlayer = new MediaPlayer(media);
+        mediaView = new MediaView(mediaPlayer);
+        getChildren().add(mediaView);
+        mediaPlayer.setAutoPlay(true);
+        playMusicFlag = false;
+      
+      */
+       
+    public void manageDrawButtons(){
+        if(button0Flag==false && 
+           button1Flag==false &&
+           button2Flag==false &&
+           button3Flag==false && 
+           button4Flag==false &&
+           button5Flag==false &&
+           button6Flag==false && 
+           button7Flag==false &&
+           button8Flag==false)
+        {
+            button0Flag=true;
+            button1Flag=true;
+            button2Flag=true;
+            button3Flag=true;
+            button4Flag=true;
+            button5Flag=true;
+            button6Flag=true;
+            button7Flag=true;
+            button8Flag=true;
+        }
+    }
+       
+    public void allPlayingButtonsFalse(){
+
+            button0Flag=false;
+            button1Flag=false;
+            button2Flag=false;
+            button3Flag=false;
+            button4Flag=false;
+            button5Flag=false;
+            button6Flag=false;
+            button7Flag=false;
+            button8Flag=false;
+
+    }    
+     
       
       
 }

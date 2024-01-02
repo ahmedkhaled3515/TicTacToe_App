@@ -232,7 +232,7 @@ public class ComputerModeBase extends AnchorPane {
 
         imageView.setFitHeight(700.0);
         imageView.setFitWidth(1000.0);
-        imageView.setImage(new Image(getClass().getResource("background.jpg").toExternalForm()));
+        imageView.setImage(new Image(getClass().getResource("/assets/images/background.jpg").toExternalForm()));
         
         boardGrid.setHgap(10.0);
         boardGrid.setLayoutX(265.0);

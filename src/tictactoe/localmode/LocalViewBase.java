@@ -20,7 +20,8 @@ import javafx.scene.text.Text;
 import tictactoe.TicTacToe;
 
 import javafx.stage.Stage;
-import tictactoe.Views.GameBoardBase;
+
+import tictactoe.Views.LocalMode2Players.GameBoardBase2Players;
 
 
 public  class LocalViewBase extends AnchorPane {
@@ -32,6 +33,8 @@ public  class LocalViewBase extends AnchorPane {
     protected final TextField playerOneName;
     protected final TextField playerTwoName;
     protected final ImageView imageView;
+    
+    TicTacToe mainApp;
   
     
     private boolean startButtonClicked = false;
@@ -45,6 +48,8 @@ public  class LocalViewBase extends AnchorPane {
         playerOneName = new TextField();
         playerTwoName = new TextField();
          imageView = new ImageView();
+         
+         
  
 
         setMaxHeight(USE_PREF_SIZE);
@@ -60,7 +65,7 @@ public  class LocalViewBase extends AnchorPane {
         backgroundimage.setFitHeight(708.0);
         backgroundimage.setFitWidth(1000.0);
         backgroundimage.setLayoutY(-1.0);
-        backgroundimage.setImage(new Image(getClass().getResource("background.jpg").toExternalForm()));
+        backgroundimage.setImage(new Image(getClass().getResource("/assets/images/background.jpg").toExternalForm()));
 
         titletoe.setFill(javafx.scene.paint.Color.valueOf("#c5a0d7"));
         titletoe.setLayoutX(695.0);
@@ -80,7 +85,16 @@ public  class LocalViewBase extends AnchorPane {
         startbutton.setStyle("-fx-background-color: C5A0D7; -fx-background-radius: 90;");
         startbutton.setText("start");
         startbutton.setFont(new Font("Arial", 26.0));
+        startbutton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Scene scene=new Scene(new GameBoardBase2Players(stage));
+                stage.setScene(scene);
+                //To change body of generated methods, choose Tools | Templates.
+            }
+        });
 //      startbutton.setOnAction(new EventHandler<ActionEvent>() {
+
 //            @Override
 //            public void handle(ActionEvent event) {
 //                
@@ -135,11 +149,10 @@ public  class LocalViewBase extends AnchorPane {
                 Parent root = new SelectModeBase(stage);
                 Scene scene = new Scene(root,1000,700);
                 stage.setScene(scene);
-                stage.show();
-            }
+                stage.show();            }
         });
 
-        imageView.setImage(new Image(getClass().getResource("arrowback.jpg").toExternalForm()));
+        imageView.setImage(new Image(getClass().getResource("/assets/images/arrowback.jpg").toExternalForm()));
         
         
       
