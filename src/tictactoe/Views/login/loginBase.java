@@ -51,7 +51,6 @@ public class loginBase extends AnchorPane {
         backgroundImg.setFitWidth(1034.0);
         backgroundImg.setLayoutX(-6.0);
         backgroundImg.setImage(new Image(getClass().getResource("gaming-blank-banner-background_23-2150390423.jpg").toExternalForm()));
-        //backgroundImg.setImage(new Image(getClass().getResource("../../../../../../gaming-blank-banner-background_23-2150390423.jpg").toExternalForm()));
 
         headLabel.setLayoutX(614.0);
         headLabel.setLayoutY(108.0);

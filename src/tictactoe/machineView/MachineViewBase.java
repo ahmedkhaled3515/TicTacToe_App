@@ -1,14 +1,22 @@
 package tictactoe.machineView;
 
+import HomeView.homeBase;
+import SelectmodeView.SelectModeBase;
 import java.net.URL;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
+//import static tictactoe.TicTacToe.scene;
 
 public  class MachineViewBase extends AnchorPane {
 
@@ -160,6 +168,14 @@ public  class MachineViewBase extends AnchorPane {
         arrowback.setLayoutY(73.0);
         arrowback.setPickOnBounds(true);
         arrowback.setPreserveRatio(true);
+        arrowback.setOnMouseClicked(new EventHandler() {
+
+            @Override
+            public void handle(Event event) {
+                
+            }
+        });
+
         arrowback.setImage(new Image(getClass().getResource("arrowback.jpg").toExternalForm()));
         
         
