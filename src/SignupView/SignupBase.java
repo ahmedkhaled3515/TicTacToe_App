@@ -1,7 +1,7 @@
 package SignupView;
 
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcons;
+//import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+//import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcons;
 import java.net.URL;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -19,7 +19,7 @@ public class SignupBase extends AnchorPane {
     protected final Button online;
     protected final TextField mail;
     protected final TextField password;
-    protected final FontAwesomeIcon arrow;
+//    protected final FontAwesomeIcon arrow;
 
     public SignupBase() {
 
@@ -29,7 +29,7 @@ public class SignupBase extends AnchorPane {
         online = new Button();
         mail = new TextField();
         password = new TextField();
-        arrow = new FontAwesomeIcon();
+//        arrow = new FontAwesomeIcon();
 
         setId("AnchorPane");
         setPrefHeight(634.0);
@@ -106,14 +106,14 @@ public class SignupBase extends AnchorPane {
         password.setPadding(new Insets(0.0, 0.0, 0.0, 0.0));
         password.setOpaqueInsets(new Insets(0.0));
 
-        arrow.setLayoutX(22.0);
-        arrow.setLayoutY(96.0);
-        arrow.setIcon(FontAwesomeIcons.ARROW_LEFT);
-        arrow.setSize("7em");
-        arrow.setId("arrow");
-        arrow.scaleXProperty().add(1);
-        arrow.scaleYProperty().add(1);
-        arrow.scaleZProperty().add(1);
+//        arrow.setLayoutX(22.0);
+//        arrow.setLayoutY(96.0);
+//        arrow.setIcon(FontAwesomeIcons.ARROW_LEFT);
+//        arrow.setSize("7em");
+//        arrow.setId("arrow");
+//        arrow.scaleXProperty().add(1);
+//        arrow.scaleYProperty().add(1);
+//        arrow.scaleZProperty().add(1);
 
         getChildren().add(imageView);
         getChildren().add(image);
@@ -121,7 +121,7 @@ public class SignupBase extends AnchorPane {
         getChildren().add(online);
         getChildren().add(mail);
         getChildren().add(password);
-        getChildren().add(arrow);
+//        getChildren().add(arrow);
 
     }
 }

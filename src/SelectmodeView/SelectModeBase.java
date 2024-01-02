@@ -9,8 +9,8 @@ package SelectmodeView;
 //import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcons;
 
 import HomeView.homeBase;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcons;
+//import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+//import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcons;
 
 import java.net.URL;
 import javafx.event.Event;
@@ -130,6 +130,7 @@ public class SelectModeBase extends AnchorPane {
             @Override
             public void handle(Event event) {
                 stage.setScene(new Scene(new MachineViewBase(stage),1000,700));
+
             }
         });
                 
@@ -158,6 +159,7 @@ public class SelectModeBase extends AnchorPane {
                 Scene scene = new Scene(root,1000,700);
                 stage.setScene(scene);
                 stage.show();
+
             }
         });
         online.setId("online");
@@ -204,6 +206,7 @@ public class SelectModeBase extends AnchorPane {
                 stage.show();
             }
         });
+
 
 
         anchorPane.getChildren().add(imageView);

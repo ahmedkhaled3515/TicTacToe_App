@@ -16,6 +16,7 @@ import javafx.scene.text.Font;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+
 public class homeBase extends AnchorPane {
 
     protected final BorderPane borderPane;

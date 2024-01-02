@@ -81,6 +81,7 @@ public  class LocalViewBase extends AnchorPane {
         startbutton.setText("start");
         startbutton.setFont(new Font("Arial", 26.0));
 //      startbutton.setOnAction(new EventHandler<ActionEvent>() {
+
 //            @Override
 //            public void handle(ActionEvent event) {
 //                
@@ -135,8 +136,7 @@ public  class LocalViewBase extends AnchorPane {
                 Parent root = new SelectModeBase(stage);
                 Scene scene = new Scene(root,1000,700);
                 stage.setScene(scene);
-                stage.show();
-            }
+                stage.show();            }
         });
 
         imageView.setImage(new Image(getClass().getResource("arrowback.jpg").toExternalForm()));

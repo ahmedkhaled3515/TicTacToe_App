@@ -56,12 +56,12 @@ public class TicTacToe extends Application {
     private Scene scene;
 
     private Stage stage;
-    
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = new homeBase(stage);
         scene = new Scene(root);
         //drawPane = new DrawPane(this);        
+
 
        stage.setScene(scene);
 
