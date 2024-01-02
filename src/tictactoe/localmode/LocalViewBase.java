@@ -21,6 +21,7 @@ import tictactoe.TicTacToe;
 
 import javafx.stage.Stage;
 import tictactoe.Views.GameBoardBase;
+import tictactoe.Views.LocalMode2Players.GameBoardBase2Players;
 
 
 public  class LocalViewBase extends AnchorPane {
@@ -80,6 +81,14 @@ public  class LocalViewBase extends AnchorPane {
         startbutton.setStyle("-fx-background-color: C5A0D7; -fx-background-radius: 90;");
         startbutton.setText("start");
         startbutton.setFont(new Font("Arial", 26.0));
+        startbutton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Scene scene=new Scene(new GameBoardBase2Players(stage));
+                stage.setScene(scene);
+                //To change body of generated methods, choose Tools | Templates.
+            }
+        });
 //      startbutton.setOnAction(new EventHandler<ActionEvent>() {
 
 //            @Override

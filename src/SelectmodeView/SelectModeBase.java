@@ -9,8 +9,8 @@ package SelectmodeView;
 //import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcons;
 
 import HomeView.homeBase;
-//import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-//import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcons;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcons;
 
 import java.net.URL;
 import javafx.event.Event;
@@ -99,11 +99,10 @@ public class SelectModeBase extends AnchorPane {
 
             @Override
             public void handle(Event event) {
-//                Parent root = new LocalViewBase();
-//                scene = new Scene(root);
-//                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//                stage.setScene(scene);
-//                stage.show();
+                Parent root = new LocalViewBase(stage);
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
             }
         });
         local.setId("local");

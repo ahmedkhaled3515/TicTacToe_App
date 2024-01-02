@@ -38,6 +38,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import tictactoe.TicTacToe;
 
@@ -109,7 +110,9 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
     boolean button7Flag=true;
     boolean button8Flag=true;
     
-    public GameBoardBase2Players(TicTacToe mainApp) {
+    boolean xStartFirst=true;
+    
+    public GameBoardBase2Players(Stage stage) {
 
         backgroundImage = new ImageView();
         boardGrid = new GridPane();
@@ -705,7 +708,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
        }
     }
     public void firstTurn(){
-        if(random.nextInt(2)==0){
+        if(xStartFirst==true){
             playerTurnText.setFill(javafx.scene.paint.Color.WHITE);
             playerTurnText.setStroke(javafx.scene.paint.Color.valueOf("#d7049e"));
             playerTurnText.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
@@ -713,6 +716,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
             setEditsToPlayerTurnText();
             playerTurnText.setText("X Turn");
             player1Turn=true;
+            xStartFirst=false;
 
         }else{  
             playerTurnText.setFill(javafx.scene.paint.Color.WHITE);
@@ -722,6 +726,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
             setEditsToPlayerTurnText();
             playerTurnText.setText("O Turn");
             player1Turn=false;
+            xStartFirst=true;
         }
     }
     public void checkIfAnyPlayerWon(){
