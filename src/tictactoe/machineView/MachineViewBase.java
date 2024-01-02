@@ -16,6 +16,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import tictactoe.Views.computerMode.ComputerModeBase;
 
 public  class MachineViewBase extends AnchorPane {
 
@@ -32,6 +33,7 @@ public  class MachineViewBase extends AnchorPane {
     private boolean continuwClickState = false;
     private boolean choseXClickState = false;
     private boolean choseOClickState = false;
+    
     
     
       
@@ -60,7 +62,7 @@ public  class MachineViewBase extends AnchorPane {
         imageView.setFitHeight(700);
         imageView.setFitWidth(1000);
         
-        imageView.setImage(new Image(getClass().getResource("background.jpg").toExternalForm()));
+        imageView.setImage(new Image(getClass().getResource("/assets/images/background.jpg").toExternalForm()));
 
         titleText.setFill(javafx.scene.paint.Color.valueOf("#c5a0d7"));
         titleText.setLayoutX(657.0);
@@ -111,6 +113,28 @@ public  class MachineViewBase extends AnchorPane {
         }
         continuwClickState = !continuwClickState;
     }
+        });
+         continuw.setOnMouseClicked(new EventHandler() {
+
+            @Override
+            public void handle(Event event) {
+                       if (choseXClickState) {
+                         Parent root = new ComputerModeBase(stage,"x" );
+                         Scene scene = new Scene(root,1000,700);
+                            stage.setScene(scene);
+                            stage.show();
+                    } else {
+                        Parent root = new ComputerModeBase(stage ,"y" );
+                        Scene scene = new Scene(root,1000,700);
+                           stage.setScene(scene);
+                           stage.show();
+                        
+                    }
+
+               
+                
+             
+            }
         });
                 
                 
@@ -177,7 +201,7 @@ public  class MachineViewBase extends AnchorPane {
             }
         });
 
-        arrowback.setImage(new Image(getClass().getResource("arrowback.jpg").toExternalForm()));
+        arrowback.setImage(new Image(getClass().getResource("/assets/images/arrowback.jpg").toExternalForm()));
         
         
 

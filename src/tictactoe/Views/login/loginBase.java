@@ -1,6 +1,7 @@
 package tictactoe.Views.login;
 
 import SelectmodeView.SelectModeBase;
+import SignupView.SignupBase;
 import java.awt.event.MouseEvent;
 import java.net.URL;
 import javafx.event.Event;
@@ -54,7 +55,7 @@ public class loginBase extends AnchorPane {
         backgroundImg.setFitHeight(700);
         backgroundImg.setFitWidth(1000);
 //        backgroundImg.setLayoutX(-6.0);
-        backgroundImg.setImage(new Image(getClass().getResource("gaming-blank-banner-background_23-2150390423.jpg").toExternalForm()));
+        backgroundImg.setImage(new Image(getClass().getResource("/assets/images/background.jpg").toExternalForm()));
 
         headLabel.setLayoutX(614.0);
         headLabel.setLayoutY(108.0);
@@ -86,6 +87,18 @@ public class loginBase extends AnchorPane {
         textHaveAc.setText("You Don't have an account?");
         textHaveAc.setUnderline(true);
         textHaveAc.setFont(new Font(24.0));
+        
+         textHaveAc.setOnMouseClicked(new EventHandler() {
+
+            @Override
+            public void handle(Event event) {
+                Parent root = new  SignupBase(stage);
+                Scene scene = new Scene(root,1000,700);
+                stage.setScene(scene);
+                stage.show();
+            }
+        });
+        
 
         txtPassword.setLayoutX(648.0);
         txtPassword.setLayoutY(313.0);
@@ -99,7 +112,7 @@ public class loginBase extends AnchorPane {
         backbtnimg.setLayoutY(103.0);
         backbtnimg.setPickOnBounds(true);
         backbtnimg.setPreserveRatio(true);
-        backbtnimg.setImage(new Image(getClass().getResource("symbole-fleche-gauche-violet.png").toExternalForm()));
+        backbtnimg.setImage(new Image(getClass().getResource("/assets/images/symbole-fleche-gauche-violet.png").toExternalForm()));
 
         backbtnimg.setOnMouseClicked(new EventHandler() {
  

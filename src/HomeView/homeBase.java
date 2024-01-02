@@ -16,6 +16,7 @@ import javafx.scene.text.Font;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+
 public class homeBase extends AnchorPane {
 
     protected final BorderPane borderPane;
@@ -49,7 +50,7 @@ public class homeBase extends AnchorPane {
         imageView.setFitWidth(1000);
         imageView.setLayoutX(1.0);
         imageView.setStyle("-fx-background-radius: 100px;");
-        imageView.setImage(new Image(getClass().getResource("WhatsApp Image 2023-12-28 at 3.56.37 PM.jpeg").toExternalForm()));
+        imageView.setImage(new Image(getClass().getResource("/assets/images/background.jpg").toExternalForm()));
 
         anchorPane0.setLayoutX(500.0);
         anchorPane0.setLayoutY(355.0);

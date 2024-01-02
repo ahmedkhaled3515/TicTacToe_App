@@ -89,7 +89,7 @@ public class WinPane extends AnchorPane {
         playAgainButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                mainApp.switchToLosePane();
+               // mainApp.switchToLosePane();
             }
         });
 

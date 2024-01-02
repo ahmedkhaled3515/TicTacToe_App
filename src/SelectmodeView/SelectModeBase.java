@@ -72,7 +72,7 @@ public class SelectModeBase extends AnchorPane {
         imageView.setFitHeight(700.0);
         imageView.setFitWidth(1000.0);
 //        imageView.setLayoutY(-94.0);
-        imageView.setImage(new Image(getClass().getResource("WhatsApp Image 2023-12-28 at 3.56.37 PM.jpeg").toExternalForm()));
+        imageView.setImage(new Image(getClass().getResource("/assets/images/background.jpg").toExternalForm()));
 
         anchorPane0.setLayoutX(549.0);
         anchorPane0.setLayoutY(290.0);
@@ -99,11 +99,10 @@ public class SelectModeBase extends AnchorPane {
 
             @Override
             public void handle(Event event) {
-//                Parent root = new LocalViewBase();
-//                scene = new Scene(root);
-//                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//                stage.setScene(scene);
-//                stage.show();
+                Parent root = new LocalViewBase(stage);
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
             }
         });
         
@@ -142,6 +141,7 @@ public class SelectModeBase extends AnchorPane {
             @Override
             public void handle(Event event) {
                 stage.setScene(new Scene(new MachineViewBase(stage),1000,700));
+
             }
         });
                 
@@ -170,6 +170,7 @@ public class SelectModeBase extends AnchorPane {
                 Scene scene = new Scene(root,1000,700);
                 stage.setScene(scene);
                 stage.show();
+
             }
         });
         online.setId("online");
@@ -216,6 +217,7 @@ public class SelectModeBase extends AnchorPane {
                 stage.show();
             }
         });
+
 
 
         anchorPane.getChildren().add(imageView);
