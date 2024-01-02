@@ -330,7 +330,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
                     playMusicFlag=false;
                 }else{
                     mouseClick();
-                    mediaPlayer.stop();
+                    mediaPlayer.pause();
                     playMusicButton.setText("Play");
                     playMusicFlag=true;
                 } 
@@ -457,6 +457,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
                 button7.setText("");
                 button8.setText("");
                 
+                xStartFirst=true;
                 if(newGameFlag==false){
                     firstTurn();
                     actionPerformedButtons();
@@ -1094,7 +1095,11 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
          String path = "file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/LocalMode2Players/gameMusic.mp3";  // Use the correct path here
          Media media = new Media(path);
          mediaPlayer = new MediaPlayer(media);
-         mediaPlayer.setAutoPlay(true); 
+         mediaPlayer.play();
+         mediaPlayer.setOnEndOfMedia(()-> {
+             mediaPlayer.seek(Duration.ZERO);
+             mediaPlayer.play();
+         });
       }
 
        
