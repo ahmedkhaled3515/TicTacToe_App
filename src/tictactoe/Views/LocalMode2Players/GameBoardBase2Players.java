@@ -319,7 +319,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
             @Override
             public void handle(javafx.event.ActionEvent event) {
              
-                manageDrawButtons();
+                
                 if(playMusicFlag==true){
                     mouseClick();
                     gameboardMusicWhenTheScreenAppears();
@@ -434,8 +434,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
         newGameButton.setOnAction(new EventHandler<javafx.event.ActionEvent>() { 
         @Override
         public void handle(javafx.event.ActionEvent event) {
-            
-        manageDrawButtons();    
+        allPlayingButtonsFalse(); 
         mouseClick();
         for(int i=0; i<9; i++){
             buttonArray[i].setDisable(false);
@@ -459,8 +458,11 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
                     firstTurn();
                     actionPerformedButtons();
                 }
+                
+                manageDrawButtons();
             }
         }
+                
         );
         
         mainMenuButton.setLayoutX(510.0);
@@ -481,7 +483,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
         mainMenuButton.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
             @Override
             public void handle(javafx.event.ActionEvent event) {
-                manageDrawButtons();
+                allPlayingButtonsFalse(); 
                 mouseClick();
                 playMusicButton.setText("Play Music");
                 mediaPlayer.stop();
@@ -500,6 +502,8 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
                 for(int i=0; i<9; i++){
                     buttonArray[i].setDisable(false);
                 }
+              //  allPlayingButtonsFalse();
+                manageDrawButtons();
                 System.exit(0);
         }
         }
@@ -833,6 +837,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
                     playerTurnText.setText("Draw");
                     setEditsToPlayerTurnText();
                     DrawPlayVideo();
+                    manageDrawButtons();
                     
                 }
 
@@ -1122,7 +1127,22 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
             button7Flag=true;
             button8Flag=true;
         }
-    }  
+    }
+       
+    public void allPlayingButtonsFalse(){
+
+            button0Flag=false;
+            button1Flag=false;
+            button2Flag=false;
+            button3Flag=false;
+            button4Flag=false;
+            button5Flag=false;
+            button6Flag=false;
+            button7Flag=false;
+            button8Flag=false;
+
+    }    
+     
       
       
 }
