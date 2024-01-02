@@ -58,7 +58,8 @@ public class TicTacToe extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = new homeBase(stage);
-        scene = new Scene(root);
+        Parent root2=new ComputerModeBase(stage,"O");
+        scene = new Scene(root2);
         //drawPane = new DrawPane(this);        
 
 
