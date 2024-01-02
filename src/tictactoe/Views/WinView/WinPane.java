@@ -1,5 +1,8 @@
 package tictactoe.Views.WinView;
 
+//import Libraries.fxyz3d.geometry.Point3D;
+//import Libraries.fxyz3d.shapes.composites.Text3DMesh;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.RotateTransition;
@@ -46,7 +49,7 @@ public class WinPane extends AnchorPane {
     protected final ImageView mainMenuImage;
     protected final Text winText;
     protected final Button playAgainButtonSound;
-    
+   // protected final Text3DMesh winText3D; 
     
     public WinPane(TicTacToe mainApp) {
         backgroundImage = new ImageView();
@@ -67,7 +70,7 @@ public class WinPane extends AnchorPane {
         backgroundImage.setPickOnBounds(true);
         backgroundImage.setPreserveRatio(true);
         backgroundImage.getStyleClass().add("win");
-        backgroundImage.setImage(new Image(getClass().getResource("BackgroundImage.png").toExternalForm()));
+        backgroundImage.setImage(new Image(getClass().getResource("backgroundImageGif.gif").toExternalForm()));
 
         playAgainButton.setLayoutX(650.0);
         playAgainButton.setLayoutY(500.0);
@@ -96,7 +99,7 @@ public class WinPane extends AnchorPane {
         playAgainImage.setLayoutY(510.0);
         playAgainImage.setPickOnBounds(true);
         playAgainImage.setPreserveRatio(true);
-        playAgainImage.setImage(new Image(getClass().getResource("replay.png").toExternalForm()));
+        playAgainImage.setImage(new Image(getClass().getResource("Replay2.png").toExternalForm()));
 
         
         mainMenuButton.setLayoutX(650.0);
@@ -122,6 +125,15 @@ public class WinPane extends AnchorPane {
         mainMenuImage.setPreserveRatio(true);
         mainMenuImage.setImage(new Image(getClass().getResource("main-menu_3916045.png").toExternalForm()));
 
+        /*
+        winText3D = create3DTextMesh("Win");
+        winText3D.setTranslateX(660.0);
+        winText3D.setTranslateY(250.0);
+        winText3D.setTranslateZ(0.0);
+
+        getChildren().add(winText3D);
+        
+        */
         winText.setFill(javafx.scene.paint.Color.valueOf("#d7049e"));
         winText.setLayoutX(660.0);
         winText.setLayoutY(250.0);
@@ -171,7 +183,7 @@ public class WinPane extends AnchorPane {
     }
 
     public void WinPlayVideo() {
-        String videoFile = "file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/WinView/WinVideo.mp4";
+        String videoFile = "tictactoe/Views/WinView/WinVideo.mp4";
 
         // Create a Media object
         Media media = new Media(videoFile);
@@ -206,7 +218,7 @@ public class WinPane extends AnchorPane {
             mediaView.setVisible(false);
         });
     }
-    
+} 
     /*
     public void mainMenuButtonSound(){
         // Load the sound file
@@ -233,7 +245,19 @@ public class WinPane extends AnchorPane {
         });
     }
     */
-   
-    
+   /*
+       private Text3DMesh create3DTextMesh(String text) {
+        Text3DMesh text3DMesh = new Text3DMesh(text);
+        text3DMesh.setScale(2); // Adjust the scale as needed
+
+        text3DMesh.setRotationAxis(Rotate.Y_AXIS);
+        text3DMesh.setRotate(30); // Adjust the rotation angle
+        text3DMesh.setTranslateZ(-30); // Adjust the extrusion depth
+
+        text3DMesh.setColor(Color.valueOf("#d7049e"));
+
+        return text3DMesh;
+    }
 
 }
+*/

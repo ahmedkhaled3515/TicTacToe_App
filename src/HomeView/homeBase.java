@@ -1,12 +1,20 @@
 package HomeView;
 
+import SelectmodeView.SelectModeBase;
 import java.net.URL;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Font;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 public class homeBase extends AnchorPane {
 
@@ -16,7 +24,7 @@ public class homeBase extends AnchorPane {
     protected final AnchorPane anchorPane0;
     protected final Button button;
 
-    public homeBase() {
+    public homeBase(Stage stage) {
 
         borderPane = new BorderPane();
         anchorPane = new AnchorPane();
@@ -30,16 +38,15 @@ public class homeBase extends AnchorPane {
         getStyleClass().add("mainFxmlClass");
         getStylesheets().add("/HomeView/home.css");
 
-        borderPane.setLayoutX(-1.0);
-        borderPane.setPrefHeight(634.0);
-        borderPane.setPrefWidth(1034.0);
+        borderPane.setPrefHeight(700);
+        borderPane.setPrefWidth(1000);
 
         BorderPane.setAlignment(anchorPane, javafx.geometry.Pos.CENTER);
         anchorPane.setPrefHeight(200.0);
         anchorPane.setPrefWidth(200.0);
 
-        imageView.setFitHeight(634.0);
-        imageView.setFitWidth(1033.0);
+        imageView.setFitHeight(700);
+        imageView.setFitWidth(1000);
         imageView.setLayoutX(1.0);
         imageView.setStyle("-fx-background-radius: 100px;");
         imageView.setImage(new Image(getClass().getResource("WhatsApp Image 2023-12-28 at 3.56.37 PM.jpeg").toExternalForm()));
@@ -59,6 +66,16 @@ public class homeBase extends AnchorPane {
         button.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
         button.setTextFill(javafx.scene.paint.Color.valueOf("#5a1e76"));
         button.setFont(new Font("Arial Black", 65.0));
+        button.setOnMouseClicked(new EventHandler() {
+
+            @Override
+            public void handle(Event event) {
+                Parent root = new SelectModeBase(stage);
+                Scene scene = new Scene(root,1000,700);
+                stage.setScene(scene);
+                stage.show();
+            }
+        });
         borderPane.setCenter(anchorPane);
 
         anchorPane.getChildren().add(imageView);

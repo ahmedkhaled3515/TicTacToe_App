@@ -1,9 +1,12 @@
 package tictactoe.Views.login;
 
+import SelectmodeView.SelectModeBase;
 import java.awt.event.MouseEvent;
 import java.net.URL;
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -14,6 +17,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class loginBase extends AnchorPane {
 
@@ -26,7 +30,7 @@ public class loginBase extends AnchorPane {
     protected final PasswordField txtPassword;
     protected final ImageView backbtnimg;
 
-    public loginBase() {
+    public loginBase(Stage stage) {
 
         anchorPane = new AnchorPane();
         backgroundImg = new ImageView();
@@ -43,21 +47,22 @@ public class loginBase extends AnchorPane {
         getStyleClass().add("mainFxmlClass");
         getStylesheets().add("/tictactoe/Views/login/login.css");
 
-        anchorPane.setLayoutY(-3.0);
-        anchorPane.setPrefHeight(640.0);
-        anchorPane.setPrefWidth(999.0);
+//        anchorPane.setLayoutY(-3.0);
+        anchorPane.setPrefHeight(700);
+        anchorPane.setPrefWidth(1000);
 
-        backgroundImg.setFitHeight(642.0);
-        backgroundImg.setFitWidth(1034.0);
-        backgroundImg.setLayoutX(-6.0);
+        backgroundImg.setFitHeight(700);
+        backgroundImg.setFitWidth(1000);
+//        backgroundImg.setLayoutX(-6.0);
         backgroundImg.setImage(new Image(getClass().getResource("gaming-blank-banner-background_23-2150390423.jpg").toExternalForm()));
-        //backgroundImg.setImage(new Image(getClass().getResource("../../../../../../gaming-blank-banner-background_23-2150390423.jpg").toExternalForm()));
 
         headLabel.setLayoutX(614.0);
         headLabel.setLayoutY(108.0);
         headLabel.setText("tic.tac.toe.");
         headLabel.setTextFill(javafx.scene.paint.Color.valueOf("#c5a0d7"));
         headLabel.setFont(new Font("Arial Rounded MT Bold", 64.0));
+      
+
 
         txtEmail.setLayoutX(648.0);
         txtEmail.setLayoutY(220.0);
@@ -103,6 +108,16 @@ public class loginBase extends AnchorPane {
               Alert a = new Alert(Alert.AlertType.INFORMATION);
                 a.setContentText("This is checkmark");
                 a.show();
+            }
+        });
+          backbtnimg.setOnMouseClicked(new EventHandler() {
+
+            @Override
+            public void handle(Event event) {
+                Parent root = new SelectModeBase(stage);
+                Scene scene = new Scene(root,1000,700);
+                stage.setScene(scene);
+                stage.show();
             }
         });
 

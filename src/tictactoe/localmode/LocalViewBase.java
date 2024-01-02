@@ -1,15 +1,29 @@
 package tictactoe.localmode;
 
+import SelectmodeView.SelectModeBase;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+
+import tictactoe.TicTacToe;
+
+import javafx.stage.Stage;
+import static tictactoe.TicTacToe.main;
+import tictactoe.Views.GameBoardView.GameBoardBase;
+import tictactoe.Views.LocalMode2Players.GameBoardBase2Players;
+
 
 public  class LocalViewBase extends AnchorPane {
 
@@ -20,11 +34,13 @@ public  class LocalViewBase extends AnchorPane {
     protected final TextField playerOneName;
     protected final TextField playerTwoName;
     protected final ImageView imageView;
+    
+    TicTacToe mainApp;
   
     
     private boolean startButtonClicked = false;
 
-    public LocalViewBase() {
+    public LocalViewBase(Stage stage) {
 
         anchorPane = new AnchorPane();
         backgroundimage = new ImageView();
@@ -34,11 +50,7 @@ public  class LocalViewBase extends AnchorPane {
         playerTwoName = new TextField();
          imageView = new ImageView();
  
-        
-        
-        
-        
-        
+
         setMaxHeight(USE_PREF_SIZE);
         setMaxWidth(USE_PREF_SIZE);
         setMinHeight(USE_PREF_SIZE);
@@ -72,18 +84,44 @@ public  class LocalViewBase extends AnchorPane {
         startbutton.setStyle("-fx-background-color: C5A0D7; -fx-background-radius: 90;");
         startbutton.setText("start");
         startbutton.setFont(new Font("Arial", 26.0));
-       startbutton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                
-                 if (startButtonClicked) {
-            startbutton.setStyle("-fx-background-color: C5A0D7; -fx-background-radius: 26 26 26 26;");
-        } else {
-            startbutton.setStyle("-fx-background-color: 72CFF9; -fx-background-radius: 26 26 26 26;");
-        }
-        startButtonClicked = !startButtonClicked;
-    }
-        }); 
+        startbutton.setOnAction(new EventHandler<ActionEvent>() {
+          @Override
+          public void handle(ActionEvent event) {
+              GameBoardBase2Players gameBoard = new GameBoardBase2Players(mainApp , stage);
+              Scene gameScene = new Scene(gameBoard, 1000, 700);
+              stage.setScene(gameScene);
+              stage.show();
+          }
+      });
+
+       
+
+//      startbutton.setOnAction(new EventHandler<ActionEvent>() {
+//            @Override
+//            public void handle(ActionEvent event) {
+//                
+//                 if (startButtonClicked) {
+//
+//                    startbutton.setStyle("-fx-background-color: C5A0D7; -fx-background-radius: 26 26 26 26;");
+//                 } else {
+//                    startbutton.setStyle("-fx-background-color: 72CFF9; -fx-background-radius: 26 26 26 26;");
+//                 }
+//                    startButtonClicked = !startButtonClicked;
+//                 }
+//
+//            startbutton.setStyle("-fx-background-color: C5A0D7; -fx-background-radius: 26 26 26 26;");
+//               Parent root = new GameBoardBase() ;
+//                scene = new Scene(root);
+//                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+//                stage.setScene(scene);
+//                stage.show();
+//        } else {
+//            startbutton.setStyle("-fx-background-color: 72CFF9; -fx-background-radius: 26 26 26 26;");
+//        }
+//        startButtonClicked = !startButtonClicked;
+//    }
+//
+//        }); 
       
 
         playerOneName.setLayoutX(664.0);
@@ -106,6 +144,17 @@ public  class LocalViewBase extends AnchorPane {
         imageView.setFitWidth(99.0);
         imageView.setLayoutX(533.0);
         imageView.setLayoutY(127.0);
+        imageView.setOnMouseClicked(new EventHandler() {
+
+            @Override
+            public void handle(Event event) {
+                Parent root = new SelectModeBase(stage);
+                Scene scene = new Scene(root,1000,700);
+                stage.setScene(scene);
+                stage.show();
+            }
+        });
+
         imageView.setImage(new Image(getClass().getResource("arrowback.jpg").toExternalForm()));
         
         

@@ -1,15 +1,34 @@
 package SelectmodeView;
 
+
+//import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+//import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcons;
+
+
+//import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+//import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcons;
+
+import HomeView.homeBase;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcons;
+
 import java.net.URL;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
+import tictactoe.Views.login.loginBase;
+import tictactoe.localmode.LocalViewBase;
+import tictactoe.machineView.MachineViewBase;
 
 public class SelectModeBase extends AnchorPane {
 
@@ -20,12 +39,15 @@ public class SelectModeBase extends AnchorPane {
     protected final Button computer;
     protected final Button online;
     protected final AnchorPane anchorPane1;
-    protected final FontAwesomeIcon user;
+//    protected final FontAwesomeIcon user;
     protected final AnchorPane anchorPane2;
     protected final FontAwesomeIcon arrow;
-
-    public SelectModeBase() {
-
+  //  protected final FontAwesomeIcon user;
+//    protected final AnchorPane anchorPane2;
+  //  protected final FontAwesomeIcon arrow;
+    Stage stage;
+    public SelectModeBase(Stage stage) {
+        this.stage=stage;
         anchorPane = new AnchorPane();
         imageView = new ImageView();
         anchorPane0 = new AnchorPane();
@@ -33,7 +55,8 @@ public class SelectModeBase extends AnchorPane {
         computer = new Button();
         online = new Button();
         anchorPane1 = new AnchorPane();
-        user = new FontAwesomeIcon();
+
+    //    user = new FontAwesomeIcon();
         anchorPane2 = new AnchorPane();
         arrow = new FontAwesomeIcon();
 
@@ -43,13 +66,12 @@ public class SelectModeBase extends AnchorPane {
         getStyleClass().add("mainFxmlClass");
         getStylesheets().add("/SelectmodeView/selectmode.css");
 
-        anchorPane.setLayoutY(-2.0);
-        anchorPane.setPrefHeight(654.0);
-        anchorPane.setPrefWidth(1034.0);
+        anchorPane.setPrefHeight(700);
+        anchorPane.setPrefWidth(1000);
 
-        imageView.setFitHeight(754.0);
-        imageView.setFitWidth(1088.0);
-        imageView.setLayoutY(-94.0);
+        imageView.setFitHeight(700.0);
+        imageView.setFitWidth(1000.0);
+//        imageView.setLayoutY(-94.0);
         imageView.setImage(new Image(getClass().getResource("WhatsApp Image 2023-12-28 at 3.56.37 PM.jpeg").toExternalForm()));
 
         anchorPane0.setLayoutX(549.0);
@@ -73,6 +95,29 @@ public class SelectModeBase extends AnchorPane {
         local.setTextOverrun(javafx.scene.control.OverrunStyle.CLIP);
         local.setFont(new Font("Arial Black", 55.0));
         local.setPadding(new Insets(0.0, 0.0, 10.0, 0.0));
+        local.setOnMouseClicked(new EventHandler() {
+
+            @Override
+            public void handle(Event event) {
+//                Parent root = new LocalViewBase();
+//                scene = new Scene(root);
+//                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+//                stage.setScene(scene);
+//                stage.show();
+            }
+        });
+        
+        local.setOnMouseClicked(new EventHandler() {
+    @Override
+    public void handle(Event event) {
+        Parent root = new  LocalViewBase(stage);
+        Scene scene = new Scene(root, 1000, 700);
+        stage.setScene(scene);
+        stage.show();
+    }
+});
+
+        
         local.setId("local");
 
         computer.setLayoutX(549.0);
@@ -92,6 +137,13 @@ public class SelectModeBase extends AnchorPane {
         computer.setTextOverrun(javafx.scene.control.OverrunStyle.CLIP);
         computer.setFont(new Font("Arial Black", 55.0));
         computer.setPadding(new Insets(0.0, 0.0, 10.0, 0.0));
+        computer.setOnMouseClicked(new EventHandler() {
+
+            @Override
+            public void handle(Event event) {
+                stage.setScene(new Scene(new MachineViewBase(stage),1000,700));
+            }
+        });
                 
 
         online.setLayoutX(549.0);
@@ -110,6 +162,16 @@ public class SelectModeBase extends AnchorPane {
         online.setTextOverrun(javafx.scene.control.OverrunStyle.CLIP);
         online.setFont(new Font("Arial Black", 55.0));
         online.setPadding(new Insets(0.0, 0.0, 10.0, 0.0));
+        online.setOnMouseClicked(new EventHandler() {
+
+            @Override
+            public void handle(Event event) {
+                Parent root = new loginBase(stage) ;
+                Scene scene = new Scene(root,1000,700);
+                stage.setScene(scene);
+                stage.show();
+            }
+        });
         online.setId("online");
 
         anchorPane1.setLayoutX(616.0);
@@ -117,6 +179,7 @@ public class SelectModeBase extends AnchorPane {
         anchorPane1.setPrefHeight(200.0);
         anchorPane1.setPrefWidth(200.0);
 
+/*
         user.setLayoutX(873.0);
         user.setLayoutY(143.0);
         user.setIcon(FontAwesomeIcons.USER);
@@ -127,11 +190,11 @@ public class SelectModeBase extends AnchorPane {
        user.scaleXProperty().add(1);
        user.scaleYProperty().add(1);
        user.scaleZProperty().add(1);
-
+*/
         anchorPane2.setLayoutX(50.0);
         anchorPane2.setPrefHeight(200.0);
         anchorPane2.setPrefWidth(200.0);
-
+/*
         arrow.setLayoutX(-40.0);
         arrow.setLayoutY(115.0);
         arrow.setIcon(FontAwesomeIcons.ARROW_LEFT);
@@ -141,14 +204,29 @@ public class SelectModeBase extends AnchorPane {
        arrow.scaleYProperty().add(1);
        arrow.scaleZProperty().add(1);
 
+*/
+
+       arrow.setOnMouseClicked(new EventHandler() {
+
+            @Override
+            public void handle(Event event) {
+                Parent root = new homeBase(stage) ;
+                Scene scene = new Scene(root,1000,700);
+                stage.setScene(scene);
+                stage.show();
+            }
+        });
+
+
         anchorPane.getChildren().add(imageView);
         anchorPane0.getChildren().add(local);
         anchorPane.getChildren().add(anchorPane0);
         anchorPane.getChildren().add(computer);
         anchorPane.getChildren().add(online);
         anchorPane.getChildren().add(anchorPane1);
-        anchorPane.getChildren().add(user);
-        anchorPane2.getChildren().add(arrow);
+
+      //  anchorPane.getChildren().add(user);
+      //  anchorPane2.getChildren().add(arrow);
         anchorPane.getChildren().add(anchorPane2);
         getChildren().add(anchorPane);
 
