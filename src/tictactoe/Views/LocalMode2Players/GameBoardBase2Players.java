@@ -1,7 +1,9 @@
 package tictactoe.Views.LocalMode2Players;
 
+import SelectmodeView.SelectModeBase;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,7 +14,9 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.PerspectiveCamera;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.effect.Reflection;
@@ -100,6 +104,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
     MediaPlayer mediaPlayer2;
     MediaView mediaView;
     
+
     boolean button0Flag=true;
     boolean button1Flag=true;
     boolean button2Flag=true;
@@ -201,7 +206,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
 
         backgroundImage.setFitHeight(700.0);
         backgroundImage.setFitWidth(1000.0);
-        backgroundImage.setImage(new Image(getClass().getResource("backgroundImageGif.gif").toExternalForm()));
+        backgroundImage.setImage(new Image(getClass().getResource("/assets/images/backgroundImageGif.gif").toExternalForm()));
 
         boardGrid.setHgap(10.0);
         boardGrid.setLayoutX(265.0);
@@ -486,6 +491,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
         mainMenuButton.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
             @Override
             public void handle(javafx.event.ActionEvent event) {
+                
                 allPlayingButtonsFalse(); 
                 mouseClick();
                 playMusicButton.setText("Play Music");
@@ -507,10 +513,16 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
                 }
               //  allPlayingButtonsFalse();
                 manageDrawButtons();
-                System.exit(0);
+                    Parent root = new  SelectModeBase(stage);
+                Scene scene = new Scene(root,1000,700);
+                stage.setScene(scene);
+                stage.show();
         }
         }
         );
+        
+       
+        
         
         playerTurnText.setLayoutX(770.0);
         playerTurnText.setLayoutY(345.0);
@@ -977,8 +989,8 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
         String videoFile = "file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/LocalMode2Players/XWinsVideo.mp4";
 
         // Create a Media object
-        Media media = new Media(videoFile);
-
+        Media media = new Media(getClass().getResource("/assets/videos/XWinsVideo.mp4").toExternalForm());
+        
         // Create a MediaPlayer
         MediaPlayer mediaPlayer3 = new MediaPlayer(media);
 
@@ -1013,7 +1025,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
         String videoFile = "file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/LocalMode2Players/OWinsVideo.mp4";
                                
         // Create a Media object
-        Media media = new Media(videoFile);
+        Media media = new Media(getClass().getResource("/assets/videos/OWinsVideo.mp4").toExternalForm());
 
         // Create a MediaPlayer
         MediaPlayer mediaPlayer4 = new MediaPlayer(media);
@@ -1049,7 +1061,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
         String videoFile = "file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/LocalMode2Players/DrawVideo2.mp4";
                                 
         // Create a Media object
-        Media media = new Media(videoFile);
+        Media media = new Media(getClass().getResource("/assets/videos/DrawVideo22.mp4").toExternalForm());
 
         // Create a MediaPlayer
         MediaPlayer mediaPlayer6 = new MediaPlayer(media);
@@ -1084,15 +1096,15 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
       
       
        public void mouseClick() {
-         String path = "file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/LocalMode2Players/mouseClick.mp3";  // Use the correct path here
-         Media media = new Media(path);
+           // Use the correct path here
+         Media media =  new Media(getClass().getResource("/assets/sounds/mouseClick.mp3").toExternalForm());
          mediaPlayer2 = new MediaPlayer(media);
          mediaPlayer2.play(); 
        }
       
-      public void gameboardMusicWhenTheScreenAppears(){
-         String path = "file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/LocalMode2Players/gameMusic.mp3";  // Use the correct path here
-         Media media = new Media(path);
+      public void gameboardMusicWhenTheScreenAppears(){ 
+//         String path = "Views/LocalMode2Players/gameMusic.mp3";  // Use the correct path here
+         Media media = new Media(getClass().getResource("/assets/sounds/gameMusic.mp3").toExternalForm());
          mediaPlayer = new MediaPlayer(media);
          mediaPlayer.setAutoPlay(true); 
       }

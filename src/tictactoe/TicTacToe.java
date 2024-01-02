@@ -30,7 +30,6 @@ import tictactoe.Views.AvailablePlayer.PlayersListBase;
 import tictactoe.Views.login.loginBase;
 
 
-import tictactoe.Views.GameBoardBase;
 
 import tictactoe.Views.computerMode.ComputerModeBase;
 import tictactoe.Views.computerMode.ComputerModeBase2;
@@ -96,8 +95,8 @@ public class TicTacToe extends Application {
     }
      /*
     public void switchToGameBoardBase2Players(){
-        gameBoardBase2Players = new GameBoardBase2Players(this);
-        setScene(gameBoardBase2Players);   
+    //    gameBoardBase2Players = new GameBoardBase2Players(this);
+      //  setScene(gameBoardBase2Players);   
     }
     
     

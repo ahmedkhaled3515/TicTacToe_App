@@ -10,6 +10,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 
 public class SignupBase extends AnchorPane {
 
@@ -21,7 +22,7 @@ public class SignupBase extends AnchorPane {
     protected final TextField password;
 //    protected final FontAwesomeIcon arrow;
 
-    public SignupBase() {
+    public SignupBase(Stage stage) {
 
         imageView = new ImageView();
         image = new ImageView();
@@ -41,13 +42,13 @@ public class SignupBase extends AnchorPane {
         imageView.setFitWidth(1076.0);
         imageView.setLayoutX(-39.0);
         imageView.setLayoutY(-100.0);
-        imageView.setImage(new Image(getClass().getResource("WhatsApp Image 2023-12-28 at 3.56.37 PM.jpeg").toExternalForm()));
+        imageView.setImage(new Image(getClass().getResource("/assets/images/background.jpg").toExternalForm()));
 
         image.setFitHeight(118.0);
         image.setFitWidth(298.0);
         image.setLayoutX(733.0);
         image.setLayoutY(14.0);
-        image.setImage(new Image(getClass().getResource("WhatsApp Image 2023-12-29 at 9.13.24 PM.jpeg").toExternalForm()));
+        image.setImage(new Image(getClass().getResource("/assets/images/tictac.jpeg").toExternalForm()));
 
         user.setAlignment(javafx.geometry.Pos.TOP_CENTER);
         user.setId("user");
