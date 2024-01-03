@@ -8,24 +8,6 @@
             <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/SelectmodeView/SelectModeBase.java</file>
             <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/tictactoe/localmode/LocalViewBase.java</file>
             <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/tictactoe/Views/computerMode/ComputerModeBase.java</file>
-            <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/tictactoe/Views/computerMode/computermode.css</file>
-            <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/tictactoe/Views/WinView/WinPane.java</file>
-            <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/tictactoe/TicTacToe.java</file>
-            <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/HomeView/homeBase.java</file>
-            <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/tictactoe/machineView/MachineViewBase.java</file>
-            <file>file:/D:/iti/java%20project/TicTacToe_App/src/tictactoe/machineView/MachineViewBase.java</file>
-            <file>file:/D:/iti/java%20project/TicTacToe_App/src/tictactoe/localmode/LocalViewBase.java</file>
-            <file>file:/D:/iti/java%20project/TicTacToe_App/src/tictactoe/Views/LocalMode2Players/GameBoardBase2Players.java</file>
-            <file>file:/D:/iti/java%20project/TicTacToe_App/src/HomeView/HomeController.java</file>
-            <file>file:/D:/iti/java%20project/TicTacToe_App/src/HomeView/homeBase.java</file>
-            <file>file:/D:/iti/java%20project/TicTacToe_App/src/tictactoe/TicTacToe.java</file>
-        </group>
-        <group>
-            <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/tictactoe/Views/computerMode/ComputerMode.fxml</file>
-            <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/tictactoe/Views/login/loginBase.java</file>
-            <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/SelectmodeView/SelectModeBase.java</file>
-            <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/tictactoe/localmode/LocalViewBase.java</file>
-            <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/tictactoe/Views/computerMode/ComputerModeBase.java</file>
             <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/tictactoe/Views/DrawView/DrawPane.java</file>
             <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/tictactoe/Views/computerMode/computermode.css</file>
             <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/tictactoe/Views/WinView/WinPane.java</file>
@@ -40,5 +22,6 @@
             <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/tictactoe/machineView/MachineViewBase.java</file>
             <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/tictactoe/localmode/LocalView.java</file>
         </group>
+        <group/>
     </open-files>
 </project-private>
