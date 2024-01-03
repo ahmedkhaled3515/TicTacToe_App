@@ -5,3 +5,13 @@
 .mainFxmlClass {
 
 }
+
+#arrow{
+    -fx-fill:#d7049e;
+    
+}
+
+#arrow:hover{
+    -fx-fill:#72CFF9;
+    
+}

@@ -20,6 +20,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import tictactoe.Views.DrawView.DrawPane;
+import tictactoe.Views.LoseView.LosePane;
+import tictactoe.Views.WinView.WinPane;
 
 public class ComputerModeBase extends AnchorPane {
 
@@ -64,7 +67,7 @@ public class ComputerModeBase extends AnchorPane {
     int i;
     String currentPlayer;
     String computer;
-    Stage parent;
+    Stage stage;
     int result=0;
     int playerScore=0;
     int computerScore=0;
@@ -80,7 +83,7 @@ public class ComputerModeBase extends AnchorPane {
             return index;
         }
     }
-    public ComputerModeBase(Stage parent,String current) {
+    public ComputerModeBase(Stage stage,String current) {
 
         imageView = new ImageView();
         boardGrid = new GridPane();
@@ -129,7 +132,7 @@ public class ComputerModeBase extends AnchorPane {
         buttons[2][2] = but22;
         playerPositions=new ArrayList<Integer>();
         computerPositions=new ArrayList<Integer>();
-        this.parent=parent;
+        this.stage=stage;
         currentPlayer=current;
         
         
@@ -205,7 +208,7 @@ public class ComputerModeBase extends AnchorPane {
         exitButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                parent.setScene(new Scene(new SelectModeBase(parent),1000,700));
+                stage.setScene(new Scene(new SelectModeBase(stage),1000,700));
             }
         });
         newButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -482,26 +485,38 @@ public class ComputerModeBase extends AnchorPane {
         {
             if(result >0)
             {
-                System.out.println("You Win!!!");
-                playerScore++;
-                score1CountText.setText(""+playerScore);
-
+                userWin();
             }
             else if(result<0)
             {
-                System.out.println("You Lost!!");
-                computerScore++;
-                score2CountText.setText(""+computerScore);
-
+                computerWin();
             }
             else{
-                System.out.println("Draw");
-                draw++;
-                drawCountText.setText(""+draw);
-
+                draw();
             }
         }
         }
+    }
+    public void userWin()
+    {
+        System.out.println("You Win!!!");
+        playerScore++;
+        score1CountText.setText(""+playerScore);
+        stage.setScene(new Scene(new WinPane(stage)));
+    }
+    public void computerWin()
+    {
+        System.out.println("You Lost!!");
+        computerScore++;
+        score2CountText.setText(""+computerScore);
+        stage.setScene(new Scene(new LosePane(stage)));
+    }
+    public void draw()
+    {
+        System.out.println("Draw");
+        draw++;
+        drawCountText.setText(""+draw);
+        stage.setScene(new Scene(new DrawPane(stage)));
     }
     public void computerTurn(String play)
     {

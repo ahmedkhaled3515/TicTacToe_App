@@ -8,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
@@ -22,18 +23,18 @@ import tictactoe.TicTacToe;
 import javafx.stage.Stage;
 
 import tictactoe.Views.LocalMode2Players.GameBoardBase2Players;
-
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcons;
 
 public  class LocalViewBase extends AnchorPane {
 
     protected final AnchorPane anchorPane;
     protected final ImageView backgroundimage;
-    protected final Text titletoe;
+    protected final Label headLabel;
     protected final Button startbutton;
     protected final TextField playerOneName;
     protected final TextField playerTwoName;
-    protected final ImageView imageView;
-    
+    FontAwesomeIcon arrow;
     TicTacToe mainApp;
   
     
@@ -43,15 +44,15 @@ public  class LocalViewBase extends AnchorPane {
 
         anchorPane = new AnchorPane();
         backgroundimage = new ImageView();
-        titletoe = new Text();
+        headLabel = new Label();
         startbutton = new Button();
         playerOneName = new TextField();
         playerTwoName = new TextField();
-         imageView = new ImageView();
+        arrow = new FontAwesomeIcon();
          
          
  
-
+        getStylesheets().add(getClass().getResource("localstyle.css").toExternalForm());
         setMaxHeight(USE_PREF_SIZE);
         setMaxWidth(USE_PREF_SIZE);
         setMinHeight(USE_PREF_SIZE);
@@ -67,14 +68,11 @@ public  class LocalViewBase extends AnchorPane {
         backgroundimage.setLayoutY(-1.0);
         backgroundimage.setImage(new Image(getClass().getResource("/assets/images/background.jpg").toExternalForm()));
 
-        titletoe.setFill(javafx.scene.paint.Color.valueOf("#c5a0d7"));
-        titletoe.setLayoutX(695.0);
-        titletoe.setLayoutY(155.0);
-        titletoe.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
-        titletoe.setStrokeWidth(0.0);
-        titletoe.setText("tic.tac.toe.");
-        titletoe.setWrappingWidth(207.6708984375);
-        titletoe.setFont(new Font("System Bold", 39.0));
+        headLabel.setLayoutX(614.0);
+        headLabel.setLayoutY(108.0);
+        headLabel.setText("tic.tac.toe.");
+        headLabel.setTextFill(javafx.scene.paint.Color.valueOf("#c5a0d7"));
+        headLabel.setFont(new Font("Arial Rounded MT Bold", 64.0));
 
         startbutton.setId("buttonstyles");
         startbutton.setLayoutX(658.0);
@@ -88,7 +86,7 @@ public  class LocalViewBase extends AnchorPane {
         startbutton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Scene scene=new Scene(new GameBoardBase2Players(stage));
+                Scene scene=new Scene(new GameBoardBase2Players(stage,playerOneName.getText(),playerTwoName.getText()));
                 stage.setScene(scene);
                 //To change body of generated methods, choose Tools | Templates.
             }
@@ -136,13 +134,17 @@ public  class LocalViewBase extends AnchorPane {
         playerTwoName.setPrefWidth(234.0);
         playerTwoName.setPromptText("player two");
         playerTwoName.setStyle("-fx-background-radius: 26 26 26 26;");
-        playerTwoName.setFont(new Font(19.0));
+        playerTwoName.setFont(new Font("System Bold",19.0));
 
-        imageView.setFitHeight(24.0);
-        imageView.setFitWidth(99.0);
-        imageView.setLayoutX(533.0);
-        imageView.setLayoutY(127.0);
-        imageView.setOnMouseClicked(new EventHandler() {
+        arrow.setLayoutX(15.0);
+        arrow.setLayoutY(115.0);
+        arrow.setIcon(FontAwesomeIcons.ARROW_LEFT);
+        arrow.setSize("7em");
+        arrow.setId("arrow");
+        arrow.scaleXProperty().add(1);
+        arrow.scaleYProperty().add(1);
+        arrow.scaleZProperty().add(1);
+        arrow.setOnMouseClicked(new EventHandler() {
 
             @Override
             public void handle(Event event) {
@@ -151,27 +153,12 @@ public  class LocalViewBase extends AnchorPane {
                 stage.setScene(scene);
                 stage.show();            }
         });
-
-        imageView.setImage(new Image(getClass().getResource("/assets/images/arrowback.jpg").toExternalForm()));
-        
-        
-      
-        
-
-
-        
-        
-        
-        
-        
-        
-
         anchorPane.getChildren().add(backgroundimage);
-        anchorPane.getChildren().add(titletoe);
+        anchorPane.getChildren().add(headLabel);
         anchorPane.getChildren().add(startbutton);
         anchorPane.getChildren().add(playerOneName);
         anchorPane.getChildren().add(playerTwoName);
-        anchorPane.getChildren().add(imageView);
+        anchorPane.getChildren().add(arrow);
         getChildren().add(anchorPane);
 
     }

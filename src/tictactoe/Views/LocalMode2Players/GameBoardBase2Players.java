@@ -113,12 +113,36 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
     boolean button5Flag=true;
     boolean button6Flag=true;
     boolean button7Flag=true;
-    boolean button8Flag=true;
-    
+    boolean button8Flag=true; 
     boolean xStartFirst=true;
-    
-    public GameBoardBase2Players(Stage stage) {
+    String player1="Player 1";
+    String player2="Player 2";
+    boolean button0ArrayFlag=true;
+    boolean button1ArrayFlag=true;
+    boolean button2ArrayFlag=true;
+    boolean button3ArrayFlag=true;
+    boolean button4ArrayFlag=true;
+    boolean button5ArrayFlag=true;
+    boolean button6ArrayFlag=true;
+    boolean button7ArrayFlag=true;
+    boolean button8ArrayFlag=true;
+    String[][][] saveXOMovements;
+    int movementCounter=0;
+    public GameBoardBase2Players(Stage stage,String name1,String name2) {
+        if(!name1.isEmpty())
+        {
+            player1=name1;
+        }
+        if(!name2.isEmpty())
+        {
+            player2=name2;
 
+        }
+
+    
+    
+    
+    
         backgroundImage = new ImageView();
         boardGrid = new GridPane();
         columnConstraints = new ColumnConstraints();
@@ -162,7 +186,8 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
         
         gameboardMusicWhenTheScreenAppears();
         playMusicFlag=false;
-        
+        saveXOMovements= new String[3][3][2];
+    
         
        /* 
         // Load the sound file
@@ -244,6 +269,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
         button0.setPrefWidth(211.0);
         button0.setFont(new Font(50)); 
         button0.setStyle("-fx-text-stroke: white;");
+
         
         GridPane.setColumnIndex(button1, 1);
         button1.setMnemonicParsing(false);
@@ -335,7 +361,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
                     playMusicFlag=false;
                 }else{
                     mouseClick();
-                    mediaPlayer.stop();
+                    mediaPlayer.pause();
                     playMusicButton.setText("Play");
                     playMusicFlag=true;
                 } 
@@ -371,7 +397,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
         BorderPane.setAlignment(player1Text, javafx.geometry.Pos.CENTER);
         player1Text.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
         player1Text.setStrokeWidth(0.0);
-        player1Text.setText("Player 1");
+        player1Text.setText(player1);
         player1Text.setFont(new Font("Arial Bold", 27.0));
         BorderPane.setMargin(player1Text, new Insets(5.0, 0.0, 0.0, 0.0));
         score1Pane.setTop(player1Text);
@@ -418,7 +444,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
         BorderPane.setAlignment(player2Text, javafx.geometry.Pos.CENTER);
         player2Text.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
         player2Text.setStrokeWidth(0.0);
-        player2Text.setText("Player 2");
+        player2Text.setText(player2);
         player2Text.setFont(new Font("Arial Bold", 27.0));
         BorderPane.setMargin(player2Text, new Insets(5.0, 0.0, 0.0, 0.0));
         score2Pane.setTop(player2Text);
@@ -442,6 +468,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
         newGameButton.setOnAction(new EventHandler<javafx.event.ActionEvent>() { 
         @Override
         public void handle(javafx.event.ActionEvent event) {
+        allbuttonsArrayFlagSetToTrue();
         allPlayingButtonsFalse(); 
         mouseClick();
         for(int i=0; i<9; i++){
@@ -462,6 +489,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
                 button7.setText("");
                 button8.setText("");
                 
+                xStartFirst=true;
                 if(newGameFlag==false){
                     firstTurn();
                     actionPerformedButtons();
@@ -577,24 +605,52 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
     
     
     public void actionPerformedButtons(){
+        
         button0.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
             @Override
             public void handle(javafx.event.ActionEvent event) {
-                mouseClick();
                 
+                
+                if(button0ArrayFlag==true){
+                    movementCounter=movementCounter+1;
+                    if(playerTurnText.equals("x")){
+                        saveXOMovements[0][0][0]="x";
+                        saveXOMovements[0][0][1]=Integer.toString(movementCounter);
+                    }else{
+                        saveXOMovements[0][0][0]="o";
+                        saveXOMovements[0][0][1]=Integer.toString(movementCounter);                   
+                    }
+                }
+                button0ArrayFlag=false;
+                mouseClick();
                 Button fakeButton = button0;
                 ActionEvent fakeEvent = new ActionEvent(fakeButton, ActionEvent.ACTION_PERFORMED, "SimulateButtonClick");
                 actionPerformed(fakeEvent);
                 mouseClickCounter=mouseClickCounter+1;
                 button0Flag=false;
                 checkIfAnyPlayerWon();
+                
+                
+                
             }
         });
         button1.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
             @Override
             public void handle(javafx.event.ActionEvent event) {
-                mouseClick();
                 
+                
+                if(button1ArrayFlag==true){
+                    movementCounter=movementCounter+1;
+                    if(playerTurnText.equals("x")){
+                        saveXOMovements[0][1][0]="x";
+                        saveXOMovements[0][1][1]=Integer.toString(movementCounter);
+                    }else{
+                        saveXOMovements[0][1][0]="o";
+                        saveXOMovements[0][1][1]=Integer.toString(movementCounter);                   
+                    }
+                }
+                button1ArrayFlag=false;
+                mouseClick();
                 Button fakeButton = button1;
                 ActionEvent fakeEvent = new ActionEvent(fakeButton, ActionEvent.ACTION_PERFORMED, "SimulateButtonClick");
                 actionPerformed(fakeEvent);
@@ -606,6 +662,17 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
         button2.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
             @Override
             public void handle(javafx.event.ActionEvent event) {
+                if(button2ArrayFlag==true){
+                    movementCounter=movementCounter+1;
+                    if(playerTurnText.equals("x")){
+                        saveXOMovements[0][2][0]="x";
+                        saveXOMovements[0][2][1]=Integer.toString(movementCounter);
+                    }else{
+                        saveXOMovements[0][2][0]="o";
+                        saveXOMovements[0][2][1]=Integer.toString(movementCounter);                   
+                    }
+                }
+                button2ArrayFlag=false;
                 mouseClick();
                 Button fakeButton = button2;
                 ActionEvent fakeEvent = new ActionEvent(fakeButton, ActionEvent.ACTION_PERFORMED, "SimulateButtonClick");
@@ -618,6 +685,18 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
         button3.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
             @Override
             public void handle(javafx.event.ActionEvent event) {
+                
+                if(button3ArrayFlag==true){
+                    movementCounter=movementCounter+1;
+                    if(playerTurnText.equals("x")){
+                        saveXOMovements[1][0][0]="x";
+                        saveXOMovements[1][0][1]=Integer.toString(movementCounter);
+                    }else{
+                        saveXOMovements[1][0][0]="o";
+                        saveXOMovements[1][0][1]=Integer.toString(movementCounter);                   
+                    }
+                }
+                button3ArrayFlag=false;
                 mouseClick();
                 Button fakeButton = button3;
                 ActionEvent fakeEvent = new ActionEvent(fakeButton, ActionEvent.ACTION_PERFORMED, "SimulateButtonClick");
@@ -629,7 +708,18 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
         });   
         button4.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
             @Override
-            public void handle(javafx.event.ActionEvent event) {
+            public void handle(javafx.event.ActionEvent event) { 
+                if(button4ArrayFlag==true){
+                    movementCounter=movementCounter+1;
+                    if(playerTurnText.equals("x")){
+                        saveXOMovements[1][1][0]="x";
+                        saveXOMovements[1][1][1]=Integer.toString(movementCounter);
+                    }else{
+                        saveXOMovements[1][1][0]="o";
+                        saveXOMovements[1][1][1]=Integer.toString(movementCounter);                   
+                    }     
+                }
+                button4ArrayFlag=false;
                 mouseClick();
                 Button fakeButton = button4;
                 ActionEvent fakeEvent = new ActionEvent(fakeButton, ActionEvent.ACTION_PERFORMED, "SimulateButtonClick");
@@ -642,6 +732,17 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
         button5.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
             @Override
             public void handle(javafx.event.ActionEvent event) {
+                if(button5ArrayFlag==true){
+                     movementCounter=movementCounter+1;
+                    if(playerTurnText.equals("x")){
+                        saveXOMovements[1][2][0]="x";
+                        saveXOMovements[1][2][1]=Integer.toString(movementCounter);
+                    }else{
+                        saveXOMovements[1][2][0]="o";
+                        saveXOMovements[1][2][1]=Integer.toString(movementCounter);                   
+                    } 
+                }
+                button5ArrayFlag=false;
                 mouseClick();
                 Button fakeButton = button5;
                 ActionEvent fakeEvent = new ActionEvent(fakeButton, ActionEvent.ACTION_PERFORMED, "SimulateButtonClick");
@@ -654,6 +755,16 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
         button6.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
             @Override
             public void handle(javafx.event.ActionEvent event) {
+                if(button6ArrayFlag==true)
+                    movementCounter=movementCounter+1;
+                    if(playerTurnText.equals("x")){
+                        saveXOMovements[2][0][0]="x";
+                        saveXOMovements[2][0][1]=Integer.toString(movementCounter);
+                    }else{
+                        saveXOMovements[2][0][0]="o";
+                        saveXOMovements[2][0][1]=Integer.toString(movementCounter);                   
+                    }  
+                button6ArrayFlag=false;
                 mouseClick();
                 Button fakeButton = button6;
                 ActionEvent fakeEvent = new ActionEvent(fakeButton, ActionEvent.ACTION_PERFORMED, "SimulateButtonClick");
@@ -666,6 +777,17 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
         button7.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
             @Override
             public void handle(javafx.event.ActionEvent event) {
+                if(button7ArrayFlag==true){
+                    movementCounter=movementCounter+1;
+                    if(playerTurnText.equals("x")){
+                        saveXOMovements[2][1][0]="x";
+                        saveXOMovements[2][1][1]=Integer.toString(movementCounter);
+                    }else{
+                        saveXOMovements[2][1][0]="o";
+                        saveXOMovements[2][1][1]=Integer.toString(movementCounter);                   
+                    }
+                }
+                button7ArrayFlag=false;
                 mouseClick();
                 Button fakeButton = button7;
                 ActionEvent fakeEvent = new ActionEvent(fakeButton, ActionEvent.ACTION_PERFORMED, "SimulateButtonClick");
@@ -678,6 +800,17 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
         button8.setOnAction(new EventHandler<javafx.event.ActionEvent>() {
             @Override
             public void handle(javafx.event.ActionEvent event) {
+                if(button8ArrayFlag==true)
+                {
+                    if(playerTurnText.equals("x")){
+                        saveXOMovements[2][2][0]="x";
+                        saveXOMovements[2][2][1]=Integer.toString(movementCounter);
+                    }else{
+                        saveXOMovements[2][2][0]="o";
+                        saveXOMovements[2][2][1]=Integer.toString(movementCounter);                   
+                    }
+                }
+                button8ArrayFlag=false;
                 mouseClick();
                 Button fakeButton = button8;
                 ActionEvent fakeEvent = new ActionEvent(fakeButton, ActionEvent.ACTION_PERFORMED, "SimulateButtonClick");
@@ -854,6 +987,9 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
                     playerTurnText.setText("Draw");
                     setEditsToPlayerTurnText();
                     DrawPlayVideo();
+                   // int y=1;
+                    //System.out.println(y);
+                   // y=y+1;
                     manageDrawButtons();
                     
                 }
@@ -861,6 +997,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
             }
           
     }
+    
     public void xWins(int a, int b, int c){
 
          xWinsVideo();
@@ -1057,11 +1194,12 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
             mediaView.setVisible(false);
         });
     } 
+      
       public void DrawPlayVideo() {
         String videoFile = "file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/LocalMode2Players/DrawVideo2.mp4";
                                 
         // Create a Media object
-        Media media = new Media(getClass().getResource("/assets/videos/DrawVideo22.mp4").toExternalForm());
+        Media media = new Media(getClass().getResource("/assets/videos/DrawVideo2.mp4").toExternalForm());
 
         // Create a MediaPlayer
         MediaPlayer mediaPlayer6 = new MediaPlayer(media);
@@ -1106,7 +1244,11 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
 //         String path = "Views/LocalMode2Players/gameMusic.mp3";  // Use the correct path here
          Media media = new Media(getClass().getResource("/assets/sounds/gameMusic.mp3").toExternalForm());
          mediaPlayer = new MediaPlayer(media);
-         mediaPlayer.setAutoPlay(true); 
+         mediaPlayer.play();
+         mediaPlayer.setOnEndOfMedia(()-> {
+             mediaPlayer.seek(Duration.ZERO);
+             mediaPlayer.play();
+         });
       }
 
        
@@ -1145,8 +1287,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
             button7Flag=true;
             button8Flag=true;
         }
-    }
-       
+    }    
     public void allPlayingButtonsFalse(){
 
             button0Flag=false;
@@ -1159,7 +1300,19 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
             button7Flag=false;
             button8Flag=false;
 
-    }    
+    }  
+    
+    public void allbuttonsArrayFlagSetToTrue(){
+        button0ArrayFlag=true;
+        button1ArrayFlag=true;
+        button2ArrayFlag=true;
+        button3ArrayFlag=true;
+        button4ArrayFlag=true;
+        button5ArrayFlag=true;
+        button6ArrayFlag=true;
+        button7ArrayFlag=true;
+        button8ArrayFlag=true;
+    }
      
       
       

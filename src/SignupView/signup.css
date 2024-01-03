@@ -23,6 +23,10 @@
 .text:hover { 
     -fx-fill: F4F6F5;   
 }
+#headLabel {
+    -fx-alignment: center;
+    -fx-fill: white;
+}
 
 .text-field{
     -fx-prompt-text-fill:#BFA6CB;

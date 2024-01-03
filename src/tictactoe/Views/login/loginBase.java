@@ -19,7 +19,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcons;
 public class loginBase extends AnchorPane {
 
     protected final AnchorPane anchorPane;
@@ -29,7 +30,7 @@ public class loginBase extends AnchorPane {
     protected final Button btnLogin;
     protected final Text textHaveAc;
     protected final PasswordField txtPassword;
-    protected final ImageView backbtnimg;
+    protected final FontAwesomeIcon arrow;
 
     public loginBase(Stage stage) {
 
@@ -40,13 +41,14 @@ public class loginBase extends AnchorPane {
         btnLogin = new Button();
         textHaveAc = new Text();
         txtPassword = new PasswordField();
-        backbtnimg = new ImageView();
+        arrow = new FontAwesomeIcon();
 
         setId("AnchorPane");
-        setPrefHeight(400.0);
-        setPrefWidth(600.0);
+        setPrefHeight(700.0);
+        setPrefWidth(1000.0);
         getStyleClass().add("mainFxmlClass");
         getStylesheets().add("/tictactoe/Views/login/login.css");
+        getStylesheets().add(getClass().getResource("localstyle.css").toExternalForm());
 
 //        anchorPane.setLayoutY(-3.0);
         anchorPane.setPrefHeight(700);
@@ -106,24 +108,16 @@ public class loginBase extends AnchorPane {
         txtPassword.setPrefWidth(250.0);
         txtPassword.setPromptText("Password");
 
-        backbtnimg.setFitHeight(86.0);
-        backbtnimg.setFitWidth(89.0);
-        backbtnimg.setLayoutX(511.0);
-        backbtnimg.setLayoutY(103.0);
-        backbtnimg.setPickOnBounds(true);
-        backbtnimg.setPreserveRatio(true);
-        backbtnimg.setImage(new Image(getClass().getResource("/assets/images/symbole-fleche-gauche-violet.png").toExternalForm()));
+        arrow.setLayoutX(15);
+        arrow.setLayoutY(115.0);
+        arrow.setIcon(FontAwesomeIcons.ARROW_LEFT);
+        arrow.setSize("7em");
+        arrow.setId("arrow");
+        arrow.scaleXProperty().add(1);
+        arrow.scaleYProperty().add(1);
+        arrow.scaleZProperty().add(1);
 
-        backbtnimg.setOnMouseClicked(new EventHandler() {
- 
-            @Override
-            public void handle(Event event) {
-              Alert a = new Alert(Alert.AlertType.INFORMATION);
-                a.setContentText("This is checkmark");
-                a.show();
-            }
-        });
-          backbtnimg.setOnMouseClicked(new EventHandler() {
+        arrow.setOnMouseClicked(new EventHandler() {
 
             @Override
             public void handle(Event event) {
@@ -140,7 +134,7 @@ public class loginBase extends AnchorPane {
         anchorPane.getChildren().add(btnLogin);
         anchorPane.getChildren().add(textHaveAc);
         anchorPane.getChildren().add(txtPassword);
-        anchorPane.getChildren().add(backbtnimg);
+        anchorPane.getChildren().add(arrow);
         getChildren().add(anchorPane);
 
     }

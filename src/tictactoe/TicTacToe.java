@@ -59,7 +59,7 @@ public class TicTacToe extends Application {
     public void start(Stage stage) throws Exception {
         Parent root = new homeBase(stage);
         Parent root2=new ComputerModeBase(stage,"O");
-        scene = new Scene(root2);
+        scene = new Scene(root);
         //drawPane = new DrawPane(this);        
 
 
