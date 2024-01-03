@@ -11,6 +11,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -22,32 +23,30 @@ import tictactoe.Views.computerMode.ComputerModeBase;
 public  class MachineViewBase extends AnchorPane {
 
     protected final ImageView imageView;
-    protected final Text titleText;
+    protected final Label headLabel;
     protected final Button recording;
     protected final Button continuw;
     protected final Button choseX;
     protected final Button choseO;
-    protected final ImageView arrowback;
     private boolean recordingClickState = false;
     private boolean continuwClickState = false;
     private boolean choseXClickState = false;
     private boolean choseOClickState = false;
-    FontAwesomeIcon awesome;
+    FontAwesomeIcon arrow;
     
     
       
         
     
     public MachineViewBase(Stage stage) {
-        awesome=new FontAwesomeIcon();
+        arrow=new FontAwesomeIcon();
         imageView = new ImageView();
-        titleText = new Text();
+        headLabel = new Label();
         recording = new Button();
         
         continuw = new Button();
         choseX = new Button();
         choseO = new Button();
-        arrowback = new ImageView();
 
         
     
@@ -63,14 +62,11 @@ public  class MachineViewBase extends AnchorPane {
         
         imageView.setImage(new Image(getClass().getResource("/assets/images/background.jpg").toExternalForm()));
 
-        titleText.setFill(javafx.scene.paint.Color.valueOf("#c5a0d7"));
-        titleText.setLayoutX(657.0);
-        titleText.setLayoutY(179.0);
-        titleText.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
-        titleText.setStrokeWidth(0.0);
-        titleText.setText("tic.tac.toe.");
-        titleText.setWrappingWidth(263.6708984375);
-        titleText.setFont(new Font("System Bold", 39.0));
+        headLabel.setLayoutX(614.0);
+        headLabel.setLayoutY(108.0);
+        headLabel.setText("tic.tac.toe.");
+        headLabel.setTextFill(javafx.scene.paint.Color.valueOf("#c5a0d7"));
+        headLabel.setFont(new Font("Arial Rounded MT Bold", 64.0));
 
         recording.setLayoutX(639.0);
         recording.setLayoutY(398.0);
@@ -183,13 +179,16 @@ public  class MachineViewBase extends AnchorPane {
     }
         });
          
-        arrowback.setFitHeight(52.0);
-        arrowback.setFitWidth(65.0);
-        arrowback.setLayoutX(524.0);
-        arrowback.setLayoutY(73.0);
-        arrowback.setPickOnBounds(true);
-        arrowback.setPreserveRatio(true);
-        arrowback.setOnMouseClicked(new EventHandler() {
+        arrow.setLayoutX(15.0);
+        arrow.setLayoutY(115.0);
+        arrow.setIcon(FontAwesomeIcons.ARROW_LEFT);
+        arrow.setSize("7em");
+        arrow.setId("arrow");
+        
+        arrow.scaleXProperty().add(1);
+        arrow.scaleYProperty().add(1);
+        arrow.scaleZProperty().add(1);
+        arrow.setOnMouseClicked(new EventHandler() {
 
             @Override
             public void handle(Event event) {
@@ -199,18 +198,13 @@ public  class MachineViewBase extends AnchorPane {
                 stage.show();
             }
         });
-
-        arrowback.setImage(new Image(getClass().getResource("/assets/images/arrowback.jpg").toExternalForm()));
-        
-        
-
         getChildren().add(imageView);
-        getChildren().add(titleText);
+        getChildren().add(headLabel);
         getChildren().add(recording);
         getChildren().add(continuw);
         getChildren().add(choseX);
         getChildren().add(choseO);
-        getChildren().add(arrowback);
+        getChildren().add(arrow);
 
     }
 }

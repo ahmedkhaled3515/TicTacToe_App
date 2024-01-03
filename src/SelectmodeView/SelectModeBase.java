@@ -199,6 +199,7 @@ public class SelectModeBase extends AnchorPane {
         arrow.setIcon(FontAwesomeIcons.ARROW_LEFT);
         arrow.setSize("7em");
         arrow.setId("arrow");
+        
         arrow.scaleXProperty().add(1);
         arrow.scaleYProperty().add(1);
         arrow.scaleZProperty().add(1);

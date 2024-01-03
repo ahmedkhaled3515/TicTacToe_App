@@ -1,10 +1,4 @@
-/*
- * Empty Stylesheet file.
- */
 
-.mainFxmlClass {
-
-}
 
 #arrow{
     -fx-fill:#d7049e;
@@ -15,3 +9,4 @@
     -fx-fill:#72CFF9;
     
 }
+

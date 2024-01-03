@@ -436,7 +436,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
         BorderPane.setAlignment(player2Text, javafx.geometry.Pos.CENTER);
         player2Text.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
         player2Text.setStrokeWidth(0.0);
-        player2Text.setText(player1);
+        player2Text.setText(player2);
         player2Text.setFont(new Font("Arial Bold", 27.0));
         BorderPane.setMargin(player2Text, new Insets(5.0, 0.0, 0.0, 0.0));
         score2Pane.setTop(player2Text);

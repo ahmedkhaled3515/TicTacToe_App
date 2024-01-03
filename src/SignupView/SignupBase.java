@@ -1,16 +1,26 @@
 package SignupView;
 
-//import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-//import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcons;
+import HomeView.homeBase;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcons;
 import java.net.URL;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javax.swing.GroupLayout;
+import tictactoe.Views.login.loginBase;
 
 public class SignupBase extends AnchorPane {
 
@@ -20,8 +30,8 @@ public class SignupBase extends AnchorPane {
     protected final Button online;
     protected final TextField mail;
     protected final TextField password;
-//    protected final FontAwesomeIcon arrow;
-
+    protected final FontAwesomeIcon arrow;
+    Label headLabel;
     public SignupBase(Stage stage) {
 
         imageView = new ImageView();
@@ -30,25 +40,24 @@ public class SignupBase extends AnchorPane {
         online = new Button();
         mail = new TextField();
         password = new TextField();
-//        arrow = new FontAwesomeIcon();
-
+        arrow = new FontAwesomeIcon();
+        headLabel = new Label();
         setId("AnchorPane");
-        setPrefHeight(634.0);
-        setPrefWidth(1034.0);
+        setPrefHeight(700.0);
+        setPrefWidth(1000.0);
         getStyleClass().add("mainFxmlClass");
         getStylesheets().add("/SignupView/signup.css");
+        getStylesheets().add(getClass().getResource("localstyle.css").toExternalForm());
 
-        imageView.setFitHeight(737.0);
-        imageView.setFitWidth(1076.0);
-        imageView.setLayoutX(-39.0);
-        imageView.setLayoutY(-100.0);
+        
+        imageView.setFitHeight(700.0);
+        imageView.setFitWidth(1000.0);
         imageView.setImage(new Image(getClass().getResource("/assets/images/background.jpg").toExternalForm()));
 
-        image.setFitHeight(118.0);
-        image.setFitWidth(298.0);
-        image.setLayoutX(733.0);
-        image.setLayoutY(14.0);
-        image.setImage(new Image(getClass().getResource("/assets/images/tictac.jpeg").toExternalForm()));
+        headLabel.setLayoutX(450);
+        headLabel.setLayoutY(90.0);
+        headLabel.setText("tic.tac.toe.");
+        headLabel.setFont(new Font("Arial Rounded MT Bold", 64.0));
 
         user.setAlignment(javafx.geometry.Pos.TOP_CENTER);
         user.setId("user");
@@ -107,22 +116,31 @@ public class SignupBase extends AnchorPane {
         password.setPadding(new Insets(0.0, 0.0, 0.0, 0.0));
         password.setOpaqueInsets(new Insets(0.0));
 
-//        arrow.setLayoutX(22.0);
-//        arrow.setLayoutY(96.0);
-//        arrow.setIcon(FontAwesomeIcons.ARROW_LEFT);
-//        arrow.setSize("7em");
-//        arrow.setId("arrow");
-//        arrow.scaleXProperty().add(1);
-//        arrow.scaleYProperty().add(1);
-//        arrow.scaleZProperty().add(1);
+        arrow.setLayoutX(22.0);
+        arrow.setLayoutY(96.0);
+        arrow.setIcon(FontAwesomeIcons.ARROW_LEFT);
+        arrow.setSize("7em");
+        arrow.setId("arrow");
+        arrow.scaleXProperty().add(1);
+        arrow.scaleYProperty().add(1);
+        arrow.scaleZProperty().add(1);
+        arrow.setOnMouseClicked(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                Parent root = new loginBase(stage) ;
+                Scene scene = new Scene(root,1000,700);
+                stage.setScene(scene);
+                stage.show();
+            }
+        });
 
         getChildren().add(imageView);
-        getChildren().add(image);
+        getChildren().add(headLabel);
         getChildren().add(user);
         getChildren().add(online);
         getChildren().add(mail);
         getChildren().add(password);
-//        getChildren().add(arrow);
+        getChildren().add(arrow);
 
     }
 }
