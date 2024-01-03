@@ -1,0 +1,34 @@
+#arrow{
+    -fx-fill:#d7049e;
+    
+}
+
+#arrow:hover{
+    -fx-fill:#72CFF9;
+    
+}
+
+#online{
+     -fx-background-color: BCDBF9; 
+    -fx-background-radius: 26;
+}
+
+#online:hover{
+     -fx-background-color: D7049E; 
+    -fx-background-radius: 26;
+}
+.text{
+    -fx-fill:#5a1e76;
+}
+.text:hover { 
+    -fx-fill: F4F6F5;   
+}
+#headLabel {
+    -fx-alignment: center;
+    -fx-fill: white;
+}
+
+.text-field{
+    -fx-prompt-text-fill:#BFA6CB;
+}
+

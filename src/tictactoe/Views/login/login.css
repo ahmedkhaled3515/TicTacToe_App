@@ -1,0 +1,26 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.button{
+    
+    -fx-background-color: #48D2FE;
+    -fx-background-size:100% 100%;
+    -fx-text-fill: black;
+     -fx-font-weight: bold;
+    -fx-content-display: center;
+    -fx-background-radius: 30;
+}
+
+.text-field{
+
+   -fx-font-size: 18;
+   -fx-background-radius: 20;
+   -fx-background-color: white;
+   -fx-text-fill: black;
+    -fx-prompt-text-fill: black;
+    
+ 
+
+}
+

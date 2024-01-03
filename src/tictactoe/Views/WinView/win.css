@@ -1,0 +1,15 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.win {
+    /* Add any common styles for the WinPane here */
+}
+
+.hover-button {
+    -fx-background-color: d7049e;
+}
+
+.hover-button:hover {
+    -fx-background-color: lightcoral;
+}

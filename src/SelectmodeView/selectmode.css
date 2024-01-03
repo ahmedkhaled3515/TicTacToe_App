@@ -1,0 +1,56 @@
+.text{
+    -fx-fill:#5a1e76;
+}
+.text:hover { 
+    -fx-fill: F4F6F5;   
+}
+
+#local{
+     -fx-background-color: #72CFF9; 
+    -fx-background-radius: 26;
+}
+
+#local:hover{
+     -fx-background-color: D7049E; 
+    -fx-background-radius: 26;
+}
+
+#com{
+     -fx-background-color: #72CFF9; 
+    -fx-background-radius: 26;
+}
+
+#com:hover{
+     -fx-background-color: D7049E; 
+    -fx-background-radius: 26;
+}
+
+#online{
+     -fx-background-color: #72CFF9; 
+    -fx-background-radius: 26;
+}
+
+#online:hover{
+     -fx-background-color: D7049E; 
+    -fx-background-radius: 26;
+}
+
+#user{
+    -fx-fill:#d7049e;
+    
+}
+
+#user:hover{
+    -fx-fill:#72CFF9;
+    
+}
+
+#arrow{
+    -fx-fill:#d7049e;
+}
+
+#arrow:hover{
+    -fx-fill:#72CFF9;
+    
+}
+

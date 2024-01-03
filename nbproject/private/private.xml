@@ -3,9 +3,58 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/tictactoe/FXMLDocumentController.java</file>
-            <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/tictactoe/FXMLDocument.fxml</file>
+<<<<<<< HEAD
+            <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/tictactoe/Views/computerMode/ComputerMode.fxml</file>
+            <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/tictactoe/Views/login/loginBase.java</file>
+            <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/SelectmodeView/SelectModeBase.java</file>
+            <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/tictactoe/localmode/LocalViewBase.java</file>
+            <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/tictactoe/Views/computerMode/ComputerModeBase.java</file>
+            <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/tictactoe/Views/DrawView/DrawPane.java</file>
+            <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/tictactoe/Views/computerMode/computermode.css</file>
+            <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/tictactoe/Views/WinView/WinPane.java</file>
             <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/tictactoe/TicTacToe.java</file>
+            <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/HomeView/homeBase.java</file>
+            <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/tictactoe/machineView/MachineViewBase.java</file>
+            <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/tictactoe/Views/LoseView/LosePane.java</file>
         </group>
+        <group>
+            <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/tictactoe/localmode/LocalViewBase.java</file>
+            <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/tictactoe/Views/LocalMode2Players/GameBoardBase2Players.java</file>
+            <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/tictactoe/machineView/MachineViewBase.java</file>
+            <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/tictactoe/localmode/LocalView.java</file>
+        </group>
+        <group/>
+=======
+            <file>file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/DrawView/DrawPane.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/machineView/MachineViewBase.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/TicTacToe.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/LocalMode2Players/GameBoardBase2Players.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe_App/src/HomeView/homeBase.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe_App/src/SelectmodeView/SelectModeBase.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/LoseView/LosePane.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/LocalMode2Players/LocalMode2PlayersController.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe_App/src/SignupView/SignupBase.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/localmode/LocalViewBase.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/WinView/WinPane.java</file>
+        </group>
+        <group>
+            <file>file:/D:/TicTacToe/TicTacToe_App/src/recordlocalmode2players.css</file>
+            <file>file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/LocalMode2Players/GameBoardBase2Players.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe_App/src/HomeView/homeBase.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe_App/src/SelectmodeView/SelectModeBase.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/LoseView/LosePane.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe_App/src/SignupView/SignupBase.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/localmode/LocalViewBase.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/DrawView/DrawPane.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/machineView/MachineViewBase.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/TicTacToe.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/LocalMode2Players/LocalMode2PlayersController.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe_App/src/RecordLocalMode2Players.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/WinView/WinPane.java</file>
+        </group>
+        <group>
+            <file>file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/LocalMode2Players/GameBoardBase2Players.java</file>
+        </group>
+>>>>>>> f4fc37257435fe23b4fba966272e1cdc64ac4db0
     </open-files>
 </project-private>
