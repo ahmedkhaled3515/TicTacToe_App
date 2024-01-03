@@ -115,7 +115,8 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
     boolean button7Flag=true;
     boolean button8Flag=true; 
     boolean xStartFirst=true;
-    String player1,player2;
+    String player1="Player 1";
+    String player2="Player 2";
     boolean button0ArrayFlag=true;
     boolean button1ArrayFlag=true;
     boolean button2ArrayFlag=true;
@@ -128,8 +129,15 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
     String[][][] saveXOMovements;
     int movementCounter=0;
     public GameBoardBase2Players(Stage stage,String name1,String name2) {
-        player1=name1;
-        player2=name2;
+        if(!name1.isEmpty())
+        {
+            player1=name1;
+        }
+        if(!name2.isEmpty())
+        {
+            player2=name2;
+
+        }
 
     
     
@@ -1191,7 +1199,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
         String videoFile = "file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/LocalMode2Players/DrawVideo2.mp4";
                                 
         // Create a Media object
-        Media media = new Media(getClass().getResource("/assets/videos/DrawVideo22.mp4").toExternalForm());
+        Media media = new Media(getClass().getResource("/assets/videos/DrawVideo2.mp4").toExternalForm());
 
         // Create a MediaPlayer
         MediaPlayer mediaPlayer6 = new MediaPlayer(media);
