@@ -26,6 +26,7 @@ import tictactoe.Views.LocalMode2Players.GameBoardBase2Players;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcons;
 
+
 public  class LocalViewBase extends AnchorPane {
 
     protected final AnchorPane anchorPane;
