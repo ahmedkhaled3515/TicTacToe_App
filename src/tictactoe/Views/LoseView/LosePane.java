@@ -20,6 +20,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import static org.omg.CORBA.ORB.init;
 import tictactoe.TicTacToe;
@@ -32,9 +33,9 @@ public class LosePane extends Pane {
     protected final Button mainMenuButton;
     protected final ImageView mainMenuImage;
     protected final Text loseText;
-
+    Stage stage;
     
-    public LosePane(TicTacToe mainApp) {
+    public LosePane(Stage stage) {
 
         backgroundImage = new ImageView();
         playAgainButton = new Button();
@@ -42,7 +43,7 @@ public class LosePane extends Pane {
         mainMenuButton = new Button();
         mainMenuImage = new ImageView();
         loseText = new Text();
-
+        this.stage=stage;
         setMaxHeight(USE_PREF_SIZE);
         setMaxWidth(USE_PREF_SIZE);
         setMinHeight(USE_PREF_SIZE);
@@ -57,7 +58,7 @@ public class LosePane extends Pane {
         backgroundImage.setPickOnBounds(true);
         backgroundImage.setPreserveRatio(true);
         backgroundImage.getStyleClass().add("win");
-        backgroundImage.setImage(new Image(getClass().getResource("BackgroundImage.png").toExternalForm()));
+        backgroundImage.setImage(new Image(getClass().getResource("/assets/images/backgroundImageGif.gif").toExternalForm()));
 
         playAgainButton.setLayoutX(650.0);
         playAgainButton.setLayoutY(500.0);
@@ -72,10 +73,10 @@ public class LosePane extends Pane {
         playAgainButton.setOnMouseExited(event -> {
             playAgainButton.setStyle("-fx-background-color:C5A0D7 ;");
         });
-                playAgainButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        playAgainButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                mainApp.switchToDrawPane();
+              //  mainApp.switchToDrawPane();
             }
         });
  
@@ -87,7 +88,7 @@ public class LosePane extends Pane {
         playAgainImage.setLayoutY(510.0);
         playAgainImage.setPickOnBounds(true);
         playAgainImage.setPreserveRatio(true);
-        playAgainImage.setImage(new Image(getClass().getResource("replay.png").toExternalForm()));
+        playAgainImage.setImage(new Image(getClass().getResource("/assets/images/Replay2.png").toExternalForm()));
 
         mainMenuButton.setLayoutX(650.0);
         mainMenuButton.setLayoutY(400.0);
@@ -116,7 +117,7 @@ public class LosePane extends Pane {
         mainMenuImage.setLayoutY(410.0);
         mainMenuImage.setPickOnBounds(true);
         mainMenuImage.setPreserveRatio(true);
-        mainMenuImage.setImage(new Image(getClass().getResource("main-menu_3916045.png").toExternalForm()));
+        mainMenuImage.setImage(new Image(getClass().getResource("/assets/images/main-menu_3916045.png").toExternalForm()));
 
         loseText.setFill(javafx.scene.paint.Color.valueOf("#d7049e"));
         loseText.setLayoutX(660);
@@ -165,10 +166,10 @@ public class LosePane extends Pane {
     }
     
         public void LosePlayVideo() {
-        String videoFile = "file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/LoseView/LoseVideo.mp4";
+        String videoFile = "/assets/videos/LoseVideo.mp4";
 
         // Create a Media object
-        Media media = new Media(videoFile);
+        Media media = new Media(getClass().getResource(videoFile).toExternalForm());
 
         // Create a MediaPlayer
         MediaPlayer mediaPlayer = new MediaPlayer(media);
@@ -204,8 +205,8 @@ public class LosePane extends Pane {
         
          public void mainMenuButtonSound(){
         // Load the sound file
-        String soundFile = "file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/WinView/ClickSoundEffect.mp3";
-        Media sound = new Media(soundFile);
+        String soundFile = "/assets/sounds/ClickSoundEffect.mp3";
+        Media sound = new Media(getClass().getResource(soundFile).toExternalForm());
         MediaPlayer mediaPlayer = new MediaPlayer(sound);
                 // Play the sound when hovering over the button
         mainMenuButton.setOnMouseEntered(event -> {
@@ -216,8 +217,8 @@ public class LosePane extends Pane {
     
         public void playAgainButtonSound(){
         // Load the sound file
-        String soundFile = "file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/WinView/ClickSoundEffect.mp3";
-        Media sound = new Media(soundFile);
+        String soundFile = "/assets/sounds/ClickSoundEffect.mp3";
+        Media sound = new Media(getClass().getResource(soundFile).toExternalForm());
         MediaPlayer mediaPlayer = new MediaPlayer(sound);
         // Play the sound when hovering over the button
         playAgainButton.setOnMouseEntered(event -> {

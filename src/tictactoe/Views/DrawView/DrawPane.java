@@ -2,6 +2,8 @@ package tictactoe.Views.DrawView;
 
 import javafx.animation.RotateTransition;
 import javafx.animation.TranslateTransition;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.control.Button;
@@ -9,6 +11,7 @@ import javafx.scene.effect.InnerShadow;
 import javafx.scene.effect.Reflection;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
@@ -18,8 +21,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import tictactoe.TicTacToe;
+import tictactoe.Views.LocalMode2Players.GameBoardBase2Players;
 
 public class DrawPane extends Pane {
 
@@ -29,9 +34,10 @@ public class DrawPane extends Pane {
     protected final Button mainMenuButton;
     protected final ImageView mainMenuImage;
     protected final Text drawText;
-
-    public DrawPane(TicTacToe mainApp) {
-
+    Stage stage;
+    
+    public DrawPane(Stage stage) {
+        this.stage=stage;
         backgroundImage = new ImageView();
         playAgainButton = new Button();
         playAgainImage = new ImageView();
@@ -43,17 +49,17 @@ public class DrawPane extends Pane {
         setMaxWidth(USE_PREF_SIZE);
         setMinHeight(USE_PREF_SIZE);
         setMinWidth(USE_PREF_SIZE);
-        setPrefHeight(400.0);
-        setPrefWidth(600.0);
+        setPrefHeight(700);
+        setPrefWidth(1000);
 
         backgroundImage.setFitHeight(700.0);
-        backgroundImage.setFitWidth(1100.0);
+        backgroundImage.setFitWidth(1000.0);
         backgroundImage.setLayoutX(0.0);
         backgroundImage.setLayoutY(0.0);
         backgroundImage.setPickOnBounds(true);
         backgroundImage.setPreserveRatio(true);
         backgroundImage.getStyleClass().add("win");
-        backgroundImage.setImage(new Image(getClass().getResource("BackgroundImage.png").toExternalForm()));
+        backgroundImage.setImage(new Image(getClass().getResource("/assets/images/backgroundImageGif.gif").toExternalForm()));
 
         playAgainButton.setLayoutX(650.0);
         playAgainButton.setLayoutY(500.0);
@@ -69,14 +75,27 @@ public class DrawPane extends Pane {
             playAgainButton.setStyle("-fx-background-color:C5A0D7;");
         });
         
+        playAgainButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+               
+             }
+        });
+        
+        
+        
+        
         playAgainImage.setFitHeight(33.0);
         playAgainImage.setFitWidth(38.0);
         playAgainImage.setLayoutX(660.0);
         playAgainImage.setLayoutY(510.0);
         playAgainImage.setPickOnBounds(true);
         playAgainImage.setPreserveRatio(true);
-        playAgainImage.setImage(new Image(getClass().getResource("replay.png").toExternalForm()));
+        playAgainImage.setImage(new Image(getClass().getResource("/assets/images/Replay2.png").toExternalForm()));
 
+        
+        
+        
         mainMenuButton.setLayoutX(650.0);
         mainMenuButton.setLayoutY(400.0);
         mainMenuButton.setMnemonicParsing(false);
@@ -90,6 +109,7 @@ public class DrawPane extends Pane {
         mainMenuButton.setOnMouseExited(event -> {
             mainMenuButton.setStyle("-fx-background-color:C5A0D7 ;");
         });
+
           
         mainMenuImage.setFitHeight(33.0);
         mainMenuImage.setFitWidth(38.0);
@@ -97,7 +117,7 @@ public class DrawPane extends Pane {
         mainMenuImage.setLayoutY(410.0);
         mainMenuImage.setPickOnBounds(true);
         mainMenuImage.setPreserveRatio(true);
-        mainMenuImage.setImage(new Image(getClass().getResource("main-menu_3916045.png").toExternalForm()));
+        mainMenuImage.setImage(new Image(getClass().getResource("/assets/images/main-menu_3916045.png").toExternalForm()));
 
         drawText.setFill(javafx.scene.paint.Color.valueOf("#d7049e"));
         drawText.setLayoutX(660.0);
@@ -147,11 +167,11 @@ public class DrawPane extends Pane {
     
     
      public void DrawPlayVideo() {
-        String videoFile = "file:/C:/Users/Dell/Desktop/Tic%20tac%20toe%20project/TicTacToe_App/src/tictactoe/Views/DrawView/DrawVideo.mp4";
 
+        String videoFile = "/assets/videos/DrawVideo2.mp4";
 
         // Create a Media object
-        Media media = new Media(videoFile);
+        Media media = new Media(getClass().getResource(videoFile).toExternalForm());
 
         // Create a MediaPlayer
         MediaPlayer mediaPlayer = new MediaPlayer(media);
@@ -160,8 +180,8 @@ public class DrawPane extends Pane {
         MediaView mediaView = new MediaView(mediaPlayer);
 
         // Set the size of the MediaView to fit the screen without cropping
-        mediaView.setFitWidth(800.0);
-        mediaView.setFitHeight(800.0);
+        mediaView.setFitWidth(1000.0);
+        mediaView.setFitHeight(700.0);
 
         // Set the position of the MediaView within the WinPane
         mediaView.setLayoutX(100.0); // Set X position
@@ -198,8 +218,8 @@ public class DrawPane extends Pane {
     */
         public void playAgainButtonSound(){
         // Load the sound file
-        String soundFile = "file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/WinView/ClickSoundEffect.mp3";
-        Media sound = new Media(soundFile);
+        String soundFile = "/assets/sounds/ClickSoundEffect.mp3";
+        Media sound = new Media(getClass().getResource(soundFile).toExternalForm());
         MediaPlayer mediaPlayer = new MediaPlayer(sound);
         // Play the sound when hovering over the button
         playAgainButton.setOnMouseEntered(event -> {

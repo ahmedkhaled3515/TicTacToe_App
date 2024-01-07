@@ -1,5 +1,8 @@
 package tictactoe.Views.WinView;
 
+//import Libraries.fxyz3d.geometry.Point3D;
+//import Libraries.fxyz3d.shapes.composites.Text3DMesh;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.RotateTransition;
@@ -46,9 +49,10 @@ public class WinPane extends AnchorPane {
     protected final ImageView mainMenuImage;
     protected final Text winText;
     protected final Button playAgainButtonSound;
-    
-    
-    public WinPane(TicTacToe mainApp) {
+   // protected final Text3DMesh winText3D; 
+    Stage stage;
+    public WinPane(Stage stage) {
+        this.stage=stage;
         backgroundImage = new ImageView();
         playAgainButton = new Button();
         playAgainImage = new ImageView();
@@ -58,16 +62,17 @@ public class WinPane extends AnchorPane {
         winText = new Text();
         
 
-        setPrefSize(1000.0, 700.0);
+        setPrefHeight(700);
+        setPrefWidth(1000);
 
         backgroundImage.setFitHeight(700.0);
-        backgroundImage.setFitWidth(1100.0);
+        backgroundImage.setFitWidth(1000.0);
         backgroundImage.setLayoutX(0.0);
         backgroundImage.setLayoutY(0.0);
         backgroundImage.setPickOnBounds(true);
         backgroundImage.setPreserveRatio(true);
         backgroundImage.getStyleClass().add("win");
-        backgroundImage.setImage(new Image(getClass().getResource("BackgroundImage.png").toExternalForm()));
+        backgroundImage.setImage(new Image(getClass().getResource("/assets/images/backgroundImageGif.gif").toExternalForm()));
 
         playAgainButton.setLayoutX(650.0);
         playAgainButton.setLayoutY(500.0);
@@ -86,7 +91,8 @@ public class WinPane extends AnchorPane {
         playAgainButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                mainApp.switchToLosePane();
+               // mainApp.switchToLosePane();
+               
             }
         });
 
@@ -96,7 +102,7 @@ public class WinPane extends AnchorPane {
         playAgainImage.setLayoutY(510.0);
         playAgainImage.setPickOnBounds(true);
         playAgainImage.setPreserveRatio(true);
-        playAgainImage.setImage(new Image(getClass().getResource("replay.png").toExternalForm()));
+        playAgainImage.setImage(new Image(getClass().getResource("/assets/images/Replay2.png").toExternalForm()));
 
         
         mainMenuButton.setLayoutX(650.0);
@@ -120,8 +126,17 @@ public class WinPane extends AnchorPane {
         mainMenuImage.setLayoutY(410.0);
         mainMenuImage.setPickOnBounds(true);
         mainMenuImage.setPreserveRatio(true);
-        mainMenuImage.setImage(new Image(getClass().getResource("main-menu_3916045.png").toExternalForm()));
+        mainMenuImage.setImage(new Image(getClass().getResource("/assets/images/main-menu_3916045.png").toExternalForm()));
 
+        /*
+        winText3D = create3DTextMesh("Win");
+        winText3D.setTranslateX(660.0);
+        winText3D.setTranslateY(250.0);
+        winText3D.setTranslateZ(0.0);
+
+        getChildren().add(winText3D);
+        
+        */
         winText.setFill(javafx.scene.paint.Color.valueOf("#d7049e"));
         winText.setLayoutX(660.0);
         winText.setLayoutY(250.0);
@@ -171,10 +186,9 @@ public class WinPane extends AnchorPane {
     }
 
     public void WinPlayVideo() {
-        String videoFile = "tictactoe/Views/WinView/WinVideo.mp4";
 
         // Create a Media object
-        Media media = new Media(videoFile);
+        Media media = new Media(getClass().getResource("/assets/videos/WinVideo.mp4").toExternalForm());
 
         // Create a MediaPlayer
         MediaPlayer mediaPlayer = new MediaPlayer(media);
@@ -206,7 +220,7 @@ public class WinPane extends AnchorPane {
             mediaView.setVisible(false);
         });
     }
-    
+} 
     /*
     public void mainMenuButtonSound(){
         // Load the sound file
@@ -233,7 +247,19 @@ public class WinPane extends AnchorPane {
         });
     }
     */
-   
-    
+   /*
+       private Text3DMesh create3DTextMesh(String text) {
+        Text3DMesh text3DMesh = new Text3DMesh(text);
+        text3DMesh.setScale(2); // Adjust the scale as needed
+
+        text3DMesh.setRotationAxis(Rotate.Y_AXIS);
+        text3DMesh.setRotate(30); // Adjust the rotation angle
+        text3DMesh.setTranslateZ(-30); // Adjust the extrusion depth
+
+        text3DMesh.setColor(Color.valueOf("#d7049e"));
+
+        return text3DMesh;
+    }
 
 }
+*/
