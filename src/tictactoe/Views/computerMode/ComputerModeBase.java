@@ -360,6 +360,7 @@ public class ComputerModeBase extends AnchorPane {
         text.setFont(new Font("Arial Bold", 18.0));
         BorderPane.setMargin(text, new Insets(5.0, 0.0, 0.0, 0.0));
         score1Pane.setTop(text);
+        
 
         BorderPane.setAlignment(score1CountText, javafx.geometry.Pos.CENTER);
         score1CountText.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);

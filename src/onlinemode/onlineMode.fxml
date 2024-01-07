@@ -15,7 +15,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="672.0" prefWidth="944.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="onlinemode.OnlineModeController">
+<AnchorPane id="AnchorPane" prefHeight="672.0" prefWidth="944.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="onlinemode.OnlineModeController">
     <stylesheets>
         <URL value="@onlinemode.css" />
     </stylesheets>
@@ -53,8 +53,11 @@
                   <Text fx:id="player1Txt" strokeType="OUTSIDE" strokeWidth="0.0" text="Player1" BorderPane.alignment="CENTER" />
                </top>
                <center>
-                  <Text fx:id="player1ScoreTxt" strokeType="OUTSIDE" strokeWidth="0.0" text="0" BorderPane.alignment="CENTER" />
+                  <Text fx:id="player1ScoreTxt" layoutX="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" BorderPane.alignment="CENTER" />
                </center>
+               <GridPane.margin>
+                  <Insets right="5.0" />
+               </GridPane.margin>
             </BorderPane>
             <BorderPane fx:id="borderPane2" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: C5A0D7;" GridPane.columnIndex="1">
                <top>
@@ -63,6 +66,9 @@
                <center>
                   <Text fx:id="drawScoreTxt" strokeType="OUTSIDE" strokeWidth="0.0" text="0" BorderPane.alignment="CENTER" />
                </center>
+               <GridPane.margin>
+                  <Insets left="5.0" right="5.0" />
+               </GridPane.margin>
             </BorderPane>
             <BorderPane fx:id="borderPane3" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: C5A0D7;" GridPane.columnIndex="2">
                <opaqueInsets>
@@ -74,6 +80,9 @@
                <center>
                   <Text fx:id="player2ScoreTxt" strokeType="OUTSIDE" strokeWidth="0.0" text="0" BorderPane.alignment="CENTER" />
                </center>
+               <GridPane.margin>
+                  <Insets left="5.0" right="5.0" />
+               </GridPane.margin>
             </BorderPane>
          </children>
       </GridPane>
