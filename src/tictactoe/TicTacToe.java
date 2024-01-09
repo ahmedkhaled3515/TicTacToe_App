@@ -22,7 +22,6 @@ import tictactoe.Views.WinView.WinPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
-import onlinemode.onlineModeBase;
 import onlinemode.onlineModeGeneratedBase;
 import tictactoe.Views.DrawView.DrawPane;
 import tictactoe.Views.LoseView.LosePane;

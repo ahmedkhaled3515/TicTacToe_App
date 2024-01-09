@@ -639,7 +639,15 @@ public class onlineModeGeneratedBase extends AnchorPane {
         getChildren().add(menueBtn);
         getChildren().add(player1Label);
         getChildren().add(player2Label);
-
+        topLeftBtn.setStyle("-fx-background-color: #d7049e; -fx-text-fill: white;");
+        topBtn.setStyle("-fx-background-color: #d7049e; -fx-text-fill: white;");
+        topRightBtn.setStyle("-fx-background-color: #d7049e; -fx-text-fill: white;");
+        centerLeftBtn.setStyle("-fx-background-color: #d7049e; -fx-text-fill: white;");
+        centerBtn.setStyle("-fx-background-color: #d7049e; -fx-text-fill: white;");
+        centerRightBtn.setStyle("-fx-background-color: #d7049e; -fx-text-fill: white;");
+        downLeftBtn.setStyle("-fx-background-color: #d7049e; -fx-text-fill: white;");
+        downBtn.setStyle("-fx-background-color: #d7049e; -fx-text-fill: white;");
+        downRightBtn.setStyle("-fx-background-color: #d7049e; -fx-text-fill: white;");
  
         
         firstTurn();
@@ -672,7 +680,15 @@ public class onlineModeGeneratedBase extends AnchorPane {
 
     }
 
+public void oWins(int index1, int index2, int index3) {
+        buttonArr[index1].setStyle("-fx-background-color: #5A1E76;");
+        buttonArr[index2].setStyle("-fx-background-color: #5A1E76;");
+        buttonArr[index3].setStyle("-fx-background-color: #5A1E76;");
+        oWinsVideo();
+        player1Label.setText("Player1 ");
+            player2Label.setText("Player2");
 
+    }
 
     public void checkWinner() {
         
@@ -847,9 +863,78 @@ public class onlineModeGeneratedBase extends AnchorPane {
         });
     }
 
+   public void oWinsVideo() {
+        String videoFile = "file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/LocalMode2Players/OWinsVideo.mp4";
+
+        // Create a Media object
+        Media media = new Media(getClass().getResource("/assets/videos/OWinsVideo.mp4").toExternalForm());
+
+        // Create a MediaPlayer
+        MediaPlayer mediaPlayer4 = new MediaPlayer(media);
+
+        // Create a MediaView to display the video
+        MediaView mediaView = new MediaView(mediaPlayer4);
+
+        // Set the size of the MediaView to fit the screen without cropping
+        mediaView.setFitWidth(800.0);
+        mediaView.setFitHeight(800.0);
+
+        // Set the position of the MediaView within the WinPane
+        mediaView.setLayoutX(100.0); // Set X position
+        mediaView.setLayoutY(130.0);  // Set Y position
+
+        // Set the position of the MediaView within the WinPane
+        StackPane.setAlignment(mediaView, Pos.CENTER);
+
+        // Play the video
+        mediaPlayer4.play();
+
+        // Add the MediaView to the WinPane
+        getChildren().add(mediaView);
+
+        mediaPlayer4.setOnEndOfMedia(() -> {
+            System.out.println("Video finished");
+            mediaView.setVisible(false);
+        });
+    }
    
 
-   
+public void DrawPlayVideo() {
+        String videoFile = "file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/LocalMode2Players/DrawVideo2.mp4";
+
+        // Create a Media object
+        Media media = new Media(getClass().getResource("/assets/videos/DrawVideo2.mp4").toExternalForm());
+
+        // Create a MediaPlayer
+        MediaPlayer mediaPlayer6 = new MediaPlayer(media);
+
+        // Create a MediaView to display the video
+        MediaView mediaView = new MediaView(mediaPlayer6);
+
+        // Set the size of the MediaView to fit the screen without cropping
+        mediaView.setFitWidth(800.0);
+        mediaView.setFitHeight(800.0);
+
+        // Set the position of the MediaView within the WinPane
+        mediaView.setLayoutX(100.0); // Set X position
+        mediaView.setLayoutY(120.0);  // Set Y position
+
+        // Set the position of the MediaView within the WinPane
+        StackPane.setAlignment(mediaView, Pos.CENTER);
+
+        // Play the video
+        mediaPlayer6.play();
+
+        // Add the MediaView to the WinPane
+        getChildren().add(mediaView);
+
+        // Set the event handler for when the media finishes playing
+        mediaPlayer6.setOnEndOfMedia(() -> {
+            // Add any additional actions when the video finishes
+            System.out.println("Video finished");
+            mediaView.setVisible(false);
+        });
+    }   
 
     public void setDisableBtn() {
         for (int i = 0; i < 9; i++) {
@@ -870,6 +955,15 @@ public class onlineModeGeneratedBase extends AnchorPane {
         }
       
 
-        
+        public void playerOScore(){
+            if(player1 == "O"){
+                player1Score++;
+                player1ScoreTxt.setText(String.valueOf(player1Score));
+            }
+            else{
+               player2Score++;
+                player2ScoreTxt.setText(String.valueOf(player2Score)); 
+            }
+        }
 
 }
