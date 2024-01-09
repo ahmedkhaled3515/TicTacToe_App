@@ -61,8 +61,11 @@
                   <Text fx:id="player1Txt" strokeType="OUTSIDE" strokeWidth="0.0" text="Player 1" BorderPane.alignment="CENTER" />
                </top>
                <center>
-                  <Text fx:id="player1ScoreTxt" strokeType="OUTSIDE" strokeWidth="0.0" text="0" BorderPane.alignment="CENTER" />
+                  <Text fx:id="player1ScoreTxt" layoutX="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" BorderPane.alignment="CENTER" />
                </center>
+               <GridPane.margin>
+                  <Insets right="5.0" />
+               </GridPane.margin>
             </BorderPane>
             <BorderPane prefHeight="111.0" prefWidth="119.0" GridPane.columnIndex="1">
                <top>
@@ -71,6 +74,9 @@
                <center>
                   <Text fx:id="drawScoreTxt" strokeType="OUTSIDE" strokeWidth="0.0" text="0" BorderPane.alignment="CENTER" />
                </center>
+               <GridPane.margin>
+                  <Insets left="5.0" right="5.0" />
+               </GridPane.margin>
             </BorderPane>
             <BorderPane prefHeight="111.0" prefWidth="119.0" GridPane.columnIndex="2">
                <top>
@@ -79,6 +85,9 @@
                <center>
                   <Text fx:id="player2ScoreTxt" strokeType="OUTSIDE" strokeWidth="0.0" text="0" BorderPane.alignment="CENTER" />
                </center>
+               <GridPane.margin>
+                  <Insets left="5.0" right="5.0" />
+               </GridPane.margin>
             </BorderPane>
          </children>
       </GridPane>
