@@ -2,6 +2,19 @@
  * Empty Stylesheet file.
  */
 
-.mainFxmlClass {
 
+X{
+    -fx-background-color: C5A0D7;
+    -fx-background-radius: 15;
+    -fx-font-size: 50;
+    -fx-font-weight:bold;
+    -fx-text-fill: #3E4D8C;
+    
+}
+O{
+    -fx-background-color: C5A0D7;
+    -fx-background-radius: 15;
+    -fx-font-size: 50;
+    -fx-font-weight:bold;
+    -fx-text-fill: #FF3B8B;
 }
