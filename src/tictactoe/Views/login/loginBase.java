@@ -1,7 +1,10 @@
 package tictactoe.Views.login;
 
+import Requests.App;
+import Requests.Message;
 import SelectmodeView.SelectModeBase;
 import SignupView.SignupBase;
+import com.google.gson.Gson;
 import java.awt.event.MouseEvent;
 import java.net.URL;
 import javafx.event.Event;
@@ -82,6 +85,17 @@ public class loginBase extends AnchorPane {
         btnLogin.setPrefHeight(36.0);
         btnLogin.setPrefWidth(174.0);
         btnLogin.setText("Login");
+        App.startConnection();
+        Gson gson=new Gson();
+        btnLogin.setOnAction((event) -> {
+           Message msg=new Message();
+           msg.setEmail("ahmed");
+           msg.setType("login");
+           String message=gson.toJson(msg);
+            System.out.println(message);
+           App.output.println(message);
+           App.output.flush();
+        });
 
         textHaveAc.setFill(javafx.scene.paint.Color.valueOf("#e8e5e5"));
         textHaveAc.setLayoutX(635.0);
