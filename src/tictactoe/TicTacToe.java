@@ -6,6 +6,7 @@
 package tictactoe;
 
 import HomeView.homeBase;
+import RecordView.RecordBase;
 import SelectmodeView.SelectModeBase;
 import SignupView.SignupBase;
 import javafx.application.Application;
@@ -58,7 +59,7 @@ public class TicTacToe extends Application {
     private Stage stage;
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = new onlineModeGeneratedBase(stage);
+        Parent root = new RecordBase(stage);
         Parent root2=new ComputerModeBase(stage,"O");
         scene = new Scene(root);
         //drawPane = new DrawPane(this);        
