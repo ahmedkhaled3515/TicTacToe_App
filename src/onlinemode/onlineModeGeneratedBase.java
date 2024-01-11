@@ -1,8 +1,18 @@
 package onlinemode;
 
 import SelectmodeView.SelectModeBase;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.net.URL;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -69,9 +79,10 @@ public class onlineModeGeneratedBase extends AnchorPane {
     public String player1, player2;
     public int player1Score,player2Score,drawScore;
      Random random = new Random();
-
-    public onlineModeGeneratedBase(Stage stage) {
-          
+    Socket server;
+    PrintWriter output;
+    BufferedReader input;
+    public onlineModeGeneratedBase(Stage stage,Socket server) {
         imageView = new ImageView();
         gridPane = new GridPane();
         columnConstraints = new ColumnConstraints();
@@ -81,14 +92,23 @@ public class onlineModeGeneratedBase extends AnchorPane {
         rowConstraints0 = new RowConstraints();
         rowConstraints1 = new RowConstraints();
         topLeftBtn = new Button();
+        topLeftBtn.setUserData(0);
         topBtn = new Button();
+        topBtn.setUserData(1);
         topRightBtn = new Button();
+        topRightBtn.setUserData(2);
         centerLeftBtn = new Button();
+        centerLeftBtn.setUserData(3);
         centerBtn = new Button();
+        centerBtn.setUserData(4);
         centerRightBtn = new Button();
+        centerRightBtn.setUserData(5);
         downLeftBtn = new Button();
+        downLeftBtn.setUserData(6);
         downBtn = new Button();
+        downBtn.setUserData(7);
         downRightBtn = new Button();
+        downRightBtn.setUserData(8);
         gridPane0 = new GridPane();
         columnConstraints2 = new ColumnConstraints();
         columnConstraints3 = new ColumnConstraints();
@@ -107,9 +127,6 @@ public class onlineModeGeneratedBase extends AnchorPane {
         menueBtn = new Button();
         player1Label = new Text();
         player2Label = new Text();
-        
-        
-        
         buttonArr[0] = topLeftBtn;
         buttonArr[1] = topBtn;
         buttonArr[2] = topRightBtn;
@@ -167,31 +184,70 @@ public class onlineModeGeneratedBase extends AnchorPane {
         topLeftBtn.setMnemonicParsing(false);
         topLeftBtn.setPrefHeight(102.0);
         topLeftBtn.setPrefWidth(178.0);
-         topLeftBtn.setFont(new Font(50));
+        topLeftBtn.setFont(new Font(50));
         topLeftBtn.setStyle("-fx-text-stroke: white;");
-        topLeftBtn.setOnMouseClicked(new EventHandler() {
-
-            @Override
-            public void handle(Event event) {
-                if (player1Turn) {
-                    if (topLeftBtn.getText() == "") {
-                        topLeftBtn.setText(player1);
-                        player1Turn = false;
-                        player2Label.setText("Player2 Turn");
-                        player1Label.setText("Player1 ");
-                        checkWinner();
+        this.server=server;
+        try {
+            output= new PrintWriter(server.getOutputStream());
+            input= new BufferedReader(new InputStreamReader(server.getInputStream()));
+        } catch (IOException ex) {
+            Logger.getLogger(onlineModeGeneratedBase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        for(int i=0;i<buttonArr.length;i++)
+        {
+            buttonArr[i].setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    Button but=(Button)event.getSource();
+                    int index=(int)but.getUserData();
+                    if (player1Turn) {
+                        if (but.getText() == "") {
+                            but.setText(player1);
+                            player1Turn = false;
+                            player2Label.setText("Player2 Turn");
+                            player1Label.setText("Player1 ");
+                            output.println(index);
+                            checkWinner();
+                        }
+                    } else {
+                        if (but.getText() == "") {
+                            but.setText(player2);
+                            player1Turn = true;
+                            player1Label.setText("Player1 Turn");
+                            player2Label.setText("Player2");
+                            output.println(index);
+                            checkWinner();
+                        }
                     }
-                } else {
-                    if (topLeftBtn.getText() == "") {
-                        topLeftBtn.setText(player2);
-                        player1Turn = true;
-                        player1Label.setText("Player1 Turn");
-                        player2Label.setText("Player2 ");
-                        checkWinner();
-                    }
+                    output.flush();
+//                    output.close();
+                }
+            });
+        }
+        
+        Runnable run = (() -> {
+                while (true) {
+                try {
+                    String message = input.readLine();
+                    Platform.runLater(() -> {
+                        System.out.println(message);
+                        int step = Integer.parseInt(message);
+                        if(player1Turn)
+                        {
+                            buttonArr[step].setText(player1);
+                        }
+                        else
+                            buttonArr[step].setText(player2);
+                        player1Turn=!player1Turn;
+                    });
+                } catch (IOException ex) {
+                    System.out.println("server closed !!!");
+                    Logger.getLogger(onlineModeGeneratedBase.class.getName()).log(Level.SEVERE, null, ex);
+                    break;
                 }
             }
         });
+        new Thread(run).start();
 
 
         GridPane.setColumnIndex(topBtn, 1);
@@ -200,29 +256,7 @@ public class onlineModeGeneratedBase extends AnchorPane {
         topBtn.setPrefWidth(178.0);
         topBtn.setFont(new Font(50));
         topBtn.setStyle("-fx-text-stroke: white;");
-        topBtn.setOnMouseClicked(new EventHandler() {
-
-            @Override
-            public void handle(Event event) {
-                if (player1Turn) {
-                    if (topBtn.getText() == "") {
-                        topBtn.setText(player1);
-                        player1Turn = false;
-                        player2Label.setText("Player2 Turn");
-                        player1Label.setText("Player1 ");
-                        checkWinner();
-                    }
-                } else {
-                    if (topBtn.getText() == "") {
-                        topBtn.setText(player2);
-                        player1Turn = true;
-                        player1Label.setText("Player1 Turn");
-                        player2Label.setText("Player2 ");
-                        checkWinner();
-                    }
-                }
-            }
-        });
+        
         
 
         GridPane.setColumnIndex(topRightBtn, 2);
@@ -231,29 +265,7 @@ public class onlineModeGeneratedBase extends AnchorPane {
         topRightBtn.setPrefWidth(178.0);
         topRightBtn.setFont(new Font(50));
         topRightBtn.setStyle("-fx-text-stroke: white;");
-        topRightBtn.setOnMouseClicked(new EventHandler() {
-
-            @Override
-            public void handle(Event event) {
-                if (player1Turn) {
-                    if (topRightBtn.getText() == "") {
-                        topRightBtn.setText(player1);
-                        player1Turn = false;
-                        player2Label.setText("Player2 Turn");
-                        player1Label.setText("Player1 ");
-                        checkWinner();
-                    }
-                } else {
-                    if (topRightBtn.getText() == "") {
-                        topRightBtn.setText(player2);
-                        player1Turn = true;
-                        player1Label.setText("Player1 Turn");
-                        player2Label.setText("Player2 ");
-                        checkWinner();
-                    }
-                }
-            }
-        });
+        
 
 
         GridPane.setRowIndex(centerLeftBtn, 1);
@@ -262,29 +274,7 @@ public class onlineModeGeneratedBase extends AnchorPane {
         centerLeftBtn.setPrefWidth(178.0);
         centerLeftBtn.setFont(new Font(50));
         centerLeftBtn.setStyle("-fx-text-stroke: white;");
-         centerLeftBtn.setOnMouseClicked(new EventHandler() {
-
-            @Override
-            public void handle(Event event) {
-                if (player1Turn) {
-                    if (centerLeftBtn.getText() == "") {
-                        centerLeftBtn.setText(player1);
-                        player1Turn = false;
-                        player2Label.setText("Player2 Turn");
-                        player1Label.setText("Player1 ");
-                        checkWinner();
-                    }
-                } else {
-                    if (centerLeftBtn.getText() == "") {
-                        centerLeftBtn.setText(player2);
-                        player1Turn = true;
-                        player1Label.setText("Player1 Turn");
-                        player2Label.setText("Player2 ");
-                        checkWinner();
-                    }
-                }
-            }
-        });
+         
 
 
         GridPane.setColumnIndex(centerBtn, 1);
@@ -294,29 +284,6 @@ public class onlineModeGeneratedBase extends AnchorPane {
         centerBtn.setPrefWidth(178.0);
         centerBtn.setFont(new Font(50));
         centerBtn.setStyle("-fx-text-stroke: white;");
-         centerBtn.setOnMouseClicked(new EventHandler() {
-
-            @Override
-            public void handle(Event event) {
-                if (player1Turn) {
-                    if (centerBtn.getText() == "") {
-                        centerBtn.setText(player1);
-                        player1Turn = false;
-                        player2Label.setText("Player2 Turn");
-                        player1Label.setText("Player1 ");
-                        checkWinner();
-                    }
-                } else {
-                    if (centerBtn.getText() == "") {
-                        centerBtn.setText(player2);
-                        player1Turn = true;
-                        player1Label.setText("Player1 Turn");
-                        player2Label.setText("Player2 ");
-                        checkWinner();
-                    }
-                }
-            }
-        });
          
         
 
@@ -327,30 +294,7 @@ public class onlineModeGeneratedBase extends AnchorPane {
         centerRightBtn.setPrefWidth(178.0);
         centerRightBtn.setFont(new Font(50));
         centerRightBtn.setStyle("-fx-text-stroke: white;");
-         centerRightBtn.setOnMouseClicked(new EventHandler() {
-
-            @Override
-            public void handle(Event event) {
-                if (player1Turn) {
-                    if (centerRightBtn.getText() == "") {
-                        centerRightBtn.setText(player1);
-                        player1Turn = false;
-                        player2Label.setText("Player2 Turn");
-                        player1Label.setText("Player1 ");
-                        checkWinner();
-                    }
-                } else {
-                    if (centerRightBtn.getText() == "") {
-                        centerRightBtn.setText(player2);
-                        player1Turn = true;
-                        player1Label.setText("Player1 Turn");
-                        player2Label.setText("Player2 ");
-                        checkWinner();
-                    }
-                }
-            }
-        });
-
+         
 
         GridPane.setRowIndex(downLeftBtn, 2);
         downLeftBtn.setMnemonicParsing(false);
@@ -358,30 +302,7 @@ public class onlineModeGeneratedBase extends AnchorPane {
         downLeftBtn.setPrefWidth(178.0);
         downLeftBtn.setFont(new Font(50));
         downLeftBtn.setStyle("-fx-text-stroke: white;");
-        downLeftBtn.setOnMouseClicked(new EventHandler() {
-
-            @Override
-            public void handle(Event event) {
-                if (player1Turn) {
-                    if (downLeftBtn.getText() == "") {
-                        downLeftBtn.setText(player1);
-                        player1Turn = false;
-                        player2Label.setText("Player2 Turn");
-                        player1Label.setText("Player1 ");
-                        checkWinner();
-                    }
-                } else {
-                    if (downLeftBtn.getText() == "") {
-                        downLeftBtn.setText(player2);
-                        player1Turn = true;
-                        player1Label.setText("Player1 Turn");
-                        player2Label.setText("Player2 ");
-                        checkWinner();
-                    }
-                }
-            }
-        });
-
+        
         GridPane.setColumnIndex(downBtn, 1);
         GridPane.setRowIndex(downBtn, 2);
         downBtn.setMnemonicParsing(false);
@@ -389,29 +310,7 @@ public class onlineModeGeneratedBase extends AnchorPane {
         downBtn.setPrefWidth(178.0);
         downBtn.setFont(new Font(50));
         downBtn.setStyle("-fx-text-stroke: white;");
-         downBtn.setOnMouseClicked(new EventHandler() {
-
-            @Override
-            public void handle(Event event) {
-                if (player1Turn) {
-                    if (downBtn.getText() == "") {
-                        downBtn.setText(player1);
-                        player1Turn = false;
-                        player2Label.setText("Player2 Turn");
-                        player1Label.setText("Player1 ");
-                        checkWinner();
-                    }
-                } else {
-                    if (downBtn.getText() == "") {
-                        downBtn.setText(player2);
-                        player1Turn = true;
-                        player1Label.setText("Player1 Turn");
-                        player2Label.setText("Player2 ");
-                        checkWinner();
-                    }
-                }
-            }
-        });
+         
          
          
 
@@ -422,29 +321,7 @@ public class onlineModeGeneratedBase extends AnchorPane {
         downRightBtn.setPrefWidth(178.0);
         downRightBtn.setFont(new Font(50));
         downRightBtn.setStyle("-fx-text-stroke: white;");
-         downRightBtn.setOnMouseClicked(new EventHandler() {
-
-            @Override
-            public void handle(Event event) {
-                if (player1Turn) {
-                    if (downRightBtn.getText() == "") {
-                        downRightBtn.setText(player1);
-                        player1Turn = false;
-                        player2Label.setText("Player2 Turn");
-                        player1Label.setText("Player1 ");
-                        checkWinner();
-                    }
-                } else {
-                    if (downRightBtn.getText() == "") {
-                        downRightBtn.setText(player2);
-                        player1Turn = true;
-                        player1Label.setText("Player1 Turn");
-                        player2Label.setText("Player2 ");
-                        checkWinner();
-                    }
-                }
-            }
-        });
+         
 
         gridPane0.setLayoutX(301.0);
         gridPane0.setLayoutY(57.0);
