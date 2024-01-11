@@ -9,6 +9,8 @@ import HomeView.homeBase;
 import RecordView.RecordBase;
 import SelectmodeView.SelectModeBase;
 import SignupView.SignupBase;
+import java.io.IOException;
+import java.net.Socket;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -55,16 +57,18 @@ public class TicTacToe extends Application {
     private LocalViewBase localViewBase;
     private GameBoardBase2Players gameBoardBase2Players;
     private Scene scene;
-
     private Stage stage;
+    Socket server;
     @Override
+
     public void start(Stage stage) throws Exception {
         Parent root = new RecordBase(stage);
+
         Parent root2=new ComputerModeBase(stage,"O");
         scene = new Scene(root);
         //drawPane = new DrawPane(this);        
 
-
+       
        stage.setScene(scene);
 
        stage.show();
