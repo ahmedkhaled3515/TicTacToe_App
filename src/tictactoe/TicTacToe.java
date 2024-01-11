@@ -6,6 +6,7 @@
 package tictactoe;
 
 import HomeView.homeBase;
+import RecordView.RecordBase;
 import SelectmodeView.SelectModeBase;
 import SignupView.SignupBase;
 import java.io.IOException;
@@ -59,8 +60,10 @@ public class TicTacToe extends Application {
     private Stage stage;
     Socket server;
     @Override
-    public void start(Stage stage) throws IOException  {
-        Parent root = new homeBase(stage);
+
+    public void start(Stage stage) throws Exception {
+        Parent root = new RecordBase(stage);
+
         Parent root2=new ComputerModeBase(stage,"O");
         scene = new Scene(root);
         //drawPane = new DrawPane(this);        
