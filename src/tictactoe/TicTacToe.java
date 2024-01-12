@@ -6,11 +6,16 @@
 package tictactoe;
 
 import HomeView.homeBase;
+import RecordView.RecordBase;
 import SelectmodeView.SelectModeBase;
 import SignupView.SignupBase;
 import java.io.IOException;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import java.net.Socket;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -31,6 +36,7 @@ import tictactoe.Views.LoseView.LosePane;
 import tictactoe.Views.WinView.WinController;
 
 import tictactoe.Views.AvailablePlayer.PlayersListBase;
+import tictactoe.Views.AvailablePlayer.PlayersListBaseNew;
 import tictactoe.Views.login.loginBase;
 
 
@@ -52,11 +58,14 @@ public class TicTacToe extends Application {
     private Scene scene;
     private Stage stage;
 
-  
-    
+    Socket server;
+
     @Override
+
     public void start(Stage stage) throws Exception {
+
         Parent root = new homeBase(stage);
+          //Parent root = new PlayersListBaseNew();
         Parent root2=new ComputerModeBase(stage,"O");
         scene = new Scene(root);
        stage.setScene(scene);

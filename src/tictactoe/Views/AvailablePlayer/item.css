@@ -1,0 +1,19 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.mainFxmlClass {
+    -fx-background-color: #2a47ad;
+}
+
+.inviteBtn{
+    -fx-content-display: center;
+   -fx-background-color: transparent;
+    -fx-background-size:100% 100%;
+    -fx-text-fill: #2949AE;
+   
+}
+
+.inviteBtn:pressed{
+     -fx-background-color: #938a26;
+}

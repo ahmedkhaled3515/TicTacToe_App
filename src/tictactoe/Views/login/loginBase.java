@@ -1,7 +1,10 @@
 package tictactoe.Views.login;
 
+import Requests.App;
+import Requests.Message;
 import SelectmodeView.SelectModeBase;
 import SignupView.SignupBase;
+import com.google.gson.Gson;
 import java.awt.event.MouseEvent;
 import java.net.URL;
 import javafx.event.Event;
@@ -21,6 +24,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcons;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Optional;
@@ -28,9 +32,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.geometry.Side;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
 import onlinemode.ClientHandler;
+import tictactoe.Views.AvailablePlayer.PlayersListBase;
+import tictactoe.Views.AvailablePlayer.PlayersListBaseNew;
 
 public class loginBase extends AnchorPane {
 
@@ -42,7 +49,6 @@ public class loginBase extends AnchorPane {
     protected final Text textHaveAc;
     protected final PasswordField txtPassword;
     protected final FontAwesomeIcon arrow;
-
 
     public loginBase(Stage stage) {
 
@@ -90,64 +96,139 @@ public class loginBase extends AnchorPane {
         btnLogin.setPrefHeight(36.0);
         btnLogin.setPrefWidth(174.0);
         btnLogin.setText("Login");
-       
+
+        App.startConnection();
+        Gson gson = new Gson();
+        btnLogin.setOnAction((event) -> {
+                Message msg = new Message();
+                msg.setType("login");
+                msg.setEmail(txtEmail.getText());
+                msg.setPassword(txtPassword.getText());
+                String gsonMessage = gson.toJson(msg);
+                System.out.println(gsonMessage);
+                App.output.println(gsonMessage);
+                App.output.flush();
+        });
+        
+        new Thread(() -> {
+                    while (App.server.isConnected()) {
+                        try {
+                            String valid = App.input.readLine();
+                            if (valid.equals("true")) {
+                                Platform.runLater(() -> {
+                                Parent root = new PlayersListBaseNew();
+                                Scene scene = new Scene(root, 1000, 700);
+                                stage.setScene(scene);
+                                stage.show();
+                                });
+                            } else {
+                                 Platform.runLater(() -> {
+                                Alert alert = new Alert(AlertType.INFORMATION);
+                                alert.setTitle("Wrong Email or Password");
+                                alert.setHeaderText(null);
+                                alert.setContentText("Please Try Again");
+                                alert.showAndWait();
+                                 });
+                            }
+                        } catch (IOException ex) {
+                            System.out.println("server closed !!!");
+                            Logger.getLogger(SignupBase.class.getName()).log(Level.SEVERE, null, ex);
+                            break;
+                        }
+
+                    }
+                }).start();
+            
 
         textHaveAc.setFill(javafx.scene.paint.Color.valueOf("#e8e5e5"));
-        textHaveAc.setLayoutX(635.0);
-        textHaveAc.setLayoutY(536.0);
+        textHaveAc.setLayoutX(
+                635.0);
+        textHaveAc.setLayoutY(
+                536.0);
         textHaveAc.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
-        textHaveAc.setStrokeWidth(0.0);
-        textHaveAc.setText("You Don't have an account?");
-        textHaveAc.setUnderline(true);
-        textHaveAc.setFont(new Font(24.0));
 
-        textHaveAc.setOnMouseClicked(new EventHandler() {
+        textHaveAc.setStrokeWidth(
+                0.0);
+        textHaveAc.setText(
+                "You Don't have an account?");
+        textHaveAc.setUnderline(
+                true);
+        textHaveAc.setFont(
+                new Font(24.0));
+
+        textHaveAc.setOnMouseClicked(
+                new EventHandler() {
 
             @Override
-            public void handle(Event event) {
+            public void handle(Event event
+            ) {
                 Parent root = new SignupBase(stage);
                 Scene scene = new Scene(root, 1000, 700);
                 stage.setScene(scene);
                 stage.show();
             }
-        });
+        }
+        );
 
-        txtPassword.setLayoutX(648.0);
-        txtPassword.setLayoutY(313.0);
-        txtPassword.setPrefHeight(48.0);
-        txtPassword.setPrefWidth(250.0);
-        txtPassword.setPromptText("Password");
+        txtPassword.setLayoutX(
+                648.0);
+        txtPassword.setLayoutY(
+                313.0);
+        txtPassword.setPrefHeight(
+                48.0);
+        txtPassword.setPrefWidth(
+                250.0);
+        txtPassword.setPromptText(
+                "Password");
 
-        arrow.setLayoutX(15);
-        arrow.setLayoutY(115.0);
+        arrow.setLayoutX(
+                15);
+        arrow.setLayoutY(
+                115.0);
         arrow.setIcon(FontAwesomeIcons.ARROW_LEFT);
-        arrow.setSize("7em");
-        arrow.setId("arrow");
-        arrow.scaleXProperty().add(1);
-        arrow.scaleYProperty().add(1);
-        arrow.scaleZProperty().add(1);
 
-        arrow.setOnMouseClicked(new EventHandler() {
+        arrow.setSize(
+                "7em");
+        arrow.setId(
+                "arrow");
+        arrow.scaleXProperty()
+                .add(1);
+        arrow.scaleYProperty()
+                .add(1);
+        arrow.scaleZProperty()
+                .add(1);
+
+        arrow.setOnMouseClicked(
+                new EventHandler() {
 
             @Override
-            public void handle(Event event) {
+            public void handle(Event event
+            ) {
                 Parent root = new SelectModeBase(stage);
                 Scene scene = new Scene(root, 1000, 700);
                 stage.setScene(scene);
                 stage.show();
             }
-        });
+        }
+        );
 
-        anchorPane.getChildren().add(backgroundImg);
-        anchorPane.getChildren().add(headLabel);
-        anchorPane.getChildren().add(txtEmail);
-        anchorPane.getChildren().add(btnLogin);
-        anchorPane.getChildren().add(textHaveAc);
-        anchorPane.getChildren().add(txtPassword);
-        anchorPane.getChildren().add(arrow);
-        getChildren().add(anchorPane);
+        anchorPane.getChildren()
+                .add(backgroundImg);
+        anchorPane.getChildren()
+                .add(headLabel);
+        anchorPane.getChildren()
+                .add(txtEmail);
+        anchorPane.getChildren()
+                .add(btnLogin);
+        anchorPane.getChildren()
+                .add(textHaveAc);
+        anchorPane.getChildren()
+                .add(txtPassword);
+        anchorPane.getChildren()
+                .add(arrow);
+        getChildren()
+                .add(anchorPane);
 
     }
 
-   
 }

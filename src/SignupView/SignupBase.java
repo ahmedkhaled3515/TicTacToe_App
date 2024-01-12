@@ -1,10 +1,23 @@
 package SignupView;
 
 import HomeView.homeBase;
+import Requests.App;
+import Requests.Mail;
+import Requests.Message;
+import com.google.gson.Gson;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcons;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.net.URL;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -23,6 +36,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javax.swing.GroupLayout;
+import onlinemode.onlineModeGeneratedBase;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import tictactoe.Views.login.loginBase;
 
 public class SignupBase extends AnchorPane {
@@ -34,10 +50,12 @@ public class SignupBase extends AnchorPane {
     protected final TextField mail;
     protected final TextField password;
     protected final FontAwesomeIcon arrow;
+    protected final TextField returnedMsg;
+    Gson gson;
     Label headLabel;
 
     public SignupBase(Stage stage) {
-
+        returnedMsg = new TextField();
         imageView = new ImageView();
         image = new ImageView();
         user = new TextField();
@@ -92,7 +110,56 @@ public class SignupBase extends AnchorPane {
         online.setFont(new Font("Arial Black", 47.0));
         online.setPadding(new Insets(0.0, 0.0, 10.0, 0.0));
         online.setId("online");
-        
+
+//        mailRequest.setEmail(mail.getText());
+//        String gsonMsg= gson.toJson(mailRequest);
+        App.startConnection();
+        gson = new Gson();
+        online.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Message msg = new Message();
+                msg.setType("signup");
+                msg.setUserName(user.getText());
+                msg.setEmail(mail.getText());
+                msg.setPassword(password.getText());
+                String gsonMessage = gson.toJson(msg);
+                System.out.println(gsonMessage);
+                App.output.println(gsonMessage);
+                App.output.flush();
+            }
+        });
+        new Thread(() -> {
+            while (App.server.isConnected()) {
+                try {
+                    String response = App.input.readLine();
+                    if (response.equals("true")) {
+                        Platform.runLater(() -> {
+                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                            alert.setTitle("Successful SignUp!");
+                            alert.setHeaderText(null);
+                            alert.setContentText("You have signed up successfully");
+                            alert.showAndWait();
+                        });
+                        System.out.println(response);
+                    } else {
+                        Platform.runLater(() -> {
+                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                            alert.setTitle("Email already exists");
+                            alert.setHeaderText(null);
+                            alert.setContentText("Please Try Again");
+                            alert.showAndWait();
+                        });
+                        System.out.println(response);
+                    }
+                } catch (IOException ex) {
+                    System.out.println("server closed !!!");
+                    Logger.getLogger(SignupBase.class.getName()).log(Level.SEVERE, null, ex);
+                    break;
+                }
+            }
+
+        }).start();
 
         mail.setAlignment(javafx.geometry.Pos.TOP_CENTER);
         mail.setId("mail");
