@@ -21,7 +21,16 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcons;
-
+import java.net.InetAddress;
+import java.net.Socket;
+import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.application.Platform;
+import javafx.geometry.Side;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.MenuItem;
+import onlinemode.ClientHandler;
 
 public class loginBase extends AnchorPane {
 
@@ -33,6 +42,7 @@ public class loginBase extends AnchorPane {
     protected final Text textHaveAc;
     protected final PasswordField txtPassword;
     protected final FontAwesomeIcon arrow;
+
 
     public loginBase(Stage stage) {
 
@@ -66,8 +76,6 @@ public class loginBase extends AnchorPane {
         headLabel.setText("tic.tac.toe.");
         headLabel.setTextFill(javafx.scene.paint.Color.valueOf("#c5a0d7"));
         headLabel.setFont(new Font("Arial Rounded MT Bold", 64.0));
-      
-
 
         txtEmail.setLayoutX(648.0);
         txtEmail.setLayoutY(220.0);
@@ -82,6 +90,7 @@ public class loginBase extends AnchorPane {
         btnLogin.setPrefHeight(36.0);
         btnLogin.setPrefWidth(174.0);
         btnLogin.setText("Login");
+       
 
         textHaveAc.setFill(javafx.scene.paint.Color.valueOf("#e8e5e5"));
         textHaveAc.setLayoutX(635.0);
@@ -91,18 +100,17 @@ public class loginBase extends AnchorPane {
         textHaveAc.setText("You Don't have an account?");
         textHaveAc.setUnderline(true);
         textHaveAc.setFont(new Font(24.0));
-        
-         textHaveAc.setOnMouseClicked(new EventHandler() {
+
+        textHaveAc.setOnMouseClicked(new EventHandler() {
 
             @Override
             public void handle(Event event) {
-                Parent root = new  SignupBase(stage);
-                Scene scene = new Scene(root,1000,700);
+                Parent root = new SignupBase(stage);
+                Scene scene = new Scene(root, 1000, 700);
                 stage.setScene(scene);
                 stage.show();
             }
         });
-        
 
         txtPassword.setLayoutX(648.0);
         txtPassword.setLayoutY(313.0);
@@ -124,7 +132,7 @@ public class loginBase extends AnchorPane {
             @Override
             public void handle(Event event) {
                 Parent root = new SelectModeBase(stage);
-                Scene scene = new Scene(root,1000,700);
+                Scene scene = new Scene(root, 1000, 700);
                 stage.setScene(scene);
                 stage.show();
             }
@@ -140,4 +148,6 @@ public class loginBase extends AnchorPane {
         getChildren().add(anchorPane);
 
     }
+
+   
 }

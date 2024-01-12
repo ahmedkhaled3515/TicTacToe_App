@@ -4,13 +4,16 @@ import HomeView.homeBase;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcons;
 import java.net.URL;
+import java.util.Optional;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -32,6 +35,7 @@ public class SignupBase extends AnchorPane {
     protected final TextField password;
     protected final FontAwesomeIcon arrow;
     Label headLabel;
+
     public SignupBase(Stage stage) {
 
         imageView = new ImageView();
@@ -49,7 +53,6 @@ public class SignupBase extends AnchorPane {
         getStylesheets().add("/SignupView/signup.css");
         getStylesheets().add(getClass().getResource("localstyle.css").toExternalForm());
 
-        
         imageView.setFitHeight(700.0);
         imageView.setFitWidth(1000.0);
         imageView.setImage(new Image(getClass().getResource("/assets/images/background.jpg").toExternalForm()));
@@ -81,7 +84,7 @@ public class SignupBase extends AnchorPane {
         online.setMnemonicParsing(false);
         online.setPrefHeight(81.0);
         online.setPrefWidth(254.0);
-       // online.setStyle("-fx-background-color: BCDBF9; -fx-background-radius: 26px;");
+        // online.setStyle("-fx-background-color: BCDBF9; -fx-background-radius: 26px;");
         online.setText("Signup");
         online.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
         online.setTextFill(javafx.scene.paint.Color.valueOf("#43115b"));
@@ -127,8 +130,8 @@ public class SignupBase extends AnchorPane {
         arrow.setOnMouseClicked(new EventHandler() {
             @Override
             public void handle(Event event) {
-                Parent root = new loginBase(stage) ;
-                Scene scene = new Scene(root,1000,700);
+                Parent root = new loginBase(stage);
+                Scene scene = new Scene(root, 1000, 700);
                 stage.setScene(scene);
                 stage.show();
             }
