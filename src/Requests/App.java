@@ -11,14 +11,19 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
 
 /**
  *
  * @author ak882
  */
 public class App {
+
     public static Socket server;
     public static BufferedReader input;
     public static PrintWriter output;
@@ -26,23 +31,31 @@ public class App {
     public App()
     {
         
+
     }
-    public static void startConnection() 
-    {
-        if(server == null)
-        {
+
+    public static void startConnection() {
+        if (server == null) {
             try {
-                server= new Socket("127.0.0.1",6000);
-                input=new BufferedReader(new InputStreamReader(server.getInputStream()));
-                output=new PrintWriter(server.getOutputStream());
+                server = new Socket("127.0.0.1", 6000);
+                input = new BufferedReader(new InputStreamReader(server.getInputStream()));
+                output = new PrintWriter(server.getOutputStream());
             } catch (IOException ex) {
-                ex.printStackTrace();
+               Platform.runLater(() -> {
+                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                            alert.setTitle("Sorry!");
+                            alert.setHeaderText(null);
+                            alert.setContentText("Server is Out");
+                            alert.showAndWait();
+                        });
             }
         }
     }
-    public static void closeConnection()
-    {
-        
+
+  
+
+    public static void closeConnection() {
+
         try {
             output.close();
             input.close();
@@ -61,4 +74,5 @@ public class App {
         }
     }
     
+
 }

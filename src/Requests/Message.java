@@ -19,7 +19,11 @@ public class Message {
     String password;
     String opponentUserName;
     InetAddress ipAddress;
+    
+ 
+    
     int step;
+    
     String XO;
     String status;
     String validation;
@@ -48,6 +52,7 @@ public class Message {
     public void setValidation(String validation) {
         this.validation = validation;
     }
+
     public String getEmail() {
         return email;
     }
@@ -112,6 +117,10 @@ public class Message {
     public void setXO(String XO) {
         this.XO = XO;
     }
+
+
+    
+    
     public Message()
     {}
    public Message(String type, String userName, String opponentUserName, InetAddress ipAddress, int step, String XO,String validation) {

@@ -202,10 +202,10 @@ public class SelectModeBase extends AnchorPane {
        arrow.setOnMouseClicked(new EventHandler() {
             @Override
             public void handle(Event event) {
-                Parent root = new homeBase(stage) ;
-                Scene scene = new Scene(root,1000,700);
-                stage.setScene(scene);
-                stage.show();
+               // Parent root = new homeBase(stage) ;
+              //  Scene scene = new Scene(root,1000,700);
+                //stage.setScene(scene);
+               // stage.show();
             }
         });
 
