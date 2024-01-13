@@ -124,7 +124,7 @@ public class loginBase extends AnchorPane {
                         if(response2.getValidation().equals("valid"))
                         {
                             Platform.runLater(() -> {
-                                stage.setScene(new Scene(new PlayersListBase(stage),1000,700));
+                                stage.setScene(new Scene(new PlayersListBaseNew(stage),1000,700));
                             });   
                         }
                 } catch (IOException ex) {

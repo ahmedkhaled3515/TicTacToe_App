@@ -2,6 +2,8 @@ package tictactoe.Views.AvailablePlayer;
 
 import Requests.App;
 import static Requests.App.input;
+import Requests.Message;
+import Requests.PlayersDTO;
 import SelectmodeView.SelectModeBase;
 import SignupView.SignupBase;
 import com.google.gson.Gson;
@@ -41,7 +43,7 @@ public class PlayersListBaseNew extends AnchorPane {
     public static List<String> receivedEmailList;
     public static boolean closeInvite = false, checkforclose = false;
     Object lock = new Object();
-
+    ArrayList<ItemBase> playersCards;
     public PlayersListBaseNew(Stage stage) {
 
         anchorPane = new AnchorPane();
@@ -50,44 +52,90 @@ public class PlayersListBaseNew extends AnchorPane {
         backBtn = new ImageView();
         rectangle = new Rectangle();
         avaliable = new ArrayList<>();
-
-        ItemBase item = new ItemBase();
-        item.playerTxt.setText("Haneen");
-        listView.getItems().add(item);
-        listView.refresh();
-
+        playersCards=new ArrayList<>();
         App.startConnection();
-        Gson gson = new Gson();
+        Message msg= new Message();
+        msg.setType("getOnline");
+        String request=App.gson.toJson(msg);
+        App.output.println(request);
+        App.output.flush();
         new Thread(() -> {
-            while (App.server.isConnected()) {
+//            while(App.server.isConnected())
+//            {
                 try {
-                    String jsonEmailList = input.readLine();
-
-                    // Convert the JSON string to a List of emails
-                    Type listType = new TypeToken<List<String>>() {
-                    }.getType();
-                    List<String> newReceivedEmailList = gson.fromJson(jsonEmailList, listType);
-
-                    // Synchronize access to the shared variable
-                        receivedEmailList = newReceivedEmailList;
+                    String jsonResponse= App.input.readLine();
+                    System.out.println(jsonResponse);
+                    Message response=App.gson.fromJson(jsonResponse,Message.class);
+                    ArrayList<PlayersDTO> players =response.getPlayersList();
                     
-
-                    Platform.runLater(() -> {
-                        for (String email : newReceivedEmailList) {
-                            ItemBase itemBase = new ItemBase();
-                            itemBase.playerTxt.setText(email);
-                            listView.getItems().add(itemBase);
+                    if(response.getType().equals("getOnline"))
+                    {
+                        for(PlayersDTO player: players)
+                        {
+                            ItemBase item=new ItemBase();
+                            item.playerTxt.setText(player.getUserName());
+                            item.inviteBTn.setOnAction((event) -> {
+                                Message jsonMessage=new Message();
+                                jsonMessage.setType("invite");
+                                jsonMessage.setEmail(player.getEmail());
+                                App.output.println(new Gson().toJson(jsonMessage));
+                                App.output.flush();
+                            });
+                            listView.getItems().add(item);
                             listView.refresh();
-                            System.out.print(email);
-                        }
-                    });
+                        }                    
+                    }
                 } catch (IOException ex) {
-                    System.out.println("server closed !!!");
-                    Logger.getLogger(SignupBase.class.getName()).log(Level.SEVERE, null, ex);
-                    break;
+                    Logger.getLogger(PlayersListBase.class.getName()).log(Level.SEVERE, null, ex);
+//                    break;
                 }
-            }
+//            }
         }).start();
+//        new Thread(() -> {
+//            while(App.server.isConnected())
+//            {
+//                try {
+//                    String jsonResponse=App.input.readLine();
+//                    Message response= new Gson().fromJson(jsonResponse,Message.class);
+//                    System.out.println(jsonResponse);
+//                } catch (IOException ex) {
+//                    Logger.getLogger(PlayersListBaseNew.class.getName()).log(Level.SEVERE, null, ex);
+//                    break;
+//                }
+//            }
+//        }).start();
+        
+//        Gson gson = new Gson();
+//        new Thread(() -> {
+//            while (App.server.isConnected()) {
+//                try {
+//                    String jsonEmailList = input.readLine();
+//
+//                    // Convert the JSON string to a List of emails
+//                    Type listType = new TypeToken<List<String>>() {
+//                    }.getType();
+//                    List<String> newReceivedEmailList = gson.fromJson(jsonEmailList, listType);
+//
+//                    // Synchronize access to the shared variable
+//                        receivedEmailList = newReceivedEmailList;
+//                    
+//
+//                    Platform.runLater(() -> {
+//                        for (String email : newReceivedEmailList) {
+//                            ItemBase itemBase = new ItemBase();
+//                            itemBase.playerTxt.setText(email);
+//                            listView.getItems().add(itemBase);
+//                            listView.refresh();
+//                            System.out.print(email);
+//                        }
+//                    });
+//                } catch (IOException ex) {
+//                    System.out.println("server closed !!!");
+//                    Logger.getLogger(SignupBase.class.getName()).log(Level.SEVERE, null, ex);
+//                    break;
+//                }
+//            }
+//        }).start();
 
         setId("AnchorPane");
         setPrefHeight(400.0);
@@ -119,6 +167,7 @@ public class PlayersListBaseNew extends AnchorPane {
 
             @Override
             public void handle(Event event) {
+                listView.getItems().clear();
                 Parent root = new SelectModeBase(stage);               
                 Scene scene = new Scene(root);
                 stage.setScene(scene);
