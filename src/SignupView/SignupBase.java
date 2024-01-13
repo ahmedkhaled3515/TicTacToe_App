@@ -5,6 +5,9 @@ import Requests.App;
 import Requests.Mail;
 import Requests.Message;
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcons;
 import java.io.BufferedReader;
@@ -112,7 +115,9 @@ public class SignupBase extends AnchorPane {
         
 //        String gsonMsg= gson.toJson(mailRequest);
         App.startConnection();
-        gson=new Gson();
+//        App.resetCon();
+//        gson=new Gson();
+        App.resetCon();
         online.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -120,35 +125,37 @@ public class SignupBase extends AnchorPane {
                 msg.setType("signup");
                 msg.setUserName(user.getText());
                 msg.setEmail(mail.getText());
-                msg.setPassword(user.getText());
-                msg.setUserName(user.getText());
-                String gsonMessage=gson.toJson(msg);
-                System.out.println(gsonMessage);
+                msg.setPassword(password.getText());
+                String gsonMessage=App.gson.toJson(msg);
                 App.output.println(gsonMessage);
-                App.output.flush();     
+                App.output.flush();   
+                new Thread(() -> {
+//                while(App.server.isConnected())
+//                {
+                    try {
+                        String jsonResponse=App.input.readLine();
+//                        JsonElement jsonElement = new JsonParser().parse(jsonResponse);
+//                        
+//                        JsonObject jsonObject = jsonElement.getAsJsonObject();
+//                        System.out.println(jsonObject.get("type"));
+                        
+//                        System.out.println(jsonElement);
+                        Message response=new Gson().fromJson(jsonResponse,Message.class);
+                        System.out.println(response.getType());
+                        if(response.getType().equals("signup"))
+                        {
+                            System.out.println(jsonResponse);
+                        }
+                    } catch (IOException ex) {
+                        System.out.println("server closed !!!");
+                        Logger.getLogger(SignupBase.class.getName()).log(Level.SEVERE, null, ex);
+//                        break;
+                    }
+            }).start();
             }
         });
-        new Thread(() -> {
-            while(App.server.isConnected())
-            {
-                try {
-                    String response = App.input.readLine();
-                    if(response.equals("true"))
-                    {
-                        System.out.println(response);
-                    }
-                    else{
-                        System.out.println(response);
-                    }
-                } catch (IOException ex) {
-                    System.out.println("server closed !!!");
-                    Logger.getLogger(SignupBase.class.getName()).log(Level.SEVERE, null, ex);
-                    break;
-                }
-                
-            }
-        }).start();
-
+        
+        
         mail.setAlignment(javafx.geometry.Pos.TOP_CENTER);
         mail.setId("mail");
         mail.setLayoutX(302.0);
@@ -185,6 +192,7 @@ public class SignupBase extends AnchorPane {
         arrow.setOnMouseClicked(new EventHandler() {
             @Override
             public void handle(Event event) {
+//                App.closeConnection();
                 Parent root = new loginBase(stage) ;
                 Scene scene = new Scene(root,1000,700);
                 stage.setScene(scene);

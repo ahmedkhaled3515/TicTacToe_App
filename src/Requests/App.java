@@ -5,6 +5,7 @@
  */
 package Requests;
 
+import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -21,6 +22,7 @@ public class App {
     public static Socket server;
     public static BufferedReader input;
     public static PrintWriter output;
+    public static Gson gson=new Gson();
     public App()
     {
         
@@ -42,11 +44,20 @@ public class App {
     {
         
         try {
-            input.close();
             output.close();
+            input.close();
             server.close();
         } catch (IOException ex) {
             ex.printStackTrace();
+        }
+    }
+    public static void resetCon()
+    {
+        try {
+            input=new BufferedReader(new InputStreamReader(server.getInputStream()));
+            output=new PrintWriter(server.getOutputStream());
+        } catch (IOException ex) {
+            Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     

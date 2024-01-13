@@ -24,6 +24,12 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcons;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.application.Platform;
+import javax.json.Json;
+import tictactoe.Views.AvailablePlayer.PlayersListBase;
 
 
 public class loginBase extends AnchorPane {
@@ -36,7 +42,7 @@ public class loginBase extends AnchorPane {
     protected final Text textHaveAc;
     protected final PasswordField txtPassword;
     protected final FontAwesomeIcon arrow;
-
+     Gson gson;
     public loginBase(Stage stage) {
 
         anchorPane = new AnchorPane();
@@ -86,17 +92,36 @@ public class loginBase extends AnchorPane {
         btnLogin.setPrefWidth(174.0);
         btnLogin.setText("Login");
         App.startConnection();
-        Gson gson=new Gson();
+//        App.resetCon();
         btnLogin.setOnAction((event) -> {
+           
            Message msg=new Message();
-           msg.setEmail("ahmed");
+           msg.setEmail(txtEmail.getText());
+           msg.setPassword(txtPassword.getText());
            msg.setType("login");
-           String message=gson.toJson(msg);
-            System.out.println(message);
+           String message=App.gson.toJson(msg);
+//           System.out.println(message);
            App.output.println(message);
            App.output.flush();
+           new Thread(() -> {
+                try {
+                        String jsonResponse=App.input.readLine();
+//                        System.out.println(jsonResponse);
+                        Message response2= new Gson().fromJson(jsonResponse,Message.class);
+                        System.out.println(response2.getType());
+                        if(response2.getValidation().equals("valid"))
+                        {
+                            Platform.runLater(() -> {
+                                stage.setScene(new Scene(new PlayersListBase(stage),1000,700));
+                            });   
+                        }
+                } catch (IOException ex) {
+                    Logger.getLogger(loginBase.class.getName()).log(Level.SEVERE, null, ex);
+                }
+//            App.closeConnection();
+        }).start();
         });
-
+        
         textHaveAc.setFill(javafx.scene.paint.Color.valueOf("#e8e5e5"));
         textHaveAc.setLayoutX(635.0);
         textHaveAc.setLayoutY(536.0);
