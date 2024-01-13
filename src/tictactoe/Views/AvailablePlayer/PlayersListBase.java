@@ -146,7 +146,7 @@ public class PlayersListBase extends AnchorPane {
                     ArrayList<PlayersDTO> players =response.getPlayersList();
                     for(PlayersDTO player: players)
                     {
-                        System.out.println(player.getUserName());
+                        
                     }
                     if(response.getType().equals("getOnline"))
                     {
