@@ -3,17 +3,10 @@
  */
 
 
-
-.mainFxmlClass {
-    -fx-background-size:750px 480px;
+.mylistview {
+	-fx-border-color:derive(gray,80%);
+        -fx-padding: -20;
+        
 }
-.mylistview{
-
-    -fx-border-color:derive(gray,85%);
-    -fx-padding:-7;
-    -fx-control-inner-background: #350663;
-}
-
-
 
 

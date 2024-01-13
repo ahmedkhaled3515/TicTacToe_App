@@ -116,12 +116,12 @@ public class loginBase extends AnchorPane {
                             String valid = App.input.readLine();
                             if (valid.equals("true")) {
                                 Platform.runLater(() -> {
-                                Parent root = new PlayersListBaseNew();
+                                Parent root = new PlayersListBaseNew(stage);
                                 Scene scene = new Scene(root, 1000, 700);
                                 stage.setScene(scene);
                                 stage.show();
                                 });
-                            } else {
+                            } if (valid.equals("false")){
                                  Platform.runLater(() -> {
                                 Alert alert = new Alert(AlertType.INFORMATION);
                                 alert.setTitle("Wrong Email or Password");

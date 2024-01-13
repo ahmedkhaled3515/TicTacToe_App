@@ -138,11 +138,11 @@ public class SignupBase extends AnchorPane {
                             Alert alert = new Alert(Alert.AlertType.INFORMATION);
                             alert.setTitle("Successful SignUp!");
                             alert.setHeaderText(null);
-                            alert.setContentText("You have signed up successfully");
+                            alert.setContentText("You have signed up successfully, You can Login now!");
                             alert.showAndWait();
                         });
                         System.out.println(response);
-                    } else {
+                    }  if (response.equals("false")) {
                         Platform.runLater(() -> {
                             Alert alert = new Alert(Alert.AlertType.INFORMATION);
                             alert.setTitle("Email already exists");
@@ -154,7 +154,7 @@ public class SignupBase extends AnchorPane {
                     }
                 } catch (IOException ex) {
                     System.out.println("server closed !!!");
-                    Logger.getLogger(SignupBase.class.getName()).log(Level.SEVERE, null, ex);
+                    ex.printStackTrace();
                     break;
                 }
             }
