@@ -62,7 +62,7 @@ public class TicTacToe extends Application {
     @Override
 
     public void start(Stage stage) throws Exception {
-        Parent root = new RecordBase(stage);
+        Parent root = new homeBase(stage);
 
         Parent root2=new ComputerModeBase(stage,"O");
         scene = new Scene(root);

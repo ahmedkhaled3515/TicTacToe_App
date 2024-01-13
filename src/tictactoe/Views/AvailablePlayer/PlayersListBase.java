@@ -14,6 +14,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class PlayersListBase extends AnchorPane {
 
@@ -27,7 +28,7 @@ public class PlayersListBase extends AnchorPane {
     protected final Text playerScoretxt;
     protected final ImageView backBtn;
 
-    public PlayersListBase() {
+    public PlayersListBase(Stage stage) {
 
         anchorPane = new AnchorPane();
         backgroundImg = new ImageView();
@@ -50,7 +51,7 @@ public class PlayersListBase extends AnchorPane {
 
         backgroundImg.setFitHeight(686.0);
         backgroundImg.setFitWidth(1014.0);
-        backgroundImg.setImage(new Image(getClass().getResource("gaming-blank-banner-background_23-2150390423.jpg").toExternalForm()));
+    //    backgroundImg.setImage(new Image(getClass().getResource("gaming-blank-banner-background_23-2150390423.jpg").toExternalForm()));
 
         availableLabel.setLayoutX(545.0);
         availableLabel.setLayoutY(69.0);
@@ -110,8 +111,8 @@ public class PlayersListBase extends AnchorPane {
         backBtn.setLayoutY(69.0);
         backBtn.setPickOnBounds(true);
         backBtn.setPreserveRatio(true);
-        backBtn.setImage(new Image(getClass().getResource("symbole-fleche-gauche-violet.png").toExternalForm()));
-        backBtn.setImage(new Image(getClass().getResource("symbole-fleche-gauche-violet.png").toExternalForm()));
+//        backBtn.setImage(new Image(getClass().getResource("symbole-fleche-gauche-violet.png").toExternalForm()));
+  //      backBtn.setImage(new Image(getClass().getResource("symbole-fleche-gauche-violet.png").toExternalForm()));
 
         backBtn.setOnMouseClicked(new EventHandler() {
 

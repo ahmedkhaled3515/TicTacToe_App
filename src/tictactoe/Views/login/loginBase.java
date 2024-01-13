@@ -24,6 +24,11 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcons;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.application.Platform;
+import tictactoe.Views.AvailablePlayer.PlayersListBase;
 
 
 public class loginBase extends AnchorPane {
@@ -78,6 +83,7 @@ public class loginBase extends AnchorPane {
         txtEmail.setPrefWidth(250.0);
         txtEmail.setPromptText("Email");
         txtEmail.setFont(new Font(18.0));
+       
 
         btnLogin.setLayoutX(686.0);
         btnLogin.setLayoutY(408.0);
@@ -85,18 +91,60 @@ public class loginBase extends AnchorPane {
         btnLogin.setPrefHeight(36.0);
         btnLogin.setPrefWidth(174.0);
         btnLogin.setText("Login");
+        
+        
         App.startConnection();
         Gson gson=new Gson();
         btnLogin.setOnAction((event) -> {
-           Message msg=new Message();
-           msg.setEmail("ahmed");
-           msg.setType("login");
+                   Alert alert = new Alert(Alert.AlertType.ERROR);
+             if(txtEmail.getText().isEmpty() || txtPassword.getText().isEmpty()){
+                     alert.setContentText("Required field");
+                     alert.showAndWait();
+             }else{
+          Message msg=new Message();
+           msg.setType("login"); 
+           msg.setEmail(txtEmail.getText());
+           msg.setPassword(txtPassword.getText());
            String message=gson.toJson(msg);
-            System.out.println(message);
+           System.out.println(message);
            App.output.println(message);
            App.output.flush();
-        });
-
+             }
+                    });
+      
+         new Thread(() -> {
+            while(App.server.isConnected())
+            {
+                try {
+                    String response = App.input.readLine();
+                    String comp = "IN VAILD ACCOUNT!";
+                 //   System.out.println(response);
+               
+                 Platform.runLater(() -> {
+                       if(response.equals(comp)){
+                         Alert alert2 = new Alert(Alert.AlertType.INFORMATION);
+                          alert2.setHeaderText("Not Found plz Enter Correct data");
+                          alert2.setContentText(response);
+                          alert2.showAndWait();
+                        }else{
+                          
+                                Parent root = new PlayersListBase(stage) ;
+                                Scene scene = new Scene(root,1000,700);
+                                stage.setScene(scene);
+                                stage.show();
+                         
+                       }      
+                });
+              
+                } catch (IOException ex) {
+                    System.out.println("server closed !!!");
+                    Logger.getLogger(SignupBase.class.getName()).log(Level.SEVERE, null, ex);
+                    break;
+                }
+              
+            }
+        }).start();
+         
         textHaveAc.setFill(javafx.scene.paint.Color.valueOf("#e8e5e5"));
         textHaveAc.setLayoutX(635.0);
         textHaveAc.setLayoutY(536.0);

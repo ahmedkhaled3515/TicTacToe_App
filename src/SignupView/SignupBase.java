@@ -22,6 +22,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -116,6 +117,11 @@ public class SignupBase extends AnchorPane {
         online.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                 Alert alert = new Alert(Alert.AlertType.ERROR);
+             if(user.getText().isEmpty() || mail.getText().isEmpty() || password.getText().isEmpty()){
+                     alert.setContentText("Required field");
+                     alert.showAndWait();
+             }else{
                 Message msg=new Message();
                 msg.setType("signup");
                 msg.setUserName(user.getText());
@@ -127,6 +133,7 @@ public class SignupBase extends AnchorPane {
                 App.output.println(gsonMessage);
                 App.output.flush();     
             }
+               }
         });
         new Thread(() -> {
             while(App.server.isConnected())
