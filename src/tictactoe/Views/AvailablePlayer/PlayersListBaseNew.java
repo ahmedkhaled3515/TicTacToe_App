@@ -27,9 +27,11 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
+import java.util.Optional;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
+import onlinemode.onlineModeGeneratedBase;
 
 public class PlayersListBaseNew extends AnchorPane {
 
@@ -91,18 +93,79 @@ public class PlayersListBaseNew extends AnchorPane {
                 }
 //            }
         }).start();
+//        App.resetCon();
+        new Thread(() -> {
+            while(App.server.isConnected())
+            {
+                try {
+                    String jsonResponse=App.input.readLine();
+                    Message response= new Gson().fromJson(jsonResponse,Message.class);
+                    System.out.println(jsonResponse);
+                    if(response.getType().equals("invite"))
+                    {
+                        Platform.runLater(() -> {
+                            Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+                            confirm.setContentText(response.getEmail()+" is inviting you to play do you want to join?");
+                            confirm.setTitle("Play Request");
+                            confirm.setX(stage.getX()+(stage.getWidth()/2));
+                            confirm.setY(stage.getY()+(stage.getHeight()/2));
+                            Optional<ButtonType> result= confirm.showAndWait();
+                            if(result.get()== ButtonType.OK)
+                            {
+                                System.out.println("accepted");
+                                Message inviteResponse= new Message();
+                                inviteResponse.setType("accepted");
+                                inviteResponse.setEmail(response.getEmail());
+                                App.output.println(new Gson().toJson(inviteResponse));
+                            }
+                            else if(result.get()==ButtonType.CANCEL)
+                            {
+                                Message inviteResponse= new Message();
+                                inviteResponse.setType("rejected");
+                                inviteResponse.setEmail(response.getEmail());
+                                App.output.println(new Gson().toJson(inviteResponse));
+                                System.out.println("invite canceled");
+                            }
+                            System.out.println(jsonResponse);
+                        });
+                    }
+//                    else if(response.getType().equals("accepted"))
+//                    {
+//                        Platform.runLater(() -> {
+//                            Parent root = new onlineModeGeneratedBase(stage);               
+//                            Scene scene = new Scene(root);
+//                            stage.setScene(scene);
+//                            stage.show();
+//                        });
+//                    }
+                } catch (IOException ex) {
+                    Logger.getLogger(PlayersListBaseNew.class.getName()).log(Level.SEVERE, null, ex);
+                    break;
+                }
+            }
+        }).start();
+//        App.resetCon();
 //        new Thread(() -> {
-//            while(App.server.isConnected())
-//            {
+////            while(App.server.isConnected())
+////            {
 //                try {
 //                    String jsonResponse=App.input.readLine();
 //                    Message response= new Gson().fromJson(jsonResponse,Message.class);
 //                    System.out.println(jsonResponse);
+//                    if(response.getType().equals("accepted"))
+//                    {
+//                        Platform.runLater(() -> {
+//                            Parent root = new onlineModeGeneratedBase(stage);               
+//                            Scene scene = new Scene(root);
+//                            stage.setScene(scene);
+//                            stage.show();
+//                        });
+//                    }
 //                } catch (IOException ex) {
 //                    Logger.getLogger(PlayersListBaseNew.class.getName()).log(Level.SEVERE, null, ex);
-//                    break;
+////                    break;
 //                }
-//            }
+////            }
 //        }).start();
         
 //        Gson gson = new Gson();
