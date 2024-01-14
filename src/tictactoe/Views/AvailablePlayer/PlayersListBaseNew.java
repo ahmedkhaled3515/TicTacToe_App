@@ -39,8 +39,7 @@ public class PlayersListBaseNew extends AnchorPane {
     protected static ListView listView = new ListView();
     public static ArrayList<String> avaliable;
     public static List<String> receivedEmailList;
-    public static boolean closeInvite = false, checkforclose = false;
-    Object lock = new Object();
+
 
     public PlayersListBaseNew(Stage stage) {
 
@@ -67,8 +66,6 @@ public class PlayersListBaseNew extends AnchorPane {
                     Type listType = new TypeToken<List<String>>() {
                     }.getType();
                     List<String> newReceivedEmailList = gson.fromJson(jsonEmailList, listType);
-
-                    // Synchronize access to the shared variable
                         receivedEmailList = newReceivedEmailList;
                     
 
