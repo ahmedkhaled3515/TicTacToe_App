@@ -28,6 +28,7 @@ import javafx.scene.text.Font;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
@@ -98,6 +99,7 @@ public class PlayersListBaseNew extends AnchorPane {
             while(App.server.isConnected())
             {
                 try {
+                    AtomicBoolean accepted= new AtomicBoolean(false);
                     String jsonResponse=App.input.readLine();
                     Message response= new Gson().fromJson(jsonResponse,Message.class);
                     System.out.println(jsonResponse);
@@ -117,6 +119,12 @@ public class PlayersListBaseNew extends AnchorPane {
                                 inviteResponse.setType("accepted");
                                 inviteResponse.setEmail(response.getEmail());
                                 App.output.println(new Gson().toJson(inviteResponse));
+                                App.output.flush();
+                                Parent root = new onlineModeGeneratedBase(stage);               
+                                Scene scene = new Scene(root);
+                                stage.setScene(scene);
+                                stage.show();
+                                accepted.set(true);
                             }
                             else if(result.get()==ButtonType.CANCEL)
                             {
@@ -124,20 +132,32 @@ public class PlayersListBaseNew extends AnchorPane {
                                 inviteResponse.setType("rejected");
                                 inviteResponse.setEmail(response.getEmail());
                                 App.output.println(new Gson().toJson(inviteResponse));
+                                App.output.flush();
+                                
                                 System.out.println("invite canceled");
                             }
                             System.out.println(jsonResponse);
                         });
                     }
-//                    else if(response.getType().equals("accepted"))
-//                    {
-//                        Platform.runLater(() -> {
-//                            Parent root = new onlineModeGeneratedBase(stage);               
-//                            Scene scene = new Scene(root);
-//                            stage.setScene(scene);
-//                            stage.show();
-//                        });
-//                    }
+                    else if(response.getType().equals("accepted"))
+                    {
+                        Platform.runLater(() -> {
+                            Parent root = new onlineModeGeneratedBase(stage);               
+                            Scene scene = new Scene(root);
+                            stage.setScene(scene);
+                            stage.show();
+                        });
+                        break;
+                    }
+                    else if(response.getType().equals("rejected"))
+                    {
+                        Platform.runLater(() -> {    
+                            Alert rejectAlert=new Alert(Alert.AlertType.INFORMATION,response.getEmail()+" rejected your play request check another player");
+                            rejectAlert.setX(stage.getX()+(stage.getWidth()/2));
+                            rejectAlert.setY(stage.getY()+(stage.getHeight()/2));
+                            rejectAlert.show();
+                        });
+                    }
                 } catch (IOException ex) {
                     Logger.getLogger(PlayersListBaseNew.class.getName()).log(Level.SEVERE, null, ex);
                     break;

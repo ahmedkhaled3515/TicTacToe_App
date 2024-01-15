@@ -121,11 +121,14 @@ public class loginBase extends AnchorPane {
 //                        System.out.println(jsonResponse);
                         Message response2= new Gson().fromJson(jsonResponse,Message.class);
                         System.out.println(response2.getType());
-                        if(response2.getValidation().equals("valid"))
+                        if(response2.getType().equals("login"))
                         {
-                            Platform.runLater(() -> {
-                                stage.setScene(new Scene(new PlayersListBaseNew(stage),1000,700));
-                            });   
+                            if(response2.getValidation().equals("valid"))
+                            {
+                                Platform.runLater(() -> {
+                                    stage.setScene(new Scene(new PlayersListBaseNew(stage),1000,700));
+                                });   
+                            }
                         }
                 } catch (IOException ex) {
                     Logger.getLogger(loginBase.class.getName()).log(Level.SEVERE, null, ex);
