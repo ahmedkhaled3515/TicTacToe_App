@@ -51,6 +51,7 @@ public class PlayersListBaseNew extends AnchorPane {
     Optional<ButtonType> result;
     ButtonType alertResult;
     boolean flag;
+
     public PlayersListBaseNew(Stage stage) {
         flag=true;
         alertResult=new ButtonType("");
@@ -76,6 +77,7 @@ public class PlayersListBaseNew extends AnchorPane {
                     System.out.println(jsonResponse);
                     Message response=App.gson.fromJson(jsonResponse,Message.class);
                     ArrayList<PlayersDTO> players =response.getPlayersList();
+
                     
                     if(response.getType().equals("getOnline"))
                     {
