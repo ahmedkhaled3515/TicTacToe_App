@@ -27,6 +27,7 @@ public class App {
     public static Socket server;
     public static BufferedReader input;
     public static PrintWriter output;
+    public static Gson gson=new Gson();
 
     public App() {
 

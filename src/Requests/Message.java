@@ -19,12 +19,13 @@ public class Message {
     String opponentUserName;
     InetAddress ipAddress;
     boolean status;
- 
-    
+    String opponentEmail;
+    int location;
     int step;
-    
     String XO;
 
+    
+    
     public boolean isStatus() {
         return status;
     }
@@ -99,6 +100,24 @@ public class Message {
     public void setXO(String XO) {
         this.XO = XO;
     }
+
+    public String getOpponentEmail() {
+        return opponentEmail;
+    }
+
+    public void setOpponentEmail(String opponentEmail) {
+        this.opponentEmail = opponentEmail;
+    }
+
+    public int getLocation() {
+        return location;
+    }
+
+    public void setLocation(int location) {
+        this.location = location;
+    }
+    
+    
 
 
     
