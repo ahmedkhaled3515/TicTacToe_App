@@ -58,14 +58,13 @@ public class TicTacToe extends Application {
     private Scene scene;
     private Stage stage;
 
-    Socket server;
 
     @Override
 
     public void start(Stage stage) throws Exception {
 
-        //Parent root = new homeBase(stage);
-      Parent root = new PlayersListBaseNew(stage);
+        Parent root = new homeBase(stage);
+//        Parent root = new PlayersListBaseNew(stage);
         Parent root2=new ComputerModeBase(stage,"O");
         scene = new Scene(root);
        stage.setScene(scene);

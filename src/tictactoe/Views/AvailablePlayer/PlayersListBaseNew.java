@@ -2,6 +2,8 @@ package tictactoe.Views.AvailablePlayer;
 
 import Requests.App;
 import static Requests.App.input;
+import Requests.Message;
+import Requests.PlayersDTO;
 import SelectmodeView.SelectModeBase;
 import SignupView.SignupBase;
 import com.google.gson.Gson;
@@ -25,9 +27,12 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
+import onlinemode.onlineModeGeneratedBase;
 
 public class PlayersListBaseNew extends AnchorPane {
 
@@ -39,52 +44,207 @@ public class PlayersListBaseNew extends AnchorPane {
     protected static ListView listView = new ListView();
     public static ArrayList<String> avaliable;
     public static List<String> receivedEmailList;
-
+    public static boolean closeInvite = false, checkforclose = false;
+    Object lock = new Object();
+    ArrayList<ItemBase> playersCards;
+    Alert confirm;
+    Optional<ButtonType> result;
+    ButtonType alertResult;
+    boolean flag;
 
     public PlayersListBaseNew(Stage stage) {
-
+        flag=true;
+        alertResult=new ButtonType("");
+        confirm = new Alert(Alert.AlertType.CONFIRMATION);
         anchorPane = new AnchorPane();
         backgroundImg = new ImageView();
         availableLabel = new Label();
         backBtn = new ImageView();
         rectangle = new Rectangle();
         avaliable = new ArrayList<>();
-
-        ItemBase item = new ItemBase();
-        item.playerTxt.setText("Haneen");
-        listView.getItems().add(item);
-        listView.refresh();
-
+        playersCards=new ArrayList<>();
         App.startConnection();
-        Gson gson = new Gson();
+        Message msg= new Message();
+        msg.setType("getOnline");
+        String request=App.gson.toJson(msg);
+        App.output.println(request);
+        App.output.flush();
         new Thread(() -> {
-            while (App.server.isConnected()) {
+//            while(App.server.isConnected())
+//            {
                 try {
-                    String jsonEmailList = input.readLine();
+                    String jsonResponse= App.input.readLine();
+                    System.out.println(jsonResponse);
+                    Message response=App.gson.fromJson(jsonResponse,Message.class);
+                    ArrayList<PlayersDTO> players =response.getPlayersList();
 
-                    // Convert the JSON string to a List of emails
-                    Type listType = new TypeToken<List<String>>() {
-                    }.getType();
-                    List<String> newReceivedEmailList = gson.fromJson(jsonEmailList, listType);
-                        receivedEmailList = newReceivedEmailList;
                     
-
-                    Platform.runLater(() -> {
-                        for (String email : newReceivedEmailList) {
-                            ItemBase itemBase = new ItemBase();
-                            itemBase.playerTxt.setText(email);
-                            listView.getItems().add(itemBase);
+                    if(response.getType().equals("getOnline"))
+                    {
+                        for(PlayersDTO player: players)
+                        {
+                            ItemBase item=new ItemBase();
+                            item.playerTxt.setText(player.getUserName());
+                            item.inviteBTn.setOnAction((event) -> {
+                                Message jsonMessage=new Message();
+                                jsonMessage.setType("invite");
+                                jsonMessage.setEmail(player.getEmail());
+                                App.output.println(new Gson().toJson(jsonMessage));
+                                App.output.flush();
+                            });
+                            listView.getItems().add(item);
                             listView.refresh();
-                            System.out.print(email);
-                        }
-                    });
+                        }                    
+                    }
                 } catch (IOException ex) {
-                    System.out.println("server closed !!!");
-                    Logger.getLogger(SignupBase.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(PlayersListBase.class.getName()).log(Level.SEVERE, null, ex);
+//                    break;
+                }
+//            }
+        }).start();
+//        App.resetCon();
+        new Thread(() -> {
+            while(App.server.isConnected())
+            {
+                try {
+                    AtomicBoolean accepted= new AtomicBoolean(false);
+                    String jsonResponse=App.input.readLine();
+                    Message response= new Gson().fromJson(jsonResponse,Message.class);
+                    System.out.println(jsonResponse);
+                    if(response.getType().equals("invite"))
+                    {
+                        Platform.runLater(() -> {
+                            confirm.setContentText(response.getEmail()+" is inviting you to play do you want to join?");
+                            confirm.setTitle("Play Request");
+                            confirm.setX(stage.getX()+(stage.getWidth()/2));
+                            confirm.setY(stage.getY()+(stage.getHeight()/2));
+                            result= confirm.showAndWait();
+                            alertResult=result.get();
+                            if (result.isPresent() && result.get() == ButtonType.OK) {
+                                accepted.set(true);
+                            }
+                            else if(result.isPresent() && result.get() == ButtonType.CANCEL)
+                            {
+                                accepted.set(false);
+                            }
+                            
+                        });
+                        while(accepted.get()==false)
+                        {
+                            Thread.sleep(60000);
+                        }
+                        if (accepted.get()) {
+                // Continue with the rest of your code for accepting the invitation
+                            System.out.println("accepted");
+                            Message inviteResponse = new Message();
+                            inviteResponse.setType("accepted");
+                            inviteResponse.setEmail(response.getEmail());
+                            App.output.println(new Gson().toJson(inviteResponse));
+                            App.output.flush();
+                            Platform.runLater(() -> {
+                            Parent root = new onlineModeGeneratedBase(stage);
+                            Scene scene = new Scene(root);
+                            stage.setScene(scene);
+                            stage.show();
+                            });
+                            break;
+                        } else {
+                            // Handle rejection
+                            System.out.println("invite canceled");
+                            Message inviteResponse = new Message();
+                            inviteResponse.setType("rejected");
+                            inviteResponse.setEmail(response.getEmail());
+                            App.output.println(new Gson().toJson(inviteResponse));
+                            App.output.flush();
+                        }
+//                        System.out.println(result.get());
+//                        if(flag==false)
+//                        {
+//                            break;
+//                        }
+                    }
+                    else if(response.getType().equals("accepted"))
+                    {
+                        Platform.runLater(() -> {
+                            Parent root = new onlineModeGeneratedBase(stage);               
+                            Scene scene = new Scene(root);
+                            stage.setScene(scene);
+                            stage.show();
+                        });
+                        break;
+                    }
+                    else if(response.getType().equals("rejected"))
+                    {
+                        Platform.runLater(() -> {    
+                            Alert rejectAlert=new Alert(Alert.AlertType.INFORMATION,response.getEmail()+" rejected your play request check another player");
+                            rejectAlert.setX(stage.getX()+(stage.getWidth()/2));
+                            rejectAlert.setY(stage.getY()+(stage.getHeight()/2));
+                            rejectAlert.show();
+                        });
+                    }
+                } catch (IOException ex) {
+                    Logger.getLogger(PlayersListBaseNew.class.getName()).log(Level.SEVERE, null, ex);
                     break;
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(PlayersListBaseNew.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }).start();
+//        App.resetCon();
+//        new Thread(() -> {
+////            while(App.server.isConnected())
+////            {
+//                try {
+//                    String jsonResponse=App.input.readLine();
+//                    Message response= new Gson().fromJson(jsonResponse,Message.class);
+//                    System.out.println(jsonResponse);
+//                    if(response.getType().equals("accepted"))
+//                    {
+//                        Platform.runLater(() -> {
+//                            Parent root = new onlineModeGeneratedBase(stage);               
+//                            Scene scene = new Scene(root);
+//                            stage.setScene(scene);
+//                            stage.show();
+//                        });
+//                    }
+//                } catch (IOException ex) {
+//                    Logger.getLogger(PlayersListBaseNew.class.getName()).log(Level.SEVERE, null, ex);
+////                    break;
+//                }
+////            }
+//        }).start();
+        
+//        Gson gson = new Gson();
+//        new Thread(() -> {
+//            while (App.server.isConnected()) {
+//                try {
+//                    String jsonEmailList = input.readLine();
+//
+//                    // Convert the JSON string to a List of emails
+//                    Type listType = new TypeToken<List<String>>() {
+//                    }.getType();
+//                    List<String> newReceivedEmailList = gson.fromJson(jsonEmailList, listType);
+//
+//                    // Synchronize access to the shared variable
+//                        receivedEmailList = newReceivedEmailList;
+//                    
+//
+//                    Platform.runLater(() -> {
+//                        for (String email : newReceivedEmailList) {
+//                            ItemBase itemBase = new ItemBase();
+//                            itemBase.playerTxt.setText(email);
+//                            listView.getItems().add(itemBase);
+//                            listView.refresh();
+//                            System.out.print(email);
+//                        }
+//                    });
+//                } catch (IOException ex) {
+//                    System.out.println("server closed !!!");
+//                    Logger.getLogger(SignupBase.class.getName()).log(Level.SEVERE, null, ex);
+//                    break;
+//                }
+//            }
+//        }).start();
 
         setId("AnchorPane");
         setPrefHeight(400.0);
@@ -116,6 +276,7 @@ public class PlayersListBaseNew extends AnchorPane {
 
             @Override
             public void handle(Event event) {
+                listView.getItems().clear();
                 Parent root = new SelectModeBase(stage);               
                 Scene scene = new Scene(root);
                 stage.setScene(scene);

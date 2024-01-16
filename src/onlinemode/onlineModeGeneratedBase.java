@@ -79,10 +79,8 @@ public class onlineModeGeneratedBase extends AnchorPane {
     public String player1, player2;
     public int player1Score,player2Score,drawScore;
      Random random = new Random();
-    Socket server;
-    PrintWriter output;
-    BufferedReader input;
-    public onlineModeGeneratedBase(Stage stage,Socket server) {
+    
+    public onlineModeGeneratedBase(Stage stage) {
         imageView = new ImageView();
         gridPane = new GridPane();
         columnConstraints = new ColumnConstraints();
@@ -186,13 +184,7 @@ public class onlineModeGeneratedBase extends AnchorPane {
         topLeftBtn.setPrefWidth(178.0);
         topLeftBtn.setFont(new Font(50));
         topLeftBtn.setStyle("-fx-text-stroke: white;");
-        this.server=server;
-        try {
-            output= new PrintWriter(server.getOutputStream());
-            input= new BufferedReader(new InputStreamReader(server.getInputStream()));
-        } catch (IOException ex) {
-            Logger.getLogger(onlineModeGeneratedBase.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
         for(int i=0;i<buttonArr.length;i++)
         {
             buttonArr[i].setOnAction(new EventHandler<ActionEvent>() {
@@ -206,7 +198,7 @@ public class onlineModeGeneratedBase extends AnchorPane {
                             player1Turn = false;
                             player2Label.setText("Player2 Turn");
                             player1Label.setText("Player1 ");
-                            output.println(index);
+//                            output.println(index);
                             checkWinner();
                         }
                     } else {
@@ -215,39 +207,38 @@ public class onlineModeGeneratedBase extends AnchorPane {
                             player1Turn = true;
                             player1Label.setText("Player1 Turn");
                             player2Label.setText("Player2");
-                            output.println(index);
+//                            output.println(index);
                             checkWinner();
                         }
                     }
-                    output.flush();
-//                    output.close();
+                   
                 }
             });
         }
         
-        Runnable run = (() -> {
-                while (true) {
-                try {
-                    String message = input.readLine();
-                    Platform.runLater(() -> {
-                        System.out.println(message);
-                        int step = Integer.parseInt(message);
-                        if(player1Turn)
-                        {
-                            buttonArr[step].setText(player1);
-                        }
-                        else
-                            buttonArr[step].setText(player2);
-                        player1Turn=!player1Turn;
-                    });
-                } catch (IOException ex) {
-                    System.out.println("server closed !!!");
-                    Logger.getLogger(onlineModeGeneratedBase.class.getName()).log(Level.SEVERE, null, ex);
-                    break;
-                }
-            }
-        });
-        new Thread(run).start();
+//        Runnable run = (() -> {
+//                while (true) {
+//                try {
+//                    String message = input.readLine();
+//                    Platform.runLater(() -> {
+//                        System.out.println(message);
+//                        int step = Integer.parseInt(message);
+//                        if(player1Turn)
+//                        {
+//                            buttonArr[step].setText(player1);
+//                        }
+//                        else
+//                            buttonArr[step].setText(player2);
+//                        player1Turn=!player1Turn;
+//                    });
+//                } catch (IOException ex) {
+//                    System.out.println("server closed !!!");
+//                    Logger.getLogger(onlineModeGeneratedBase.class.getName()).log(Level.SEVERE, null, ex);
+//                    break;
+//                }
+//            }
+//        });
+//        new Thread(run).start();
 
 
         GridPane.setColumnIndex(topBtn, 1);
