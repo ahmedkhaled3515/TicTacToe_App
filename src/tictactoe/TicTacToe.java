@@ -58,7 +58,6 @@ public class TicTacToe extends Application {
     private Scene scene;
     private Stage stage;
 
-    Socket server;
 
     @Override
 
