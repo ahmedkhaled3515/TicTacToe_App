@@ -32,7 +32,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
-import onlinemode.onlineModeGeneratedBase;
+import onlinemode.OnlineGameboard;
 
 public class PlayersListBaseNew extends AnchorPane {
 
@@ -120,7 +120,7 @@ public class PlayersListBaseNew extends AnchorPane {
                                 inviteResponse.setEmail(response.getEmail());
                                 App.output.println(new Gson().toJson(inviteResponse));
                                 App.output.flush();
-                                Parent root = new onlineModeGeneratedBase(stage);               
+                                Parent root = new OnlineGameboard(stage);               
                                 Scene scene = new Scene(root);
                                 stage.setScene(scene);
                                 stage.show();
@@ -142,7 +142,7 @@ public class PlayersListBaseNew extends AnchorPane {
                     else if(response.getType().equals("accepted"))
                     {
                         Platform.runLater(() -> {
-                            Parent root = new onlineModeGeneratedBase(stage);               
+                            Parent root = new OnlineGameboard(stage);               
                             Scene scene = new Scene(root);
                             stage.setScene(scene);
                             stage.show();
@@ -175,7 +175,7 @@ public class PlayersListBaseNew extends AnchorPane {
 //                    if(response.getType().equals("accepted"))
 //                    {
 //                        Platform.runLater(() -> {
-//                            Parent root = new onlineModeGeneratedBase(stage);               
+//                            Parent root = new OnlineGameboard(stage);               
 //                            Scene scene = new Scene(root);
 //                            stage.setScene(scene);
 //                            stage.show();

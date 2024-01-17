@@ -3,24 +3,22 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/tictactoe/Views/login/loginBase.java</file>
-            <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/SignupView/SignupBase.java</file>
-            <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/tictactoe/Views/AvailablePlayer/PlayersListBase.java</file>
-            <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/Requests/App.java</file>
-            <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/tictactoe/TicTacToe.java</file>
-            <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/onlinemode/onlineModeGeneratedBase.java</file>
-            <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/tictactoe/Views/AvailablePlayer/item.css</file>
-            <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/tictactoe/Views/AvailablePlayer/PlayersListBaseNew.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe/TicTacToe_App/src/Requests/ClientHandler.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe/TicTacToe_App/src/onlinemode/onlineModeGeneratedBase.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe/TicTacToe_App/src/onlinemode/ClientHandler.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe/TicTacToe_App/src/Requests/Message.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe/TicTacToe_App/src/tictactoe/TicTacToe.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe/TicTacToe_App/src/Requests/PlayersDTO.java</file>
         </group>
         <group>
-            <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/tictactoe/Views/login/loginBase.java</file>
-            <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/SignupView/SignupBase.java</file>
-            <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/tictactoe/Views/AvailablePlayer/PlayersListBase.java</file>
-            <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/Requests/App.java</file>
-            <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/tictactoe/TicTacToe.java</file>
-            <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/onlinemode/onlineModeGeneratedBase.java</file>
-            <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/tictactoe/Views/AvailablePlayer/item.css</file>
-            <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/tictactoe/Views/AvailablePlayer/PlayersListBaseNew.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe/TicTacToe_App/src/onlinemode/OnlineGameboard.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe/TicTacToe_App/src/onlinemode/OnlineModeController.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe/TicTacToe_App/src/Requests/ClientHandler.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe/TicTacToe_App/src/onlinemode/ClientHandler.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe/TicTacToe_App/src/tictactoe/Views/LocalMode2Players/GameBoardBase2Players.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe/TicTacToe_App/src/Requests/Message.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe/TicTacToe_App/src/tictactoe/TicTacToe.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe/TicTacToe_App/src/Requests/PlayersDTO.java</file>
         </group>
     </open-files>
 </project-private>

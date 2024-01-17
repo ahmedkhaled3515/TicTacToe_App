@@ -15,19 +15,58 @@ import java.util.ArrayList;
 public class Message {
     String type;
     String userName;
+    
     String email;
+    String opponentEmail;
+    String buttonPressed;
+    String playerTurn;
+    String currentPlayer;
+    String symbol;
+    
+    String turn;
     String password;
     String opponentUserName;
     InetAddress ipAddress;
-    
- 
-    
     int step;
-    
     String XO;
     String status;
     String validation;
     ArrayList<PlayersDTO> playersList;
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
+    }
+    
+    
+    public String getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public void setCurrentPlayer(String currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
+    public String getButtonPressed() {
+        return buttonPressed;
+    }
+
+    public void setButtonPressed(String buttonPressed) {
+        this.buttonPressed = buttonPressed;
+    }
+
+    public String getPlayerTurn() {
+        return playerTurn;
+    }
+
+    public void setPlayerTurn(String playerTurn) {
+        this.playerTurn = playerTurn;
+    }
+    
+
 
     public ArrayList<PlayersDTO> getPlayersList() {
         return playersList;
@@ -47,6 +86,20 @@ public class Message {
 
     public String getValidation() {
         return validation;
+    }
+    public String getTurn() {
+        return turn;
+    }
+
+    public void setTurn(String turn) {
+        this.turn = turn;
+    }
+    public String getOpponentEmail() {
+        return opponentEmail;
+    }
+
+    public void setOpponentEmail(String opponentEmail) {
+        this.opponentEmail = opponentEmail;
     }
 
     public void setValidation(String validation) {
@@ -123,7 +176,7 @@ public class Message {
     
     public Message()
     {}
-   public Message(String type, String userName, String opponentUserName, InetAddress ipAddress, int step, String XO,String validation) {
+    public Message(String type, String userName, String opponentUserName, InetAddress ipAddress, int step, String XO,String validation) {
         this.type = type;
         this.userName = userName;
         this.opponentUserName = opponentUserName;
@@ -131,8 +184,29 @@ public class Message {
         this.step = step;
         this.XO = XO;
         this.validation=validation;
+        }
+    
+    public String toString() {
+        return "MyObjectCLIENTTTT{" +
+                "Type='" + type + '\'' +
+                "Username='" + userName + '\'' +
+                "OpponentUserName='" + opponentUserName + '\'' +
+                "IPAddress='" + ipAddress + '\'' +
+                "Step='" + step + '\'' +
+                "XO='" + XO + '\'' +
+                "Status='" + status + '\'' +  
+                "Validation='" + validation + '\'' +
+                ", playerList=" + playerListToString() +
+                            
+                '}';
     }
 
-   
+      public String playerListToString() {
+        StringBuilder result = new StringBuilder("\n");
+        for (PlayersDTO player : playersList) {
+            result.append(player).append("\n");
+        }
+        return result.toString();
+    }
     
 }

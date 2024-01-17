@@ -39,7 +39,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javax.swing.GroupLayout;
-import onlinemode.onlineModeGeneratedBase;
+import onlinemode.OnlineGameboard;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import tictactoe.Views.login.loginBase;

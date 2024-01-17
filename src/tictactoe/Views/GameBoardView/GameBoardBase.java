@@ -76,15 +76,7 @@ public  class GameBoardBase extends AnchorPane {
         but20 = new Button();
         but21 = new Button();
         but22 = new Button();
-        Button[][] buttons={{but00,but01,but02},{but10,but11,but12},{but20,but21,but22}};
-        for(int i=0;i<3;i++)
-        {
-            for(int j=0;j<3;j++)
-            {
-                buttons[i][j].getStyleClass().add("x");
-                buttons[i][j].setOnAction(new buttonHandler());
-            }
-        }
+        
         
 
         scoreGrid = new GridPane();
@@ -118,7 +110,7 @@ public  class GameBoardBase extends AnchorPane {
         setPrefWidth(1000.0);
         imageView.setFitHeight(700.0);
         imageView.setFitWidth(1000.0);
-        imageView.setImage(new Image(getClass().getResource("background.jpg").toExternalForm()));
+      //  imageView.setImage(new Image(getClass().getResource("BackgroundImage.png").toExternalForm()));
         boardGrid.setHgap(10.0);
         boardGrid.setLayoutX(265.0);
         boardGrid.setLayoutY(171.0);
@@ -321,31 +313,7 @@ public  class GameBoardBase extends AnchorPane {
         getChildren().add(newButton);
         getChildren().add(exitButton);
 
-    }
-    public class buttonHandler implements EventHandler<ActionEvent>
-    {
-
-        @Override
-        public void handle(ActionEvent event) {
-            Button button = (Button) event.getSource();
-            if(button.getText().isEmpty())
-            {
-               if(flag)
-                {
-                    button.setText("X");
-                    button.getStyleClass().add("x");
-                    flag=false;
-                }
-                else
-                {
-                    button.setText("O");
-                    button.getStyleClass().add("o");
-                    flag=true;
-                } 
-            }
-            
-            
-        }
+   
         
     }
 }

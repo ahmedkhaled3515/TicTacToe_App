@@ -30,13 +30,14 @@ import tictactoe.Views.WinView.WinPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
-import onlinemode.onlineModeGeneratedBase;
+import onlinemode.OnlineGameboard;
 import tictactoe.Views.DrawView.DrawPane;
 import tictactoe.Views.LoseView.LosePane;
 import tictactoe.Views.WinView.WinController;
 
 import tictactoe.Views.AvailablePlayer.PlayersListBase;
 import tictactoe.Views.AvailablePlayer.PlayersListBaseNew;
+import tictactoe.Views.GameBoardView.GameBoardBase;
 import tictactoe.Views.login.loginBase;
 
 
@@ -64,12 +65,16 @@ public class TicTacToe extends Application {
 
     public void start(Stage stage) throws Exception {
 
-        Parent root = new homeBase(stage);
+          this.stage = stage;
+        
+ //       Parent root = new homeBase(stage);
 //        Parent root = new PlayersListBaseNew(stage);
-        Parent root2=new ComputerModeBase(stage,"O");
+ //       Parent root2=new ComputerModeBase(stage,"O");
+        //Parent root = new GameBoardBase(this,stage);
+        Parent root = new OnlineGameboard(stage);
         scene = new Scene(root);
-       stage.setScene(scene);
-       stage.show();
+        stage.setScene(scene);
+        stage.show();
        
       
     }
