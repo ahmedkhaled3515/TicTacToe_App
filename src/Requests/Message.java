@@ -19,11 +19,8 @@ public class Message {
     String password;
     String opponentUserName;
     InetAddress ipAddress;
-
-    boolean status;
     String opponentEmail;
     int location;
-
     int step;
     String XO;
     String status;

@@ -1,6 +1,9 @@
 package onlinemode;
 
+import Requests.App;
+import Requests.Message;
 import SelectmodeView.SelectModeBase;
+import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -9,6 +12,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.URL;
 import java.util.Random;
+import java.util.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
@@ -36,6 +40,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import static onlinemode.onlineModeGeneratedBaseNew.myTurn;
 
 public class onlineModeGeneratedBase extends AnchorPane {
 
@@ -74,13 +79,19 @@ public class onlineModeGeneratedBase extends AnchorPane {
     protected final Button menueBtn;
     protected final Text player1Label;
     protected final Text player2Label;
-    public Button[] buttonArr = new Button[9];
-    public Boolean player1Turn;
-    public String player1, player2;
-    public int player1Score,player2Score,drawScore;
      Random random = new Random();
+         public int[][] board;
+    public static boolean myTurn = false;
+    //private ArrayList<Move>moveList=new ArrayList<>();
+    private Timer timer;
+    Gson gson = new Gson();
+    public String opponentEmail;
+    public String PlayerEmail;
+    public String player1, player2;
+    public Button[] buttonArr = new Button[9];
+    public int player1Score,player2Score,drawScore;
     
-    public onlineModeGeneratedBase(Stage stage) {
+    public onlineModeGeneratedBase(Stage stage,String MyEmail,String opponentMail) {
         imageView = new ImageView();
         gridPane = new GridPane();
         columnConstraints = new ColumnConstraints();
@@ -125,6 +136,8 @@ public class onlineModeGeneratedBase extends AnchorPane {
         menueBtn = new Button();
         player1Label = new Text();
         player2Label = new Text();
+         timer = new Timer();
+        board = new int[][]{{-1, -1, -1}, {-1, -1, -1}, {-1, -1, -1}};
         buttonArr[0] = topLeftBtn;
         buttonArr[1] = topBtn;
         buttonArr[2] = topRightBtn;
@@ -135,11 +148,65 @@ public class onlineModeGeneratedBase extends AnchorPane {
         buttonArr[7] = downBtn;
         buttonArr[8] = downRightBtn;
         
-
+        PlayerEmail=MyEmail;
+        opponentEmail=opponentMail;
+        System.out.println("MyEmail"+MyEmail);
+        System.out.println("opponentMail"+opponentMail);
         player1Score=0;
         player2Score=0;
         drawScore=0;
 
+        
+          firstTurn();
+        App.startConnection();
+        new Thread(() -> {
+            while (App.server.isConnected()) {
+                try {
+                    String jsonResponse = App.input.readLine();
+                    System.out.println(jsonResponse);
+                    Message response = App.gson.fromJson(jsonResponse, Message.class);
+                    String playerSide = response.getXO();
+                    int location = response.getLocation();
+                    if (response.getType().equals("retriveMove")) {
+                        switch (location) {
+                            case 1:
+                            topLeftBtn.setText(playerSide); 
+                            break;
+                            case 2:
+                            topBtn.setText(playerSide); 
+                            break; 
+                             case 3:
+                            topRightBtn.setText(playerSide); 
+                            break;
+                             case 4:
+                            centerLeftBtn.setText(playerSide); 
+                            break;
+                            case 5:
+                            centerBtn.setText(playerSide); 
+                            break;
+                            case 6:
+                            centerRightBtn.setText(playerSide); 
+                            break;
+                            case 7:
+                            downLeftBtn.setText(playerSide); 
+                            break;
+                            case 8:
+                            downBtn.setText(playerSide); 
+                            break;
+                            case 9:
+                            downRightBtn.setText(playerSide); 
+                            break;
+                        }
+                         myTurn=true;
+                        checkWinner();                
+                    }
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }).start(); 
+        
+        
         setId("AnchorPane");
         setPrefHeight(672.0);
         setPrefWidth(944.0);
@@ -184,61 +251,32 @@ public class onlineModeGeneratedBase extends AnchorPane {
         topLeftBtn.setPrefWidth(178.0);
         topLeftBtn.setFont(new Font(50));
         topLeftBtn.setStyle("-fx-text-stroke: white;");
-        
-        for(int i=0;i<buttonArr.length;i++)
-        {
-            buttonArr[i].setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    Button but=(Button)event.getSource();
-                    int index=(int)but.getUserData();
-                    if (player1Turn) {
-                        if (but.getText() == "") {
-                            but.setText(player1);
-                            player1Turn = false;
-                            player2Label.setText("Player2 Turn");
-                            player1Label.setText("Player1 ");
-//                            output.println(index);
-                            checkWinner();
-                        }
-                    } else {
-                        if (but.getText() == "") {
-                            but.setText(player2);
-                            player1Turn = true;
-                            player1Label.setText("Player1 Turn");
-                            player2Label.setText("Player2");
-//                            output.println(index);
-                            checkWinner();
-                        }
-                    }
-                   
+        topLeftBtn.setOnMouseClicked(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                if (board[0][0] == -1 && myTurn) {
+                    board[0][0] = 0;
+                    myTurn = false;
+                    topLeftBtn.setText(player1);
+                    sendMove(1, player1);
+                    player2Label.setText(opponentEmail + " Turn");
+                    player1Label.setText(PlayerEmail);
+                    checkWinner();
+
                 }
-            });
-        }
-        
-//        Runnable run = (() -> {
-//                while (true) {
-//                try {
-//                    String message = input.readLine();
-//                    Platform.runLater(() -> {
-//                        System.out.println(message);
-//                        int step = Integer.parseInt(message);
-//                        if(player1Turn)
-//                        {
-//                            buttonArr[step].setText(player1);
-//                        }
-//                        else
-//                            buttonArr[step].setText(player2);
-//                        player1Turn=!player1Turn;
-//                    });
-//                } catch (IOException ex) {
-//                    System.out.println("server closed !!!");
-//                    Logger.getLogger(onlineModeGeneratedBase.class.getName()).log(Level.SEVERE, null, ex);
-//                    break;
-//                }
-//            }
-//        });
-//        new Thread(run).start();
+                if (board[0][0] == -1 && myTurn == false) {
+                    board[0][0] = 0;
+                    myTurn = true;
+                    sendMove(1, player2);
+                    topLeftBtn.setText(player2);
+                    player1Label.setText(PlayerEmail + " Turn");
+                    player2Label.setText(opponentEmail);
+                    checkWinner();
+
+                }
+            }
+        });
+
 
 
         GridPane.setColumnIndex(topBtn, 1);
@@ -247,7 +285,31 @@ public class onlineModeGeneratedBase extends AnchorPane {
         topBtn.setPrefWidth(178.0);
         topBtn.setFont(new Font(50));
         topBtn.setStyle("-fx-text-stroke: white;");
-        
+         topBtn.setOnMouseClicked(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                if (board[0][1] == -1 && myTurn) {
+                    board[0][1] = 0;
+                    myTurn = false;
+                    sendMove(2, player1);
+                    topBtn.setText(player1);
+                    player2Label.setText(opponentEmail + " Turn");
+                    player1Label.setText(PlayerEmail);
+                    checkWinner();
+                }
+                if (board[0][1] == -1 && myTurn == false) {
+                    board[0][1] = 0;
+                    myTurn = true;
+                    sendMove(2, player2);
+                    topBtn.setText(player2);
+                    player1Label.setText(PlayerEmail + " Turn");
+                    player2Label.setText(opponentEmail);
+                    checkWinner();
+                }
+
+            }
+        });
+
         
 
         GridPane.setColumnIndex(topRightBtn, 2);
@@ -256,7 +318,29 @@ public class onlineModeGeneratedBase extends AnchorPane {
         topRightBtn.setPrefWidth(178.0);
         topRightBtn.setFont(new Font(50));
         topRightBtn.setStyle("-fx-text-stroke: white;");
-        
+         topRightBtn.setOnMouseClicked(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                if (board[0][2] == -1 && myTurn) {
+                    board[0][2] = 0;
+                    myTurn = false;
+                    sendMove(3, player1);
+                    topRightBtn.setText(player1);
+                    player2Label.setText(opponentEmail + " Turn");
+                    player1Label.setText(PlayerEmail);
+                    checkWinner();
+                }
+                if (board[0][2] == -1 && myTurn == false) {
+                    board[0][2] = 0;
+                    myTurn = true;
+                    sendMove(3, player2);
+                    topRightBtn.setText(player2);
+                    player1Label.setText(PlayerEmail + " Turn");
+                    player2Label.setText(opponentEmail);
+                    checkWinner();
+                }
+            }
+        });
 
 
         GridPane.setRowIndex(centerLeftBtn, 1);
@@ -265,7 +349,30 @@ public class onlineModeGeneratedBase extends AnchorPane {
         centerLeftBtn.setPrefWidth(178.0);
         centerLeftBtn.setFont(new Font(50));
         centerLeftBtn.setStyle("-fx-text-stroke: white;");
-         
+        centerLeftBtn.setOnMouseClicked(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                if (board[1][0] == -1 && myTurn) {
+                    board[1][0] = 0;
+                    myTurn = false;
+                    sendMove(4, player1);
+                    centerLeftBtn.setText(player1);
+                    player2Label.setText(opponentEmail + " Turn");
+                    player1Label.setText(PlayerEmail);
+                    checkWinner();
+
+                }
+                if (board[1][0] == -1 && myTurn == false) {
+                    board[1][0] = 0;
+                    myTurn = true;
+                    sendMove(4, player2);
+                    centerLeftBtn.setText(player2);
+                    player1Label.setText(PlayerEmail + " Turn");
+                    player2Label.setText(opponentEmail);
+                    checkWinner();
+                }
+            }
+        }); 
 
 
         GridPane.setColumnIndex(centerBtn, 1);
@@ -275,7 +382,31 @@ public class onlineModeGeneratedBase extends AnchorPane {
         centerBtn.setPrefWidth(178.0);
         centerBtn.setFont(new Font(50));
         centerBtn.setStyle("-fx-text-stroke: white;");
-         
+        centerBtn.setOnMouseClicked(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                if (board[1][1] == -1 && myTurn) {
+                    board[1][1] = 0;
+                    myTurn = false;
+                    sendMove(5, player1);
+                    centerBtn.setText(player1);
+                    player2Label.setText(opponentEmail + " Turn");
+                    player1Label.setText(PlayerEmail);
+                    checkWinner();
+
+                }
+                if (board[1][1] == -1 && myTurn == false) {
+                    board[1][1] = 0;
+                    myTurn = true;
+                    sendMove(5, player2);
+                    centerBtn.setText(player2);
+                    player1Label.setText(PlayerEmail + " Turn");
+                    player2Label.setText(opponentEmail);
+                    checkWinner();
+                }
+            }
+        });
+ 
         
 
         GridPane.setColumnIndex(centerRightBtn, 2);
@@ -285,7 +416,30 @@ public class onlineModeGeneratedBase extends AnchorPane {
         centerRightBtn.setPrefWidth(178.0);
         centerRightBtn.setFont(new Font(50));
         centerRightBtn.setStyle("-fx-text-stroke: white;");
-         
+          centerRightBtn.setOnMouseClicked(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                if (board[1][2] == -1 && myTurn) {
+                    board[1][2] = 0;
+                    myTurn = false;
+                    sendMove(6, player1);
+                    centerRightBtn.setText(player1);
+                    player2Label.setText(opponentEmail + " Turn");
+                    player1Label.setText(PlayerEmail);
+                    checkWinner();
+                }
+                if (board[1][2] == -1 && myTurn == false) {
+                    board[1][2] = 0;
+                    myTurn = true;
+                    sendMove(6, player2);
+                    centerRightBtn.setText(player2);
+                    player1Label.setText(PlayerEmail + " Turn");
+                    player2Label.setText(opponentEmail);
+                    checkWinner();
+                }
+            }
+        });
+          
 
         GridPane.setRowIndex(downLeftBtn, 2);
         downLeftBtn.setMnemonicParsing(false);
@@ -293,6 +447,32 @@ public class onlineModeGeneratedBase extends AnchorPane {
         downLeftBtn.setPrefWidth(178.0);
         downLeftBtn.setFont(new Font(50));
         downLeftBtn.setStyle("-fx-text-stroke: white;");
+        downLeftBtn.setOnMouseClicked(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                if (board[2][0] == -1 && myTurn) {
+                    board[2][0] = 0;
+                    myTurn = false;
+                    sendMove(7, player1);
+                    downLeftBtn.setText(player1);
+                    player2Label.setText(opponentEmail + " Turn");
+                    player1Label.setText(PlayerEmail);
+                    checkWinner();
+                }
+                if (board[2][0] == -1 && myTurn == false) {
+                    board[2][0] = 0;
+                    myTurn = true;
+                    sendMove(7, player2);
+                    downLeftBtn.setText(player2);
+                    player1Label.setText(PlayerEmail + " Turn");
+                    player2Label.setText(opponentEmail);
+                    checkWinner();
+                }
+            }
+        });
+
+        
+        
         
         GridPane.setColumnIndex(downBtn, 1);
         GridPane.setRowIndex(downBtn, 2);
@@ -301,7 +481,29 @@ public class onlineModeGeneratedBase extends AnchorPane {
         downBtn.setPrefWidth(178.0);
         downBtn.setFont(new Font(50));
         downBtn.setStyle("-fx-text-stroke: white;");
-         
+        downBtn.setOnMouseClicked(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                if (board[2][1] == -1 && myTurn) {
+                    board[2][1] = 0;
+                    myTurn = false;
+                    sendMove(8, player1);
+                    downBtn.setText(player1);
+                    player2Label.setText(opponentEmail + " Turn");
+                    player1Label.setText(PlayerEmail);
+                    checkWinner();
+                }
+                if (board[2][1] == -1 && myTurn == false) {
+                    board[2][1] = 0;
+                    myTurn = true;
+                    sendMove(8, player2);
+                    downBtn.setText(player2);
+                    player1Label.setText(PlayerEmail + " Turn");
+                    player2Label.setText(opponentEmail);
+                    checkWinner();
+                }
+            }
+        }); 
          
          
 
@@ -312,7 +514,29 @@ public class onlineModeGeneratedBase extends AnchorPane {
         downRightBtn.setPrefWidth(178.0);
         downRightBtn.setFont(new Font(50));
         downRightBtn.setStyle("-fx-text-stroke: white;");
-         
+        downRightBtn.setOnMouseClicked(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                if (board[2][2] == -1 && myTurn) {
+                    board[2][2] = 0;
+                    myTurn = false;
+                    sendMove(9, player1);
+                    downLeftBtn.setText(player1);
+                    player2Label.setText(opponentEmail + " Turn");
+                    player1Label.setText(PlayerEmail);
+                    checkWinner();
+                }
+                if (board[2][2] == -1 && myTurn == false) {
+                    board[2][2] = 0;
+                    myTurn = true;
+                    sendMove(9, player2);
+                    downLeftBtn.setText(player2);
+                    player1Label.setText(PlayerEmail + " Turn");
+                    player2Label.setText(opponentEmail);
+                    checkWinner();
+                }
+            }
+        }); 
 
         gridPane0.setLayoutX(301.0);
         gridPane0.setLayoutY(57.0);
@@ -517,35 +741,48 @@ public class onlineModeGeneratedBase extends AnchorPane {
         downBtn.setStyle("-fx-background-color: #d7049e; -fx-text-fill: white;");
         downRightBtn.setStyle("-fx-background-color: #d7049e; -fx-text-fill: white;");
  
-        
-        firstTurn();
-
+ 
     }
      public void firstTurn() {
+        //zero or one//
         if (random.nextInt(2) == 0) {
-            player1Turn = true;
+            myTurn = true;
             player1 = "X";
             player2 = "O";
-            player1Label.setText("Player1 Turn");
-            player2Label.setText("Player2");
+            player1Label.setText(PlayerEmail + " Turn");
+            player2Label.setText(opponentEmail);
+
         } else {
-            player1Turn = false;
+            myTurn = false;
             player2 = "X";
             player1 = "O";
-            player2Label.setText("Player2 Turn");
-            player1Label.setText("Player1");
+            player2Label.setText(opponentEmail + " Turn");
+            player1Label.setText(PlayerEmail);
         }
 
     }
 
+    public void sendMove(int location, String player) {
+        App.startConnection();
+        Message msg = new Message();
+        msg.setType("sendMove");
+        msg.setOpponentEmail(opponentEmail);
+        msg.setLocation(location);
+        msg.setXO(player);
+        String request = gson.toJson(msg);
+        App.output.println(request);
+        App.output.flush();
+    }
+
+ 
     public void xWins(int index1, int index2, int index3) {
         buttonArr[index1].setStyle("-fx-background-color: #5A1E76;");
         buttonArr[index2].setStyle("-fx-background-color: #5A1E76;");
         buttonArr[index3].setStyle("-fx-background-color: #5A1E76;");
         xWinsVideo();
         player1Label.setText("Player1 ");
-            player2Label.setText("Player2");
-
+        player2Label.setText("Player2");
+        
     }
 
 public void oWins(int index1, int index2, int index3) {
@@ -554,7 +791,7 @@ public void oWins(int index1, int index2, int index3) {
         buttonArr[index3].setStyle("-fx-background-color: #5A1E76;");
         oWinsVideo();
         player1Label.setText("Player1 ");
-            player2Label.setText("Player2");
+        player2Label.setText("Player2");
 
     }
 
@@ -689,12 +926,45 @@ public void oWins(int index1, int index2, int index3) {
              drawScoreTxt.setText(String.valueOf(drawScore)); 
             
         }
-     } 
+     }
         
+    }    
+    
+    
+      public void playerXScore(){
+            if(player1 == "X"){
+                player1Score++;
+                player1ScoreTxt.setText(String.valueOf(player1Score));
+            }
+            else{
+               player2Score++;
+                player2ScoreTxt.setText(String.valueOf(player2Score)); 
+            }
+        }
+      
 
+        public void playerOScore(){
+            if(player1 == "O"){
+                player1Score++;
+                player1ScoreTxt.setText(String.valueOf(player1Score));
+            }
+            else{
+               player2Score++;
+                player2ScoreTxt.setText(String.valueOf(player2Score)); 
+            }
+        }
+
+    
+    
+      public void setDisableBtn() {
+        for (int i = 0; i < 9; i++) {
+            buttonArr[i].setDisable(true);
+
+        }     
     }
+    
 
-    public void xWinsVideo() {
+      public void xWinsVideo() {
         String videoFile = "file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/LocalMode2Players/XWinsVideo.mp4";
 
         // Create a Media object
@@ -802,36 +1072,5 @@ public void DrawPlayVideo() {
             System.out.println("Video finished");
             mediaView.setVisible(false);
         });
-    }   
-
-    public void setDisableBtn() {
-        for (int i = 0; i < 9; i++) {
-            buttonArr[i].setDisable(true);
-
-        }     
-    }
-    
-      public void playerXScore(){
-            if(player1 == "X"){
-                player1Score++;
-                player1ScoreTxt.setText(String.valueOf(player1Score));
-            }
-            else{
-               player2Score++;
-                player2ScoreTxt.setText(String.valueOf(player2Score)); 
-            }
-        }
-      
-
-        public void playerOScore(){
-            if(player1 == "O"){
-                player1Score++;
-                player1ScoreTxt.setText(String.valueOf(player1Score));
-            }
-            else{
-               player2Score++;
-                player2ScoreTxt.setText(String.valueOf(player2Score)); 
-            }
-        }
-
+    }    
 }

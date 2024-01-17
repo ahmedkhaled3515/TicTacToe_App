@@ -33,6 +33,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
 import onlinemode.onlineModeGeneratedBase;
+import onlinemode.onlineModeGeneratedBaseNew;
 
 public class PlayersListBaseNew extends AnchorPane {
 
@@ -52,7 +53,7 @@ public class PlayersListBaseNew extends AnchorPane {
     ButtonType alertResult;
     boolean flag;
 
-    public PlayersListBaseNew(Stage stage) {
+    public PlayersListBaseNew(Stage stage,String email) {
         flag=true;
         alertResult=new ButtonType("");
         confirm = new Alert(Alert.AlertType.CONFIRMATION);
@@ -63,6 +64,9 @@ public class PlayersListBaseNew extends AnchorPane {
         rectangle = new Rectangle();
         avaliable = new ArrayList<>();
         playersCards=new ArrayList<>();
+        
+        String playerEmail=email;
+       
         App.startConnection();
         Message msg= new Message();
         msg.setType("getOnline");
@@ -77,8 +81,6 @@ public class PlayersListBaseNew extends AnchorPane {
                     System.out.println(jsonResponse);
                     Message response=App.gson.fromJson(jsonResponse,Message.class);
                     ArrayList<PlayersDTO> players =response.getPlayersList();
-
-                    
                     if(response.getType().equals("getOnline"))
                     {
                         for(PlayersDTO player: players)
@@ -110,6 +112,7 @@ public class PlayersListBaseNew extends AnchorPane {
                     AtomicBoolean accepted= new AtomicBoolean(false);
                     String jsonResponse=App.input.readLine();
                     Message response= new Gson().fromJson(jsonResponse,Message.class);
+                    String opponentEmail=response.getEmail();
                     System.out.println(jsonResponse);
                     if(response.getType().equals("invite"))
                     {
@@ -142,7 +145,7 @@ public class PlayersListBaseNew extends AnchorPane {
                             App.output.println(new Gson().toJson(inviteResponse));
                             App.output.flush();
                             Platform.runLater(() -> {
-                            Parent root = new onlineModeGeneratedBase(stage);
+                            Parent root = new onlineModeGeneratedBase(stage,playerEmail,opponentEmail);
                             Scene scene = new Scene(root);
                             stage.setScene(scene);
                             stage.show();
@@ -166,7 +169,7 @@ public class PlayersListBaseNew extends AnchorPane {
                     else if(response.getType().equals("accepted"))
                     {
                         Platform.runLater(() -> {
-                            Parent root = new onlineModeGeneratedBase(stage);               
+                            Parent root = new onlineModeGeneratedBase(stage,playerEmail,opponentEmail);               
                             Scene scene = new Scene(root);
                             stage.setScene(scene);
                             stage.show();
