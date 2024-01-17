@@ -104,6 +104,7 @@ public class loginBase extends AnchorPane {
         btnLogin.setText("Login");
 
         App.startConnection();
+        /*
 //        App.resetCon();
         btnLogin.setOnAction((event) -> {
            
@@ -134,49 +135,52 @@ public class loginBase extends AnchorPane {
         }).start();
         });
         
-
-        // Gson gson = new Gson();
-        // btnLogin.setOnAction((event) -> {
-        //         Message msg = new Message();
-        //         msg.setType("login");
-        //         msg.setEmail(txtEmail.getText());
-        //         msg.setPassword(txtPassword.getText());
-        //         String gsonMessage = gson.toJson(msg);
-        //         System.out.println(gsonMessage);
-        //         App.output.println(gsonMessage);
-        //         App.output.flush();
-        // });
+*/
+         Gson gson = new Gson();
+         btnLogin.setOnAction((event) -> {
+                 Message msg = new Message();
+                 msg.setType("login");
+                 msg.setEmail(txtEmail.getText());
+                 msg.setPassword(txtPassword.getText());
+                 String gsonMessage = gson.toJson(msg);
+                 System.out.println(gsonMessage);
+                 App.output.println(gsonMessage);
+                 App.output.flush();
+         });
         
-        // new Thread(() -> {
-        //             while (App.server.isConnected()) {
-        //                 try {
-        //                     String valid = App.input.readLine();
-        //                     if (valid.equals("true")) {
-        //                         Platform.runLater(() -> {
-        //                         Parent root = new PlayersListBaseNew(stage);
-        //                         Scene scene = new Scene(root, 1000, 700);
-        //                         stage.setScene(scene);
-        //                         stage.show();
-        //                         });
-        //                     } if (valid.equals("false")){
-        //                          Platform.runLater(() -> {
-        //                         Alert alert = new Alert(AlertType.INFORMATION);
-        //                         alert.setTitle("Wrong Email or Password");
-        //                         alert.setHeaderText(null);
-        //                         alert.setContentText("Please Try Again");
-        //                         alert.showAndWait();
-        //                          });
-        //                     }
-        //                 } catch (IOException ex) {
-        //                     System.out.println("server closed !!!");
-        //                     Logger.getLogger(SignupBase.class.getName()).log(Level.SEVERE, null, ex);
-        //                     break;
-        //                 }
+         new Thread(() -> {
+                     while (App.server.isConnected()) {
+                         try {
+                             String valid = App.input.readLine();
+                             Message response= gson.fromJson(valid,Message.class);
+                             System.out.println("inside the while loop "+valid);
+                             if (response.getValidation().equals("valid")) {
+                                 Platform.runLater(() -> {
+                                 Parent root = new PlayersListBaseNew(stage);
+                                 Scene scene = new Scene(root, 1000, 700);
+                                 stage.setScene(scene);
+                                 stage.show();
+                                 });
+                                 break;
+                             } if (response.getValidation().equals("invalidPassword") || response.getValidation().equals("emailNotFound")){
+                                  Platform.runLater(() -> {
+                                 Alert alert = new Alert(AlertType.INFORMATION);
+                                 alert.setTitle("Wrong Email or Password");
+                                 alert.setHeaderText(null);
+                                 alert.setContentText("Please Try Again");
+                                 alert.showAndWait();
+                                  });
+                             }
+                         } catch (IOException ex) {
+                             System.out.println("server closed !!!");
+                             Logger.getLogger(SignupBase.class.getName()).log(Level.SEVERE, null, ex);
+                             break;
+                      }
 
-        //             }
-        //         }).start();
+                    }
+                                         }).start();
             
-
+/*
         textHaveAc.setFill(javafx.scene.paint.Color.valueOf("#e8e5e5"));
         textHaveAc.setLayoutX(
                 635.0);
@@ -206,7 +210,7 @@ public class loginBase extends AnchorPane {
             }
         }
         );
-
+*/
         txtPassword.setLayoutX(
                 648.0);
         txtPassword.setLayoutY(

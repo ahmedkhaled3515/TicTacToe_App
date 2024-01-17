@@ -152,7 +152,8 @@ public  class LocalViewBase extends AnchorPane {
                 Parent root = new SelectModeBase(stage);
                 Scene scene = new Scene(root,1000,700);
                 stage.setScene(scene);
-                stage.show();            }
+                stage.show();           
+            }
         });
         anchorPane.getChildren().add(backgroundimage);
         anchorPane.getChildren().add(headLabel);

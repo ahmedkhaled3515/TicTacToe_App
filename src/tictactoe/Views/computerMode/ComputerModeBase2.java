@@ -1,5 +1,7 @@
 package tictactoe.Views.computerMode;
 
+import static Requests.App.gson;
+import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -17,6 +19,7 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class ComputerModeBase2 extends AnchorPane {
 
@@ -53,6 +56,7 @@ public class ComputerModeBase2 extends AnchorPane {
     protected final Text text1;
     protected final Button newButton;
     protected final Button exitButton;
+   // Gson gson;
     Button[][] buttons=null;
     int count;
     ArrayList<Integer> computerPositions;
@@ -70,7 +74,7 @@ public class ComputerModeBase2 extends AnchorPane {
             return index;
         }
     }
-    public ComputerModeBase2() {
+    public ComputerModeBase2(Stage stage) {
 
         imageView = new ImageView();
         boardGrid = new GridPane();
@@ -115,7 +119,8 @@ public class ComputerModeBase2 extends AnchorPane {
         buttons[2][0] = but20;
         buttons[2][1] = but21;
         buttons[2][2] = but22;
-        
+        Recording(buttons);
+    
         setMaxHeight(USE_PREF_SIZE);
         setMaxWidth(USE_PREF_SIZE);
         setMinHeight(USE_PREF_SIZE);
@@ -522,9 +527,21 @@ public class ComputerModeBase2 extends AnchorPane {
             drawCountText.setText(String.valueOf(score));
         }
     }
+    
+    Gson gson = new Gson();
+    private void Recording(Button[][] buttons){
+              String[][] buttonValues = new String[3][3];
 
-    
-    
+        for (int i = 0; i < buttons.length; i++) {
+            for (int j = 0; j < buttons[i].length; j++) {
+                Button button = buttons[i][j];
+                buttonValues[i][j] = button.getText();
+            }
+        }
 
-    
+        String json = gson.toJson(buttonValues);
+
+        System.out.println(json);
+    }
+        
 }

@@ -1,6 +1,7 @@
 package tictactoe.Views.computerMode;
 
 import SelectmodeView.SelectModeBase;
+import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -500,7 +501,10 @@ public class ComputerModeBase extends AnchorPane {
     }
     public void userWin()
     {
-        System.out.println("You Win!!!");
+        System.out.println("You Win!!!");      
+        Recording(buttons);
+
+        
         playerScore++;
         score1CountText.setText(""+playerScore);
         stage.setScene(new Scene(new WinPane(stage)));
@@ -508,6 +512,8 @@ public class ComputerModeBase extends AnchorPane {
     public void computerWin()
     {
         System.out.println("You Lost!!");
+                        Recording(buttons);
+
         computerScore++;
         score2CountText.setText(""+computerScore);
         stage.setScene(new Scene(new LosePane(stage)));
@@ -646,11 +652,14 @@ public class ComputerModeBase extends AnchorPane {
                 System.out.println("You Won!");
                 win=true;
                 game=false;
+                Recording(buttons);
             }
             else if(computerPositions.containsAll(pos))
             {
                 System.out.println("You Lost!!!");
                 game=false;
+                Recording(buttons);
+
             }
         }
         return win;
@@ -791,8 +800,51 @@ private int evaluateBoard(char[][] board) {
         return row >= 0 && row < 3 && col >= 0 && col < 3 && buttons[row][col].getText().isEmpty();
     }
     
-    
+    Gson gson = new Gson();
+  private void Recording(Button[][] buttons) {
+      /*
+    List<String> positions = new ArrayList<>();
+
+    for (int i = 0; i < buttons.length; i++) {
+        for (int j = 0; j < buttons[i].length; j++) {
+            Button button = buttons[i][j];
+            if (button.getText().equals("x")) {
+               // positions.add(i + " " + j);
+                System.out.println(i + " " + j);
+            }
+        }
+    }
+    */    
+  
+     List<Integer> positions = new ArrayList<>();
+            int currentPlayer = 1; 
+
+            for (int j = 0; j < 9; j++) {
+                int selectedCell = -1;
+
+                while (selectedCell < 0 || selectedCell >= 9 || positions.contains(selectedCell)) {
+                    selectedCell = (int) (Math.random() * 9);
+                }
+
+                positions.add(selectedCell);
+                System.out.println("Player " + currentPlayer + " selected cell: " + selectedCell);
+
+                currentPlayer = 3 - currentPlayer;
+            }
+
+            System.out.println("All positions:");
+            for (int position : positions) {
+                
+}  //  String json = gson.toJson(positions);
+
+    //System.out.println(json);
+}
+
+    //String json = gson.toJson(buttonValues);
+
+    //System.out.println(json);
+}
     
 
     
-}
+
