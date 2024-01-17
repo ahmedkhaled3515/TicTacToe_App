@@ -52,6 +52,8 @@ public class PlayersListBaseNew extends AnchorPane {
     Optional<ButtonType> result;
     ButtonType alertResult;
     boolean flag;
+    boolean shouldStop=false;
+    Thread thread= new Thread();
 
     public PlayersListBaseNew(Stage stage,String email) {
         flag=true;
@@ -105,9 +107,8 @@ public class PlayersListBaseNew extends AnchorPane {
 //            }
         }).start();
 //        App.resetCon();
-        new Thread(() -> {
-            while(App.server.isConnected())
-            {
+       Thread yourThread = new Thread(() -> {
+    while (App.server.isConnected() && !Thread.interrupted()) { 
                 try {
                     AtomicBoolean accepted= new AtomicBoolean(false);
                     String jsonResponse=App.input.readLine();
@@ -174,6 +175,7 @@ public class PlayersListBaseNew extends AnchorPane {
                             stage.setScene(scene);
                             stage.show();
                         });
+                       
                         break;
                     }
                     else if(response.getType().equals("rejected"))
@@ -192,7 +194,8 @@ public class PlayersListBaseNew extends AnchorPane {
                     Logger.getLogger(PlayersListBaseNew.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-        }).start();
+        });
+       yourThread.start();
 //        App.resetCon();
 //        new Thread(() -> {
 ////            while(App.server.isConnected())

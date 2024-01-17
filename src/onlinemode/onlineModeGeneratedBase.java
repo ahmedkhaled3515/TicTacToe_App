@@ -68,30 +68,28 @@ public class onlineModeGeneratedBase extends AnchorPane {
     protected final RowConstraints rowConstraints2;
     protected final BorderPane borderPane;
     protected final Text player1Txt;
-    protected  Text player1ScoreTxt;
+    protected Text player1ScoreTxt;
     protected final BorderPane borderPane0;
     protected final Text drawTxt;
-    protected  Text drawScoreTxt;
+    protected Text drawScoreTxt;
     protected final BorderPane borderPane1;
     protected final Text player2Txt;
-    protected  Text player2ScoreTxt;
+    protected Text player2ScoreTxt;
     protected final Button newGameBtn;
     protected final Button menueBtn;
     protected final Text player1Label;
     protected final Text player2Label;
-     Random random = new Random();
-         public int[][] board;
+    Random random = new Random();
+    public int[][] board;
     public static boolean myTurn = false;
-    //private ArrayList<Move>moveList=new ArrayList<>();
-    private Timer timer;
     Gson gson = new Gson();
     public String opponentEmail;
     public String PlayerEmail;
     public String player1, player2;
     public Button[] buttonArr = new Button[9];
-    public int player1Score,player2Score,drawScore;
-    
-    public onlineModeGeneratedBase(Stage stage,String MyEmail,String opponentMail) {
+    public int player1Score, player2Score, drawScore;
+
+    public onlineModeGeneratedBase(Stage stage, String MyEmail, String opponentMail) {
         imageView = new ImageView();
         gridPane = new GridPane();
         columnConstraints = new ColumnConstraints();
@@ -136,7 +134,6 @@ public class onlineModeGeneratedBase extends AnchorPane {
         menueBtn = new Button();
         player1Label = new Text();
         player2Label = new Text();
-         timer = new Timer();
         board = new int[][]{{-1, -1, -1}, {-1, -1, -1}, {-1, -1, -1}};
         buttonArr[0] = topLeftBtn;
         buttonArr[1] = topBtn;
@@ -147,17 +144,16 @@ public class onlineModeGeneratedBase extends AnchorPane {
         buttonArr[6] = downLeftBtn;
         buttonArr[7] = downBtn;
         buttonArr[8] = downRightBtn;
-        
-        PlayerEmail=MyEmail;
-        opponentEmail=opponentMail;
-        System.out.println("MyEmail"+MyEmail);
-        System.out.println("opponentMail"+opponentMail);
-        player1Score=0;
-        player2Score=0;
-        drawScore=0;
 
-        
-          firstTurn();
+        PlayerEmail = MyEmail;
+        opponentEmail = opponentMail;
+        System.out.println("MyEmail" + MyEmail);
+        System.out.println("opponentMail" + opponentMail);
+        player1Score = 0;
+        player2Score = 0;
+        drawScore = 0;
+
+        firstTurn();
         App.startConnection();
         new Thread(() -> {
             while (App.server.isConnected()) {
@@ -167,54 +163,56 @@ public class onlineModeGeneratedBase extends AnchorPane {
                     Message response = App.gson.fromJson(jsonResponse, Message.class);
                     String playerSide = response.getXO();
                     int location = response.getLocation();
+
                     if (response.getType().equals("retriveMove")) {
-                        switch (location) {
-                            case 1:
-                            topLeftBtn.setText(playerSide); 
-                            break;
-                            case 2:
-                            topBtn.setText(playerSide); 
-                            break; 
-                             case 3:
-                            topRightBtn.setText(playerSide); 
-                            break;
-                             case 4:
-                            centerLeftBtn.setText(playerSide); 
-                            break;
-                            case 5:
-                            centerBtn.setText(playerSide); 
-                            break;
-                            case 6:
-                            centerRightBtn.setText(playerSide); 
-                            break;
-                            case 7:
-                            downLeftBtn.setText(playerSide); 
-                            break;
-                            case 8:
-                            downBtn.setText(playerSide); 
-                            break;
-                            case 9:
-                            downRightBtn.setText(playerSide); 
-                            break;
-                        }
-                         myTurn=true;
-                        checkWinner();                
+                        Platform.runLater(() -> {
+                            switch (location) {
+                                case 1:
+                                    topLeftBtn.setText(playerSide);
+                                    break;
+                                case 2:
+                                    topBtn.setText(playerSide);
+                                    break;
+                                case 3:
+                                    topRightBtn.setText(playerSide);
+                                    break;
+                                case 4:
+                                    centerLeftBtn.setText(playerSide);
+                                    break;
+                                case 5:
+                                    centerBtn.setText(playerSide);
+                                    break;
+                                case 6:
+                                    centerRightBtn.setText(playerSide);
+                                    break;
+                                case 7:
+                                    downLeftBtn.setText(playerSide);
+                                    break;
+                                case 8:
+                                    downBtn.setText(playerSide);
+                                    break;
+                                case 9:
+                                    downRightBtn.setText(playerSide);
+                                    break;
+                            }
+                            myTurn = true;
+                            checkWinner();
+                        });
                     }
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
             }
-        }).start(); 
-        
-        
+        }).start();
+
         setId("AnchorPane");
         setPrefHeight(672.0);
-        setPrefWidth(944.0);
+        setPrefWidth(1050.0);
         getStyleClass().add("mainFxmlClass");
         getStylesheets().add("/onlinemode/onlinemode.css");
 
         imageView.setFitHeight(672.0);
-        imageView.setFitWidth(992.0);
+        imageView.setFitWidth(1050.0);
         imageView.setImage(new Image(getClass().getResource("BackgroundImage.png").toExternalForm()));
 
         gridPane.setLayoutX(246.0);
@@ -277,15 +275,13 @@ public class onlineModeGeneratedBase extends AnchorPane {
             }
         });
 
-
-
         GridPane.setColumnIndex(topBtn, 1);
         topBtn.setMnemonicParsing(false);
         topBtn.setPrefHeight(102.0);
         topBtn.setPrefWidth(178.0);
         topBtn.setFont(new Font(50));
         topBtn.setStyle("-fx-text-stroke: white;");
-         topBtn.setOnMouseClicked(new EventHandler() {
+        topBtn.setOnMouseClicked(new EventHandler() {
             @Override
             public void handle(Event event) {
                 if (board[0][1] == -1 && myTurn) {
@@ -310,15 +306,13 @@ public class onlineModeGeneratedBase extends AnchorPane {
             }
         });
 
-        
-
         GridPane.setColumnIndex(topRightBtn, 2);
         topRightBtn.setMnemonicParsing(false);
         topRightBtn.setPrefHeight(102.0);
         topRightBtn.setPrefWidth(178.0);
         topRightBtn.setFont(new Font(50));
         topRightBtn.setStyle("-fx-text-stroke: white;");
-         topRightBtn.setOnMouseClicked(new EventHandler() {
+        topRightBtn.setOnMouseClicked(new EventHandler() {
             @Override
             public void handle(Event event) {
                 if (board[0][2] == -1 && myTurn) {
@@ -341,7 +335,6 @@ public class onlineModeGeneratedBase extends AnchorPane {
                 }
             }
         });
-
 
         GridPane.setRowIndex(centerLeftBtn, 1);
         centerLeftBtn.setMnemonicParsing(false);
@@ -372,8 +365,7 @@ public class onlineModeGeneratedBase extends AnchorPane {
                     checkWinner();
                 }
             }
-        }); 
-
+        });
 
         GridPane.setColumnIndex(centerBtn, 1);
         GridPane.setRowIndex(centerBtn, 1);
@@ -406,8 +398,6 @@ public class onlineModeGeneratedBase extends AnchorPane {
                 }
             }
         });
- 
-        
 
         GridPane.setColumnIndex(centerRightBtn, 2);
         GridPane.setRowIndex(centerRightBtn, 1);
@@ -416,7 +406,7 @@ public class onlineModeGeneratedBase extends AnchorPane {
         centerRightBtn.setPrefWidth(178.0);
         centerRightBtn.setFont(new Font(50));
         centerRightBtn.setStyle("-fx-text-stroke: white;");
-          centerRightBtn.setOnMouseClicked(new EventHandler() {
+        centerRightBtn.setOnMouseClicked(new EventHandler() {
             @Override
             public void handle(Event event) {
                 if (board[1][2] == -1 && myTurn) {
@@ -439,7 +429,6 @@ public class onlineModeGeneratedBase extends AnchorPane {
                 }
             }
         });
-          
 
         GridPane.setRowIndex(downLeftBtn, 2);
         downLeftBtn.setMnemonicParsing(false);
@@ -471,9 +460,6 @@ public class onlineModeGeneratedBase extends AnchorPane {
             }
         });
 
-        
-        
-        
         GridPane.setColumnIndex(downBtn, 1);
         GridPane.setRowIndex(downBtn, 2);
         downBtn.setMnemonicParsing(false);
@@ -503,9 +489,7 @@ public class onlineModeGeneratedBase extends AnchorPane {
                     checkWinner();
                 }
             }
-        }); 
-         
-         
+        });
 
         GridPane.setColumnIndex(downRightBtn, 2);
         GridPane.setRowIndex(downRightBtn, 2);
@@ -536,7 +520,7 @@ public class onlineModeGeneratedBase extends AnchorPane {
                     checkWinner();
                 }
             }
-        }); 
+        });
 
         gridPane0.setLayoutX(301.0);
         gridPane0.setLayoutY(57.0);
@@ -640,7 +624,7 @@ public class onlineModeGeneratedBase extends AnchorPane {
 
             @Override
             public void handle(Event event) {
-                for(int i=0;i<9;i++){
+                for (int i = 0; i < 9; i++) {
                     buttonArr[i].setText("");
                     buttonArr[i].setDisable(false);
                     buttonArr[i].setStyle("-fx-background-color: #d7049e;");
@@ -648,7 +632,6 @@ public class onlineModeGeneratedBase extends AnchorPane {
                 }
             }
         });
-
 
         menueBtn.setLayoutX(572.0);
         menueBtn.setLayoutY(560.0);
@@ -660,25 +643,22 @@ public class onlineModeGeneratedBase extends AnchorPane {
         menueBtn.setFont(new Font("Arial Bold", 27.0));
         menueBtn.setStyle("-fx-background-color: #68CFD1 ;");
         menueBtn.setOnMouseEntered(event -> {
-        menueBtn.setStyle("-fx-background-color: #00CBFE;");
+            menueBtn.setStyle("-fx-background-color: #00CBFE;");
         });
         menueBtn.setOnMouseExited(event -> {
-        menueBtn.setStyle("-fx-background-color: #68CFD1 ;");
+            menueBtn.setStyle("-fx-background-color: #68CFD1 ;");
         });
         menueBtn.setText("Main Menue");
         menueBtn.setOnMouseClicked(new EventHandler() {
 
             @Override
             public void handle(Event event) {
-                   Parent root = new  SelectModeBase(stage);
-                Scene scene = new Scene(root,1000,700);
+                Parent root = new SelectModeBase(stage);
+                Scene scene = new Scene(root, 1000, 700);
                 stage.setScene(scene);
                 stage.show();
             }
         });
-        
-        
-        
 
         player1Label.setLayoutX(45.0);
         player1Label.setLayoutY(350.0);
@@ -687,9 +667,8 @@ public class onlineModeGeneratedBase extends AnchorPane {
         player1Label.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
         player1Label.setFill(Color.WHITE); // setting color of the text to blue
         player1Label.setStroke(Color.BLACK); // setting the stroke for the text
-        player1Label.setStrokeWidth(1); 
+        player1Label.setStrokeWidth(1);
         player1Label.setStrokeWidth(2.0);
-        
 
         player2Label.setLayoutX(795.0);
         player2Label.setLayoutY(350.0);
@@ -700,7 +679,6 @@ public class onlineModeGeneratedBase extends AnchorPane {
         player2Label.setStroke(Color.BLACK);
         player2Label.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
         player2Label.setStrokeWidth(2.0);
-        
 
         getChildren().add(imageView);
         gridPane.getColumnConstraints().add(columnConstraints);
@@ -740,10 +718,10 @@ public class onlineModeGeneratedBase extends AnchorPane {
         downLeftBtn.setStyle("-fx-background-color: #d7049e; -fx-text-fill: white;");
         downBtn.setStyle("-fx-background-color: #d7049e; -fx-text-fill: white;");
         downRightBtn.setStyle("-fx-background-color: #d7049e; -fx-text-fill: white;");
- 
- 
+
     }
-     public void firstTurn() {
+
+    public void firstTurn() {
         //zero or one//
         if (random.nextInt(2) == 0) {
             myTurn = true;
@@ -774,7 +752,6 @@ public class onlineModeGeneratedBase extends AnchorPane {
         App.output.flush();
     }
 
- 
     public void xWins(int index1, int index2, int index3) {
         buttonArr[index1].setStyle("-fx-background-color: #5A1E76;");
         buttonArr[index2].setStyle("-fx-background-color: #5A1E76;");
@@ -782,10 +759,10 @@ public class onlineModeGeneratedBase extends AnchorPane {
         xWinsVideo();
         player1Label.setText("Player1 ");
         player2Label.setText("Player2");
-        
+
     }
 
-public void oWins(int index1, int index2, int index3) {
+    public void oWins(int index1, int index2, int index3) {
         buttonArr[index1].setStyle("-fx-background-color: #5A1E76;");
         buttonArr[index2].setStyle("-fx-background-color: #5A1E76;");
         buttonArr[index3].setStyle("-fx-background-color: #5A1E76;");
@@ -796,7 +773,7 @@ public void oWins(int index1, int index2, int index3) {
     }
 
     public void checkWinner() {
-        
+
         if (buttonArr[0].getText() == "X"
                 && buttonArr[1].getText() == "X"
                 && buttonArr[2].getText() == "X") {
@@ -804,22 +781,19 @@ public void oWins(int index1, int index2, int index3) {
             playerXScore();
             setDisableBtn();
 
-        }
-        else if (buttonArr[3].getText() == "X"
+        } else if (buttonArr[3].getText() == "X"
                 && buttonArr[4].getText() == "X"
                 && buttonArr[5].getText() == "X") {
             xWins(3, 4, 5);
             playerXScore();
             setDisableBtn();
-        }
-        else if (buttonArr[6].getText() == "X"
+        } else if (buttonArr[6].getText() == "X"
                 && buttonArr[7].getText() == "X"
                 && buttonArr[8].getText() == "X") {
             xWins(6, 7, 8);
             playerXScore();
             setDisableBtn();
-        }
-        else if (buttonArr[0].getText() == "X"
+        } else if (buttonArr[0].getText() == "X"
                 && buttonArr[3].getText() == "X"
                 && buttonArr[6].getText() == "X") {
             xWins(0, 3, 6);
@@ -830,141 +804,125 @@ public void oWins(int index1, int index2, int index3) {
                 && buttonArr[4].getText() == "X"
                 && buttonArr[7].getText() == "X") {
             xWins(1, 4, 7);
-             playerXScore();
+            playerXScore();
             setDisableBtn();
-        }
-        else if (buttonArr[2].getText() == "X"
+        } else if (buttonArr[2].getText() == "X"
                 && buttonArr[5].getText() == "X"
                 && buttonArr[8].getText() == "X") {
             xWins(2, 5, 8);
-             playerXScore();
+            playerXScore();
             setDisableBtn();
-        }
-        else if (buttonArr[0].getText() == "X"
+        } else if (buttonArr[0].getText() == "X"
                 && buttonArr[4].getText() == "X"
                 && buttonArr[8].getText() == "X") {
             xWins(0, 4, 8);
-             playerXScore();
+            playerXScore();
             setDisableBtn();
-        }
-        else if (buttonArr[2].getText() == "X"
+        } else if (buttonArr[2].getText() == "X"
                 && buttonArr[4].getText() == "X"
                 && buttonArr[6].getText() == "X") {
             xWins(2, 4, 6);
-             playerXScore();
+            playerXScore();
             setDisableBtn();
         } //check if O wins//
-        
         else if (buttonArr[0].getText() == "O"
                 && buttonArr[1].getText() == "O"
                 && buttonArr[2].getText() == "O") {
             oWins(0, 1, 2);
-             playerOScore();
+            playerOScore();
             setDisableBtn();
-        }
-        else if (buttonArr[3].getText() == "O"
+        } else if (buttonArr[3].getText() == "O"
                 && buttonArr[4].getText() == "O"
                 && buttonArr[5].getText() == "O") {
             oWins(3, 4, 5);
-             playerOScore();
+            playerOScore();
             setDisableBtn();
-        }
-        else if (buttonArr[6].getText() == "O"
+        } else if (buttonArr[6].getText() == "O"
                 && buttonArr[7].getText() == "O"
                 && buttonArr[8].getText() == "O") {
             oWins(6, 7, 8);
-             playerOScore();
+            playerOScore();
             setDisableBtn();
-        }
-        else if (buttonArr[0].getText() == "O"
+        } else if (buttonArr[0].getText() == "O"
                 && buttonArr[3].getText() == "O"
                 && buttonArr[6].getText() == "O") {
             oWins(0, 3, 6);
-             playerOScore();
+            playerOScore();
             setDisableBtn();
-        }
-        else if (buttonArr[1].getText() == "O"
+        } else if (buttonArr[1].getText() == "O"
                 && buttonArr[4].getText() == "O"
                 && buttonArr[7].getText() == "O") {
             oWins(1, 4, 7);
-             playerOScore();
+            playerOScore();
             setDisableBtn();
-        }
-        else if (buttonArr[2].getText() == "O"
+        } else if (buttonArr[2].getText() == "O"
                 && buttonArr[5].getText() == "O"
                 && buttonArr[8].getText() == "O") {
             oWins(2, 5, 8);
-             playerOScore();
+            playerOScore();
             setDisableBtn();
-        }
-        else if (buttonArr[0].getText() == "O"
+        } else if (buttonArr[0].getText() == "O"
                 && buttonArr[4].getText() == "O"
                 && buttonArr[8].getText() == "O") {
             oWins(0, 4, 8);
-             playerOScore();
+            playerOScore();
             setDisableBtn();
-        }
-        else if (buttonArr[2].getText() == "O"
+        } else if (buttonArr[2].getText() == "O"
                 && buttonArr[4].getText() == "O"
                 && buttonArr[6].getText() == "O") {
             oWins(2, 4, 6);
-             playerOScore();
+            playerOScore();
             setDisableBtn();
-        }
-        else{
-        boolean isBoardFull = true;
-        for (int i = 0; i < 9; i++) {
-            if (buttonArr[i].getText().isEmpty()) {
-                isBoardFull = false;
-                break;
+               
+        } 
+        else {
+            DrawPlayVideo();
+            boolean isBoardFull = true;
+            for (int i = 0; i < 9; i++) {
+                if (buttonArr[i].getText().isEmpty()) {
+                    isBoardFull = false;
+                    break;
+                }
             }
-        }
-        if (isBoardFull) {
-           DrawPlayVideo();
-            setDisableBtn();
-            drawScore++;
-             drawScoreTxt.setText(String.valueOf(drawScore)); 
-            
-        }
-     }
-        
-    }    
-    
-    
-      public void playerXScore(){
-            if(player1 == "X"){
-                player1Score++;
-                player1ScoreTxt.setText(String.valueOf(player1Score));
-            }
-            else{
-               player2Score++;
-                player2ScoreTxt.setText(String.valueOf(player2Score)); 
-            }
-        }
-      
+            if (isBoardFull) {
+                DrawPlayVideo();
+                setDisableBtn();
+                drawScore++;
+                drawScoreTxt.setText(String.valueOf(drawScore));
 
-        public void playerOScore(){
-            if(player1 == "O"){
-                player1Score++;
-                player1ScoreTxt.setText(String.valueOf(player1Score));
-            }
-            else{
-               player2Score++;
-                player2ScoreTxt.setText(String.valueOf(player2Score)); 
             }
         }
 
-    
-    
-      public void setDisableBtn() {
+    }
+
+    public void playerXScore() {
+        if (player1 == "X") {
+            player1Score++;
+            player1ScoreTxt.setText(String.valueOf(player1Score));
+        } else {
+            player2Score++;
+            player2ScoreTxt.setText(String.valueOf(player2Score));
+        }
+    }
+
+    public void playerOScore() {
+        if (player1 == "O") {
+            player1Score++;
+            player1ScoreTxt.setText(String.valueOf(player1Score));
+        } else {
+            player2Score++;
+            player2ScoreTxt.setText(String.valueOf(player2Score));
+        }
+    }
+
+    public void setDisableBtn() {
         for (int i = 0; i < 9; i++) {
             buttonArr[i].setDisable(true);
 
-        }     
+        }
     }
-    
 
-      public void xWinsVideo() {
+    public void xWinsVideo() {
         String videoFile = "file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/LocalMode2Players/XWinsVideo.mp4";
 
         // Create a Media object
@@ -1001,7 +959,7 @@ public void oWins(int index1, int index2, int index3) {
         });
     }
 
-   public void oWinsVideo() {
+    public void oWinsVideo() {
         String videoFile = "file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/LocalMode2Players/OWinsVideo.mp4";
 
         // Create a Media object
@@ -1035,9 +993,8 @@ public void oWins(int index1, int index2, int index3) {
             mediaView.setVisible(false);
         });
     }
-   
 
-public void DrawPlayVideo() {
+    public void DrawPlayVideo() {
         String videoFile = "file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/LocalMode2Players/DrawVideo2.mp4";
 
         // Create a Media object
@@ -1072,5 +1029,5 @@ public void DrawPlayVideo() {
             System.out.println("Video finished");
             mediaView.setVisible(false);
         });
-    }    
+    }
 }
