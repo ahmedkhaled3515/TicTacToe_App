@@ -79,8 +79,9 @@ public class onlineModeGeneratedBase extends AnchorPane {
     public String player1, player2;
     public int player1Score,player2Score,drawScore;
      Random random = new Random();
-    
-    public onlineModeGeneratedBase(Stage stage) {
+    String opponentName;
+    public onlineModeGeneratedBase(Stage stage,String opponentName) {
+        this.opponentName=opponentName;
         imageView = new ImageView();
         gridPane = new GridPane();
         columnConstraints = new ColumnConstraints();
