@@ -1,24 +1,24 @@
 package onlinemode;
 
+import Requests.App;
+import Requests.Message;
 import SelectmodeView.SelectModeBase;
-import java.io.BufferedReader;
-import java.io.FileReader;
+import SignupView.SignupBase;
+import com.google.gson.Gson;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.Socket;
 import java.net.URL;
 import java.util.Random;
+import java.util.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -32,12 +32,11 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
+import tictactoe.Views.AvailablePlayer.PlayersListBaseNew;
 
-public class onlineModeGeneratedBase extends AnchorPane {
+public class onlineModeGeneratedBaseNew extends AnchorPane {
 
     protected final ImageView imageView;
     protected final GridPane gridPane;
@@ -63,25 +62,33 @@ public class onlineModeGeneratedBase extends AnchorPane {
     protected final RowConstraints rowConstraints2;
     protected final BorderPane borderPane;
     protected final Text player1Txt;
-    protected  Text player1ScoreTxt;
+    protected final Text player1ScoreTxt;
     protected final BorderPane borderPane0;
     protected final Text drawTxt;
-    protected  Text drawScoreTxt;
+    protected final Text drawScoreTxt;
     protected final BorderPane borderPane1;
     protected final Text player2Txt;
-    protected  Text player2ScoreTxt;
+    protected final Text player2ScoreTxt;
     protected final Button newGameBtn;
     protected final Button menueBtn;
-    protected final Text player1Label;
-    protected final Text player2Label;
-    public Button[] buttonArr = new Button[9];
-    public Boolean player1Turn;
+    protected final Label player1Label;
+    protected final Label player2Label;
+    public int[][] board;
+    public String PlayerName = "", oponentName = "";
+    public static boolean myTurn = false;
+    //private ArrayList<Move>moveList=new ArrayList<>();
+    private Timer timer;
+    Gson gson = new Gson();
+    public String opponentEmail;
+    Random random = new Random();
     public String player1, player2;
+    public Button[] buttonArr = new Button[9];
     public int player1Score,player2Score,drawScore;
-     Random random = new Random();
-    String opponentName;
-    public onlineModeGeneratedBase(Stage stage,String opponentName) {
-        this.opponentName=opponentName;
+
+    public onlineModeGeneratedBaseNew() {
+
+        firstTurn();
+
         imageView = new ImageView();
         gridPane = new GridPane();
         columnConstraints = new ColumnConstraints();
@@ -91,23 +98,14 @@ public class onlineModeGeneratedBase extends AnchorPane {
         rowConstraints0 = new RowConstraints();
         rowConstraints1 = new RowConstraints();
         topLeftBtn = new Button();
-        topLeftBtn.setUserData(0);
         topBtn = new Button();
-        topBtn.setUserData(1);
         topRightBtn = new Button();
-        topRightBtn.setUserData(2);
         centerLeftBtn = new Button();
-        centerLeftBtn.setUserData(3);
         centerBtn = new Button();
-        centerBtn.setUserData(4);
         centerRightBtn = new Button();
-        centerRightBtn.setUserData(5);
         downLeftBtn = new Button();
-        downLeftBtn.setUserData(6);
         downBtn = new Button();
-        downBtn.setUserData(7);
         downRightBtn = new Button();
-        downRightBtn.setUserData(8);
         gridPane0 = new GridPane();
         columnConstraints2 = new ColumnConstraints();
         columnConstraints3 = new ColumnConstraints();
@@ -124,8 +122,10 @@ public class onlineModeGeneratedBase extends AnchorPane {
         player2ScoreTxt = new Text();
         newGameBtn = new Button();
         menueBtn = new Button();
-        player1Label = new Text();
-        player2Label = new Text();
+        player1Label = new Label();
+        player2Label = new Label();
+        timer = new Timer();
+        board = new int[][]{{-1, -1, -1}, {-1, -1, -1}, {-1, -1, -1}};
         buttonArr[0] = topLeftBtn;
         buttonArr[1] = topBtn;
         buttonArr[2] = topRightBtn;
@@ -135,11 +135,6 @@ public class onlineModeGeneratedBase extends AnchorPane {
         buttonArr[6] = downLeftBtn;
         buttonArr[7] = downBtn;
         buttonArr[8] = downRightBtn;
-        
-
-        player1Score=0;
-        player2Score=0;
-        drawScore=0;
 
         setId("AnchorPane");
         setPrefHeight(672.0);
@@ -149,7 +144,7 @@ public class onlineModeGeneratedBase extends AnchorPane {
 
         imageView.setFitHeight(672.0);
         imageView.setFitWidth(992.0);
-        imageView.setImage(new Image(getClass().getResource("BackgroundImage.png").toExternalForm()));
+        imageView.setImage(new Image(getClass().getResource("gaming-blank-banner-background_23-2150390423.jpg").toExternalForm()));
 
         gridPane.setLayoutX(246.0);
         gridPane.setLayoutY(191.0);
@@ -179,147 +174,320 @@ public class onlineModeGeneratedBase extends AnchorPane {
         rowConstraints1.setMinHeight(10.0);
         rowConstraints1.setPrefHeight(30.0);
         rowConstraints1.setVgrow(javafx.scene.layout.Priority.SOMETIMES);
+        
+        
+        App.startConnection();
+        new Thread(() -> {
+            while (App.server.isConnected()) {
+                try {
+                    String jsonResponse = App.input.readLine();
+                    System.out.println(jsonResponse);
+                    Message response = App.gson.fromJson(jsonResponse, Message.class);
+                    String playerSide = response.getXO();
+                    int location = response.getLocation();
+                    if (response.getType().equals("retriveMove")) {
+                        switch (location) {
+                            case 1:
+                            topLeftBtn.setText(playerSide); 
+                            break;
+                            case 2:
+                            topBtn.setText(playerSide); 
+                            break; 
+                             case 3:
+                            topRightBtn.setText(playerSide); 
+                            break;
+                             case 4:
+                            centerLeftBtn.setText(playerSide); 
+                            break;
+                            case 5:
+                            centerBtn.setText(playerSide); 
+                            break;
+                            case 6:
+                            centerRightBtn.setText(playerSide); 
+                            break;
+                            case 7:
+                            downLeftBtn.setText(playerSide); 
+                            break;
+                            case 8:
+                            downBtn.setText(playerSide); 
+                            break;
+                            case 9:
+                            downRightBtn.setText(playerSide); 
+                            break;
+                        }
+                         myTurn=true;
+                        checkWinner();                
+                    }
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }).start(); 
 
         topLeftBtn.setMnemonicParsing(false);
         topLeftBtn.setPrefHeight(102.0);
         topLeftBtn.setPrefWidth(178.0);
-        topLeftBtn.setFont(new Font(50));
-        topLeftBtn.setStyle("-fx-text-stroke: white;");
-        
-        for(int i=0;i<buttonArr.length;i++)
-        {
-            buttonArr[i].setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    Button but=(Button)event.getSource();
-                    int index=(int)but.getUserData();
-                    if (player1Turn) {
-                        if (but.getText() == "") {
-                            but.setText(player1);
-                            player1Turn = false;
-                            player2Label.setText("Player2 Turn");
-                            player1Label.setText("Player1 ");
-//                            output.println(index);
-                            checkWinner();
-                        }
-                    } else {
-                        if (but.getText() == "") {
-                            but.setText(player2);
-                            player1Turn = true;
-                            player1Label.setText("Player1 Turn");
-                            player2Label.setText("Player2");
-//                            output.println(index);
-                            checkWinner();
-                        }
-                    }
-                   
-                }
-            });
-        }
-        
-//        Runnable run = (() -> {
-//                while (true) {
-//                try {
-//                    String message = input.readLine();
-//                    Platform.runLater(() -> {
-//                        System.out.println(message);
-//                        int step = Integer.parseInt(message);
-//                        if(player1Turn)
-//                        {
-//                            buttonArr[step].setText(player1);
-//                        }
-//                        else
-//                            buttonArr[step].setText(player2);
-//                        player1Turn=!player1Turn;
-//                    });
-//                } catch (IOException ex) {
-//                    System.out.println("server closed !!!");
-//                    Logger.getLogger(onlineModeGeneratedBase.class.getName()).log(Level.SEVERE, null, ex);
-//                    break;
-//                }
-//            }
-//        });
-//        new Thread(run).start();
+        topLeftBtn.setOnMouseClicked(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                if (board[0][0] == -1 && myTurn) {
+                    board[0][0] = 0;
+                    myTurn = false;
+                    topLeftBtn.setText(player1);
+                    sendMove(1, player1);
+                    player2Label.setText(oponentName + " Turn");
+                    player1Label.setText(PlayerName);
+                    checkWinner();
 
+                }
+                if (board[0][0] == -1 && myTurn == false) {
+                    board[0][0] = 0;
+                    myTurn = true;
+                    sendMove(1, player2);
+                    topLeftBtn.setText(player2);
+                    player1Label.setText(PlayerName + " Turn");
+                    player2Label.setText(oponentName);
+                    checkWinner();
+
+                }
+            }
+        });
 
         GridPane.setColumnIndex(topBtn, 1);
         topBtn.setMnemonicParsing(false);
         topBtn.setPrefHeight(102.0);
         topBtn.setPrefWidth(178.0);
-        topBtn.setFont(new Font(50));
-        topBtn.setStyle("-fx-text-stroke: white;");
-        
-        
+        topBtn.setOnMouseClicked(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                if (board[0][1] == -1 && myTurn) {
+                    board[0][1] = 0;
+                    myTurn = false;
+                    sendMove(2, player1);
+                    topBtn.setText(player1);
+                    player2Label.setText(oponentName + " Turn");
+                    player1Label.setText(PlayerName);
+                    checkWinner();
+                }
+                if (board[0][1] == -1 && myTurn == false) {
+                    board[0][1] = 0;
+                    myTurn = true;
+                    sendMove(2, player2);
+                    topBtn.setText(player2);
+                    player1Label.setText(PlayerName + " Turn");
+                    player2Label.setText(oponentName);
+                    checkWinner();
+                }
+
+            }
+        });
 
         GridPane.setColumnIndex(topRightBtn, 2);
         topRightBtn.setMnemonicParsing(false);
         topRightBtn.setPrefHeight(102.0);
         topRightBtn.setPrefWidth(178.0);
-        topRightBtn.setFont(new Font(50));
-        topRightBtn.setStyle("-fx-text-stroke: white;");
-        
-
+        topRightBtn.setOnMouseClicked(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                if (board[0][2] == -1 && myTurn) {
+                    board[0][2] = 0;
+                    myTurn = false;
+                    sendMove(3, player1);
+                    topRightBtn.setText(player1);
+                    player2Label.setText(oponentName + " Turn");
+                    player1Label.setText(PlayerName);
+                    checkWinner();
+                }
+                if (board[0][2] == -1 && myTurn == false) {
+                    board[0][2] = 0;
+                    myTurn = true;
+                    sendMove(3, player2);
+                    topRightBtn.setText(player2);
+                    player1Label.setText(PlayerName + " Turn");
+                    player2Label.setText(oponentName);
+                    checkWinner();
+                }
+            }
+        });
 
         GridPane.setRowIndex(centerLeftBtn, 1);
         centerLeftBtn.setMnemonicParsing(false);
         centerLeftBtn.setPrefHeight(102.0);
         centerLeftBtn.setPrefWidth(178.0);
-        centerLeftBtn.setFont(new Font(50));
-        centerLeftBtn.setStyle("-fx-text-stroke: white;");
-         
+        centerLeftBtn.setOnMouseClicked(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                if (board[1][0] == -1 && myTurn) {
+                    board[1][0] = 0;
+                    myTurn = false;
+                    sendMove(4, player1);
+                    centerLeftBtn.setText(player1);
+                    player2Label.setText(oponentName + " Turn");
+                    player1Label.setText(PlayerName);
+                    checkWinner();
 
+                }
+                if (board[1][0] == -1 && myTurn == false) {
+                    board[1][0] = 0;
+                    myTurn = true;
+                    sendMove(4, player2);
+                    centerLeftBtn.setText(player2);
+                    player1Label.setText(PlayerName + " Turn");
+                    player2Label.setText(oponentName);
+                    checkWinner();
+                }
+            }
+        });
 
         GridPane.setColumnIndex(centerBtn, 1);
         GridPane.setRowIndex(centerBtn, 1);
         centerBtn.setMnemonicParsing(false);
         centerBtn.setPrefHeight(102.0);
         centerBtn.setPrefWidth(178.0);
-        centerBtn.setFont(new Font(50));
-        centerBtn.setStyle("-fx-text-stroke: white;");
-         
-        
+        centerBtn.setOnMouseClicked(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                if (board[1][1] == -1 && myTurn) {
+                    board[1][1] = 0;
+                    myTurn = false;
+                    sendMove(5, player1);
+                    centerBtn.setText(player1);
+                    player2Label.setText(oponentName + " Turn");
+                    player1Label.setText(PlayerName);
+                    checkWinner();
+
+                }
+                if (board[1][1] == -1 && myTurn == false) {
+                    board[1][1] = 0;
+                    myTurn = true;
+                    sendMove(5, player2);
+                    centerBtn.setText(player2);
+                    player1Label.setText(PlayerName + " Turn");
+                    player2Label.setText(oponentName);
+                    checkWinner();
+                }
+            }
+        });
 
         GridPane.setColumnIndex(centerRightBtn, 2);
         GridPane.setRowIndex(centerRightBtn, 1);
         centerRightBtn.setMnemonicParsing(false);
         centerRightBtn.setPrefHeight(102.0);
         centerRightBtn.setPrefWidth(178.0);
-        centerRightBtn.setFont(new Font(50));
-        centerRightBtn.setStyle("-fx-text-stroke: white;");
-         
+        centerRightBtn.setOnMouseClicked(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                if (board[1][2] == -1 && myTurn) {
+                    board[1][2] = 0;
+                    myTurn = false;
+                    sendMove(6, player1);
+                    centerRightBtn.setText(player1);
+                    player2Label.setText(oponentName + " Turn");
+                    player1Label.setText(PlayerName);
+                    checkWinner();
+                }
+                if (board[1][2] == -1 && myTurn == false) {
+                    board[1][2] = 0;
+                    myTurn = true;
+                    sendMove(6, player2);
+                    centerRightBtn.setText(player2);
+                    player1Label.setText(PlayerName + " Turn");
+                    player2Label.setText(oponentName);
+                    checkWinner();
+                }
+            }
+        });
 
         GridPane.setRowIndex(downLeftBtn, 2);
         downLeftBtn.setMnemonicParsing(false);
         downLeftBtn.setPrefHeight(102.0);
         downLeftBtn.setPrefWidth(178.0);
-        downLeftBtn.setFont(new Font(50));
-        downLeftBtn.setStyle("-fx-text-stroke: white;");
-        
+        downLeftBtn.setOnMouseClicked(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                if (board[2][0] == -1 && myTurn) {
+                    board[2][0] = 0;
+                    myTurn = false;
+                    sendMove(7, player1);
+                    downLeftBtn.setText(player1);
+                    player2Label.setText(oponentName + " Turn");
+                    player1Label.setText(PlayerName);
+                    checkWinner();
+                }
+                if (board[2][0] == -1 && myTurn == false) {
+                    board[2][0] = 0;
+                    myTurn = true;
+                    sendMove(7, player2);
+                    downLeftBtn.setText(player2);
+                    player1Label.setText(PlayerName + " Turn");
+                    player2Label.setText(oponentName);
+                    checkWinner();
+                }
+            }
+        });
+
         GridPane.setColumnIndex(downBtn, 1);
         GridPane.setRowIndex(downBtn, 2);
         downBtn.setMnemonicParsing(false);
         downBtn.setPrefHeight(102.0);
         downBtn.setPrefWidth(178.0);
-        downBtn.setFont(new Font(50));
-        downBtn.setStyle("-fx-text-stroke: white;");
-         
-         
-         
+        downBtn.setOnMouseClicked(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                if (board[2][1] == -1 && myTurn) {
+                    board[2][1] = 0;
+                    myTurn = false;
+                    sendMove(8, player1);
+                    downBtn.setText(player1);
+                    player2Label.setText(oponentName + " Turn");
+                    player1Label.setText(PlayerName);
+                    checkWinner();
+                }
+                if (board[2][1] == -1 && myTurn == false) {
+                    board[2][1] = 0;
+                    myTurn = true;
+                    sendMove(8, player2);
+                    downBtn.setText(player2);
+                    player1Label.setText(PlayerName + " Turn");
+                    player2Label.setText(oponentName);
+                    checkWinner();
+                }
+            }
+        });
 
         GridPane.setColumnIndex(downRightBtn, 2);
         GridPane.setRowIndex(downRightBtn, 2);
         downRightBtn.setMnemonicParsing(false);
         downRightBtn.setPrefHeight(102.0);
         downRightBtn.setPrefWidth(178.0);
-        downRightBtn.setFont(new Font(50));
-        downRightBtn.setStyle("-fx-text-stroke: white;");
-         
+        downRightBtn.setOnMouseClicked(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                if (board[2][2] == -1 && myTurn) {
+                    board[2][2] = 0;
+                    myTurn = false;
+                    sendMove(9, player1);
+                    downLeftBtn.setText(player1);
+                    player2Label.setText(oponentName + " Turn");
+                    player1Label.setText(PlayerName);
+                    checkWinner();
+                }
+                if (board[2][2] == -1 && myTurn == false) {
+                    board[2][2] = 0;
+                    myTurn = true;
+                    sendMove(9, player2);
+                    downLeftBtn.setText(player2);
+                    player1Label.setText(PlayerName + " Turn");
+                    player2Label.setText(oponentName);
+                    checkWinner();
+                }
+            }
+        });
 
         gridPane0.setLayoutX(301.0);
         gridPane0.setLayoutY(57.0);
         gridPane0.setPrefHeight(111.0);
         gridPane0.setPrefWidth(404.0);
-        gridPane0.setHgap(10.0);
 
         columnConstraints2.setHgrow(javafx.scene.layout.Priority.SOMETIMES);
         columnConstraints2.setMinWidth(10.0);
@@ -339,145 +507,78 @@ public class onlineModeGeneratedBase extends AnchorPane {
 
         borderPane.setPrefHeight(111.0);
         borderPane.setPrefWidth(117.0);
-        borderPane.setStyle("-fx-background-radius: 15; -fx-background-color: white;");
 
         BorderPane.setAlignment(player1Txt, javafx.geometry.Pos.CENTER);
         player1Txt.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
         player1Txt.setStrokeWidth(0.0);
         player1Txt.setText("Player 1");
-        player1Txt.setFont(new Font("Arial Bold", 27.0));
-        BorderPane.setMargin(player1Txt, new Insets(5.0, 0.0, 0.0, 0.0));
         borderPane.setTop(player1Txt);
 
         BorderPane.setAlignment(player1ScoreTxt, javafx.geometry.Pos.CENTER);
+        player1ScoreTxt.setLayoutX(100.0);
         player1ScoreTxt.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
         player1ScoreTxt.setStrokeWidth(0.0);
         player1ScoreTxt.setText("0");
-        player1ScoreTxt.setFont(new Font("Arial Bold", 36.0));
         borderPane.setCenter(player1ScoreTxt);
+        GridPane.setMargin(borderPane, new Insets(0.0, 5.0, 0.0, 0.0));
 
         GridPane.setColumnIndex(borderPane0, 1);
         borderPane0.setPrefHeight(111.0);
         borderPane0.setPrefWidth(119.0);
-        borderPane0.setStyle("-fx-background-radius: 15; -fx-background-color: white;");
 
         BorderPane.setAlignment(drawTxt, javafx.geometry.Pos.CENTER);
         drawTxt.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
         drawTxt.setStrokeWidth(0.0);
         drawTxt.setText("Draw");
-        drawTxt.setFont(new Font("Arial Bold", 27.0));
-        BorderPane.setMargin(drawTxt, new Insets(5.0, 0.0, 0.0, 0.0));
         borderPane0.setTop(drawTxt);
 
         BorderPane.setAlignment(drawScoreTxt, javafx.geometry.Pos.CENTER);
         drawScoreTxt.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
         drawScoreTxt.setStrokeWidth(0.0);
         drawScoreTxt.setText("0");
-        drawScoreTxt.setFont(new Font("Arial Bold", 36.0));
         borderPane0.setCenter(drawScoreTxt);
+        GridPane.setMargin(borderPane0, new Insets(0.0, 5.0, 0.0, 5.0));
 
         GridPane.setColumnIndex(borderPane1, 2);
         borderPane1.setPrefHeight(111.0);
         borderPane1.setPrefWidth(119.0);
-        borderPane1.setStyle("-fx-background-radius: 15; -fx-background-color: white;");
 
         BorderPane.setAlignment(player2Txt, javafx.geometry.Pos.CENTER);
         player2Txt.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
         player2Txt.setStrokeWidth(0.0);
         player2Txt.setText("Player 2");
-        player2Txt.setFont(new Font("Arial Bold", 27.0));
-        BorderPane.setMargin(player2Txt, new Insets(5.0, 0.0, 0.0, 0.0));
         borderPane1.setTop(player2Txt);
 
         BorderPane.setAlignment(player2ScoreTxt, javafx.geometry.Pos.CENTER);
         player2ScoreTxt.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
         player2ScoreTxt.setStrokeWidth(0.0);
         player2ScoreTxt.setText("0");
-        player2ScoreTxt.setFont(new Font("Arial Bold", 36.0));
         borderPane1.setCenter(player2ScoreTxt);
+        GridPane.setMargin(borderPane1, new Insets(0.0, 5.0, 0.0, 5.0));
 
         newGameBtn.setLayoutX(320.0);
         newGameBtn.setLayoutY(560.0);
         newGameBtn.setMnemonicParsing(false);
         newGameBtn.setPrefHeight(48.0);
-        newGameBtn.setPrefWidth(200.0);
+        newGameBtn.setPrefWidth(155.0);
         newGameBtn.setText("New Game");
-        newGameBtn.setStyle("-fx-background-radius: 15;");
-        newGameBtn.setText("New Game");
-        newGameBtn.setFont(new Font("Arial Bold", 27.0));
-        newGameBtn.setOpaqueInsets(new Insets(0.0));
-        newGameBtn.setStyle("-fx-background-color: #68CFD1 ;");
-        newGameBtn.setOnMouseEntered(event -> {
-            newGameBtn.setStyle("-fx-background-color: #00CBFE;");
-        });
-        newGameBtn.setOnMouseExited(event -> {
-            newGameBtn.setStyle("-fx-background-color: #68CFD1 ;");
-        });
-        newGameBtn.setOnMouseClicked(new EventHandler() {
-
-            @Override
-            public void handle(Event event) {
-                for(int i=0;i<9;i++){
-                    buttonArr[i].setText("");
-                    buttonArr[i].setDisable(false);
-                    buttonArr[i].setStyle("-fx-background-color: #d7049e;");
-                    firstTurn();
-                }
-            }
-        });
-
 
         menueBtn.setLayoutX(572.0);
         menueBtn.setLayoutY(560.0);
         menueBtn.setMnemonicParsing(false);
         menueBtn.setPrefHeight(48.0);
-        menueBtn.setPrefWidth(200.0);
-        menueBtn.setStyle("-fx-background-radius: 15;");
-        menueBtn.setText("Main Menu");
-        menueBtn.setFont(new Font("Arial Bold", 27.0));
-        menueBtn.setStyle("-fx-background-color: #68CFD1 ;");
-        menueBtn.setOnMouseEntered(event -> {
-        menueBtn.setStyle("-fx-background-color: #00CBFE;");
-        });
-        menueBtn.setOnMouseExited(event -> {
-        menueBtn.setStyle("-fx-background-color: #68CFD1 ;");
-        });
+        menueBtn.setPrefWidth(155.0);
         menueBtn.setText("Main Menue");
-        menueBtn.setOnMouseClicked(new EventHandler() {
 
-            @Override
-            public void handle(Event event) {
-                   Parent root = new  SelectModeBase(stage);
-                Scene scene = new Scene(root,1000,700);
-                stage.setScene(scene);
-                stage.show();
-            }
-        });
-        
-        
-        
-
-        player1Label.setLayoutX(45.0);
-        player1Label.setLayoutY(350.0);
+        player1Label.setLayoutX(105.0);
+        player1Label.setLayoutY(304.0);
         player1Label.setText("Player1");
-        player1Label.setFont(new Font(35.0));
-        player1Label.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
-        player1Label.setFill(Color.WHITE); // setting color of the text to blue
-        player1Label.setStroke(Color.BLACK); // setting the stroke for the text
-        player1Label.setStrokeWidth(1); 
-        player1Label.setStrokeWidth(2.0);
-        
+        player1Label.setFont(new Font(30.0));
 
-        player2Label.setLayoutX(795.0);
-        player2Label.setLayoutY(350.0);
+        player2Label.setLayoutX(813.0);
+        player2Label.setLayoutY(304.0);
         player2Label.setText("Player 2");
-        player2Label.setFont(new Font(35.0));
-        player2Label.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
-        player2Label.setFill(Color.WHITE);
-        player2Label.setStroke(Color.BLACK);
-        player2Label.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
-        player2Label.setStrokeWidth(2.0);
-        
+        player2Label.setFont(new Font(30.0));
 
         getChildren().add(imageView);
         gridPane.getColumnConstraints().add(columnConstraints);
@@ -508,37 +609,42 @@ public class onlineModeGeneratedBase extends AnchorPane {
         getChildren().add(menueBtn);
         getChildren().add(player1Label);
         getChildren().add(player2Label);
-        topLeftBtn.setStyle("-fx-background-color: #d7049e; -fx-text-fill: white;");
-        topBtn.setStyle("-fx-background-color: #d7049e; -fx-text-fill: white;");
-        topRightBtn.setStyle("-fx-background-color: #d7049e; -fx-text-fill: white;");
-        centerLeftBtn.setStyle("-fx-background-color: #d7049e; -fx-text-fill: white;");
-        centerBtn.setStyle("-fx-background-color: #d7049e; -fx-text-fill: white;");
-        centerRightBtn.setStyle("-fx-background-color: #d7049e; -fx-text-fill: white;");
-        downLeftBtn.setStyle("-fx-background-color: #d7049e; -fx-text-fill: white;");
-        downBtn.setStyle("-fx-background-color: #d7049e; -fx-text-fill: white;");
-        downRightBtn.setStyle("-fx-background-color: #d7049e; -fx-text-fill: white;");
- 
-        
-        firstTurn();
 
     }
-     public void firstTurn() {
+
+    public void firstTurn() {
+        //zero or one//
         if (random.nextInt(2) == 0) {
-            player1Turn = true;
+            myTurn = true;
             player1 = "X";
             player2 = "O";
-            player1Label.setText("Player1 Turn");
-            player2Label.setText("Player2");
+            player1Label.setText(PlayerName + " Turn");
+            player2Label.setText(oponentName);
+
         } else {
-            player1Turn = false;
+            myTurn = false;
             player2 = "X";
             player1 = "O";
-            player2Label.setText("Player2 Turn");
-            player1Label.setText("Player1");
+            player2Label.setText(oponentName + " Turn");
+            player1Label.setText(PlayerName);
         }
 
     }
 
+    public void sendMove(int location, String player) {
+        App.startConnection();
+        Message msg = new Message();
+        msg.setType("sendMove");
+        msg.setOpponentEmail(opponentEmail);
+        msg.setLocation(location);
+        msg.setXO(player);
+        String request = gson.toJson(msg);
+        App.output.println(request);
+        App.output.flush();
+
+    }
+
+ 
     public void xWins(int index1, int index2, int index3) {
         buttonArr[index1].setStyle("-fx-background-color: #5A1E76;");
         buttonArr[index2].setStyle("-fx-background-color: #5A1E76;");
@@ -690,12 +796,45 @@ public void oWins(int index1, int index2, int index3) {
              drawScoreTxt.setText(String.valueOf(drawScore)); 
             
         }
-     } 
+     }
         
+    }    
+    
+    
+      public void playerXScore(){
+            if(player1 == "X"){
+                player1Score++;
+                player1ScoreTxt.setText(String.valueOf(player1Score));
+            }
+            else{
+               player2Score++;
+                player2ScoreTxt.setText(String.valueOf(player2Score)); 
+            }
+        }
+      
 
+        public void playerOScore(){
+            if(player1 == "O"){
+                player1Score++;
+                player1ScoreTxt.setText(String.valueOf(player1Score));
+            }
+            else{
+               player2Score++;
+                player2ScoreTxt.setText(String.valueOf(player2Score)); 
+            }
+        }
+
+    
+    
+      public void setDisableBtn() {
+        for (int i = 0; i < 9; i++) {
+            buttonArr[i].setDisable(true);
+
+        }     
     }
+    
 
-    public void xWinsVideo() {
+      public void xWinsVideo() {
         String videoFile = "file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/LocalMode2Players/XWinsVideo.mp4";
 
         // Create a Media object
@@ -805,34 +944,18 @@ public void DrawPlayVideo() {
         });
     }   
 
-    public void setDisableBtn() {
-        for (int i = 0; i < 9; i++) {
-            buttonArr[i].setDisable(true);
 
-        }     
+    //serverSide Methods//
+    public void serverAccept(Message msg) {
+        String opponentMail = msg.getEmail();
+        int location = msg.getLocation();
+        String XO = msg.getXO();
+        Message response = new Message();
+        response.setType("retriveMove");
+        response.setEmail(opponentMail);
+        response.setLocation(location);
+        //output.println(gson.toJson(response));
+        //output.flush();
     }
-    
-      public void playerXScore(){
-            if(player1 == "X"){
-                player1Score++;
-                player1ScoreTxt.setText(String.valueOf(player1Score));
-            }
-            else{
-               player2Score++;
-                player2ScoreTxt.setText(String.valueOf(player2Score)); 
-            }
-        }
-      
-
-        public void playerOScore(){
-            if(player1 == "O"){
-                player1Score++;
-                player1ScoreTxt.setText(String.valueOf(player1Score));
-            }
-            else{
-               player2Score++;
-                player2ScoreTxt.setText(String.valueOf(player2Score)); 
-            }
-        }
 
 }
