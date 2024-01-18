@@ -31,7 +31,10 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.scene.control.Button;
+import javafx.scene.control.DialogPane;
 import javafx.stage.Stage;
+import jdk.nashorn.internal.ir.Flags;
 import onlinemode.onlineModeGeneratedBase;
 import onlinemode.onlineModeGeneratedBaseNew;
 
@@ -54,8 +57,12 @@ public class PlayersListBaseNew extends AnchorPane {
     boolean flag;
     boolean shouldStop=false;
     Thread thread= new Thread();
+    Stage stage;
+    String playerEmail;
 
     public PlayersListBaseNew(Stage stage,String email) {
+        this.stage=stage;
+
         flag=true;
         alertResult=new ButtonType("");
         confirm = new Alert(Alert.AlertType.CONFIRMATION);
@@ -67,7 +74,7 @@ public class PlayersListBaseNew extends AnchorPane {
         avaliable = new ArrayList<>();
         playersCards=new ArrayList<>();
         
-        String playerEmail=email;
+        playerEmail=email;
        
         App.startConnection();
         Message msg= new Message();
@@ -106,6 +113,7 @@ public class PlayersListBaseNew extends AnchorPane {
                 }
 //            }
         }).start();
+
 //        App.resetCon();
        Thread yourThread = new Thread(() -> {
     while (App.server.isConnected() && !Thread.interrupted()) { 
@@ -252,6 +260,9 @@ public class PlayersListBaseNew extends AnchorPane {
 //            }
 //        }).start();
 
+        listen4();
+
+
         setId("AnchorPane");
         setPrefHeight(400.0);
         setPrefWidth(600.0);
@@ -327,4 +338,79 @@ public class PlayersListBaseNew extends AnchorPane {
         }
 
     }
+    Alert invitation;
+    public void showInvitation(Message jsonResponse)
+    {   
+        Message response= jsonResponse;
+        invitation = new Alert(Alert.AlertType.CONFIRMATION,response.getEmail()+" someone wants to play with you",ButtonType.OK,ButtonType.CANCEL);
+        DialogPane dialog= invitation.getDialogPane();
+        Button okButton= (Button) dialog.lookupButton(ButtonType.OK);
+        Button cancelButton= (Button) dialog.lookupButton(ButtonType.CANCEL);
+        Message inviteResponse= new Message();
+            invitation.setX(stage.getX()+(stage.getWidth()/2));
+            invitation.setY(stage.getY()+(stage.getHeight()/2));
+            okButton.setOnAction((event) -> {
+            inviteResponse.setType("accepted");
+            inviteResponse.setEmail(response.getEmail());
+            App.output.println(new Gson().toJson(inviteResponse));
+            App.output.flush();
+            Parent root = new onlineModeGeneratedBase(stage,playerEmail,response.getEmail());
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        });
+        cancelButton.setOnAction((event) -> {
+           inviteResponse.setType("rejected");
+           inviteResponse.setEmail(response.getEmail());
+           App.output.println(new Gson().toJson(inviteResponse));
+           App.output.flush();
+           listen4();
+        });
+        invitation.showAndWait();
+    }
+    public void listen4()
+    {
+        Thread th=new Thread(() -> {
+            while(App.server.isConnected())
+            {
+                try {
+                    String jsonResponse=App.input.readLine();
+                    Message response= new Gson().fromJson(jsonResponse,Message.class);
+                    System.out.println(jsonResponse);
+                    if(response.getType().equals("invite"))
+                    {
+                        Platform.runLater(() -> {
+                            showInvitation(response);
+                        });
+                        break;
+                    }
+                    else if(response.getType().equals("accepted"))
+                    {
+                        Platform.runLater(() -> {
+                            Parent root = new onlineModeGeneratedBase(stage,playerEmail,response.getEmail());               
+                            Scene scene = new Scene(root);
+                            stage.setScene(scene);
+                            stage.show();
+                        });
+                        break;
+                    }
+                    else if(response.getType().equals("rejected"))
+                    {
+                        Platform.runLater(() -> {    
+                            Alert rejectAlert=new Alert(Alert.AlertType.INFORMATION,response.getEmail()+" rejected your play request check another player");
+                            rejectAlert.setX(stage.getX()+(stage.getWidth()/2));
+                            rejectAlert.setY(stage.getY()+(stage.getHeight()/2));
+                            rejectAlert.show();
+                        });
+                    }
+                } catch (IOException ex) {
+                    Logger.getLogger(PlayersListBaseNew.class.getName()).log(Level.SEVERE, null, ex);
+                    break;
+                }
+            }
+        });
+        th.start();
+    }
+
+    
 }
