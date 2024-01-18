@@ -61,6 +61,7 @@ public class PlayersListBaseNew extends AnchorPane {
     String playerEmail;
 
     public PlayersListBaseNew(Stage stage,String email) {
+
         this.stage=stage;
 
         flag=true;
@@ -373,6 +374,7 @@ public class PlayersListBaseNew extends AnchorPane {
         Thread th=new Thread(() -> {
             while(App.server.isConnected())
             {
+                
                 try {
                     String jsonResponse=App.input.readLine();
                     Message response= new Gson().fromJson(jsonResponse,Message.class);
