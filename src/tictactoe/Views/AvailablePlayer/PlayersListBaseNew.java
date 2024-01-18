@@ -216,6 +216,9 @@ public class PlayersListBaseNew extends AnchorPane {
         Thread th=new Thread(() -> {
             while(App.server.isConnected())
             {
+                stage.setOnCloseRequest((event) -> {
+                    break;
+                });
                 try {
                     String jsonResponse=App.input.readLine();
                     Message response= new Gson().fromJson(jsonResponse,Message.class);
