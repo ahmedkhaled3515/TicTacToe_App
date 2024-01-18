@@ -20,7 +20,6 @@ public class Message {
     String opponentUserName;
     InetAddress ipAddress;
 
-    boolean status;
     String opponentEmail;
     int location;
 
