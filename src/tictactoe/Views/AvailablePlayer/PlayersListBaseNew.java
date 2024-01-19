@@ -54,9 +54,7 @@ public class PlayersListBaseNew extends AnchorPane {
     Optional<ButtonType> result;
     ButtonType alertResult;
     boolean flag;
-
     Stage stage;
-
     public PlayersListBaseNew(Stage stage) {
         this.stage=stage;
         flag=true;
@@ -83,8 +81,6 @@ public class PlayersListBaseNew extends AnchorPane {
                     System.out.println(jsonResponse);
                     Message response=App.gson.fromJson(jsonResponse,Message.class);
                     ArrayList<PlayersDTO> players =response.getPlayersList();
-
-                    
                     if(response.getType().equals("getOnline"))
                     {
                         for(PlayersDTO player: players)
@@ -220,6 +216,9 @@ public class PlayersListBaseNew extends AnchorPane {
         Thread th=new Thread(() -> {
             while(App.server.isConnected())
             {
+                stage.setOnCloseRequest((event) -> {
+                    break;
+                });
                 try {
                     String jsonResponse=App.input.readLine();
                     Message response= new Gson().fromJson(jsonResponse,Message.class);
