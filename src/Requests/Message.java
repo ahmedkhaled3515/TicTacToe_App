@@ -26,7 +26,7 @@ public class Message {
 
     int step;
     String XO;
-    String status;
+    String statuse;
     String validation;
     ArrayList<PlayersDTO> playersList;
 
@@ -40,11 +40,11 @@ public class Message {
     
     public String getStatus() {
 
-        return status;
+        return statuse;
     }
 
     public void setStatus(String status) {
-        this.status = status;
+        this.statuse = status;
     }
 
     public String getValidation() {

@@ -3,6 +3,7 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcons;
 import HomeView.homeBase;
 import SelectmodeView.SelectModeBase;
+import computer22.Computerplay;
 import java.net.URL;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -24,7 +25,7 @@ public  class MachineViewBase extends AnchorPane {
 
     protected final ImageView imageView;
     protected final Label headLabel;
-    protected final Button recording;
+  //  protected final Button recording;
     protected final Button continuw;
     protected final Button choseX;
     protected final Button choseO;
@@ -34,7 +35,7 @@ public  class MachineViewBase extends AnchorPane {
     private boolean choseOClickState = false;
     FontAwesomeIcon arrow;
     
-    
+   
       
         
     
@@ -42,7 +43,7 @@ public  class MachineViewBase extends AnchorPane {
         arrow=new FontAwesomeIcon();
         imageView = new ImageView();
         headLabel = new Label();
-        recording = new Button();
+      //  recording = new Button();
         
         continuw = new Button();
         choseX = new Button();
@@ -67,7 +68,7 @@ public  class MachineViewBase extends AnchorPane {
         headLabel.setText("tic.tac.toe.");
         headLabel.setTextFill(javafx.scene.paint.Color.valueOf("#c5a0d7"));
         headLabel.setFont(new Font("Arial Rounded MT Bold", 64.0));
-
+/*
         recording.setLayoutX(639.0);
         recording.setLayoutY(398.0);
         recording.setMnemonicParsing(false);
@@ -89,7 +90,7 @@ public  class MachineViewBase extends AnchorPane {
     }
         });
 
-        continuw.setLayoutX(639.0);
+  */      continuw.setLayoutX(639.0);
         continuw.setLayoutY(519.0);
         continuw.setMnemonicParsing(false);
         continuw.setPrefHeight(63.0);
@@ -114,21 +115,23 @@ public  class MachineViewBase extends AnchorPane {
             @Override
             public void handle(Event event) {
                        if (choseXClickState) {
-                         Parent root = new ComputerModeBase(stage,"X" );
+                         Parent root = new Computerplay(stage,"X" );
                          Scene scene = new Scene(root,1000,700);
                             stage.setScene(scene);
                             stage.show();
-                    } else {
-                        Parent root = new ComputerModeBase(stage ,"O" );
+                    } else if(choseOClickState){
+                        Parent root = new Computerplay(stage ,"O" );
                         Scene scene = new Scene(root,1000,700);
                            stage.setScene(scene);
                            stage.show();
                         
+                    }else{
+                         Parent root = new Computerplay(stage,"X" );
+                         Scene scene = new Scene(root,1000,700);
+                            stage.setScene(scene);
+                            stage.show();
+      
                     }
-
-               
-                
-             
             }
         });
                 
@@ -145,7 +148,8 @@ public  class MachineViewBase extends AnchorPane {
             @Override
             public void handle(ActionEvent event) {
                 
-                         if (choseXClickState) {
+           if (choseXClickState) {
+                           
             choseX.setStyle("-fx-background-color: C5A0D7; -fx-background-radius: 26 26 26 26;");
         } else {
             choseX.setStyle("-fx-background-color: 72CFF9; -fx-background-radius: 26 26 26 26;");
@@ -170,7 +174,8 @@ public  class MachineViewBase extends AnchorPane {
             @Override
             public void handle(ActionEvent event) {
                 
-                 if (choseOClickState) {
+           if (choseOClickState) {
+                    
             choseO.setStyle("-fx-background-color: C5A0D7; -fx-background-radius: 26 26 26 26;");
         } else {
             choseO.setStyle("-fx-background-color: 72CFF9; -fx-background-radius: 26 26 26 26;");
@@ -200,7 +205,7 @@ public  class MachineViewBase extends AnchorPane {
         });
         getChildren().add(imageView);
         getChildren().add(headLabel);
-        getChildren().add(recording);
+       // getChildren().add(recording);
         getChildren().add(continuw);
         getChildren().add(choseX);
         getChildren().add(choseO);

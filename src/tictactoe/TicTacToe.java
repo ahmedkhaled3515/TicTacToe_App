@@ -9,6 +9,8 @@ import HomeView.homeBase;
 import RecordView.RecordBase;
 import SelectmodeView.SelectModeBase;
 import SignupView.SignupBase;
+import computer22.Computerplay;
+
 import java.io.IOException;
 
 import java.util.logging.Level;
@@ -31,6 +33,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import onlinemode.onlineModeGeneratedBase;
+import onlinemode.onlineModeGeneratedBaseNew;
 import tictactoe.Views.DrawView.DrawPane;
 import tictactoe.Views.LoseView.LosePane;
 import tictactoe.Views.WinView.WinController;
@@ -64,8 +67,8 @@ public class TicTacToe extends Application {
     public void start(Stage stage) throws Exception {
 
         Parent root = new homeBase(stage);
-//        Parent root = new PlayersListBaseNew(stage);
-        Parent root2=new ComputerModeBase(stage,"O");
+      // Parent root2 = new PlayersListBaseNew(stage);
+   //    Parent root2=new Computerplay(stage,"X");
         scene = new Scene(root);
        stage.setScene(scene);
        stage.show();
