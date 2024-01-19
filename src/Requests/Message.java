@@ -26,6 +26,18 @@ public class Message {
     String status;
     String validation;
     ArrayList<PlayersDTO> playersList;
+    String player2;
+    int Score;
+
+    public int getScore() {
+        return Score;
+    }
+
+    public void setScore(int Score) {
+        this.Score = Score;
+    }
+    
+    
 
     public ArrayList<PlayersDTO> getPlayersList() {
         return playersList;
@@ -131,6 +143,14 @@ public class Message {
 
     public void setLocation(int location) {
         this.location = location;
+    }
+
+    public String getPlayer2() {
+        return player2;
+    }
+
+    public void setPlayer2(String player2) {
+        this.player2 = player2;
     }
     
     
