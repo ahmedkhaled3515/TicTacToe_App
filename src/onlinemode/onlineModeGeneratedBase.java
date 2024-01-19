@@ -78,7 +78,7 @@ public class onlineModeGeneratedBase extends AnchorPane {
     public Boolean player1Turn;
     public String player1, player2;
     public int player1Score,player2Score,drawScore;
-     Random random = new Random();
+    Random random = new Random();
     String opponentName;
     public onlineModeGeneratedBase(Stage stage,String opponentName) {
         this.opponentName=opponentName;
@@ -136,7 +136,7 @@ public class onlineModeGeneratedBase extends AnchorPane {
         buttonArr[7] = downBtn;
         buttonArr[8] = downRightBtn;
         
-
+        
         player1Score=0;
         player2Score=0;
         drawScore=0;

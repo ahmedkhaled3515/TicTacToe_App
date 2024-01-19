@@ -7,6 +7,7 @@ package Requests;
 
 import java.net.InetAddress;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -18,17 +19,38 @@ public class Message {
     String email;
     String password;
     String opponentUserName;
-    InetAddress ipAddress;
-
-    boolean status;
     String opponentEmail;
-    int location;
-
+    InetAddress ipAddress;
     int step;
     String XO;
     String status;
     String validation;
     ArrayList<PlayersDTO> playersList;
+     List<Integer> steps ;
+     int location;
+
+    public int getLocation() {
+        return location;
+    }
+
+    public void setLocation(int location) {
+        this.location = location;
+    }
+    public String getOpponentEmail() {
+        return opponentEmail;
+    }
+
+    public void setOpponentEmail(String opponentEmail) {
+        this.opponentEmail = opponentEmail;
+    }
+
+    public List<Integer> getSteps() {
+        return steps;
+    }
+
+    public void setSteps(List<Integer> steps) {
+        this.steps = steps;
+    }
 
     public ArrayList<PlayersDTO> getPlayersList() {
         return playersList;
@@ -39,7 +61,6 @@ public class Message {
     }
     
     public String getStatus() {
-
         return status;
     }
 
@@ -54,7 +75,6 @@ public class Message {
     public void setValidation(String validation) {
         this.validation = validation;
     }
-
     public String getEmail() {
         return email;
     }
@@ -119,28 +139,6 @@ public class Message {
     public void setXO(String XO) {
         this.XO = XO;
     }
-
-    public String getOpponentEmail() {
-        return opponentEmail;
-    }
-
-    public void setOpponentEmail(String opponentEmail) {
-        this.opponentEmail = opponentEmail;
-    }
-
-    public int getLocation() {
-        return location;
-    }
-
-    public void setLocation(int location) {
-        this.location = location;
-    }
-    
-    
-
-
-    
-    
     public Message()
     {}
    public Message(String type, String userName, String opponentUserName, InetAddress ipAddress, int step, String XO,String validation) {

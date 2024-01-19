@@ -1,10 +1,15 @@
 package tictactoe.Views.computerMode;
 
+import Requests.App;
+import Requests.Message;
 import SelectmodeView.SelectModeBase;
 import com.google.gson.Gson;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -815,7 +820,7 @@ private int evaluateBoard(char[][] board) {
         }
     }
     */    
-  
+  /*
      List<Integer> positions = new ArrayList<>();
             int currentPlayer = 1; 
 
@@ -831,19 +836,57 @@ private int evaluateBoard(char[][] board) {
 
                 currentPlayer = 3 - currentPlayer;
             }
-
+            System.out.println("//////////////////////////////////////////////////////////");
             System.out.println("All positions:");
-            for (int position : positions) {
-                
-}  //  String json = gson.toJson(positions);
+              Message msg = new Message();
+                 msg.setType("record");
+                msg.setSteps(positions);
+                String json = gson.toJson(msg);
+                 String jsonS = gson.toJson(positions);
+                 System.out.println(json);
+                 System.out.println(json);
+           */      
+String email = "Somia@";
+List<Integer> positions = new ArrayList<>();
+int currentPlayer = 1;
 
-    //System.out.println(json);
+for (int j = 0; j < 9; j++) {
+    int selectedCell = -1;
+
+    while (selectedCell < 0 || selectedCell >= 9 || positions.contains(selectedCell)) {
+        selectedCell = (int) (Math.random() * 9);
+    }
+
+    positions.add(selectedCell);
+    System.out.println("Player " + currentPlayer + " selected cell: " + selectedCell);
+
+    currentPlayer = 3 - currentPlayer;
+}
+
+System.out.println("All positions:");
+Message msg = new Message();
+msg.setType("record");
+msg.setSteps(positions);
+
+
+        int id;
+        try {
+            id = DataAccessObject.retriveID(email);
+            DataAccessObject.insertRecord(id, positions);
+        } catch (SQLException ex) {
+            Logger.getLogger(ComputerModeBase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
+            } 
+  
+  
+  
 }
 
     //String json = gson.toJson(buttonValues);
 
-    //System.out.println(json);
-}
+    //System.out.println(json);}
     
 
     

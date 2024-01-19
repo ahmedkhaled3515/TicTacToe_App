@@ -2,9 +2,12 @@ package tictactoe.Views.computerMode;
 
 import static Requests.App.gson;
 import com.google.gson.Gson;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -538,10 +541,10 @@ public class ComputerModeBase2 extends AnchorPane {
                 buttonValues[i][j] = button.getText();
             }
         }
+   
+     //   String json = gson.toJson(buttonValues);
 
-        String json = gson.toJson(buttonValues);
-
-        System.out.println(json);
+      //  System.out.println(json);
     }
         
 }

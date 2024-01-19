@@ -104,41 +104,6 @@ public class loginBase extends AnchorPane {
         btnLogin.setText("Login");
 
         App.startConnection();
-        /*
-//        App.resetCon();
-        btnLogin.setOnAction((event) -> {
-           
-           Message msg=new Message();
-           msg.setEmail(txtEmail.getText());
-           msg.setPassword(txtPassword.getText());
-           msg.setType("login");
-           String message=App.gson.toJson(msg);
-//           System.out.println(message);
-           App.output.println(message);
-           App.output.flush();
-           new Thread(() -> {
-                try {
-                        String jsonResponse=App.input.readLine();
-//                        System.out.println(jsonResponse);
-                        Message response2= new Gson().fromJson(jsonResponse,Message.class);
-                        System.out.println(response2.getType());
-                        if(response2.getType().equals("login"))
-                        {
-                            if(response2.getValidation().equals("valid"))
-                            {
-                                Platform.runLater(() -> {
-                                    stage.setScene(new Scene(new PlayersListBaseNew(stage),1000,700));
-                                });   
-                            }
-                        }
-                } catch (IOException ex) {
-                    Logger.getLogger(loginBase.class.getName()).log(Level.SEVERE, null, ex);
-                }
-//            App.closeConnection();
-        }).start();
-        });
-        
-*/
          Gson gson = new Gson();
          btnLogin.setOnAction((event) -> {
                  Message msg = new Message();
