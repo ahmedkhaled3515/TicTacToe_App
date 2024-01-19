@@ -33,6 +33,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.DialogPane;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import jdk.nashorn.internal.ir.Flags;
 import onlinemode.onlineModeGeneratedBase;
@@ -54,12 +55,13 @@ public class PlayersListBaseNew extends AnchorPane {
     Optional<ButtonType> result;
     ButtonType alertResult;
     boolean flag;
-
+    String userEmail;
     Stage stage;
 
-    public PlayersListBaseNew(Stage stage) {
+    public PlayersListBaseNew(Stage stage,String userEmail) {
         this.stage=stage;
         flag=true;
+        this.userEmail = userEmail;
         alertResult=new ButtonType("");
         confirm = new Alert(Alert.AlertType.CONFIRMATION);
         anchorPane = new AnchorPane();
@@ -75,6 +77,9 @@ public class PlayersListBaseNew extends AnchorPane {
         String request=App.gson.toJson(msg);
         App.output.println(request);
         App.output.flush();
+        
+        
+        
         new Thread(() -> {
 //            while(App.server.isConnected())
 //            {
@@ -201,7 +206,7 @@ public class PlayersListBaseNew extends AnchorPane {
             inviteResponse.setEmail(response.getEmail());
             App.output.println(new Gson().toJson(inviteResponse));
             App.output.flush();
-            Parent root = new onlineModeGeneratedBase(stage,response.getEmail());
+            Parent root = new onlineModeGeneratedBase(stage,response.getEmail(),userEmail);
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
@@ -234,7 +239,7 @@ public class PlayersListBaseNew extends AnchorPane {
                     else if(response.getType().equals("accepted"))
                     {
                         Platform.runLater(() -> {
-                            Parent root = new onlineModeGeneratedBase(stage,response.getEmail());               
+                            Parent root = new onlineModeGeneratedBase(stage,response.getEmail(),userEmail);               
                             Scene scene = new Scene(root);
                             stage.setScene(scene);
                             stage.show();

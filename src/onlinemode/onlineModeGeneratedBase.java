@@ -1,10 +1,17 @@
 package onlinemode;
 
+import Requests.App;
+import Requests.Message;
 import SelectmodeView.SelectModeBase;
+import com.google.gson.Gson;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.DataInputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.URL;
@@ -19,8 +26,10 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -39,6 +48,14 @@ import javafx.stage.Stage;
 
 public class onlineModeGeneratedBase extends AnchorPane {
 
+    String readSymbol;
+    String readUserEmail;
+    String readOpponentEmail;
+    String readButtonPressed;
+    String readCurrentPlayer;
+    String readType;
+    
+    static Gson gson;
     protected final ImageView imageView;
     protected final GridPane gridPane;
     protected final ColumnConstraints columnConstraints;
@@ -47,6 +64,7 @@ public class onlineModeGeneratedBase extends AnchorPane {
     protected final RowConstraints rowConstraints;
     protected final RowConstraints rowConstraints0;
     protected final RowConstraints rowConstraints1;
+    protected final Button logOutButton;
     protected final Button topLeftBtn;
     protected final Button topBtn;
     protected final Button topRightBtn;
@@ -78,10 +96,58 @@ public class onlineModeGeneratedBase extends AnchorPane {
     public Boolean player1Turn;
     public String player1, player2;
     public int player1Score,player2Score,drawScore;
-     Random random = new Random();
+    Random random = new Random();
     String opponentName;
-    public onlineModeGeneratedBase(Stage stage,String opponentName) {
-        this.opponentName=opponentName;
+    String filePath="D:\\TicTacToe\\TicTacToe\\TicTacToe_App\\onlineGameboard.json";
+    Message msg;
+    
+    String userEmail;
+    String opponentEmail;
+    String buttonPressed;
+    String currentPlayer;
+    String buttonPresse;
+    
+    
+    
+    
+    Boolean topLeftBtnFlag;
+    Boolean topBtnFlag;
+    Boolean topRightBtnFlag;
+    Boolean centerLeftBtnFlag;
+    Boolean centerBtnFlag;
+    Boolean centerRightBtnFlag;
+    Boolean downLeftBtnFlag;
+    Boolean downBtnFlag;
+    Boolean downRightBtnFlag;
+    
+    Boolean xStartFirst = true;
+    public onlineModeGeneratedBase(Stage stage,String opponentEmail , String userEmail) {
+        
+        /*
+            String email;
+            String opponentEmail;
+            String currentPlayer;
+            String buttonPressed;
+    
+        */
+
+        msg = new Message();
+         
+        this.opponentEmail=opponentEmail;
+        this.userEmail=userEmail;
+        this.currentPlayer=userEmail;
+        
+        
+        msg.setOpponentEmail(opponentEmail);
+        msg.setEmail(userEmail);
+        msg.setCurrentPlayer(userEmail);
+        
+        Socket server;
+        DataInputStream dataInputStream;
+        PrintStream printStream;
+
+        gson=new Gson();
+       
         imageView = new ImageView();
         gridPane = new GridPane();
         columnConstraints = new ColumnConstraints();
@@ -91,6 +157,7 @@ public class onlineModeGeneratedBase extends AnchorPane {
         rowConstraints0 = new RowConstraints();
         rowConstraints1 = new RowConstraints();
         topLeftBtn = new Button();
+        logOutButton= new Button();
         topLeftBtn.setUserData(0);
         topBtn = new Button();
         topBtn.setUserData(1);
@@ -216,6 +283,116 @@ public class onlineModeGeneratedBase extends AnchorPane {
                 }
             });
         }
+        
+        
+        try {
+            server = new Socket("127.0.0.1",5005);
+            dataInputStream = new DataInputStream((server.getInputStream()));
+            printStream = new PrintStream(server.getOutputStream());
+            //write
+            printStream.println(this.msg);
+            
+            new Thread(){
+                public void run(){
+                    while(true){
+                        //read
+                       Message msg = readObjectsFromFile(filePath);
+                       
+                       readSymbol = msg.getSymbol();
+                       readUserEmail = msg.getUserEmail();
+                       readOpponentEmail=msg.getOpponentEmail();
+                       readButtonPressed = msg.getButtonPressed();
+                       readCurrentPlayer = msg.getCurrentPlayer();
+                       readType = msg.getType();
+                       
+                       Platform.runLater(() -> {
+                           
+                           if(readType=="play"){
+                               if(currentPlayer==readCurrentPlayer){
+                                   //player1 (user)
+                                    switch(readButtonPressed){
+
+                                        case "topLeftBtn" :
+                                           topLeftBtn.setText("X");
+                                           break;
+                                        case "topBtn" :
+                                            topBtn.setText("X");
+                                            break;
+                                        case "topRightBtn": 
+                                            topRightBtn.setText("X");
+                                            break;
+                                        case "centerLeftBtn":
+                                            centerLeftBtn.setText("X");
+                                           break;
+                                        case "centerBtn":
+                                            centerBtn.setText("X");
+                                            break;
+                                        case "centerRightBtn": 
+                                            centerRightBtn.setText("X");
+                                            break;
+                                        case "downLeftBtn":
+                                            downLeftBtn.setText("X");
+                                           break;
+                                        case "downBtn":
+                                            downBtn.setText("X");
+                                            break;
+                                        case "downRightBtn": 
+                                            downRightBtn.setText("X");
+                                            break;                                            
+                                   }
+                               }else{
+                                   //player2 (opponent)
+                                   switch(readButtonPressed){
+
+                                        case "topLeftBtn" :
+                                           topLeftBtn.setText("O");
+                                           break;
+                                        case "topBtn" :
+                                            topBtn.setText("O");
+                                            break;
+                                        case "topRightBtn": 
+                                            topRightBtn.setText("O");
+                                            break;
+                                        case "centerLeftBtn":
+                                            centerLeftBtn.setText("O");
+                                           break;
+                                        case "centerBtn":
+                                            centerBtn.setText("O");
+                                            break;
+                                        case "centerRightBtn": 
+                                            centerRightBtn.setText("O");
+                                            break;
+                                        case "downLeftBtn":
+                                            downLeftBtn.setText("O");
+                                           break;
+                                        case "downBtn":
+                                            downBtn.setText("O");
+                                            break;
+                                        case "downRightBtn": 
+                                            downRightBtn.setText("O");
+                                            break;                                            
+                                   }
+                               }
+                           }
+                           
+                       });
+                       
+                    }
+                }
+            }.start();
+            
+            
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        
+
+        handleClickedButtons();
+        
+        
+        
+        
+        
         
 //        Runnable run = (() -> {
 //                while (true) {
@@ -425,8 +602,7 @@ public class onlineModeGeneratedBase extends AnchorPane {
                 }
             }
         });
-
-
+        
         menueBtn.setLayoutX(572.0);
         menueBtn.setLayoutY(560.0);
         menueBtn.setMnemonicParsing(false);
@@ -447,7 +623,14 @@ public class onlineModeGeneratedBase extends AnchorPane {
 
             @Override
             public void handle(Event event) {
-                   Parent root = new  SelectModeBase(stage);
+                
+                msg.setEmail(userEmail);
+                msg.setType("logout");
+                String gsonMessage=App.gson.toJson(msg);
+                App.output.println(gsonMessage);
+                App.output.flush(); 
+                
+                Parent root = new  SelectModeBase(stage);
                 Scene scene = new Scene(root,1000,700);
                 stage.setScene(scene);
                 stage.show();
@@ -522,7 +705,85 @@ public class onlineModeGeneratedBase extends AnchorPane {
         firstTurn();
 
     }
-     public void firstTurn() {
+
+    public static void writeObjectsToFile(Message object, String filename) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filename, true))) {
+            
+            String json = gson.toJson(object);
+            writer.write(json);
+            writer.newLine();
+            
+            System.out.println("Objects appended to file AvailablePlayers: " + filename);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public static Message readObjectsFromFile(String filename) {
+        Message obj = null;
+        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                obj = gson.fromJson(line, Message.class);
+            }
+            System.out.println("Objects read from file : " + filename);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return obj;
+    }
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    /*
+    public void firstTurn(){
+        if(xStartFirst==true){
+            playerTurnText.setFill(javafx.scene.paint.Color.WHITE);
+            playerTurnText.setStroke(javafx.scene.paint.Color.valueOf("#d7049e"));
+            playerTurnText.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
+            playerTurnText.setStrokeWidth(5.0);
+            setEditsToPlayerTurnText();
+            playerTurnText.setText("X Turn");
+            player1Turn=true;
+            xStartFirst=false;
+
+        }else{  
+            playerTurnText.setFill(javafx.scene.paint.Color.WHITE);
+            playerTurnText.setStroke(javafx.scene.paint.Color.valueOf("#d7049e"));
+            playerTurnText.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
+            playerTurnText.setStrokeWidth(5.0);
+            setEditsToPlayerTurnText();
+            playerTurnText.setText("O Turn");
+            player1Turn=false;
+            xStartFirst=true;
+        }
+    }
+    */
+    
+    public void firstTurn() {
+        if (xStartFirst==true) {
+            player1Turn = true;
+            xStartFirst=false;
+        } else {
+            player1Turn = false;
+            xStartFirst=true;
+        }
+    }
+    
+/*
+    public void firstTurn() {
         if (random.nextInt(2) == 0) {
             player1Turn = true;
             player1 = "X";
@@ -538,7 +799,7 @@ public class onlineModeGeneratedBase extends AnchorPane {
         }
 
     }
-
+    */
     public void xWins(int index1, int index2, int index3) {
         buttonArr[index1].setStyle("-fx-background-color: #5A1E76;");
         buttonArr[index2].setStyle("-fx-background-color: #5A1E76;");
@@ -549,15 +810,15 @@ public class onlineModeGeneratedBase extends AnchorPane {
 
     }
 
-public void oWins(int index1, int index2, int index3) {
-        buttonArr[index1].setStyle("-fx-background-color: #5A1E76;");
-        buttonArr[index2].setStyle("-fx-background-color: #5A1E76;");
-        buttonArr[index3].setStyle("-fx-background-color: #5A1E76;");
-        oWinsVideo();
-        player1Label.setText("Player1 ");
-            player2Label.setText("Player2");
+    public void oWins(int index1, int index2, int index3) {
+            buttonArr[index1].setStyle("-fx-background-color: #5A1E76;");
+            buttonArr[index2].setStyle("-fx-background-color: #5A1E76;");
+            buttonArr[index3].setStyle("-fx-background-color: #5A1E76;");
+            oWinsVideo();
+            player1Label.setText("Player1 ");
+                player2Label.setText("Player2");
 
-    }
+        }
 
     public void checkWinner() {
         
@@ -732,7 +993,7 @@ public void oWins(int index1, int index2, int index3) {
         });
     }
 
-   public void oWinsVideo() {
+    public void oWinsVideo() {
         String videoFile = "file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/LocalMode2Players/OWinsVideo.mp4";
 
         // Create a Media object
@@ -767,8 +1028,7 @@ public void oWins(int index1, int index2, int index3) {
         });
     }
    
-
-public void DrawPlayVideo() {
+    public void DrawPlayVideo() {
         String videoFile = "file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/LocalMode2Players/DrawVideo2.mp4";
 
         // Create a Media object
@@ -812,7 +1072,7 @@ public void DrawPlayVideo() {
         }     
     }
     
-      public void playerXScore(){
+    public void playerXScore(){
             if(player1 == "X"){
                 player1Score++;
                 player1ScoreTxt.setText(String.valueOf(player1Score));
@@ -823,8 +1083,7 @@ public void DrawPlayVideo() {
             }
         }
       
-
-        public void playerOScore(){
+    public void playerOScore(){
             if(player1 == "O"){
                 player1Score++;
                 player1ScoreTxt.setText(String.valueOf(player1Score));
@@ -834,5 +1093,408 @@ public void DrawPlayVideo() {
                 player2ScoreTxt.setText(String.valueOf(player2Score)); 
             }
         }
+    
+    
+    public void handleClickedButtons(){
+       topLeftBtnClicked();
+       topBtnClicked();
+       topRightBtnClicked();
+       centerLeftBtnClicked();
+       centerBtnClicked();
+       centerRightBtnClicked();
+       downLeftBtnClicked();
+       downBtnClicked();
+       downRightBtnClicked(); 
+    }
+    
+    public void topLeftBtnClicked(){
+        topLeftBtn.setOnAction(new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent event) {
 
+            if(currentPlayer == userEmail){
+                if(topLeftBtnFlag==true){
+                    msg.setSymbol("x");
+                    msg.setButtonPressed("topLeftBtn");
+                    msg.setType("play");
+                    msg.setSymbol(currentPlayer == userEmail ? "x" : "o");
+                    buttonPressed = "topLeftBtn";
+                    writeObjectsToFile(msg, filePath);
+                    currentPlayer = currentPlayer.equals(userEmail) ? opponentEmail : userEmail;
+                    topLeftBtnFlag=false;
+                }else{
+                    Alert a= new Alert(Alert.AlertType.ERROR);
+                    a.setTitle("Button is clicked before");
+                    a.setContentText("This button has been clicked before by your opponent");
+                    a.show();       
+                }
+            }else{
+                if(topLeftBtnFlag==true){
+                    msg.setSymbol("o");
+                    msg.setButtonPressed("topLeftBtn");
+                    msg.setType("play");
+                    buttonPressed = "topLeftBtn";
+                    msg.setSymbol(currentPlayer == userEmail ? "x" : "o");
+                    writeObjectsToFile(msg, filePath);
+                    currentPlayer = currentPlayer.equals(userEmail) ? userEmail : opponentEmail;
+                    topLeftBtnFlag=false;
+                }else{
+                    Alert a= new Alert(Alert.AlertType.ERROR);
+                    a.setTitle("Button is clicked before");
+                    a.setContentText("This button has been clicked before by your opponent");
+                    a.show();       
+                }
+            }
+
+        }
+    });
+    }
+    public void topBtnClicked(){
+        topBtn.setOnAction(new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent event) {
+
+            if(currentPlayer == userEmail){
+                if(topBtnFlag==true){
+                    msg.setSymbol("x");
+                    msg.setButtonPressed("topBtn");
+                    msg.setType("play");
+                    msg.setSymbol(currentPlayer == userEmail ? "x" : "o");
+                    buttonPressed = "topBtn";
+                    writeObjectsToFile(msg, filePath);
+                    currentPlayer = currentPlayer.equals(userEmail) ? opponentEmail : userEmail;
+                    topBtnFlag=false;
+                }else{
+                    Alert a= new Alert(Alert.AlertType.ERROR);
+                    a.setTitle("Button is clicked before");
+                    a.setContentText("This button has been clicked before by your opponent");
+                    a.show();       
+                }
+            }else{
+                if(topBtnFlag==true){
+                    msg.setSymbol("o");
+                    msg.setButtonPressed("topBtn");
+                    msg.setType("play");
+                    msg.setSymbol(currentPlayer == userEmail ? "x" : "o");
+                    buttonPressed = "topBtn";
+                    writeObjectsToFile(msg, filePath);
+                    currentPlayer = currentPlayer.equals(userEmail) ? userEmail : opponentEmail;
+                    topBtnFlag=false;
+                }else{
+                    Alert a= new Alert(Alert.AlertType.ERROR);
+                    a.setTitle("Button is clicked before");
+                    a.setContentText("This button has been clicked before by your opponent");
+                    a.show();       
+                }
+            }
+
+        }
+    });
+    }
+    public void topRightBtnClicked(){
+        topRightBtn.setOnAction(new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent event) {
+
+            if(currentPlayer == userEmail){
+                if(topRightBtnFlag==true){
+                    msg.setSymbol("x");
+                    msg.setButtonPressed("topRightBtn");
+                    msg.setType("play");
+                    msg.setSymbol(currentPlayer == userEmail ? "x" : "o");
+                    buttonPressed = "topRightBtn";
+                    writeObjectsToFile(msg, filePath);
+                    currentPlayer = currentPlayer.equals(userEmail) ? opponentEmail : userEmail;
+                    topRightBtnFlag=false;
+                }else{
+                    Alert a= new Alert(Alert.AlertType.ERROR);
+                    a.setTitle("Button is clicked before");
+                    a.setContentText("This button has been clicked before by your opponent");
+                    a.show();       
+                }
+            }else{
+                if(topRightBtnFlag==true){
+                    msg.setSymbol("o");
+                    msg.setButtonPressed("topRightBtn");
+                    msg.setType("play");
+                    msg.setSymbol(currentPlayer == userEmail ? "x" : "o");
+                    buttonPressed = "topRightBtn";
+                    writeObjectsToFile(msg, filePath);
+                    currentPlayer = currentPlayer.equals(userEmail) ? userEmail : opponentEmail;
+                    topRightBtnFlag=false;
+                }else{
+                    Alert a= new Alert(Alert.AlertType.ERROR);
+                    a.setTitle("Button is clicked before");
+                    a.setContentText("This button has been clicked before by your opponent");
+                    a.show();       
+                }
+            }
+
+        }
+    });
+    }
+    public void centerLeftBtnClicked(){
+        centerLeftBtn.setOnAction(new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent event) {
+
+            if(currentPlayer == userEmail){
+                if(centerLeftBtnFlag==true){
+                    msg.setSymbol("x");
+                    msg.setButtonPressed("centerLeftBtn");
+                    msg.setType("play");
+                    msg.setSymbol(currentPlayer == userEmail ? "x" : "o");
+                    buttonPressed = "centerLeftBtn";
+                    writeObjectsToFile(msg, filePath);
+                    currentPlayer = currentPlayer.equals(userEmail) ? opponentEmail : userEmail;
+                    centerLeftBtnFlag=false;
+                }else{
+                    Alert a= new Alert(Alert.AlertType.ERROR);
+                    a.setTitle("Button is clicked before");
+                    a.setContentText("This button has been clicked before by your opponent");
+                    a.show();       
+                }
+            }else{
+                if(centerLeftBtnFlag==true){
+                    msg.setSymbol("o");
+                    msg.setButtonPressed("centerLeftBtn");
+                    msg.setType("play");
+                    msg.setSymbol(currentPlayer == userEmail ? "x" : "o");
+                    buttonPressed = "centerLeftBtn";
+                    writeObjectsToFile(msg, filePath);
+                    currentPlayer = currentPlayer.equals(userEmail) ? userEmail : opponentEmail;
+                    centerLeftBtnFlag=false;
+                }else{
+                    Alert a= new Alert(Alert.AlertType.ERROR);
+                    a.setTitle("Button is clicked before");
+                    a.setContentText("This button has been clicked before by your opponent");
+                    a.show();       
+                }
+            }
+
+        }
+    });
+    }
+    public void centerBtnClicked(){
+        centerBtn.setOnAction(new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent event) {
+
+            if(currentPlayer == userEmail){
+                if(centerBtnFlag==true){
+                    msg.setSymbol("x");
+                    msg.setButtonPressed("centerBtn");
+                    msg.setType("play");
+                    msg.setSymbol(currentPlayer == userEmail ? "x" : "o");
+                    buttonPressed = "centerBtn";
+                    writeObjectsToFile(msg, filePath);
+                    currentPlayer = currentPlayer.equals(userEmail) ? opponentEmail : userEmail;
+                    centerBtnFlag=false;
+                }else{
+                    Alert a= new Alert(Alert.AlertType.ERROR);
+                    a.setTitle("Button is clicked before");
+                    a.setContentText("This button has been clicked before by your opponent");
+                    a.show();       
+                }
+            }else{
+                if(centerBtnFlag==true){
+                    msg.setSymbol("o");
+                    msg.setButtonPressed("centerBtn");
+                    msg.setType("play");
+                    msg.setSymbol(currentPlayer == userEmail ? "x" : "o");
+                    buttonPressed = "centerBtn";
+                    writeObjectsToFile(msg, filePath);
+                    currentPlayer = currentPlayer.equals(userEmail) ? userEmail : opponentEmail;
+                    centerBtnFlag=false;
+                }else{
+                    Alert a= new Alert(Alert.AlertType.ERROR);
+                    a.setTitle("Button is clicked before");
+                    a.setContentText("This button has been clicked before by your opponent");
+                    a.show();       
+                }
+            }
+
+        }
+    });
+    }
+    public void centerRightBtnClicked(){
+        centerRightBtn.setOnAction(new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent event) {
+
+            if(currentPlayer == userEmail){
+                if(centerRightBtnFlag==true){
+                    msg.setSymbol("x");
+                    msg.setButtonPressed("centerRightBtn");
+                    msg.setType("play");
+                    msg.setSymbol(currentPlayer == userEmail ? "x" : "o");
+                    buttonPressed = "centerRightBtn";
+                    writeObjectsToFile(msg, filePath);
+                    currentPlayer = currentPlayer.equals(userEmail) ? opponentEmail : userEmail;
+                    centerRightBtnFlag=false;
+                }else{
+                    Alert a= new Alert(Alert.AlertType.ERROR);
+                    a.setTitle("Button is clicked before");
+                    a.setContentText("This button has been clicked before by your opponent");
+                    a.show();       
+                }
+            }else{
+                if(centerRightBtnFlag==true){
+                    msg.setSymbol("o");
+                    msg.setButtonPressed("centerBtn");
+                    msg.setType("play");
+                    msg.setSymbol(currentPlayer == userEmail ? "x" : "o");
+                    buttonPressed = "centerBtn";
+                    writeObjectsToFile(msg, filePath);
+                    currentPlayer = currentPlayer.equals(userEmail) ? userEmail : opponentEmail;
+                    centerRightBtnFlag=false;
+                }else{
+                    Alert a= new Alert(Alert.AlertType.ERROR);
+                    a.setTitle("Button is clicked before");
+                    a.setContentText("This button has been clicked before by your opponent");
+                    a.show();       
+                }
+            }
+
+        }
+    });
+    }
+    public void downLeftBtnClicked(){
+        downLeftBtn.setOnAction(new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent event) {
+
+            if(currentPlayer == userEmail){
+                if(downLeftBtnFlag==true){
+                    msg.setSymbol("x");
+                    msg.setButtonPressed("downLeftBtn");
+                    msg.setType("play");
+                    msg.setSymbol(currentPlayer == userEmail ? "x" : "o");
+                    buttonPressed = "downLeftBtn";
+                    writeObjectsToFile(msg, filePath);
+                    currentPlayer = currentPlayer.equals(userEmail) ? opponentEmail : userEmail;
+                    downLeftBtnFlag=false;
+                }else{
+                    Alert a= new Alert(Alert.AlertType.ERROR);
+                    a.setTitle("Button is clicked before");
+                    a.setContentText("This button has been clicked before by your opponent");
+                    a.show();       
+                }
+            }else{
+                if(downLeftBtnFlag==true){
+                    msg.setSymbol("o");
+                    msg.setButtonPressed("downLeftBtn");
+                    msg.setType("play");
+                    msg.setSymbol(currentPlayer == userEmail ? "x" : "o");
+                    buttonPressed = "downLeftBtn";
+                    writeObjectsToFile(msg, filePath);
+                    currentPlayer = currentPlayer.equals(userEmail) ? userEmail : opponentEmail;
+                    downLeftBtnFlag=false;
+                }else{
+                    Alert a= new Alert(Alert.AlertType.ERROR);
+                    a.setTitle("Button is clicked before");
+                    a.setContentText("This button has been clicked before by your opponent");
+                    a.show();       
+                }
+            }
+
+        }
+    });
+    }
+    public void downBtnClicked(){
+        downBtn.setOnAction(new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent event) {
+
+            if(currentPlayer == userEmail){
+                if(downBtnFlag==true){
+                    msg.setSymbol("x");
+                    msg.setButtonPressed("downBtn");
+                    msg.setType("play");
+                    msg.setSymbol(currentPlayer == userEmail ? "x" : "o");
+                    buttonPressed = "downBtn";
+                    writeObjectsToFile(msg, filePath);
+                    currentPlayer = currentPlayer.equals(userEmail) ? opponentEmail : userEmail;
+                    downBtnFlag=false;
+                }else{
+                    Alert a= new Alert(Alert.AlertType.ERROR);
+                    a.setTitle("Button is clicked before");
+                    a.setContentText("This button has been clicked before by your opponent");
+                    a.show();       
+                }
+            }else{
+                if(downBtnFlag ==true){
+                    msg.setSymbol("o");
+                    msg.setButtonPressed("downBtn");
+                    msg.setType("play");
+                    msg.setSymbol(currentPlayer == userEmail ? "x" : "o");
+                    buttonPressed = "downBtn";
+                    writeObjectsToFile(msg, filePath);
+                    currentPlayer = currentPlayer.equals(userEmail) ? userEmail : opponentEmail;
+                    downBtnFlag=false;
+                }else{
+                    Alert a= new Alert(Alert.AlertType.ERROR);
+                    a.setTitle("Button is clicked before");
+                    a.setContentText("This button has been clicked before by your opponent");
+                    a.show();       
+                }
+            }
+
+        }
+    });
+    }
+    public void downRightBtnClicked(){
+        downRightBtn.setOnAction(new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent event) {
+
+            if(currentPlayer == userEmail){
+                if(downRightBtnFlag==true){
+                    msg.setSymbol("x");
+                    msg.setButtonPressed("downRightBtn");
+                    msg.setType("play");
+                    msg.setSymbol(currentPlayer == userEmail ? "x" : "o");
+                    buttonPressed = "downRightBtn";
+                    writeObjectsToFile(msg, filePath);
+                    currentPlayer = currentPlayer.equals(userEmail) ? opponentEmail : userEmail;
+                    downRightBtnFlag=false;
+                }else{
+                    Alert a= new Alert(Alert.AlertType.ERROR);
+                    a.setTitle("Button is clicked before");
+                    a.setContentText("This button has been clicked before by your opponent");
+                    a.show();       
+                }
+            }else{
+                if(downRightBtnFlag ==true){
+                    msg.setSymbol("o");
+                    msg.setButtonPressed("downRightBtn");
+                    msg.setType("play");
+                    msg.setSymbol(currentPlayer == userEmail ? "x" : "o");
+                    buttonPressed = "downRightBtn";
+                    writeObjectsToFile(msg, filePath);
+                    currentPlayer = currentPlayer.equals(userEmail) ? userEmail : opponentEmail;
+                    downRightBtnFlag=false;
+                }else{
+                    Alert a= new Alert(Alert.AlertType.ERROR);
+                    a.setTitle("Button is clicked before");
+                    a.setContentText("This button has been clicked before by your opponent");
+                    a.show();       
+                }
+            }
+
+        }
+    });
+    }
+    
+    
+    
+    
+    
+    /*
+
+    
+   
+    Boolean downRightBtnFlag;
+    
+    */
 }

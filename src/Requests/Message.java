@@ -13,22 +13,61 @@ import java.util.ArrayList;
  * @author ak882
  */
 public class Message {
-    String type;
+    
     String userName;
-    String email;
+
     String password;
     String opponentUserName;
     InetAddress ipAddress;
-
-    boolean status;
-    String opponentEmail;
     int location;
-
     int step;
     String XO;
     String status;
     String validation;
     ArrayList<PlayersDTO> playersList;
+    String email;
+
+    String userEmail;
+    String opponentEmail;
+    String currentPlayer;
+    String buttonPressed;
+    String symbol;
+    String type;
+    
+    
+    
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
+    }
+    
+    public String getUserEmail() {
+        return userEmail;
+    }
+
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail;
+    }
+    public String getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public void setCurrentPlayer(String currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
+
+
+
+    public String getButtonPressed() {
+        return buttonPressed;
+    }
+
+    public void setButtonPressed(String buttonPressed) {
+        this.buttonPressed = buttonPressed;
+    }
 
     public ArrayList<PlayersDTO> getPlayersList() {
         return playersList;

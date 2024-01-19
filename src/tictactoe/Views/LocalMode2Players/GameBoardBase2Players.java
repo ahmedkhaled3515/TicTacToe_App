@@ -138,10 +138,6 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
             player2=name2;
 
         }
-
-    
-    
-    
     
         backgroundImage = new ImageView();
         boardGrid = new GridPane();
@@ -997,7 +993,6 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
             }
           
     }
-    
     public void xWins(int a, int b, int c){
 
          xWinsVideo();
@@ -1122,7 +1117,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
     }
         
     */
-      public void xWinsVideo() {
+    public void xWinsVideo() {
         String videoFile = "file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/LocalMode2Players/XWinsVideo.mp4";
 
         // Create a Media object
@@ -1158,7 +1153,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
             mediaView.setVisible(false);
         });
     }  
-      public void oWinsVideo() {
+    public void oWinsVideo() {
         String videoFile = "file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/LocalMode2Players/OWinsVideo.mp4";
                                
         // Create a Media object
@@ -1194,8 +1189,7 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
             mediaView.setVisible(false);
         });
     } 
-      
-      public void DrawPlayVideo() {
+    public void DrawPlayVideo() {
         String videoFile = "file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/LocalMode2Players/DrawVideo2.mp4";
                                 
         // Create a Media object
@@ -1231,16 +1225,13 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
             mediaView.setVisible(false);
         });
      }
-      
-      
-       public void mouseClick() {
+    public void mouseClick() {
            // Use the correct path here
          Media media =  new Media(getClass().getResource("/assets/sounds/mouseClick.mp3").toExternalForm());
          mediaPlayer2 = new MediaPlayer(media);
          mediaPlayer2.play(); 
-       }
-      
-      public void gameboardMusicWhenTheScreenAppears(){ 
+       }  
+    public void gameboardMusicWhenTheScreenAppears(){ 
 //         String path = "Views/LocalMode2Players/gameMusic.mp3";  // Use the correct path here
          Media media = new Media(getClass().getResource("/assets/sounds/gameMusic.mp3").toExternalForm());
          mediaPlayer = new MediaPlayer(media);
@@ -1301,7 +1292,6 @@ public class GameBoardBase2Players extends AnchorPane implements ActionListener{
             button8Flag=false;
 
     }  
-    
     public void allbuttonsArrayFlagSetToTrue(){
         button0ArrayFlag=true;
         button1ArrayFlag=true;

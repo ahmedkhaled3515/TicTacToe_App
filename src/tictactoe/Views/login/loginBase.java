@@ -55,7 +55,7 @@ public class loginBase extends AnchorPane {
     protected final Text textHaveAc;
     protected final PasswordField txtPassword;
     protected final FontAwesomeIcon arrow;
-     Gson gson;
+    Gson gson;
     public loginBase(Stage stage) {
 
         anchorPane = new AnchorPane();
@@ -126,7 +126,8 @@ public class loginBase extends AnchorPane {
                             if(response2.getValidation().equals("valid"))
                             {
                                 Platform.runLater(() -> {
-                                    stage.setScene(new Scene(new PlayersListBaseNew(stage),1000,700));
+                                    String userEmail = txtEmail.getText();
+                                    stage.setScene(new Scene(new PlayersListBaseNew(stage,userEmail),1000,700));
                                 });   
                             }
                         }
