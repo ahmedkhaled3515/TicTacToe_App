@@ -85,8 +85,6 @@ public class onlineModeGeneratedBase extends AnchorPane {
     public int player1Score,player2Score,drawScore;
      Random random = new Random();
     String opponentName;
-    
-     
     public int[][] board;
     public static boolean myTurn = false;
     Gson gson = new Gson();
@@ -891,4 +889,5 @@ public class onlineModeGeneratedBase extends AnchorPane {
         player2Label.setText(opponentEmail);
         player1Label.setText(PlayerEmail + " Turn");
     }
+    
 }
