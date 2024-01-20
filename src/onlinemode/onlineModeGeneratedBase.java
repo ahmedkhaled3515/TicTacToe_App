@@ -5,6 +5,8 @@ import Requests.Message;
 import SelectmodeView.SelectModeBase;
 import com.google.gson.Gson;
 import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -12,7 +14,9 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.URL;
+import java.util.Optional;
 import java.util.Random;
+import java.util.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
@@ -24,6 +28,9 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+
+import javafx.scene.control.Alert.AlertType;
+
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -41,6 +48,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import static onlinemode.onlineModeGeneratedBaseNew.myTurn;
+import tictactoe.Views.AvailablePlayer.PlayersListBaseNew;
 
 public class onlineModeGeneratedBase extends AnchorPane {
 
@@ -68,35 +77,39 @@ public class onlineModeGeneratedBase extends AnchorPane {
     protected final RowConstraints rowConstraints2;
     protected final BorderPane borderPane;
     protected final Text player1Txt;
-    protected  Text player1ScoreTxt;
+    protected Text player1ScoreTxt;
     protected final BorderPane borderPane0;
     protected final Text drawTxt;
-    protected  Text drawScoreTxt;
+    protected Text drawScoreTxt;
     protected final BorderPane borderPane1;
     protected final Text player2Txt;
-    protected  Text player2ScoreTxt;
+    protected Text player2ScoreTxt;
     protected final Button newGameBtn;
     protected final Button menueBtn;
     protected final Text player1Label;
     protected final Text player2Label;
-    public Button[] buttonArr = new Button[9];
-    public Boolean player1Turn;
-    public String player1, player2;
-    public int player1Score,player2Score,drawScore;
-     Random random = new Random();
-    String opponentName;
+    protected final ImageView imageView0;
+    protected final ImageView imageView1;
+    Random random = new Random();
     public int[][] board;
     public static boolean myTurn = false;
     Gson gson = new Gson();
     public String opponentEmail;
     public String PlayerEmail;
+    public String player1, player2;
+    Boolean isLogOutAlertShown=true;
+    public int player1Score,player2Score,drawScore;
+    
+    String opponentName;
+    
+    Button[] buttonArr;
     Alert alert;
     int turn;
     String currentPlayer;
     String myEmail;
     MyWindowAdapter myWindowAdapter;
     public onlineModeGeneratedBase(Stage stage, String MyEmail, String opponentMail, int turn) {
-        
+        buttonArr = new Button[9];
         myWindowAdapter=new MyWindowAdapter(MyEmail);
             // Set the event handler for window-closing
         stage.setOnCloseRequest(event -> {
@@ -106,6 +119,12 @@ public class onlineModeGeneratedBase extends AnchorPane {
         });
         myEmail=MyEmail;
         this.opponentName=opponentName;
+
+
+
+    
+        this.turn = turn;
+
         imageView = new ImageView();
         gridPane = new GridPane();
         columnConstraints = new ColumnConstraints();
@@ -150,6 +169,9 @@ public class onlineModeGeneratedBase extends AnchorPane {
         menueBtn = new Button();
         player1Label = new Text();
         player2Label = new Text();
+        imageView0 = new ImageView();
+        imageView1 = new ImageView();
+        board = new int[][]{{-1, -1, -1}, {-1, -1, -1}, {-1, -1, -1}};
         buttonArr[0] = topLeftBtn;
         buttonArr[1] = topBtn;
         buttonArr[2] = topRightBtn;
@@ -159,6 +181,7 @@ public class onlineModeGeneratedBase extends AnchorPane {
         buttonArr[6] = downLeftBtn;
         buttonArr[7] = downBtn;
         buttonArr[8] = downRightBtn;
+
         
         
         PlayerEmail = MyEmail;
@@ -171,18 +194,130 @@ public class onlineModeGeneratedBase extends AnchorPane {
 
         
 
-        player1Score=0;
-        player2Score=0;
-        drawScore=0;
+
+        PlayerEmail = MyEmail;
+        opponentEmail = opponentMail;
+        player1Label.setText(MyEmail);
+        player2Label.setText(opponentMail);
+
+        System.out.println("MyEmail: " + PlayerEmail);
+        System.out.println("opponentMail :" + opponentEmail);
+        player1Score = 0;
+        player2Score = 0;
+        drawScore = 0;
+
+        firstTurn();
+
+        App.startConnection();
+        new Thread(() -> {
+            while (true) {
+                try {
+                    String jsonResponse = App.input.readLine();
+                    System.out.println(jsonResponse);
+                    Message response = App.gson.fromJson(jsonResponse, Message.class);
+                    String playerSide = response.getXO();
+                    int location = response.getLocation();
+                    if (response.getType().equals("retriveMove")) {
+                        Platform.runLater(() -> {
+                            switch (location) {
+                                case 1:
+                                    topLeftBtn.setText(playerSide);
+                                    buttonArr[0].setText(playerSide);
+                                    myTurn = true;
+                                    checkWinner();
+                                    print();
+                                    break;
+                                case 2:
+                                    topBtn.setText(playerSide);
+                                    buttonArr[1].setText(playerSide);
+                                    myTurn = true;
+                                    checkWinner();
+                                    print();
+                                    break;
+                                case 3:
+                                    topRightBtn.setText(playerSide);
+                                    buttonArr[2].setText(playerSide);
+                                    myTurn = true;
+                                    checkWinner();
+                                    print();
+                                    break;
+                                case 4:
+                                    centerLeftBtn.setText(playerSide);
+                                    buttonArr[3].setText(playerSide);
+                                    myTurn = true;
+                                    checkWinner();
+                                    print();
+                                    break;
+                                case 5:
+                                    centerBtn.setText(playerSide);
+                                    buttonArr[4].setText(playerSide);
+                                    myTurn = true;
+                                    checkWinner();
+                                    break;
+                                case 6:
+                                    centerRightBtn.setText(playerSide);
+                                    buttonArr[5].setText(playerSide);
+                                    myTurn = true;
+                                    checkWinner();
+                                    print();
+                                    break;
+                                case 7:
+                                    downLeftBtn.setText(playerSide);
+                                    buttonArr[6].setText(playerSide);
+                                    myTurn = true;
+                                    checkWinner();
+                                    print();
+                                    break;
+                                case 8:
+                                    downBtn.setText(playerSide);
+                                    buttonArr[7].setText(playerSide);
+                                    myTurn = true;
+                                    checkWinner();
+                                    print();
+                                    break;
+                                case 9:
+                                    downRightBtn.setText(playerSide);
+                                    buttonArr[8].setText(playerSide);
+                                    myTurn = true;
+                                    checkWinner();
+                                    print();
+                                    break;
+                            }
+
+                        });
+                    }
+                    String logOutAlert = "logOutShowAlert";
+                    System.out.println(response.getShowAlertOnLogOut() + "XXXXXXXXXXXX");
+                    if(myEmail.equalsIgnoreCase(response.getOpponentEmail())){
+                        if (response.getShowAlertOnLogOut().equalsIgnoreCase(logOutAlert)){                   
+                            Platform.runLater(() -> {                    
+                                if(isLogOutAlertShown==true){
+                                    System.out.println("Log out alert");
+                                    showAlertOnOpponentLoggingOutAndNavigateToAvailablePlayersGUI(stage,MyEmail);
+                                }
+                            });
+
+                        }else{
+                            System.out.println("Alert is not working");
+                        }
+                    }else{
+                        System.out.println("NOT THE OPPONENTTTTT");
+                    }
+
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }).start();
 
         setId("AnchorPane");
         setPrefHeight(672.0);
-        setPrefWidth(944.0);
+        setPrefWidth(1050.0);
         getStyleClass().add("mainFxmlClass");
         getStylesheets().add("/onlinemode/onlinemode.css");
 
         imageView.setFitHeight(672.0);
-        imageView.setFitWidth(992.0);
+        imageView.setFitWidth(1050.0);
         imageView.setImage(new Image(getClass().getResource("BackgroundImage.png").toExternalForm()));
 
         gridPane.setLayoutX(246.0);
@@ -219,62 +354,22 @@ public class onlineModeGeneratedBase extends AnchorPane {
         topLeftBtn.setPrefWidth(178.0);
         topLeftBtn.setFont(new Font(50));
         topLeftBtn.setStyle("-fx-text-stroke: white;");
-        
-        for(int i=0;i<buttonArr.length;i++)
-        {
-            buttonArr[i].setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    Button but=(Button)event.getSource();
-                    int index=(int)but.getUserData();
-                    if (player1Turn) {
-                        if (but.getText() == "") {
-                            but.setText(player1);
-                            player1Turn = false;
-                            player2Label.setText("Player2 Turn");
-                            player1Label.setText("Player1 ");
-//                            output.println(index);
-                            checkWinner();
-                        }
-                    } else {
-                        if (but.getText() == "") {
-                            but.setText(player2);
-                            player1Turn = true;
-                            player1Label.setText("Player1 Turn");
-                            player2Label.setText("Player2");
-//                            output.println(index);
-                            checkWinner();
-                        }
-                    }
-                   
-                }
-            });
-        }
-        
-//        Runnable run = (() -> {
-//                while (true) {
-//                try {
-//                    String message = input.readLine();
-//                    Platform.runLater(() -> {
-//                        System.out.println(message);
-//                        int step = Integer.parseInt(message);
-//                        if(player1Turn)
-//                        {
-//                            buttonArr[step].setText(player1);
-//                        }
-//                        else
-//                            buttonArr[step].setText(player2);
-//                        player1Turn=!player1Turn;
-//                    });
-//                } catch (IOException ex) {
-//                    System.out.println("server closed !!!");
-//                    Logger.getLogger(onlineModeGeneratedBase.class.getName()).log(Level.SEVERE, null, ex);
-//                    break;
-//                }
-//            }
-//        });
-//        new Thread(run).start();
+        topLeftBtn.setOnMouseClicked(new EventHandler() {
+            @Override
+            public void handle(Event event) {
 
+                if (board[0][0] == -1 && myTurn) {
+                    board[0][0] = 0;
+                    myTurn = false;
+                    topLeftBtn.setText(currentPlayer);
+                    sendMove(1, currentPlayer);
+                    player2Label.setText(opponentEmail + " Turn");
+                    player1Label.setText(PlayerEmail);
+                    checkWinner();
+                }
+
+            }
+        });
 
         GridPane.setColumnIndex(topBtn, 1);
         topBtn.setMnemonicParsing(false);
@@ -282,8 +377,23 @@ public class onlineModeGeneratedBase extends AnchorPane {
         topBtn.setPrefWidth(178.0);
         topBtn.setFont(new Font(50));
         topBtn.setStyle("-fx-text-stroke: white;");
-        
-        
+        topBtn.setOnMouseClicked(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                if (board[0][1] == -1 && myTurn) {
+
+                    board[0][1] = 0;
+                    myTurn = false;
+                    sendMove(2, currentPlayer);
+                    topBtn.setText(currentPlayer);
+                    player2Label.setText(opponentEmail + " Turn");
+                    player1Label.setText(PlayerEmail);
+                    checkWinner();
+
+                }
+
+            }
+        });
 
         GridPane.setColumnIndex(topRightBtn, 2);
         topRightBtn.setMnemonicParsing(false);
@@ -291,8 +401,21 @@ public class onlineModeGeneratedBase extends AnchorPane {
         topRightBtn.setPrefWidth(178.0);
         topRightBtn.setFont(new Font(50));
         topRightBtn.setStyle("-fx-text-stroke: white;");
-        
+        topRightBtn.setOnMouseClicked(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                if (board[0][2] == -1 && myTurn) {
+                    board[0][2] = 0;
+                    myTurn = false;
+                    sendMove(3, currentPlayer);
+                    topRightBtn.setText(currentPlayer);
+                    player2Label.setText(opponentEmail + " Turn");
+                    player1Label.setText(PlayerEmail);
+                    checkWinner();
+                }
 
+            }
+        });
 
         GridPane.setRowIndex(centerLeftBtn, 1);
         centerLeftBtn.setMnemonicParsing(false);
@@ -300,8 +423,22 @@ public class onlineModeGeneratedBase extends AnchorPane {
         centerLeftBtn.setPrefWidth(178.0);
         centerLeftBtn.setFont(new Font(50));
         centerLeftBtn.setStyle("-fx-text-stroke: white;");
-         
+        centerLeftBtn.setOnMouseClicked(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                if (board[1][0] == -1 && myTurn) {
+                    board[1][0] = 0;
+                    myTurn = false;
+                    sendMove(4, currentPlayer);
+                    centerLeftBtn.setText(currentPlayer);
+                    player2Label.setText(opponentEmail + " Turn");
+                    player1Label.setText(PlayerEmail);
+                    checkWinner();
 
+                }
+
+            }
+        });
 
         GridPane.setColumnIndex(centerBtn, 1);
         GridPane.setRowIndex(centerBtn, 1);
@@ -310,8 +447,22 @@ public class onlineModeGeneratedBase extends AnchorPane {
         centerBtn.setPrefWidth(178.0);
         centerBtn.setFont(new Font(50));
         centerBtn.setStyle("-fx-text-stroke: white;");
-         
-        
+        centerBtn.setOnMouseClicked(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                if (board[1][1] == -1 && myTurn) {
+                    board[1][1] = 0;
+                    myTurn = false;
+                    sendMove(5, currentPlayer);
+                    centerBtn.setText(currentPlayer);
+                    player2Label.setText(opponentEmail + " Turn");
+                    player1Label.setText(PlayerEmail);
+                    checkWinner();
+
+                }
+
+            }
+        });
 
         GridPane.setColumnIndex(centerRightBtn, 2);
         GridPane.setRowIndex(centerRightBtn, 1);
@@ -320,7 +471,21 @@ public class onlineModeGeneratedBase extends AnchorPane {
         centerRightBtn.setPrefWidth(178.0);
         centerRightBtn.setFont(new Font(50));
         centerRightBtn.setStyle("-fx-text-stroke: white;");
-         
+        centerRightBtn.setOnMouseClicked(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                if (board[1][2] == -1 && myTurn) {
+                    board[1][2] = 0;
+                    myTurn = false;
+                    sendMove(6, currentPlayer);
+                    centerRightBtn.setText(currentPlayer);
+                    player2Label.setText(opponentEmail + " Turn");
+                    player1Label.setText(PlayerEmail);
+                    checkWinner();
+                }
+
+            }
+        });
 
         GridPane.setRowIndex(downLeftBtn, 2);
         downLeftBtn.setMnemonicParsing(false);
@@ -328,7 +493,22 @@ public class onlineModeGeneratedBase extends AnchorPane {
         downLeftBtn.setPrefWidth(178.0);
         downLeftBtn.setFont(new Font(50));
         downLeftBtn.setStyle("-fx-text-stroke: white;");
-        
+        downLeftBtn.setOnMouseClicked(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                if (board[2][0] == -1 && myTurn) {
+                    board[2][0] = 0;
+                    myTurn = false;
+                    sendMove(7, currentPlayer);
+                    downLeftBtn.setText(currentPlayer);
+                    player2Label.setText(opponentEmail + " Turn");
+                    player1Label.setText(PlayerEmail);
+                    checkWinner();
+                }
+
+            }
+        });
+
         GridPane.setColumnIndex(downBtn, 1);
         GridPane.setRowIndex(downBtn, 2);
         downBtn.setMnemonicParsing(false);
@@ -336,9 +516,21 @@ public class onlineModeGeneratedBase extends AnchorPane {
         downBtn.setPrefWidth(178.0);
         downBtn.setFont(new Font(50));
         downBtn.setStyle("-fx-text-stroke: white;");
-         
-         
-         
+        downBtn.setOnMouseClicked(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                if (board[2][1] == -1 && myTurn) {
+                    board[2][1] = 0;
+                    myTurn = false;
+                    sendMove(8, currentPlayer);
+                    downBtn.setText(currentPlayer);
+                    player2Label.setText(opponentEmail + " Turn");
+                    player1Label.setText(PlayerEmail);
+                    checkWinner();
+                }
+
+            }
+        });
 
         GridPane.setColumnIndex(downRightBtn, 2);
         GridPane.setRowIndex(downRightBtn, 2);
@@ -347,7 +539,21 @@ public class onlineModeGeneratedBase extends AnchorPane {
         downRightBtn.setPrefWidth(178.0);
         downRightBtn.setFont(new Font(50));
         downRightBtn.setStyle("-fx-text-stroke: white;");
-         
+        downRightBtn.setOnMouseClicked(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                if (board[2][2] == -1 && myTurn) {
+                    board[2][2] = 0;
+                    myTurn = false;
+                    sendMove(9, currentPlayer);
+                    downRightBtn.setText(currentPlayer);
+                    player2Label.setText(opponentEmail + " Turn");
+                    player1Label.setText(PlayerEmail);
+                    checkWinner();
+                }
+
+            }
+        });
 
         gridPane0.setLayoutX(301.0);
         gridPane0.setLayoutY(57.0);
@@ -378,7 +584,7 @@ public class onlineModeGeneratedBase extends AnchorPane {
         BorderPane.setAlignment(player1Txt, javafx.geometry.Pos.CENTER);
         player1Txt.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
         player1Txt.setStrokeWidth(0.0);
-        player1Txt.setText("Player 1");
+        player1Txt.setText(PlayerEmail);
         player1Txt.setFont(new Font("Arial Bold", 27.0));
         BorderPane.setMargin(player1Txt, new Insets(5.0, 0.0, 0.0, 0.0));
         borderPane.setTop(player1Txt);
@@ -418,7 +624,7 @@ public class onlineModeGeneratedBase extends AnchorPane {
         BorderPane.setAlignment(player2Txt, javafx.geometry.Pos.CENTER);
         player2Txt.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
         player2Txt.setStrokeWidth(0.0);
-        player2Txt.setText("Player 2");
+        player2Txt.setText(opponentEmail);
         player2Txt.setFont(new Font("Arial Bold", 27.0));
         BorderPane.setMargin(player2Txt, new Insets(5.0, 0.0, 0.0, 0.0));
         borderPane1.setTop(player2Txt);
@@ -451,15 +657,22 @@ public class onlineModeGeneratedBase extends AnchorPane {
 
             @Override
             public void handle(Event event) {
-                for(int i=0;i<9;i++){
+                for (int i = 0; i < 9; i++) {
                     buttonArr[i].setText("");
                     buttonArr[i].setDisable(false);
                     buttonArr[i].setStyle("-fx-background-color: #d7049e;");
-                    firstTurn();
+
                 }
+                for (int a = 0; a < 3; a++) {
+                    for (int b = 0; b < 3; b++) {
+                        board[a][b] = -1;
+                    }
+
+                }
+                firstTurn();
+
             }
         });
-
 
         menueBtn.setLayoutX(572.0);
         menueBtn.setLayoutY(560.0);
@@ -471,24 +684,30 @@ public class onlineModeGeneratedBase extends AnchorPane {
         menueBtn.setFont(new Font("Arial Bold", 27.0));
         menueBtn.setStyle("-fx-background-color: #68CFD1 ;");
         menueBtn.setOnMouseEntered(event -> {
-        menueBtn.setStyle("-fx-background-color: #00CBFE;");
+            menueBtn.setStyle("-fx-background-color: #00CBFE;");
         });
         menueBtn.setOnMouseExited(event -> {
-        menueBtn.setStyle("-fx-background-color: #68CFD1 ;");
+            menueBtn.setStyle("-fx-background-color: #68CFD1 ;");
         });
         menueBtn.setText("Main Menue");
         menueBtn.setOnMouseClicked(new EventHandler() {
 
             @Override
             public void handle(Event event) {
+
+                String logOutAlert = "logOutShowAlert";
+                Message logOutMsg = new Message();
+                logOutMsg.setEmail(myEmail);
+                logOutMsg.setOpponentEmail(opponentMail);
+               // System.out.println(opponentMail + "qqqqqqqqqqqss");
+                logOutMsg.setType("logOut");
+                logOutMsg.setShowAlertOnLogOut(logOutAlert);
                 
-                Message msg = new Message();
-                msg.setEmail(myEmail);
-                msg.setType("logOut");
-                String message=App.gson.toJson(msg);
-                App.output.println(message);
+                
+                String request = gson.toJson(logOutMsg);
+                System.out.println(request);
+                App.output.println(request);
                 App.output.flush();
-                
                 
                 Parent root = new  SelectModeBase(stage);
                 Scene scene = new Scene(root,1000,700);
@@ -496,31 +715,42 @@ public class onlineModeGeneratedBase extends AnchorPane {
                 stage.show();
             }
         });
-        
-        
-        
 
         player1Label.setLayoutX(45.0);
-        player1Label.setLayoutY(350.0);
-        player1Label.setText("Player1");
+        player1Label.setLayoutY(390.0);
+//        player1Label.setText("Player1");
         player1Label.setFont(new Font(35.0));
         player1Label.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
         player1Label.setFill(Color.WHITE); // setting color of the text to blue
         player1Label.setStroke(Color.BLACK); // setting the stroke for the text
-        player1Label.setStrokeWidth(1); 
+        player1Label.setStrokeWidth(1);
         player1Label.setStrokeWidth(2.0);
-        
 
         player2Label.setLayoutX(795.0);
-        player2Label.setLayoutY(350.0);
-        player2Label.setText("Player 2");
+        player2Label.setLayoutY(390.0);
+//        player2Label.setText("Player 2");
         player2Label.setFont(new Font(35.0));
         player2Label.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
         player2Label.setFill(Color.WHITE);
         player2Label.setStroke(Color.BLACK);
         player2Label.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
         player2Label.setStrokeWidth(2.0);
-        
+
+        imageView0.setFitHeight(117.0);
+        imageView0.setFitWidth(119.0);
+        imageView0.setLayoutX(58.0);
+        imageView0.setLayoutY(222.0);
+        imageView0.setPickOnBounds(true);
+        imageView0.setPreserveRatio(true);
+        imageView0.setImage(new Image(getClass().getResource("icons8-player-64.png").toExternalForm()));
+
+        imageView1.setFitHeight(111.0);
+        imageView1.setFitWidth(117.0);
+        imageView1.setLayoutX(822.0);
+        imageView1.setLayoutY(225.0);
+        imageView1.setPickOnBounds(true);
+        imageView1.setPreserveRatio(true);
+        imageView1.setImage(new Image(getClass().getResource("icons8-anonymous-64.png").toExternalForm()));
 
         getChildren().add(imageView);
         gridPane.getColumnConstraints().add(columnConstraints);
@@ -551,6 +781,8 @@ public class onlineModeGeneratedBase extends AnchorPane {
         getChildren().add(menueBtn);
         getChildren().add(player1Label);
         getChildren().add(player2Label);
+        getChildren().add(imageView0);
+        getChildren().add(imageView1);
         topLeftBtn.setStyle("-fx-background-color: #d7049e; -fx-text-fill: white;");
         topBtn.setStyle("-fx-background-color: #d7049e; -fx-text-fill: white;");
         topRightBtn.setStyle("-fx-background-color: #d7049e; -fx-text-fill: white;");
@@ -560,11 +792,34 @@ public class onlineModeGeneratedBase extends AnchorPane {
         downLeftBtn.setStyle("-fx-background-color: #d7049e; -fx-text-fill: white;");
         downBtn.setStyle("-fx-background-color: #d7049e; -fx-text-fill: white;");
         downRightBtn.setStyle("-fx-background-color: #d7049e; -fx-text-fill: white;");
- 
         
-        firstTurn();
+        
+        
+        
+        App.startConnection();
+        Message msg = new Message();
+        msg.setType("opponent Score");
+        msg.setOpponentEmail(opponentEmail);
+        msg.setScore(player2Score);
+        String request = gson.toJson(msg);
+        System.out.println(request);
+        App.output.println(request);
+        App.output.flush();
+        
+        Message m = new Message();
+        m.setType("Player Score");
+        m.setEmail(MyEmail);
+        m.setScore(player1Score);
+        String send = gson.toJson(m);
+        System.out.println(send);
+        App.output.println(send);
+        App.output.flush();
+        
+        
+        
 
     }
+
     public void firstTurn() {
 
         if (turn == 1) {
@@ -883,6 +1138,7 @@ public class onlineModeGeneratedBase extends AnchorPane {
             System.out.println("Video finished");
             mediaView.setVisible(false);
         });
+
     }
 
     public void print() {
@@ -890,4 +1146,36 @@ public class onlineModeGeneratedBase extends AnchorPane {
         player1Label.setText(PlayerEmail + " Turn");
     }
     
+    public void showAlertOnOpponentLoggingOutAndNavigateToAvailablePlayersGUI(Stage stage , String myEmail){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("ALERTT!!!");
+        alert.setHeaderText("The game ended");
+        alert.setContentText("Your opponent has logged out , you will be navigated to the available online players gui");
+
+        // Set up event handler for OK button
+        ButtonType okButton = new ButtonType("OK");
+        alert.getButtonTypes().setAll(okButton);
+
+        Optional<ButtonType> result = alert.showAndWait();
+
+        // Handle OK button click or closing the alert
+        if (result.isPresent() && result.get() == okButton) {
+            System.out.println("OK button clicked or alert closed");
+            Parent root = new  PlayersListBaseNew(stage, myEmail);
+            Scene scene = new Scene(root,1000,700);
+            stage.setScene(scene);
+            stage.show();
+        } else {
+            System.out.println("Alert closed without clicking OK");
+            Parent root = new  PlayersListBaseNew(stage, myEmail);
+            Scene scene = new Scene(root,1000,700);
+            stage.setScene(scene);
+            stage.show();
+        }
+        
+        isLogOutAlertShown=false;
+        
+    }
+    
 }
+

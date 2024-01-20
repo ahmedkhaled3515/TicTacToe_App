@@ -28,6 +28,7 @@ import javafx.scene.text.Font;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.Optional;
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -37,6 +38,7 @@ import javafx.stage.Stage;
 import jdk.nashorn.internal.ir.Flags;
 import onlinemode.MyWindowAdapter;
 import onlinemode.onlineModeGeneratedBase;
+import onlinemode.onlineModeGeneratedBaseNew;
 
 public class PlayersListBaseNew extends AnchorPane {
 
@@ -55,9 +57,15 @@ public class PlayersListBaseNew extends AnchorPane {
     Optional<ButtonType> result;
     ButtonType alertResult;
     boolean flag;
+    boolean shouldStop=false;
+    Thread thread= new Thread();
     Stage stage;
     String playerEmail;
     MyWindowAdapter myWindowAdapter;
+    public static boolean myTurn = false;
+    public String player1, player2;
+    Random random = new Random();
+    String playerIs;
     public PlayersListBaseNew(Stage stage,String email) {
         
         myWindowAdapter=new MyWindowAdapter(email);
@@ -67,10 +75,9 @@ public class PlayersListBaseNew extends AnchorPane {
             // Prevent the default close operation (which is to close the window)
             event.consume();
         });
-        
-        
-        
+
         this.stage=stage;
+
         flag=true;
         alertResult=new ButtonType("");
         confirm = new Alert(Alert.AlertType.CONFIRMATION);
@@ -82,7 +89,7 @@ public class PlayersListBaseNew extends AnchorPane {
         avaliable = new ArrayList<>();
         playersCards=new ArrayList<>();
         playerEmail=email;
-              
+
         App.startConnection();
         Message msg= new Message();
         msg.setType("getOnline");
@@ -121,6 +128,7 @@ public class PlayersListBaseNew extends AnchorPane {
 //            }
         }).start();
         listen4();
+
 
         setId("AnchorPane");
         setPrefHeight(400.0);
@@ -213,6 +221,8 @@ public class PlayersListBaseNew extends AnchorPane {
             inviteResponse.setEmail(response.getEmail());
             App.output.println(new Gson().toJson(inviteResponse));
             App.output.flush();
+
+            
             Parent root = new onlineModeGeneratedBase(stage,playerEmail,response.getEmail(),2);
             Scene scene = new Scene(root);
             stage.setScene(scene);
@@ -272,5 +282,6 @@ public class PlayersListBaseNew extends AnchorPane {
         th.start();
     }
 
-    
+ 
+
 }
