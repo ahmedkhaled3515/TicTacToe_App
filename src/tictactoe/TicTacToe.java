@@ -64,8 +64,8 @@ public class TicTacToe extends Application {
 
     public void start(Stage stage) throws Exception {
 
-       Parent root = new homeBase(stage);
-      //Parent root = new onlineModeGeneratedBase( stage,"haneen","h@gmail" );
+       //Parent root = new homeBase(stage);
+      Parent root = new onlineModeGeneratedBase( stage,"haneen","h@gmail",1 );
         Parent root2=new ComputerModeBase(stage,"O");
         scene = new Scene(root);
        stage.setScene(scene);

@@ -43,6 +43,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import static onlinemode.onlineModeGeneratedBaseNew.myTurn;
+import tictactoe.Views.AvailablePlayer.PlayersListBaseNew;
 
 public class onlineModeGeneratedBase extends AnchorPane {
 
@@ -83,6 +84,7 @@ public class onlineModeGeneratedBase extends AnchorPane {
     protected final Text player2Label;
     protected final ImageView imageView0;
     protected final ImageView imageView1;
+    protected final Button recordBtn;
     Random random = new Random();
     public int[][] board;
     public static boolean myTurn = false;
@@ -144,6 +146,7 @@ public class onlineModeGeneratedBase extends AnchorPane {
         player2Label = new Text();
         imageView0 = new ImageView();
         imageView1 = new ImageView();
+        recordBtn = new Button();
         board = new int[][]{{-1, -1, -1}, {-1, -1, -1}, {-1, -1, -1}};
         buttonArr[0] = topLeftBtn;
         buttonArr[1] = topBtn;
@@ -154,17 +157,18 @@ public class onlineModeGeneratedBase extends AnchorPane {
         buttonArr[6] = downLeftBtn;
         buttonArr[7] = downBtn;
         buttonArr[8] = downRightBtn;
-
+        player1Score = 0;
+        player2Score = 0;
+        drawScore = 0;
         PlayerEmail = MyEmail;
         opponentEmail = opponentMail;
         player1Label.setText(MyEmail);
         player2Label.setText(opponentMail);
+        player1ScoreTxt.setText("0");
+        player2ScoreTxt.setText("0");
 
         System.out.println("MyEmail: " + PlayerEmail);
         System.out.println("opponentMail :" + opponentEmail);
-        player1Score = 0;
-        player2Score = 0;
-        drawScore = 0;
 
         firstTurn();
 
@@ -177,6 +181,18 @@ public class onlineModeGeneratedBase extends AnchorPane {
                     Message response = App.gson.fromJson(jsonResponse, Message.class);
                     String playerSide = response.getXO();
                     int location = response.getLocation();
+                    if (response.getType().equals("updateOpponentScore")) {
+                        int score = response.getScore();
+                        player2ScoreTxt.setText(String.valueOf(score));
+
+                    }
+
+                    if (response.getType().equals("updateScore")) {
+                        int score = response.getScore();
+                        player2ScoreTxt.setText(String.valueOf(score));
+
+                    }
+
                     if (response.getType().equals("retriveMove")) {
                         Platform.runLater(() -> {
                             switch (location) {
@@ -535,7 +551,6 @@ public class onlineModeGeneratedBase extends AnchorPane {
         BorderPane.setAlignment(player1ScoreTxt, javafx.geometry.Pos.CENTER);
         player1ScoreTxt.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
         player1ScoreTxt.setStrokeWidth(0.0);
-        player1ScoreTxt.setText("0");
         player1ScoreTxt.setFont(new Font("Arial Bold", 36.0));
         borderPane.setCenter(player1ScoreTxt);
 
@@ -575,11 +590,10 @@ public class onlineModeGeneratedBase extends AnchorPane {
         BorderPane.setAlignment(player2ScoreTxt, javafx.geometry.Pos.CENTER);
         player2ScoreTxt.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
         player2ScoreTxt.setStrokeWidth(0.0);
-        player2ScoreTxt.setText("0");
         player2ScoreTxt.setFont(new Font("Arial Bold", 36.0));
         borderPane1.setCenter(player2ScoreTxt);
 
-        newGameBtn.setLayoutX(320.0);
+        newGameBtn.setLayoutX(390.0);
         newGameBtn.setLayoutY(560.0);
         newGameBtn.setMnemonicParsing(false);
         newGameBtn.setPrefHeight(48.0);
@@ -604,20 +618,25 @@ public class onlineModeGeneratedBase extends AnchorPane {
                     buttonArr[i].setText("");
                     buttonArr[i].setDisable(false);
                     buttonArr[i].setStyle("-fx-background-color: #d7049e;");
-
+                    buttonArr[i].setStyle("-fx-text-stroke: white;");
                 }
                 for (int a = 0; a < 3; a++) {
                     for (int b = 0; b < 3; b++) {
                         board[a][b] = -1;
                     }
-
                 }
-                firstTurn();
+
+                Platform.runLater(() -> {
+                    Parent root = new PlayersListBaseNew(stage, PlayerEmail);
+                    Scene scene = new Scene(root);
+                    stage.setScene(scene);
+                    stage.show();
+                });
 
             }
         });
 
-        menueBtn.setLayoutX(572.0);
+        menueBtn.setLayoutX(160.0);
         menueBtn.setLayoutY(560.0);
         menueBtn.setMnemonicParsing(false);
         menueBtn.setPrefHeight(48.0);
@@ -632,11 +651,12 @@ public class onlineModeGeneratedBase extends AnchorPane {
         menueBtn.setOnMouseExited(event -> {
             menueBtn.setStyle("-fx-background-color: #68CFD1 ;");
         });
-        menueBtn.setText("Main Menue");
+        menueBtn.setText("Main Menu");
         menueBtn.setOnMouseClicked(new EventHandler() {
 
             @Override
             public void handle(Event event) {
+
                 Parent root = new SelectModeBase(stage);
                 Scene scene = new Scene(root, 1000, 700);
                 stage.setScene(scene);
@@ -680,6 +700,23 @@ public class onlineModeGeneratedBase extends AnchorPane {
         imageView1.setPreserveRatio(true);
         imageView1.setImage(new Image(getClass().getResource("icons8-anonymous-64.png").toExternalForm()));
 
+        recordBtn.setLayoutX(628.0);
+        recordBtn.setLayoutY(560.0);
+        recordBtn.setMnemonicParsing(false);
+        recordBtn.setPrefHeight(48.0);
+        recordBtn.setPrefWidth(210.0);
+        recordBtn.setStyle("-fx-background-radius: 15;");
+        recordBtn.setText("Main Menu");
+        recordBtn.setFont(new Font("Arial Bold", 27.0));
+        recordBtn.setStyle("-fx-background-color: #68CFD1 ;");
+        recordBtn.setOnMouseEntered(event -> {
+            recordBtn.setStyle("-fx-background-color: #00CBFE;");
+        });
+        recordBtn.setOnMouseExited(event -> {
+            recordBtn.setStyle("-fx-background-color: #68CFD1 ;");
+        });
+        recordBtn.setText("Record");
+
         getChildren().add(imageView);
         gridPane.getColumnConstraints().add(columnConstraints);
         gridPane.getColumnConstraints().add(columnConstraints0);
@@ -711,6 +748,7 @@ public class onlineModeGeneratedBase extends AnchorPane {
         getChildren().add(player2Label);
         getChildren().add(imageView0);
         getChildren().add(imageView1);
+        getChildren().add(recordBtn);
         topLeftBtn.setStyle("-fx-background-color: #d7049e; -fx-text-fill: white;");
         topBtn.setStyle("-fx-background-color: #d7049e; -fx-text-fill: white;");
         topRightBtn.setStyle("-fx-background-color: #d7049e; -fx-text-fill: white;");
@@ -720,31 +758,6 @@ public class onlineModeGeneratedBase extends AnchorPane {
         downLeftBtn.setStyle("-fx-background-color: #d7049e; -fx-text-fill: white;");
         downBtn.setStyle("-fx-background-color: #d7049e; -fx-text-fill: white;");
         downRightBtn.setStyle("-fx-background-color: #d7049e; -fx-text-fill: white;");
-        
-        
-        
-        
-        App.startConnection();
-        Message msg = new Message();
-        msg.setType("opponent Score");
-        msg.setOpponentEmail(opponentEmail);
-        msg.setScore(player2Score);
-        String request = gson.toJson(msg);
-        System.out.println(request);
-        App.output.println(request);
-        App.output.flush();
-        
-        Message m = new Message();
-        m.setType("Player Score");
-        m.setEmail(MyEmail);
-        m.setScore(player1Score);
-        String send = gson.toJson(m);
-        System.out.println(send);
-        App.output.println(send);
-        App.output.flush();
-        
-        
-        
 
     }
 
@@ -807,10 +820,9 @@ public class onlineModeGeneratedBase extends AnchorPane {
     }
 
     public void checkWinner() {
-           for(int i=0;i<buttonArr.length;i++)
-           {
-               System.out.println("button "+i+" "+buttonArr[i].getText());
-           }
+        for (int i = 0; i < buttonArr.length; i++) {
+            System.out.println("button " + i + " " + buttonArr[i].getText());
+        }
         if (buttonArr[0].getText().equalsIgnoreCase("X")
                 && buttonArr[1].getText().equalsIgnoreCase("X")
                 && buttonArr[2].getText().equalsIgnoreCase("X")) {
@@ -931,25 +943,59 @@ public class onlineModeGeneratedBase extends AnchorPane {
     }
 
     public void playerXScore() {
-        if (player1 == "X") {
+//        if (player1 == "X") {
+//            player1Score++;
+//            player1ScoreTxt.setText(String.valueOf(player1Score));
+//        } else {
+//            player2Score++;
+//            player2ScoreTxt.setText(String.valueOf(player2Score));
+//        }
+        if (currentPlayer.equalsIgnoreCase("X")) {
             player1Score++;
             player1ScoreTxt.setText(String.valueOf(player1Score));
+            App.startConnection();
+            Message m = new Message();
+            m.setType("PlayerScore");
+            m.setEmail(PlayerEmail);
+            m.setOpponentEmail(opponentEmail);
+            m.setScore(player1Score);
+            String send = gson.toJson(m);
+            System.out.println(send);
+            App.output.println(send);
+            App.output.flush();
         } else {
             player2Score++;
             player2ScoreTxt.setText(String.valueOf(player2Score));
         }
-       
-        
+
     }
 
     public void playerOScore() {
-        if (player1 == "O") {
+//        if (player1 == "O") {
+//            player1Score++;
+//            player1ScoreTxt.setText(String.valueOf(player1Score));
+//        } else {
+//            player2Score++;
+//            player2ScoreTxt.setText(String.valueOf(player2Score));
+//        }
+        if (currentPlayer.equalsIgnoreCase("O")) {
             player1Score++;
             player1ScoreTxt.setText(String.valueOf(player1Score));
+            App.startConnection();
+            Message msg = new Message();
+            msg.setType("opponentScore");
+            msg.setEmail(PlayerEmail);
+            msg.setOpponentEmail(opponentEmail);
+            msg.setScore(player1Score);
+            String request = gson.toJson(msg);
+            System.out.println(request);
+            App.output.println(request);
+            App.output.flush();
         } else {
             player2Score++;
             player2ScoreTxt.setText(String.valueOf(player2Score));
         }
+
     }
 
     public void setDisableBtn() {
@@ -961,36 +1007,17 @@ public class onlineModeGeneratedBase extends AnchorPane {
 
     public void xWinsVideo() {
         String videoFile = "file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/LocalMode2Players/XWinsVideo.mp4";
-
-        // Create a Media object
         Media media = new Media(getClass().getResource("/assets/videos/XWinsVideo.mp4").toExternalForm());
-
-        // Create a MediaPlayer
         MediaPlayer mediaPlayer3 = new MediaPlayer(media);
-
-        // Create a MediaView to display the video
         MediaView mediaView = new MediaView(mediaPlayer3);
-
-        // Set the size of the MediaView to fit the screen without cropping
         mediaView.setFitWidth(800.0);
         mediaView.setFitHeight(800.0);
-
-        // Set the position of the MediaView within the WinPane
         mediaView.setLayoutX(100.0); // Set X position
         mediaView.setLayoutY(130.0);  // Set Y position
-
-        // Set the position of the MediaView within the WinPane
         StackPane.setAlignment(mediaView, Pos.CENTER);
-
-        // Play the video
         mediaPlayer3.play();
-
-        // Add the MediaView to the WinPane
         getChildren().add(mediaView);
-
-        // Set the event handler for when the media finishes playing
         mediaPlayer3.setOnEndOfMedia(() -> {
-            // Add any additional actions when the video finishes
             System.out.println("Video finished");
             mediaView.setVisible(false);
         });
@@ -998,31 +1025,15 @@ public class onlineModeGeneratedBase extends AnchorPane {
 
     public void oWinsVideo() {
         String videoFile = "file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/LocalMode2Players/OWinsVideo.mp4";
-
-        // Create a Media object
         Media media = new Media(getClass().getResource("/assets/videos/OWinsVideo.mp4").toExternalForm());
-
-        // Create a MediaPlayer
         MediaPlayer mediaPlayer4 = new MediaPlayer(media);
-
-        // Create a MediaView to display the video
         MediaView mediaView = new MediaView(mediaPlayer4);
-
-        // Set the size of the MediaView to fit the screen without cropping
         mediaView.setFitWidth(800.0);
         mediaView.setFitHeight(800.0);
-
-        // Set the position of the MediaView within the WinPane
         mediaView.setLayoutX(100.0); // Set X position
         mediaView.setLayoutY(130.0);  // Set Y position
-
-        // Set the position of the MediaView within the WinPane
         StackPane.setAlignment(mediaView, Pos.CENTER);
-
-        // Play the video
         mediaPlayer4.play();
-
-        // Add the MediaView to the WinPane
         getChildren().add(mediaView);
 
         mediaPlayer4.setOnEndOfMedia(() -> {
@@ -1033,36 +1044,17 @@ public class onlineModeGeneratedBase extends AnchorPane {
 
     public void DrawPlayVideo() {
         String videoFile = "file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/LocalMode2Players/DrawVideo2.mp4";
-
-        // Create a Media object
         Media media = new Media(getClass().getResource("/assets/videos/DrawVideo2.mp4").toExternalForm());
-
-        // Create a MediaPlayer
         MediaPlayer mediaPlayer6 = new MediaPlayer(media);
-
-        // Create a MediaView to display the video
         MediaView mediaView = new MediaView(mediaPlayer6);
-
-        // Set the size of the MediaView to fit the screen without cropping
         mediaView.setFitWidth(800.0);
         mediaView.setFitHeight(800.0);
-
-        // Set the position of the MediaView within the WinPane
         mediaView.setLayoutX(100.0); // Set X position
         mediaView.setLayoutY(120.0);  // Set Y position
-
-        // Set the position of the MediaView within the WinPane
         StackPane.setAlignment(mediaView, Pos.CENTER);
-
-        // Play the video
         mediaPlayer6.play();
-
-        // Add the MediaView to the WinPane
         getChildren().add(mediaView);
-
-        // Set the event handler for when the media finishes playing
         mediaPlayer6.setOnEndOfMedia(() -> {
-            // Add any additional actions when the video finishes
             System.out.println("Video finished");
             mediaView.setVisible(false);
         });

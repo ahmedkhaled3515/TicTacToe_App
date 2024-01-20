@@ -18,7 +18,7 @@
         <URL value="@onlinemode.css" />
     </stylesheets>
    <children>
-      <ImageView fitHeight="672.0" fitWidth="992.0">
+      <ImageView fitHeight="672.0" fitWidth="992.0" layoutY="3.0">
          <image>
             <Image url="@../../../../gaming-blank-banner-background_23-2150390423.jpg" />
          </image>
@@ -91,8 +91,8 @@
             </BorderPane>
          </children>
       </GridPane>
-      <Button fx:id="newGameBtn" layoutX="320.0" layoutY="560.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="155.0" text="New Game" />
-      <Button fx:id="menueBtn" layoutX="572.0" layoutY="560.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="155.0" text="Main Menue" />
+      <Button fx:id="newGameBtn" layoutX="246.0" layoutY="560.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="155.0" text="New Game" />
+      <Button fx:id="menueBtn" layoutX="441.0" layoutY="560.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="155.0" text="Main Menue" />
       <Label fx:id="player1Label" layoutX="78.0" layoutY="358.0" text="Player1">
          <font>
             <Font size="30.0" />
@@ -113,5 +113,6 @@
             <Image url="@../../../../../Downloads/icons8-anonymous-64.png" />
          </image>
       </ImageView>
+      <Button fx:id="recordBtn" layoutX="628.0" layoutY="560.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="155.0" text="Record Game" />
    </children>
 </AnchorPane>
