@@ -35,6 +35,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.DialogPane;
 import javafx.stage.Stage;
 import jdk.nashorn.internal.ir.Flags;
+import onlinemode.MyWindowAdapter;
 import onlinemode.onlineModeGeneratedBase;
 
 public class PlayersListBaseNew extends AnchorPane {
@@ -56,8 +57,19 @@ public class PlayersListBaseNew extends AnchorPane {
     boolean flag;
     Stage stage;
     String playerEmail;
-    
+    MyWindowAdapter myWindowAdapter;
     public PlayersListBaseNew(Stage stage,String email) {
+        
+        myWindowAdapter=new MyWindowAdapter(email);
+            // Set the event handler for window-closing
+        stage.setOnCloseRequest(event -> {
+            myWindowAdapter.handleWindowClosing(email);
+            // Prevent the default close operation (which is to close the window)
+            event.consume();
+        });
+        
+        
+        
         this.stage=stage;
         flag=true;
         alertResult=new ButtonType("");
