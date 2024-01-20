@@ -4,6 +4,7 @@ import Requests.App;
 import Requests.Message;
 import SelectmodeView.SelectModeBase;
 import com.google.gson.Gson;
+import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -95,10 +96,16 @@ public class onlineModeGeneratedBase extends AnchorPane {
     int turn;
     String currentPlayer;
     String myEmail;
-    
+    MyWindowAdapter myWindowAdapter;
     public onlineModeGeneratedBase(Stage stage, String MyEmail, String opponentMail, int turn) {
         
-        
+        myWindowAdapter=new MyWindowAdapter(MyEmail);
+            // Set the event handler for window-closing
+        stage.setOnCloseRequest(event -> {
+            myWindowAdapter.handleWindowClosing(MyEmail);
+            // Prevent the default close operation (which is to close the window)
+            event.consume();
+        });
         myEmail=MyEmail;
         this.opponentName=opponentName;
         imageView = new ImageView();
