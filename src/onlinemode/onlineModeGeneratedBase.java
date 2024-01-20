@@ -287,13 +287,13 @@ public class onlineModeGeneratedBase extends AnchorPane {
                         });
                     }
                     String logOutAlert = "logOutShowAlert";
-                    System.out.println(response.getShowAlertOnLogOut() + "XXXXXXXXXXXX");
+                  //  System.out.println(response.getShowAlertOnLogOut() + "XXXXXXXXXXXX");
                     if(myEmail.equalsIgnoreCase(response.getOpponentEmail())){
                         if (response.getShowAlertOnLogOut().equalsIgnoreCase(logOutAlert)){                   
                             Platform.runLater(() -> {                    
                                 if(isLogOutAlertShown==true){
                                     System.out.println("Log out alert");
-                                    showAlertOnOpponentLoggingOutAndNavigateToAvailablePlayersGUI(stage,MyEmail);
+                                    showAlertWhenOpponentLoggingOutAndNavigateToAvailablePlayersGUI(stage,MyEmail);
                                 }
                             });
 
@@ -1146,7 +1146,7 @@ public class onlineModeGeneratedBase extends AnchorPane {
         player1Label.setText(PlayerEmail + " Turn");
     }
     
-    public void showAlertOnOpponentLoggingOutAndNavigateToAvailablePlayersGUI(Stage stage , String myEmail){
+    public void showAlertWhenOpponentLoggingOutAndNavigateToAvailablePlayersGUI(Stage stage , String myEmail){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("ALERTT!!!");
         alert.setHeaderText("The game ended");
