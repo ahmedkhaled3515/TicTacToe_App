@@ -142,6 +142,15 @@ public class loginBase extends AnchorPane {
                                  alert.showAndWait();
                                   });
                              }
+                             if (response.getValidation().equals("alreadyLoggedIn") ){
+                                 Platform.runLater(() -> {
+                                      Alert alert = new Alert(AlertType.ERROR);
+                                        alert.setTitle("alreadyLoggedIn");
+                                        alert.setHeaderText(null);
+                                        alert.setContentText("Sorry this email is alreadyLoggedIn");
+                                        alert.showAndWait();
+                                         });
+                             }
                          } catch (IOException ex) {
                              System.out.println("server closed !!!");
                              Logger.getLogger(SignupBase.class.getName()).log(Level.SEVERE, null, ex);
