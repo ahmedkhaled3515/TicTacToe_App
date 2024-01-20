@@ -1,6 +1,14 @@
 package tictactoe.Views.AvailablePlayer;
 
+import Requests.App;
+import Requests.Message;
+import Requests.PlayersDTO;
+import com.google.gson.Gson;
+import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
@@ -28,8 +36,10 @@ public class PlayersListBase extends AnchorPane {
     protected final Text playerScoretxt;
     protected final ImageView backBtn;
 
+    ArrayList<PlayersDTO> playersList;
+    Gson gson;
     public PlayersListBase(Stage stage) {
-
+        gson=new Gson();
         anchorPane = new AnchorPane();
         backgroundImg = new ImageView();
         availableLabel = new Label();
@@ -39,19 +49,21 @@ public class PlayersListBase extends AnchorPane {
         playerNametxt = new Text();
         playerScoretxt = new Text();
         backBtn = new ImageView();
-
+        playersList =new ArrayList<>();
+        
         setId("AnchorPane");
         setPrefHeight(400.0);
         setPrefWidth(600.0);
         getStyleClass().add("mainFxmlClass");
         getStylesheets().add("/tictactoe/Views/AvailablePlayer/playerslist.css");
-
+        
         anchorPane.setPrefHeight(679.0);
         anchorPane.setPrefWidth(998.0);
 
-        backgroundImg.setFitHeight(686.0);
-        backgroundImg.setFitWidth(1014.0);
-    //    backgroundImg.setImage(new Image(getClass().getResource("gaming-blank-banner-background_23-2150390423.jpg").toExternalForm()));
+
+        backgroundImg.setFitHeight(700.0);
+        backgroundImg.setFitWidth(1000.0);
+        backgroundImg.setImage(new Image(getClass().getResource("/assets/images/background.jpg").toExternalForm()));
 
         availableLabel.setLayoutX(545.0);
         availableLabel.setLayoutY(69.0);
@@ -111,21 +123,44 @@ public class PlayersListBase extends AnchorPane {
         backBtn.setLayoutY(69.0);
         backBtn.setPickOnBounds(true);
         backBtn.setPreserveRatio(true);
-//        backBtn.setImage(new Image(getClass().getResource("symbole-fleche-gauche-violet.png").toExternalForm()));
-  //      backBtn.setImage(new Image(getClass().getResource("symbole-fleche-gauche-violet.png").toExternalForm()));
 
+        backBtn.setImage(new Image(getClass().getResource("/assets/images/symbole-fleche-gauche-violet.png").toExternalForm()));
+        backBtn.setImage(new Image(getClass().getResource("/assets/images/symbole-fleche-gauche-violet.png").toExternalForm()));
+//        App.resetCon();
         backBtn.setOnMouseClicked(new EventHandler() {
 
             @Override
             public void handle(Event event) {
-                Alert a = new Alert(Alert.AlertType.INFORMATION);
-                a.setContentText("This is Backbutton");
-                a.show();
+                
             }
         });
-
-     
-        
+        Message msg= new Message();
+        msg.setType("getOnline");
+        String request=App.gson.toJson(msg);
+        App.output.println(request);
+        App.output.flush();
+        new Thread(() -> {
+//            while(App.server.isConnected())
+//            {
+                try {
+                    String jsonResponse= App.input.readLine();
+                    System.out.println(jsonResponse);
+                    Message response=App.gson.fromJson(jsonResponse,Message.class);
+                    ArrayList<PlayersDTO> players =response.getPlayersList();
+                    for(PlayersDTO player: players)
+                    {
+                        
+                    }
+                    if(response.getType().equals("getOnline"))
+                    {
+                        System.out.println("ssssssssssssssssss");                    
+                    }
+                } catch (IOException ex) {
+                    Logger.getLogger(PlayersListBase.class.getName()).log(Level.SEVERE, null, ex);
+//                    break;
+                }
+//            }
+        }).start();
         
 
         anchorPane.getChildren().add(backgroundImg);

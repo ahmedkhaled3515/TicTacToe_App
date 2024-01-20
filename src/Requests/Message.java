@@ -6,6 +6,8 @@
 package Requests;
 
 import java.net.InetAddress;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -17,10 +19,62 @@ public class Message {
     String email;
     String password;
     String opponentUserName;
+    String opponentEmail;
     InetAddress ipAddress;
     int step;
     String XO;
     String status;
+    String validation;
+    ArrayList<PlayersDTO> playersList;
+     List<Integer> steps ;
+     int location;
+
+    public int getLocation() {
+        return location;
+    }
+
+    public void setLocation(int location) {
+        this.location = location;
+    }
+    public String getOpponentEmail() {
+        return opponentEmail;
+    }
+
+    public void setOpponentEmail(String opponentEmail) {
+        this.opponentEmail = opponentEmail;
+    }
+
+    public List<Integer> getSteps() {
+        return steps;
+    }
+
+    public void setSteps(List<Integer> steps) {
+        this.steps = steps;
+    }
+
+    public ArrayList<PlayersDTO> getPlayersList() {
+        return playersList;
+    }
+
+    public void setPlayersList(ArrayList<PlayersDTO> playersList) {
+        this.playersList = playersList;
+    }
+    
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getValidation() {
+        return validation;
+    }
+
+    public void setValidation(String validation) {
+        this.validation = validation;
+    }
     public String getEmail() {
         return email;
     }
@@ -87,13 +141,14 @@ public class Message {
     }
     public Message()
     {}
-   public Message(String type, String userName, String opponentUserName, InetAddress ipAddress, int step, String XO) {
+   public Message(String type, String userName, String opponentUserName, InetAddress ipAddress, int step, String XO,String validation) {
         this.type = type;
         this.userName = userName;
         this.opponentUserName = opponentUserName;
         this.ipAddress = ipAddress;
         this.step = step;
         this.XO = XO;
+        this.validation=validation;
     }
 
    

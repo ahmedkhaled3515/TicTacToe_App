@@ -5,6 +5,9 @@ import Requests.App;
 import Requests.Mail;
 import Requests.Message;
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcons;
 import java.io.BufferedReader;
@@ -13,8 +16,10 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.URL;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -24,6 +29,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -50,6 +56,7 @@ public class SignupBase extends AnchorPane {
     protected final TextField returnedMsg;
     Gson gson;
     Label headLabel;
+
     public SignupBase(Stage stage) {
         returnedMsg = new TextField();
         imageView = new ImageView();
@@ -67,7 +74,6 @@ public class SignupBase extends AnchorPane {
         getStylesheets().add("/SignupView/signup.css");
         getStylesheets().add(getClass().getResource("localstyle.css").toExternalForm());
 
-        
         imageView.setFitHeight(700.0);
         imageView.setFitWidth(1000.0);
         imageView.setImage(new Image(getClass().getResource("/assets/images/background.jpg").toExternalForm()));
@@ -99,7 +105,7 @@ public class SignupBase extends AnchorPane {
         online.setMnemonicParsing(false);
         online.setPrefHeight(81.0);
         online.setPrefWidth(254.0);
-       // online.setStyle("-fx-background-color: BCDBF9; -fx-background-radius: 26px;");
+        // online.setStyle("-fx-background-color: BCDBF9; -fx-background-radius: 26px;");
         online.setText("Signup");
         online.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
         online.setTextFill(javafx.scene.paint.Color.valueOf("#43115b"));
@@ -107,13 +113,14 @@ public class SignupBase extends AnchorPane {
         online.setFont(new Font("Arial Black", 47.0));
         online.setPadding(new Insets(0.0, 0.0, 10.0, 0.0));
         online.setId("online");
-        
-        
+
 //        mailRequest.setEmail(mail.getText());
-        
 //        String gsonMsg= gson.toJson(mailRequest);
         App.startConnection();
-        gson=new Gson();
+//        App.resetCon();
+//        gson=new Gson();
+        App.resetCon();
+
         online.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -123,38 +130,81 @@ public class SignupBase extends AnchorPane {
                      alert.showAndWait();
              }else{
                 Message msg=new Message();
+
                 msg.setType("signup");
                 msg.setUserName(user.getText());
                 msg.setEmail(mail.getText());
-                msg.setPassword(user.getText());
-                msg.setUserName(user.getText());
-                String gsonMessage=gson.toJson(msg);
-                System.out.println(gsonMessage);
+                msg.setPassword(password.getText());
+                String gsonMessage=App.gson.toJson(msg);
                 App.output.println(gsonMessage);
-                App.output.flush();     
+                App.output.flush();   
+                new Thread(() -> {
+//                while(App.server.isConnected())
+//                {
+                    try {
+                        String jsonResponse=App.input.readLine();
+//                        JsonElement jsonElement = new JsonParser().parse(jsonResponse);
+//                        
+//                        JsonObject jsonObject = jsonElement.getAsJsonObject();
+//                        System.out.println(jsonObject.get("type"));
+                        
+//                        System.out.println(jsonElement);
+                        Message response=new Gson().fromJson(jsonResponse,Message.class);
+                        System.out.println(response.getType());
+                        if(response.getType().equals("signup"))
+                        {
+                            System.out.println(jsonResponse);
+                        }
+                    } catch (IOException ex) {
+                        System.out.println("server closed !!!");
+                        Logger.getLogger(SignupBase.class.getName()).log(Level.SEVERE, null, ex);
+//                        break;
+                    }
+            }).start();
             }
                }
         });
-        new Thread(() -> {
-            while(App.server.isConnected())
-            {
-                try {
-                    String response = App.input.readLine();
-                    if(response.equals("true"))
-                    {
-                        System.out.println(response);
-                    }
-                    else{
-                        System.out.println(response);
-                    }
-                } catch (IOException ex) {
-                    System.out.println("server closed !!!");
-                    Logger.getLogger(SignupBase.class.getName()).log(Level.SEVERE, null, ex);
-                    break;
-                }
-                
-            }
-        }).start();
+        
+        
+
+        //         String gsonMessage = gson.toJson(msg);
+        //         System.out.println(gsonMessage);
+        //         App.output.println(gsonMessage);
+        //         App.output.flush();
+        //     }
+        // });
+        // new Thread(() -> {
+        //     while (App.server.isConnected()) {
+        //         try {
+        //             String response = App.input.readLine();
+        //             if (response.equals("true")) {
+        //                 Platform.runLater(() -> {
+        //                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        //                     alert.setTitle("Successful SignUp!");
+        //                     alert.setHeaderText(null);
+        //                     alert.setContentText("You have signed up successfully, You can Login now!");
+        //                     alert.showAndWait();
+        //                 });
+        //                 System.out.println(response);
+        //             }  if (response.equals("false")) {
+        //                 Platform.runLater(() -> {
+        //                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        //                     alert.setTitle("Email already exists");
+        //                     alert.setHeaderText(null);
+        //                     alert.setContentText("Please Try Again");
+        //                     alert.showAndWait();
+        //                 });
+        //                 System.out.println(response);
+        //             }
+        //         } catch (IOException ex) {
+        //             System.out.println("server closed !!!");
+        //             ex.printStackTrace();
+        //             break;
+        //         }
+        //     }
+
+        // }).start();
+
 
         mail.setAlignment(javafx.geometry.Pos.TOP_CENTER);
         mail.setId("mail");
@@ -168,7 +218,7 @@ public class SignupBase extends AnchorPane {
         mail.setOpaqueInsets(new Insets(0.0));
         mail.setPadding(new Insets(0.0, 0.0, 0.0, 0.0));
         mail.setOpaqueInsets(new Insets(0.0));
-        
+
         password.setAlignment(javafx.geometry.Pos.TOP_CENTER);
         password.setId("password");
         password.setLayoutX(302.0);
@@ -192,8 +242,9 @@ public class SignupBase extends AnchorPane {
         arrow.setOnMouseClicked(new EventHandler() {
             @Override
             public void handle(Event event) {
-                Parent root = new loginBase(stage) ;
-                Scene scene = new Scene(root,1000,700);
+
+                Parent root = new loginBase(stage);
+                Scene scene = new Scene(root, 1000, 700);
                 stage.setScene(scene);
                 stage.show();
             }

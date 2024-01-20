@@ -2,19 +2,39 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
-        <group/>
-
         <group>
-            <file>file:/C:/Users/Dell/Desktop/javaProject/TicTacToe_App/src/tictactoe/TicTacToe.java</file>
-            <file>file:/C:/Users/Dell/Desktop/javaProject/TicTacToe_App/src/RecordView/RecordBase.java</file>
-            <file>file:/C:/Users/Dell/Desktop/javaProject/TicTacToe_App/src/RecordView/RecordController.java</file>
+
+            <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/tictactoe/Views/login/loginBase.java</file>
+            <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/SignupView/SignupBase.java</file>
+            <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/tictactoe/Views/AvailablePlayer/PlayersListBase.java</file>
+            <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/nbproject/jfx-impl.xml</file>
+            <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/Requests/App.java</file>
+            <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/tictactoe/TicTacToe.java</file>
+            <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/onlinemode/onlineModeGeneratedBase.java</file>
+            <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/tictactoe/Views/AvailablePlayer/item.css</file>
+            <file>file:/D:/Courses/ITI%20material/JAVA/Tictactoe%20Project/TicTacToe/src/tictactoe/Views/AvailablePlayer/PlayersListBaseNew.java</file>
         </group>
         <group>
-            <file>file:/C:/Users/Dell/Desktop/javaProject/TicTacToe_App/src/SignupView/SignupBase.java</file>
             <file>file:/C:/Users/Dell/Desktop/javaProject/TicTacToe_App/src/tictactoe/TicTacToe.java</file>
-            <file>file:/C:/Users/Dell/Desktop/javaProject/TicTacToe_App/src/RecordView/RecordController.java</file>
-            <file>file:/C:/Users/Dell/Desktop/javaProject/TicTacToe_App/src/RecordView/RecordBase.java</file>
+            <file>file:/C:/Users/Dell/Desktop/javaProject/TicTacToe_App/src/tictactoe/Views/AvailablePlayer/PlayersListBaseNew.java</file>
+            <file>file:/C:/Users/Dell/Desktop/javaProject/TicTacToe_App/src/onlinemode/onlineModeGeneratedBase.java</file>
+            <file>file:/C:/Users/Dell/Desktop/javaProject/TicTacToe_App/src/tictactoe/Views/computerMode/ComputerModeBase.java</file>
+            <file>file:/C:/Users/Dell/Desktop/javaProject/TicTacToe_App/src/Requests/Message.java</file>
+            <file>file:/C:/Users/Dell/Desktop/javaProject/TicTacToe_App/src/tictactoe/Views/login/loginBase.java</file>
+        </group>
+        <group>
+            <file>file:/C:/Users/Dell/Desktop/javaProject/TicTacToe_App/src/tictactoe/TicTacToe.java</file>
+            <file>file:/C:/Users/Dell/Desktop/javaProject/TicTacToe_App/src/tictactoe/Views/AvailablePlayer/PlayersListBaseNew.java</file>
+            <file>file:/C:/Users/Dell/Desktop/javaProject/TicTacToe_App/src/onlinemode/onlineModeGeneratedBase.java</file>
+            <file>file:/C:/Users/Dell/Desktop/javaProject/TicTacToe_App/src/tictactoe/Views/computerMode/ComputerModeBase.java</file>
+            <file>file:/C:/Users/Dell/Desktop/javaProject/TicTacToe_App/src/Requests/Message.java</file>
+            <file>file:/C:/Users/Dell/Desktop/javaProject/TicTacToe_App/src/tictactoe/Views/login/loginBase.java</file>
+        </group>
+        <group>
+            <file>file:/C:/Users/Dell/Desktop/javaProject/TicTacToe_App/src/tictactoe/Views/computerMode/DataAccessObject.java</file>
+        </group>
+        <group>
+            <file>file:/C:/Users/Dell/Desktop/javaProject/TicTacToe_App/src/tictactoe/Views/computerMode/DataAccessObject.java</file>
         </group>
     </open-files>
 </project-private>
