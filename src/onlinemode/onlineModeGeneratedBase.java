@@ -1,6 +1,9 @@
 package onlinemode;
 
+import Requests.App;
+import Requests.Message;
 import SelectmodeView.SelectModeBase;
+import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -19,6 +22,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -80,7 +84,22 @@ public class onlineModeGeneratedBase extends AnchorPane {
     public int player1Score,player2Score,drawScore;
      Random random = new Random();
     String opponentName;
-    public onlineModeGeneratedBase(Stage stage,String opponentName) {
+    
+     
+    public int[][] board;
+    public static boolean myTurn = false;
+    Gson gson = new Gson();
+    public String opponentEmail;
+    public String PlayerEmail;
+    Alert alert;
+    int turn;
+    String currentPlayer;
+    String myEmail;
+    
+    public onlineModeGeneratedBase(Stage stage, String MyEmail, String opponentMail, int turn) {
+        
+        
+        myEmail=MyEmail;
         this.opponentName=opponentName;
         imageView = new ImageView();
         gridPane = new GridPane();
@@ -135,6 +154,16 @@ public class onlineModeGeneratedBase extends AnchorPane {
         buttonArr[6] = downLeftBtn;
         buttonArr[7] = downBtn;
         buttonArr[8] = downRightBtn;
+        
+        
+        PlayerEmail = MyEmail;
+        opponentEmail = opponentMail;
+        player1Label.setText(MyEmail);
+        player2Label.setText(opponentMail);
+
+        System.out.println("MyEmail: " + PlayerEmail);
+        System.out.println("opponentMail :" + opponentEmail);
+
         
 
         player1Score=0;
@@ -447,7 +476,16 @@ public class onlineModeGeneratedBase extends AnchorPane {
 
             @Override
             public void handle(Event event) {
-                   Parent root = new  SelectModeBase(stage);
+                
+                Message msg = new Message();
+                msg.setEmail(myEmail);
+                msg.setType("logOut");
+                String message=App.gson.toJson(msg);
+                App.output.println(message);
+                App.output.flush();
+                
+                
+                Parent root = new  SelectModeBase(stage);
                 Scene scene = new Scene(root,1000,700);
                 stage.setScene(scene);
                 stage.show();
@@ -522,21 +560,42 @@ public class onlineModeGeneratedBase extends AnchorPane {
         firstTurn();
 
     }
-     public void firstTurn() {
-        if (random.nextInt(2) == 0) {
-            player1Turn = true;
+    public void firstTurn() {
+
+        if (turn == 1) {
+            currentPlayer = "X";
+            myTurn = true;
             player1 = "X";
             player2 = "O";
-            player1Label.setText("Player1 Turn");
-            player2Label.setText("Player2");
-        } else {
-            player1Turn = false;
-            player2 = "X";
+            player1Label.setText(PlayerEmail + " Turn");
+            player2Label.setText(opponentEmail);
+            System.out.println("x: " + PlayerEmail);
+            System.out.println("O: " + opponentEmail);
+        }
+        if (turn == 2) {
+            currentPlayer = "O";
+            myTurn = false;
             player1 = "O";
-            player2Label.setText("Player2 Turn");
-            player1Label.setText("Player1");
+            player2 = "X";
+            player1Label.setText(PlayerEmail);
+            player2Label.setText(opponentEmail + " Turn");
+            System.out.println("x: " + opponentEmail);
+            System.out.println("O: " + PlayerEmail);
         }
 
+    }
+
+    public void sendMove(int location, String player) {
+        App.startConnection();
+        Message msg = new Message();
+        msg.setType("sendMove");
+        msg.setOpponentEmail(opponentEmail);
+        msg.setLocation(location);
+        msg.setXO(player);
+        String request = gson.toJson(msg);
+        System.out.println(request);
+        App.output.println(request);
+        App.output.flush();
     }
 
     public void xWins(int index1, int index2, int index3) {
@@ -544,155 +603,172 @@ public class onlineModeGeneratedBase extends AnchorPane {
         buttonArr[index2].setStyle("-fx-background-color: #5A1E76;");
         buttonArr[index3].setStyle("-fx-background-color: #5A1E76;");
         xWinsVideo();
-        player1Label.setText("Player1 ");
-            player2Label.setText("Player2");
+        //player1Label.setText("Player1 ");
+        //player2Label.setText("Player2");
 
     }
 
-public void oWins(int index1, int index2, int index3) {
+    public void oWins(int index1, int index2, int index3) {
         buttonArr[index1].setStyle("-fx-background-color: #5A1E76;");
         buttonArr[index2].setStyle("-fx-background-color: #5A1E76;");
         buttonArr[index3].setStyle("-fx-background-color: #5A1E76;");
         oWinsVideo();
-        player1Label.setText("Player1 ");
-            player2Label.setText("Player2");
+        //player1Label.setText("Player1 ");
+        //player2Label.setText("Player2");
 
     }
 
     public void checkWinner() {
-        
-        if (buttonArr[0].getText() == "X"
-                && buttonArr[1].getText() == "X"
-                && buttonArr[2].getText() == "X") {
+           for(int i=0;i<buttonArr.length;i++)
+           {
+               System.out.println("button "+i+" "+buttonArr[i].getText());
+           }
+        if (buttonArr[0].getText().equalsIgnoreCase("X")
+                && buttonArr[1].getText().equalsIgnoreCase("X")
+                && buttonArr[2].getText().equalsIgnoreCase("X")) {
             xWins(0, 1, 2);
             playerXScore();
             setDisableBtn();
 
-        }
-        else if (buttonArr[3].getText() == "X"
-                && buttonArr[4].getText() == "X"
-                && buttonArr[5].getText() == "X") {
+        } else if (buttonArr[3].getText().equalsIgnoreCase("X")
+                && buttonArr[4].getText().equalsIgnoreCase("X")
+                && buttonArr[5].getText().equalsIgnoreCase("X")) {
             xWins(3, 4, 5);
             playerXScore();
             setDisableBtn();
-        }
-        else if (buttonArr[6].getText() == "X"
-                && buttonArr[7].getText() == "X"
-                && buttonArr[8].getText() == "X") {
+        } else if (buttonArr[6].getText().equalsIgnoreCase("X")
+                && buttonArr[7].getText().equalsIgnoreCase("X")
+                && buttonArr[8].getText().equalsIgnoreCase("X")) {
             xWins(6, 7, 8);
             playerXScore();
             setDisableBtn();
-        }
-        else if (buttonArr[0].getText() == "X"
-                && buttonArr[3].getText() == "X"
-                && buttonArr[6].getText() == "X") {
+        } else if (buttonArr[0].getText().equalsIgnoreCase("X")
+                && buttonArr[3].getText().equalsIgnoreCase("X")
+                && buttonArr[6].getText().equalsIgnoreCase("X")) {
             xWins(0, 3, 6);
             playerXScore();
             setDisableBtn();
         }
-        if (buttonArr[1].getText() == "X"
-                && buttonArr[4].getText() == "X"
-                && buttonArr[7].getText() == "X") {
+        if (buttonArr[1].getText().equalsIgnoreCase("X")
+                && buttonArr[4].getText().equalsIgnoreCase("X")
+                && buttonArr[7].getText().equalsIgnoreCase("X")) {
             xWins(1, 4, 7);
-             playerXScore();
+            playerXScore();
             setDisableBtn();
-        }
-        else if (buttonArr[2].getText() == "X"
-                && buttonArr[5].getText() == "X"
-                && buttonArr[8].getText() == "X") {
+        } else if (buttonArr[2].getText().equalsIgnoreCase("X")
+                && buttonArr[5].getText().equalsIgnoreCase("X")
+                && buttonArr[8].getText().equalsIgnoreCase("X")) {
             xWins(2, 5, 8);
-             playerXScore();
+            playerXScore();
             setDisableBtn();
-        }
-        else if (buttonArr[0].getText() == "X"
-                && buttonArr[4].getText() == "X"
-                && buttonArr[8].getText() == "X") {
+        } else if (buttonArr[0].getText().equalsIgnoreCase("X")
+                && buttonArr[4].getText().equalsIgnoreCase("X")
+                && buttonArr[8].getText().equalsIgnoreCase("X")) {
             xWins(0, 4, 8);
-             playerXScore();
+            playerXScore();
             setDisableBtn();
-        }
-        else if (buttonArr[2].getText() == "X"
-                && buttonArr[4].getText() == "X"
-                && buttonArr[6].getText() == "X") {
+        } else if (buttonArr[2].getText().equalsIgnoreCase("X")
+                && buttonArr[4].getText().equalsIgnoreCase("X")
+                && buttonArr[6].getText().equalsIgnoreCase("X")) {
             xWins(2, 4, 6);
-             playerXScore();
+            playerXScore();
             setDisableBtn();
         } //check if O wins//
-        
-        else if (buttonArr[0].getText() == "O"
-                && buttonArr[1].getText() == "O"
-                && buttonArr[2].getText() == "O") {
+        else if (buttonArr[0].getText().equalsIgnoreCase("O")
+                && buttonArr[1].getText().equalsIgnoreCase("O")
+                && buttonArr[2].getText().equalsIgnoreCase("O")) {
             oWins(0, 1, 2);
-             playerOScore();
+            playerOScore();
             setDisableBtn();
-        }
-        else if (buttonArr[3].getText() == "O"
-                && buttonArr[4].getText() == "O"
-                && buttonArr[5].getText() == "O") {
+        } else if (buttonArr[3].getText().equalsIgnoreCase("O")
+                && buttonArr[4].getText().equalsIgnoreCase("O")
+                && buttonArr[5].getText().equalsIgnoreCase("O")) {
             oWins(3, 4, 5);
-             playerOScore();
+            playerOScore();
             setDisableBtn();
-        }
-        else if (buttonArr[6].getText() == "O"
-                && buttonArr[7].getText() == "O"
-                && buttonArr[8].getText() == "O") {
+        } else if (buttonArr[6].getText().equalsIgnoreCase("O")
+                && buttonArr[7].getText().equalsIgnoreCase("O")
+                && buttonArr[8].getText().equalsIgnoreCase("O")) {
             oWins(6, 7, 8);
-             playerOScore();
+            playerOScore();
             setDisableBtn();
-        }
-        else if (buttonArr[0].getText() == "O"
-                && buttonArr[3].getText() == "O"
-                && buttonArr[6].getText() == "O") {
+        } else if (buttonArr[0].getText().equalsIgnoreCase("O")
+                && buttonArr[3].getText().equalsIgnoreCase("O")
+                && buttonArr[6].getText().equalsIgnoreCase("O")) {
             oWins(0, 3, 6);
-             playerOScore();
+            playerOScore();
             setDisableBtn();
-        }
-        else if (buttonArr[1].getText() == "O"
-                && buttonArr[4].getText() == "O"
-                && buttonArr[7].getText() == "O") {
+        } else if (buttonArr[1].getText().equalsIgnoreCase("O")
+                && buttonArr[4].getText().equalsIgnoreCase("O")
+                && buttonArr[7].getText().equalsIgnoreCase("O")) {
             oWins(1, 4, 7);
-             playerOScore();
+            playerOScore();
             setDisableBtn();
-        }
-        else if (buttonArr[2].getText() == "O"
-                && buttonArr[5].getText() == "O"
-                && buttonArr[8].getText() == "O") {
+        } else if (buttonArr[2].getText().equalsIgnoreCase("O")
+                && buttonArr[5].getText().equalsIgnoreCase("O")
+                && buttonArr[8].getText().equalsIgnoreCase("O")) {
             oWins(2, 5, 8);
-             playerOScore();
+            playerOScore();
             setDisableBtn();
-        }
-        else if (buttonArr[0].getText() == "O"
-                && buttonArr[4].getText() == "O"
-                && buttonArr[8].getText() == "O") {
+        } else if (buttonArr[0].getText().equalsIgnoreCase("O")
+                && buttonArr[4].getText().equalsIgnoreCase("O")
+                && buttonArr[8].getText().equalsIgnoreCase("O")) {
             oWins(0, 4, 8);
-             playerOScore();
+            playerOScore();
             setDisableBtn();
-        }
-        else if (buttonArr[2].getText() == "O"
-                && buttonArr[4].getText() == "O"
-                && buttonArr[6].getText() == "O") {
+        } else if (buttonArr[2].getText().equalsIgnoreCase("O")
+                && buttonArr[4].getText().equalsIgnoreCase("O")
+                && buttonArr[6].getText().equalsIgnoreCase("O")) {
             oWins(2, 4, 6);
-             playerOScore();
+            playerOScore();
             setDisableBtn();
-        }
-        else{
-        boolean isBoardFull = true;
-        for (int i = 0; i < 9; i++) {
-            if (buttonArr[i].getText().isEmpty()) {
-                isBoardFull = false;
-                break;
+
+        } else {
+            boolean isBoardFull = true;
+            for (int i = 0; i < 9; i++) {
+                if (buttonArr[i].getText().isEmpty()) {
+                    isBoardFull = false;
+                    break;
+                }
+            }
+            if (isBoardFull) {
+                DrawPlayVideo();
+                setDisableBtn();
+                drawScore++;
+                drawScoreTxt.setText(String.valueOf(drawScore));
+
             }
         }
-        if (isBoardFull) {
-           DrawPlayVideo();
-            setDisableBtn();
-            drawScore++;
-             drawScoreTxt.setText(String.valueOf(drawScore)); 
-            
-        }
-     } 
-        
 
+    }
+
+    public void playerXScore() {
+        if (player1 == "X") {
+            player1Score++;
+            player1ScoreTxt.setText(String.valueOf(player1Score));
+        } else {
+            player2Score++;
+            player2ScoreTxt.setText(String.valueOf(player2Score));
+        }
+       
+        
+    }
+
+    public void playerOScore() {
+        if (player1 == "O") {
+            player1Score++;
+            player1ScoreTxt.setText(String.valueOf(player1Score));
+        } else {
+            player2Score++;
+            player2ScoreTxt.setText(String.valueOf(player2Score));
+        }
+    }
+
+    public void setDisableBtn() {
+        for (int i = 0; i < 9; i++) {
+            buttonArr[i].setDisable(true);
+
+        }
     }
 
     public void xWinsVideo() {
@@ -732,7 +808,7 @@ public void oWins(int index1, int index2, int index3) {
         });
     }
 
-   public void oWinsVideo() {
+    public void oWinsVideo() {
         String videoFile = "file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/LocalMode2Players/OWinsVideo.mp4";
 
         // Create a Media object
@@ -766,9 +842,8 @@ public void oWins(int index1, int index2, int index3) {
             mediaView.setVisible(false);
         });
     }
-   
 
-public void DrawPlayVideo() {
+    public void DrawPlayVideo() {
         String videoFile = "file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/LocalMode2Players/DrawVideo2.mp4";
 
         // Create a Media object
@@ -803,36 +878,10 @@ public void DrawPlayVideo() {
             System.out.println("Video finished");
             mediaView.setVisible(false);
         });
-    }   
-
-    public void setDisableBtn() {
-        for (int i = 0; i < 9; i++) {
-            buttonArr[i].setDisable(true);
-
-        }     
     }
-    
-      public void playerXScore(){
-            if(player1 == "X"){
-                player1Score++;
-                player1ScoreTxt.setText(String.valueOf(player1Score));
-            }
-            else{
-               player2Score++;
-                player2ScoreTxt.setText(String.valueOf(player2Score)); 
-            }
-        }
-      
 
-        public void playerOScore(){
-            if(player1 == "O"){
-                player1Score++;
-                player1ScoreTxt.setText(String.valueOf(player1Score));
-            }
-            else{
-               player2Score++;
-                player2ScoreTxt.setText(String.valueOf(player2Score)); 
-            }
-        }
-
+    public void print() {
+        player2Label.setText(opponentEmail);
+        player1Label.setText(PlayerEmail + " Turn");
+    }
 }

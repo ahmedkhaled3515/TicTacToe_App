@@ -55,7 +55,9 @@ public class PlayersListBaseNew extends AnchorPane {
     ButtonType alertResult;
     boolean flag;
     Stage stage;
-    public PlayersListBaseNew(Stage stage) {
+    String playerEmail;
+    
+    public PlayersListBaseNew(Stage stage,String email) {
         this.stage=stage;
         flag=true;
         alertResult=new ButtonType("");
@@ -67,6 +69,8 @@ public class PlayersListBaseNew extends AnchorPane {
         rectangle = new Rectangle();
         avaliable = new ArrayList<>();
         playersCards=new ArrayList<>();
+        playerEmail=email;
+              
         App.startConnection();
         Message msg= new Message();
         msg.setType("getOnline");
@@ -197,7 +201,7 @@ public class PlayersListBaseNew extends AnchorPane {
             inviteResponse.setEmail(response.getEmail());
             App.output.println(new Gson().toJson(inviteResponse));
             App.output.flush();
-            Parent root = new onlineModeGeneratedBase(stage,response.getEmail());
+            Parent root = new onlineModeGeneratedBase(stage,playerEmail,response.getEmail(),2);
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
@@ -231,7 +235,7 @@ public class PlayersListBaseNew extends AnchorPane {
                     else if(response.getType().equals("accepted"))
                     {
                         Platform.runLater(() -> {
-                            Parent root = new onlineModeGeneratedBase(stage,response.getEmail());               
+                            Parent root = new onlineModeGeneratedBase(stage,playerEmail,response.getEmail(),1);               
                             Scene scene = new Scene(root);
                             stage.setScene(scene);
                             stage.show();
