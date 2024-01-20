@@ -276,6 +276,35 @@ public class DataAccessObject {
             con.close();
             return result;
 }
-     
+      public static boolean isPlayerLoggedIn(String email) throws SQLException {
+        boolean isLoggedIn = false;
+        ResultSet result = null;
+        PreparedStatement prepStmt = null;
+        Connection con = null;
+        try {
+
+            DriverManager.registerDriver(new ClientDriver());
+            con = DriverManager.getConnection(URL, "app", "root");
+            prepStmt = con.prepareStatement("SELECT ID FROM players WHERE email = ?");
+            prepStmt.setString(1, email);
+            result = prepStmt.executeQuery();
+
+            if (result.next()) {
+                isLoggedIn = result.getBoolean("ID");
+            }
+        } finally {
+            if (result != null) {
+                result.close();
+            }
+            if (prepStmt != null) {
+                prepStmt.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+
+        return isLoggedIn;
+    }
      }
 

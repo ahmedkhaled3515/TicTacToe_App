@@ -846,28 +846,27 @@ private int evaluateBoard(char[][] board) {
                  System.out.println(json);
                  System.out.println(json);
            */      
-String email = "Somia@";
-List<Integer> positions = new ArrayList<>();
-int currentPlayer = 1;
+        String email = "Somia@";
+        List<Integer> positions = new ArrayList<>();
+        int currentPlayer = 1;
 
-for (int j = 0; j < 9; j++) {
-    int selectedCell = -1;
+        for (int j = 0; j < 9; j++) {
+            int selectedCell = -1;
 
-    while (selectedCell < 0 || selectedCell >= 9 || positions.contains(selectedCell)) {
-        selectedCell = (int) (Math.random() * 9);
-    }
+            while (selectedCell < 0 || selectedCell >= 9 || positions.contains(selectedCell)) {
+                selectedCell = (int) (Math.random() * 9);
+            }
 
-    positions.add(selectedCell);
-    System.out.println("Player " + currentPlayer + " selected cell: " + selectedCell);
+            positions.add(selectedCell);
+            System.out.println("Player " + currentPlayer + " selected cell: " + selectedCell);
 
-    currentPlayer = 3 - currentPlayer;
-}
-
-System.out.println("All positions:");
-Message msg = new Message();
-msg.setType("record");
-msg.setSteps(positions);
-
+            currentPlayer = 3 - currentPlayer;
+        }
+        String steps = positions.toString();
+        System.out.println("All positions:");
+        Message msg = new Message();
+        msg.setType("record");
+        msg.setSteps(positions);
 
         int id;
         try {
@@ -877,11 +876,8 @@ msg.setSteps(positions);
             Logger.getLogger(ComputerModeBase.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
 
-            } 
-  
-  
-  
 }
 
     //String json = gson.toJson(buttonValues);
