@@ -28,6 +28,7 @@ import javafx.scene.text.Font;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.Optional;
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -36,6 +37,7 @@ import javafx.scene.control.DialogPane;
 import javafx.stage.Stage;
 import jdk.nashorn.internal.ir.Flags;
 import onlinemode.onlineModeGeneratedBase;
+import onlinemode.onlineModeGeneratedBaseNew;
 
 public class PlayersListBaseNew extends AnchorPane {
 
@@ -54,11 +56,19 @@ public class PlayersListBaseNew extends AnchorPane {
     Optional<ButtonType> result;
     ButtonType alertResult;
     boolean flag;
-
+    boolean shouldStop=false;
+    Thread thread= new Thread();
     Stage stage;
+    String playerEmail;
+      public static boolean myTurn = false;
+    public String player1, player2;
+        Random random = new Random();
+        String playerIs;
 
-    public PlayersListBaseNew(Stage stage) {
+    public PlayersListBaseNew(Stage stage,String email) {
+
         this.stage=stage;
+
         flag=true;
         alertResult=new ButtonType("");
         confirm = new Alert(Alert.AlertType.CONFIRMATION);
@@ -69,6 +79,10 @@ public class PlayersListBaseNew extends AnchorPane {
         rectangle = new Rectangle();
         avaliable = new ArrayList<>();
         playersCards=new ArrayList<>();
+        playerEmail=email;
+
+        
+        
         App.startConnection();
         Message msg= new Message();
         msg.setType("getOnline");
@@ -83,8 +97,6 @@ public class PlayersListBaseNew extends AnchorPane {
                     System.out.println(jsonResponse);
                     Message response=App.gson.fromJson(jsonResponse,Message.class);
                     ArrayList<PlayersDTO> players =response.getPlayersList();
-
-                    
                     if(response.getType().equals("getOnline"))
                     {
                         for(PlayersDTO player: players)
@@ -109,6 +121,7 @@ public class PlayersListBaseNew extends AnchorPane {
 //            }
         }).start();
         listen4();
+
 
         setId("AnchorPane");
         setPrefHeight(400.0);
@@ -201,7 +214,8 @@ public class PlayersListBaseNew extends AnchorPane {
             inviteResponse.setEmail(response.getEmail());
             App.output.println(new Gson().toJson(inviteResponse));
             App.output.flush();
-            Parent root = new onlineModeGeneratedBase(stage,response.getEmail());
+            
+            Parent root = new onlineModeGeneratedBase(stage,playerEmail,response.getEmail(),2);
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
@@ -220,6 +234,7 @@ public class PlayersListBaseNew extends AnchorPane {
         Thread th=new Thread(() -> {
             while(App.server.isConnected())
             {
+                
                 try {
                     String jsonResponse=App.input.readLine();
                     Message response= new Gson().fromJson(jsonResponse,Message.class);
@@ -234,7 +249,7 @@ public class PlayersListBaseNew extends AnchorPane {
                     else if(response.getType().equals("accepted"))
                     {
                         Platform.runLater(() -> {
-                            Parent root = new onlineModeGeneratedBase(stage,response.getEmail());               
+                            Parent root = new onlineModeGeneratedBase(stage,playerEmail,response.getEmail(),1);               
                             Scene scene = new Scene(root);
                             stage.setScene(scene);
                             stage.show();
@@ -259,5 +274,6 @@ public class PlayersListBaseNew extends AnchorPane {
         th.start();
     }
 
-    
+ 
+
 }

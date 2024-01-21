@@ -19,15 +19,20 @@ public class Message {
     String email;
     String password;
     String opponentUserName;
+
     String opponentEmail;
     InetAddress ipAddress;
+
+
+    int location;
     int step;
     String XO;
     String status;
     String validation;
     ArrayList<PlayersDTO> playersList;
+
      List<Integer> steps ;
-     int location;
+  
 
     public int getLocation() {
         return location;
@@ -51,6 +56,19 @@ public class Message {
     public void setSteps(List<Integer> steps) {
         this.steps = steps;
     }
+
+    String player2;
+    int Score;
+
+    public int getScore() {
+        return Score;
+    }
+
+    public void setScore(int Score) {
+        this.Score = Score;
+    }
+    
+    
 
     public ArrayList<PlayersDTO> getPlayersList() {
         return playersList;
@@ -139,6 +157,22 @@ public class Message {
     public void setXO(String XO) {
         this.XO = XO;
     }
+
+
+    public String getPlayer2() {
+        return player2;
+    }
+
+    public void setPlayer2(String player2) {
+        this.player2 = player2;
+    }
+    
+    
+
+
+    
+    
+
     public Message()
     {}
    public Message(String type, String userName, String opponentUserName, InetAddress ipAddress, int step, String XO,String validation) {
