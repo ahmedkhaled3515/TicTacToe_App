@@ -110,10 +110,10 @@ public class onlineModeGeneratedBase extends AnchorPane {
     MyWindowAdapter myWindowAdapter;
     public onlineModeGeneratedBase(Stage stage, String MyEmail, String opponentMail, int turn) {
         buttonArr = new Button[9];
-        myWindowAdapter=new MyWindowAdapter(MyEmail);
+        myWindowAdapter=new MyWindowAdapter(MyEmail,opponentMail);
             // Set the event handler for window-closing
         stage.setOnCloseRequest(event -> {
-            myWindowAdapter.handleWindowClosing(MyEmail);
+            myWindowAdapter.handleWindowClosing(MyEmail,opponentMail);
             // Prevent the default close operation (which is to close the window)
             event.consume();
         });

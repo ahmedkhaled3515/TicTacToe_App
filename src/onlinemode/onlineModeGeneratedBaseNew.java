@@ -85,8 +85,17 @@ public class onlineModeGeneratedBaseNew extends AnchorPane {
     public String player1, player2;
     public Button[] buttonArr = new Button[9];
     public int player1Score,player2Score,drawScore;
-
+    MyWindowAdapter myWindowAdapter;
     public onlineModeGeneratedBaseNew(Stage stage,String MyEmail,String opponentMail ) {
+       
+        myWindowAdapter=new MyWindowAdapter(MyEmail ,opponentMail);
+            // Set the event handler for window-closing
+        stage.setOnCloseRequest(event -> {
+            myWindowAdapter.handleWindowClosing(MyEmail,opponentMail);
+            // Prevent the default close operation (which is to close the window)
+            event.consume();
+        });
+        
         imageView = new ImageView();
         gridPane = new GridPane();
         columnConstraints = new ColumnConstraints();

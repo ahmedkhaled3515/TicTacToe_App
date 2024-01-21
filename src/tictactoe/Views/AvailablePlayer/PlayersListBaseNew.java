@@ -61,14 +61,16 @@ public class PlayersListBaseNew extends AnchorPane {
     Thread thread= new Thread();
     Stage stage;
     String playerEmail;
-    MyWindowAdapter myWindowAdapter;
+    MyWindowAdapterAvailablePlayers myWindowAdapter;
     public static boolean myTurn = false;
     public String player1, player2;
     Random random = new Random();
     String playerIs;
     public PlayersListBaseNew(Stage stage,String email) {
         
-        myWindowAdapter=new MyWindowAdapter(email);
+        
+        
+        myWindowAdapter=new MyWindowAdapterAvailablePlayers(email);
             // Set the event handler for window-closing
         stage.setOnCloseRequest(event -> {
             myWindowAdapter.handleWindowClosing(email);
