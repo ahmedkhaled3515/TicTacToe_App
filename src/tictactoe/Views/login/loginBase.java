@@ -4,6 +4,7 @@ import Requests.App;
 import Requests.Message;
 import SelectmodeView.SelectModeBase;
 import SignupView.SignupBase;
+import UserProfile.userfxmlBase;
 import com.google.gson.Gson;
 import java.awt.event.MouseEvent;
 import java.net.URL;
@@ -149,8 +150,8 @@ public class loginBase extends AnchorPane {
                              System.out.println("inside the while loop "+valid);
                              if (response.getValidation().equals("valid")) {
                                  Platform.runLater(() -> {
-                                 Parent root = new PlayersListBaseNew(stage,response.getEmail());
-                                 Scene scene = new Scene(root, 1000, 700);
+                                 Parent root = new userfxmlBase(stage,response.getEmail());
+                                 Scene scene = new Scene(root);
                                  stage.setScene(scene);
                                  stage.show();
                                  });

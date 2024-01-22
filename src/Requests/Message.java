@@ -8,6 +8,7 @@ package Requests;
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
+import tictactoe.Views.computerMode.GamesDTO;
 
 /**
  *
@@ -30,8 +31,16 @@ public class Message {
     String status;
     String validation;
     ArrayList<PlayersDTO> playersList;
-
+    ArrayList<GamesDTO> games;
      List<Integer> steps ;
+
+    public ArrayList<GamesDTO> getGames() {
+        return games;
+    }
+
+    public void setGames(ArrayList<GamesDTO> games) {
+        this.games = games;
+    }
   
 
     public int getLocation() {

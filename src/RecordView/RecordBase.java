@@ -1,6 +1,12 @@
 package RecordView;
 
+import com.google.gson.Gson;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -11,6 +17,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class RecordBase extends AnchorPane {
 
@@ -33,9 +40,20 @@ public class RecordBase extends AnchorPane {
     protected final Button topLeftBtn17;
     protected final Label label;
     protected final Label PlayerNameLabel;
-
-    public RecordBase(Stage stage){
-
+boolean turnX=true;
+         Stage stage;
+        String stepsArray;
+        public RecordBase(Stage stage,String stepsArray) {
+        this.stage=stage;
+        this.stepsArray=stepsArray;
+        ArrayList<Double> steps= new Gson().fromJson(stepsArray,ArrayList.class);
+        
+        System.out.println(steps.toString());
+        ArrayList<Integer> intSteps=new ArrayList<Integer>();
+        for(double step:steps)
+        {
+            intSteps.add((int) step);
+        }
         imageView = new ImageView();
         gridPane = new GridPane();
         columnConstraints = new ColumnConstraints();
@@ -55,7 +73,111 @@ public class RecordBase extends AnchorPane {
         topLeftBtn17 = new Button();
         label = new Label();
         PlayerNameLabel = new Label();
-
+        
+            Timeline timeline=new Timeline();
+           
+        for(int step:intSteps)
+        {
+             KeyFrame key= new KeyFrame(Duration.seconds(1),(event) -> {
+                 switch(step)
+            {
+                case 0:
+                    if(turnX)
+                    {
+                            topLeftBtn17.setText("X");
+                    }
+                    else{
+                        topLeftBtn17.setText("O");
+                    }
+                    turnX=!turnX;
+                    break;
+                    case 1:
+                    if(turnX)
+                    {
+                            topLeftBtn14.setText("X");
+                    }
+                    else{
+                        topLeftBtn14.setText("O");
+                    }
+                    turnX=!turnX;
+                    break;
+                    case 2:
+                    if(turnX)
+                    {
+                            topLeftBtn13.setText("X");
+                    }
+                    else{
+                        topLeftBtn13.setText("O");
+                    }
+                    turnX=!turnX;
+                    break;
+                    case 3:
+                    if(turnX)
+                    {
+                            topLeftBtn12.setText("X");
+                    }
+                    else{
+                        topLeftBtn12.setText("O");
+                    }
+                    turnX=!turnX;
+                    break;
+                    case 4:
+                    if(turnX)
+                    {
+                            topLeftBtn1.setText("X");
+                    }
+                    else{
+                        topLeftBtn1.setText("O");
+                    }
+                    turnX=!turnX;
+                    break;
+                    case 5:
+                    if(turnX)
+                    {
+                            topLeftBtn16.setText("X");
+                    }
+                    else{
+                        topLeftBtn16.setText("O");
+                    }
+                    turnX=!turnX;
+                    break;
+                    case 6:
+                    if(turnX)
+                    {
+                            topLeftBtn11.setText("X");
+                    }
+                    else{
+                        topLeftBtn11.setText("O");
+                    }
+                    turnX=!turnX;
+                    break;
+                    case 7:
+                    if(turnX)
+                    {
+                            topLeftBtn.setText("X");
+                    }
+                    else{
+                        topLeftBtn.setText("O");
+                    }
+                    turnX=!turnX;
+                    break;
+                    case 8:
+                    if(turnX)
+                    {
+                            topLeftBtn15.setText("X");
+                    }
+                    else{
+                        topLeftBtn15.setText("O");
+                    }
+                    turnX=!turnX;
+                    break;
+            }
+             });
+             timeline.getKeyFrames().addAll(key);
+             timeline.setCycleCount(Timeline.INDEFINITE);
+            timeline.play();
+        }
+        
         setId("AnchorPane");
         setPrefHeight(642.0);
         setPrefWidth(1034.0);

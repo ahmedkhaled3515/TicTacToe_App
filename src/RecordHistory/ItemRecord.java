@@ -17,6 +17,7 @@ import javafx.scene.text.Text;
 public class ItemRecord extends AnchorPane{
      protected final Rectangle rectangle;
     protected final Text playerTxt;
+    protected final Text winTxt;
     protected final Button inviteBTn;
     
      public ItemRecord(){
@@ -24,6 +25,7 @@ public class ItemRecord extends AnchorPane{
          
         rectangle = new Rectangle();
         playerTxt = new Text();
+        winTxt = new Text();
         inviteBTn = new Button();
         
         
@@ -62,6 +64,7 @@ public class ItemRecord extends AnchorPane{
         getChildren().add(rectangle);
         getChildren().add(playerTxt);
         getChildren().add(inviteBTn);
+        getChildren().add(winTxt);
         
          
      }
