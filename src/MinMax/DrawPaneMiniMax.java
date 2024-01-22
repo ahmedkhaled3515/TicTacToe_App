@@ -1,33 +1,20 @@
-package tictactoe.Views.WinView;
+package MinMax;
 
-//import Libraries.fxyz3d.geometry.Point3D;
-//import Libraries.fxyz3d.shapes.composites.Text3DMesh;
-
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
+import SelectmodeView.SelectModeBase;
+import tictactoe.Views.DrawView.*;
 import javafx.animation.RotateTransition;
-import javafx.animation.Timeline;
-import javafx.util.Duration;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.GaussianBlur;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.effect.Reflection;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
@@ -38,44 +25,45 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import tictactoe.TicTacToe;
+import tictactoe.Views.LocalMode2Players.GameBoardBase2Players;
 
-public class WinPane extends AnchorPane {
+public class DrawPaneMiniMax extends Pane {
 
     protected final ImageView backgroundImage;
-    protected final Button playAgainButton;
-    protected final ImageView playAgainImage;
+ //   protected final Button playAgainButton;
+ //   protected final ImageView playAgainImage;
     protected final Button mainMenuButton;
     protected final ImageView mainMenuImage;
-    protected final Text winText;
-    protected final Button playAgainButtonSound;
-   // protected final Text3DMesh winText3D; 
+    protected final Text drawText;
     Stage stage;
-    public WinPane(Stage stage) {
-       
+    
+    public DrawPaneMiniMax(Stage stage) {
         this.stage=stage;
-         stage.setResizable(false);
         backgroundImage = new ImageView();
-        playAgainButton = new Button();
-        playAgainImage = new ImageView();
+    //    playAgainButton = new Button();
+    //    playAgainImage = new ImageView();
         mainMenuButton = new Button();
         mainMenuImage = new ImageView();
-        playAgainButtonSound = new Button();
-        winText = new Text();
+        drawText = new Text();
 
-        backgroundImage.setFitHeight(getPrefHeight());
-        backgroundImage.setFitWidth(getPrefWidth());
+        setMaxHeight(USE_PREF_SIZE);
+        setMaxWidth(USE_PREF_SIZE);
+        setMinHeight(USE_PREF_SIZE);
+        setMinWidth(USE_PREF_SIZE);
+        setPrefHeight(700);
+        setPrefWidth(1000);
+
+        backgroundImage.setFitHeight(700.0);
+        backgroundImage.setFitWidth(1000.0);
         backgroundImage.setLayoutX(0.0);
         backgroundImage.setLayoutY(0.0);
         backgroundImage.setPickOnBounds(true);
         backgroundImage.setPreserveRatio(true);
         backgroundImage.getStyleClass().add("win");
         backgroundImage.setImage(new Image(getClass().getResource("/assets/images/backgroundImageGif.gif").toExternalForm()));
-
-        backgroundImage.setPreserveRatio(false); // Set to false to stretch the image
-
-        
-        
+/*
         playAgainButton.setLayoutX(650.0);
         playAgainButton.setLayoutY(500.0);
         playAgainButton.setMnemonicParsing(false);
@@ -87,17 +75,19 @@ public class WinPane extends AnchorPane {
         });
 
         playAgainButton.setOnMouseExited(event -> {
-            playAgainButton.setStyle("-fx-background-color:C5A0D7 ;"); 
+            playAgainButton.setStyle("-fx-background-color:C5A0D7;");
         });
         
         playAgainButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-               // mainApp.switchToLosePane();
                
-            }
+             }
         });
-
+        
+        
+        
+        
         playAgainImage.setFitHeight(33.0);
         playAgainImage.setFitWidth(38.0);
         playAgainImage.setLayoutX(660.0);
@@ -106,22 +96,30 @@ public class WinPane extends AnchorPane {
         playAgainImage.setPreserveRatio(true);
         playAgainImage.setImage(new Image(getClass().getResource("/assets/images/Replay2.png").toExternalForm()));
 
-
+     */   
+        
+        
         mainMenuButton.setLayoutX(650.0);
         mainMenuButton.setLayoutY(400.0);
         mainMenuButton.setMnemonicParsing(false);
         mainMenuButton.setStyle("-fx-background-color: C5A0D7;");
         mainMenuButton.setText("     Main Menu");
         mainMenuButton.setFont(new Font("Arial Bold", 28.0));
-        
         mainMenuButton.setOnMouseEntered(event -> {
-            mainMenuButton.setStyle("-fx-background-color: D7049E;");  
+            mainMenuButton.setStyle("-fx-background-color: D7049E;");
         });
 
-        mainMenuButton.setOnMouseExited(event -> {        
-            mainMenuButton.setStyle("-fx-background-color:C5A0D7 ;");         
+        mainMenuButton.setOnMouseExited(event -> {
+            mainMenuButton.setStyle("-fx-background-color:C5A0D7 ;");
         });
-        
+        mainMenuButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                stage.setScene(new Scene(new SelectModeBase(stage)));
+            }
+        });
+
+          
         mainMenuImage.setFitHeight(33.0);
         mainMenuImage.setFitWidth(38.0);
         mainMenuImage.setLayoutX(660.0);
@@ -130,36 +128,27 @@ public class WinPane extends AnchorPane {
         mainMenuImage.setPreserveRatio(true);
         mainMenuImage.setImage(new Image(getClass().getResource("/assets/images/main-menu_3916045.png").toExternalForm()));
 
-        /*
-        winText3D = create3DTextMesh("Win");
-        winText3D.setTranslateX(660.0);
-        winText3D.setTranslateY(250.0);
-        winText3D.setTranslateZ(0.0);
-
-        getChildren().add(winText3D);
-        
-        */
-        winText.setFill(javafx.scene.paint.Color.valueOf("#d7049e"));
-        winText.setLayoutX(660.0);
-        winText.setLayoutY(250.0);
-        winText.setStroke(javafx.scene.paint.Color.valueOf("#d7049e"));
-        winText.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
-        winText.setStrokeWidth(0.0);
-        winText.setText("Win");
-        winText.setFont(new Font("System Bold", 96.0));
+        drawText.setFill(javafx.scene.paint.Color.valueOf("#d7049e"));
+        drawText.setLayoutX(660.0);
+        drawText.setLayoutY(250.0);
+        drawText.setStroke(javafx.scene.paint.Color.valueOf("#d7049e"));
+        drawText.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
+        drawText.setStrokeWidth(0.0);
+        drawText.setText("Draw");
+        drawText.setFont(new Font("System Bold", 96.0));
         
         InnerShadow innerShadow = new InnerShadow();
         innerShadow.setOffsetX(3.0);
         innerShadow.setOffsetY(2.0);
         innerShadow.setColor(Color.WHITE);
-        winText.setEffect(innerShadow);
+        drawText.setEffect(innerShadow);
                
         Reflection reflection = new Reflection();
         reflection.setFraction(0.7);
-        winText.setEffect(reflection);
+        drawText.setEffect(reflection);
         
         
-        TranslateTransition textTranslateTransition = new TranslateTransition(Duration.seconds(1), winText);
+        TranslateTransition textTranslateTransition = new TranslateTransition(Duration.seconds(1), drawText);
         textTranslateTransition.setFromY(0);   // Set the starting Y position
         textTranslateTransition.setToY(50);   // Set the ending Y position
         textTranslateTransition.setAutoReverse(true);
@@ -168,30 +157,30 @@ public class WinPane extends AnchorPane {
         
         // Apply 3D transformations
         PerspectiveCamera camera = new PerspectiveCamera(true);
-        RotateTransition rotateTransition = new RotateTransition(Duration.seconds(3), winText);
+        RotateTransition rotateTransition = new RotateTransition(Duration.seconds(3), drawText);
         rotateTransition.setAxis(Rotate.Y_AXIS);
         rotateTransition.setByAngle(360);
         rotateTransition.setCycleCount(RotateTransition.INDEFINITE);
         rotateTransition.play();
         
         getChildren().add(backgroundImage);
-        getChildren().add(playAgainButton);
-        getChildren().add(playAgainImage);
+     //   getChildren().add(playAgainButton);
         getChildren().add(mainMenuButton);
         getChildren().add(mainMenuImage);
-        getChildren().add(winText);
-        setPrefHeight(700);
-        setPrefWidth(1000);
-        
-        
-       WinPlayVideo();
-       
-    }
+        getChildren().add(drawText);
+   //     getChildren().add(playAgainImage);
 
-    public void WinPlayVideo() {
+        DrawPlayVideo();
+        
+    }
+    
+    
+     public void DrawPlayVideo() {
+
+        String videoFile = "/assets/videos/DrawVideo2.mp4";
 
         // Create a Media object
-        Media media = new Media(getClass().getResource("/assets/videos/WinVideo.mp4").toExternalForm());
+        Media media = new Media(getClass().getResource(videoFile).toExternalForm());
 
         // Create a MediaPlayer
         MediaPlayer mediaPlayer = new MediaPlayer(media);
@@ -199,8 +188,7 @@ public class WinPane extends AnchorPane {
         // Create a MediaView to display the video
         MediaView mediaView = new MediaView(mediaPlayer);
 
-
-        // Set the size of the MediaView to fit the screen without cropping
+       // Set the size of the MediaView to fit the screen without cropping
         mediaView.setFitWidth(800.0);
         mediaView.setFitHeight(800.0);
 
@@ -213,7 +201,7 @@ public class WinPane extends AnchorPane {
 
         // Play the video
         mediaPlayer.play();
-        
+
         // Add the MediaView to the WinPane
         getChildren().add(mediaView);
 
@@ -223,10 +211,9 @@ public class WinPane extends AnchorPane {
             System.out.println("Video finished");
             mediaView.setVisible(false);
         });
-    }
-} 
-    /*
-    public void mainMenuButtonSound(){
+     }
+      /*  
+        public void mainMenuButtonSound(){
         // Load the sound file
         String soundFile = "file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/WinView/ClickSoundEffect.mp3";
         Media sound = new Media(soundFile);
@@ -237,12 +224,12 @@ public class WinPane extends AnchorPane {
             mediaPlayer.play();
         });
     }
-    
-    
+    */
+     /*
         public void playAgainButtonSound(){
         // Load the sound file
-        String soundFile = "file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/WinView/ClickSoundEffect.mp3";
-        Media sound = new Media(soundFile);
+        String soundFile = "/assets/sounds/ClickSoundEffect.mp3";
+        Media sound = new Media(getClass().getResource(soundFile).toExternalForm());
         MediaPlayer mediaPlayer = new MediaPlayer(sound);
         // Play the sound when hovering over the button
         playAgainButton.setOnMouseEntered(event -> {
@@ -250,20 +237,5 @@ public class WinPane extends AnchorPane {
             mediaPlayer.play();
         });
     }
-    */
-   /*
-       private Text3DMesh create3DTextMesh(String text) {
-        Text3DMesh text3DMesh = new Text3DMesh(text);
-        text3DMesh.setScale(2); // Adjust the scale as needed
-
-        text3DMesh.setRotationAxis(Rotate.Y_AXIS);
-        text3DMesh.setRotate(30); // Adjust the rotation angle
-        text3DMesh.setTranslateZ(-30); // Adjust the extrusion depth
-
-        text3DMesh.setColor(Color.valueOf("#d7049e"));
-
-        return text3DMesh;
-    }
-
+      */   
 }
-*/

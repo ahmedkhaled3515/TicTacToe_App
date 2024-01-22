@@ -9,10 +9,19 @@
             <file>file:/D:/TicTacToe/TicTacToe/TicTacToe_App/src/tictactoe/Views/AvailablePlayer/PlayersListBaseNew.java</file>
         </group>
         <group>
-            <file>file:/D:/TicTacToe/TicTacToe/TicTacToe_App/src/Requests/ClientHandler.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe/TicTacToe_App/src/onlinemode/MyWindowAdapter.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe/TicTacToe_App/src/onlinemode/BackgroundImage.png</file>
             <file>file:/D:/TicTacToe/TicTacToe/TicTacToe_App/src/onlinemode/onlineModeGeneratedBase.java</file>
             <file>file:/D:/TicTacToe/TicTacToe/TicTacToe_App/src/Requests/Message.java</file>
             <file>file:/D:/TicTacToe/TicTacToe/TicTacToe_App/src/tictactoe/Views/AvailablePlayer/PlayersListBaseNew.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe/TicTacToe_App/src/tictactoe/Views/AvailablePlayer/ItemController.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe/TicTacToe_App/src/onlinemode/OnlineLogic.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe/TicTacToe_App/src/tictactoe/Views/AvailablePlayer/MyWindowAdapterAvailablePlayers.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe/TicTacToe_App/src/onlinemode/OnlineModeController.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe/TicTacToe_App/src/onlinemode/onlineModeGeneratedBaseNew.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe/TicTacToe_App/src/Requests/ClientHandler.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe/TicTacToe_App/src/onlinemode/ClientHandler.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe/TicTacToe_App/src/tictactoe/Views/AvailablePlayer/PlayersListBase.java</file>
         </group>
     </open-files>
 </project-private>
