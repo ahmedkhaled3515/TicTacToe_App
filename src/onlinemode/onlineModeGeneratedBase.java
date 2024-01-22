@@ -97,7 +97,7 @@ public class onlineModeGeneratedBase extends AnchorPane {
     Alert alert;
     int turn;
     String currentPlayer;
-
+    boolean running=true;
     public onlineModeGeneratedBase(Stage stage, String MyEmail, String opponentMail, int turn) {
         this.turn = turn;
         imageView = new ImageView();
@@ -166,108 +166,15 @@ public class onlineModeGeneratedBase extends AnchorPane {
         player2Label.setText(opponentMail);
         player1ScoreTxt.setText("0");
         player2ScoreTxt.setText("0");
-
         System.out.println("MyEmail: " + PlayerEmail);
         System.out.println("opponentMail :" + opponentEmail);
-
         firstTurn();
-
         App.startConnection();
-        new Thread(() -> {
-            while (true) {
-                try {
-                    String jsonResponse = App.input.readLine();
-                    System.out.println(jsonResponse);
-                    Message response = App.gson.fromJson(jsonResponse, Message.class);
-                    String playerSide = response.getXO();
-                    int location = response.getLocation();
-                    if (response.getType().equals("updateOpponentScore")) {
-                        int score = response.getScore();
-                        player2ScoreTxt.setText(String.valueOf(score));
-
-                    }
-
-                    if (response.getType().equals("updateScore")) {
-                        int score = response.getScore();
-                        player2ScoreTxt.setText(String.valueOf(score));
-
-                    }
-
-                    if (response.getType().equals("retriveMove")) {
-                        Platform.runLater(() -> {
-                            switch (location) {
-                                case 1:
-                                    topLeftBtn.setText(playerSide);
-                                    buttonArr[0].setText(playerSide);
-                                    myTurn = true;
-                                    checkWinner();
-                                    print();
-                                    break;
-                                case 2:
-                                    topBtn.setText(playerSide);
-                                    buttonArr[1].setText(playerSide);
-                                    myTurn = true;
-                                    checkWinner();
-                                    print();
-                                    break;
-                                case 3:
-                                    topRightBtn.setText(playerSide);
-                                    buttonArr[2].setText(playerSide);
-                                    myTurn = true;
-                                    checkWinner();
-                                    print();
-                                    break;
-                                case 4:
-                                    centerLeftBtn.setText(playerSide);
-                                    buttonArr[3].setText(playerSide);
-                                    myTurn = true;
-                                    checkWinner();
-                                    print();
-                                    break;
-                                case 5:
-                                    centerBtn.setText(playerSide);
-                                    buttonArr[4].setText(playerSide);
-                                    myTurn = true;
-                                    checkWinner();
-                                    break;
-                                case 6:
-                                    centerRightBtn.setText(playerSide);
-                                    buttonArr[5].setText(playerSide);
-                                    myTurn = true;
-                                    checkWinner();
-                                    print();
-                                    break;
-                                case 7:
-                                    downLeftBtn.setText(playerSide);
-                                    buttonArr[6].setText(playerSide);
-                                    myTurn = true;
-                                    checkWinner();
-                                    print();
-                                    break;
-                                case 8:
-                                    downBtn.setText(playerSide);
-                                    buttonArr[7].setText(playerSide);
-                                    myTurn = true;
-                                    checkWinner();
-                                    print();
-                                    break;
-                                case 9:
-                                    downRightBtn.setText(playerSide);
-                                    buttonArr[8].setText(playerSide);
-                                    myTurn = true;
-                                    checkWinner();
-                                    print();
-                                    break;
-                            }
-
-                        });
-                    }
-
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            }
-        }).start();
+        if(turn==2)
+        {
+            listener();
+        }
+        
 
         setId("AnchorPane");
         setPrefHeight(672.0);
@@ -325,6 +232,12 @@ public class onlineModeGeneratedBase extends AnchorPane {
                     player2Label.setText(opponentEmail + " Turn");
                     player1Label.setText(PlayerEmail);
                     checkWinner();
+                    System.out.println("fllllllllllllg" + running);
+                    if(running)
+                    {
+                        listener();
+
+                    }
                 }
 
             }
@@ -348,7 +261,12 @@ public class onlineModeGeneratedBase extends AnchorPane {
                     player2Label.setText(opponentEmail + " Turn");
                     player1Label.setText(PlayerEmail);
                     checkWinner();
+                    System.out.println("lllllllllllllllll "+ running);
+                    if(running)
+                    {
+                        listener();
 
+                    }
                 }
 
             }
@@ -371,6 +289,12 @@ public class onlineModeGeneratedBase extends AnchorPane {
                     player2Label.setText(opponentEmail + " Turn");
                     player1Label.setText(PlayerEmail);
                     checkWinner();
+                    System.out.println("lllllllllllllllll "+ running);
+                    if(running)
+                    {
+                        listener();
+                    }
+
                 }
 
             }
@@ -393,6 +317,13 @@ public class onlineModeGeneratedBase extends AnchorPane {
                     player2Label.setText(opponentEmail + " Turn");
                     player1Label.setText(PlayerEmail);
                     checkWinner();
+                    System.out.println("lllllllllllllllll "+ running);
+                System.out.println("lllllllllllllllll "+ running);
+                    if(running)
+                    {
+                        listener();
+
+                    }
 
                 }
 
@@ -417,6 +348,14 @@ public class onlineModeGeneratedBase extends AnchorPane {
                     player2Label.setText(opponentEmail + " Turn");
                     player1Label.setText(PlayerEmail);
                     checkWinner();
+                                        System.out.println("lllllllllllllllll "+ running);
+                System.out.println("lllllllllllllllll "+ running);
+                    if(running)
+                    {
+                        listener();
+
+                    }
+
 
                 }
 
@@ -441,6 +380,14 @@ public class onlineModeGeneratedBase extends AnchorPane {
                     player2Label.setText(opponentEmail + " Turn");
                     player1Label.setText(PlayerEmail);
                     checkWinner();
+                                        System.out.println("lllllllllllllllll "+ running);
+                System.out.println("lllllllllllllllll "+ running);
+                    if(running)
+                    {
+                        listener();
+
+                    }
+
                 }
 
             }
@@ -463,6 +410,14 @@ public class onlineModeGeneratedBase extends AnchorPane {
                     player2Label.setText(opponentEmail + " Turn");
                     player1Label.setText(PlayerEmail);
                     checkWinner();
+                                        System.out.println("lllllllllllllllll "+ running);
+                System.out.println("lllllllllllllllll "+ running);
+                    if(running)
+                    {
+                        listener();
+
+                    }
+
                 }
 
             }
@@ -486,6 +441,14 @@ public class onlineModeGeneratedBase extends AnchorPane {
                     player2Label.setText(opponentEmail + " Turn");
                     player1Label.setText(PlayerEmail);
                     checkWinner();
+                                        System.out.println("lllllllllllllllll "+ running);
+                System.out.println("lllllllllllllllll "+ running);
+                    if(running)
+                    {
+                        listener();
+
+                    }
+
                 }
 
             }
@@ -509,6 +472,14 @@ public class onlineModeGeneratedBase extends AnchorPane {
                     player2Label.setText(opponentEmail + " Turn");
                     player1Label.setText(PlayerEmail);
                     checkWinner();
+                    System.out.println("lllllllllllllllll "+ running);
+                                    System.out.println("lllllllllllllllll "+ running);
+                    if(running)
+                    {
+                        listener();
+
+                    }
+
                 }
 
             }
@@ -616,22 +587,30 @@ public class onlineModeGeneratedBase extends AnchorPane {
             public void handle(Event event) {
                 for (int i = 0; i < 9; i++) {
                     buttonArr[i].setText("");
+                    buttonArr[i].setTextFill(Color.WHITE);
                     buttonArr[i].setDisable(false);
                     buttonArr[i].setStyle("-fx-background-color: #d7049e;");
-                    buttonArr[i].setStyle("-fx-text-stroke: white;");
+                    firstTurn();
+//                    buttonArr[i].setStyle("-fx-text-stroke: white;");
                 }
                 for (int a = 0; a < 3; a++) {
                     for (int b = 0; b < 3; b++) {
                         board[a][b] = -1;
                     }
                 }
+                running=true;
+                if(turn == 2 && running)
+                {
+                    System.out.println("///////////////////////////////////// new game");
+                    listener();
+                }
 
-                Platform.runLater(() -> {
-                    Parent root = new PlayersListBaseNew(stage, PlayerEmail);
-                    Scene scene = new Scene(root);
-                    stage.setScene(scene);
-                    stage.show();
-                });
+//                Platform.runLater(() -> {
+//                    Parent root = new PlayersListBaseNew(stage, PlayerEmail);
+//                    Scene scene = new Scene(root);
+//                    stage.setScene(scene);
+//                    stage.show();
+//                });
 
             }
         });
@@ -760,6 +739,108 @@ public class onlineModeGeneratedBase extends AnchorPane {
         downRightBtn.setStyle("-fx-background-color: #d7049e; -fx-text-fill: white;");
 
     }
+    public void listener(){
+        new Thread(() -> {
+//            while (true) {
+                try {
+                    
+                    String jsonResponse = App.input.readLine();
+                    System.out.println(jsonResponse);
+                    Message response = App.gson.fromJson(jsonResponse, Message.class);
+                    String playerSide = response.getXO();
+                    int location = response.getLocation();
+                    if (response.getType().equals("updateOpponentScore")) {
+                        int score = response.getScore();
+                        player2ScoreTxt.setText(String.valueOf(score));
+                    }
+
+                    if (response.getType().equals("updateScore")) {
+                        int score = response.getScore();
+                        player2ScoreTxt.setText(String.valueOf(score));
+
+                    }
+
+                    if (response.getType().equals("retriveMove")) {
+                        Platform.runLater(() -> {
+                            switch (location) {
+                                case 1:
+                                    
+                                    topLeftBtn.setText(playerSide);
+                                    buttonArr[0].setText(playerSide);
+                                    myTurn = true;
+//                                    checkWinner();
+                                    print();
+                                    break;
+                                case 2:
+                                    topBtn.setText(playerSide);
+                                    buttonArr[1].setText(playerSide);
+                                    myTurn = true;
+                                    print();
+                                    break;
+                                case 3:
+                                    topRightBtn.setText(playerSide);
+                                    buttonArr[2].setText(playerSide);
+                                    myTurn = true;
+                                    print();
+                                    break;
+                                case 4:
+                                    centerLeftBtn.setText(playerSide);
+                                    buttonArr[3].setText(playerSide);
+                                    myTurn = true;
+                                    print();
+                                    break;
+                                case 5:
+                                    centerBtn.setText(playerSide);
+                                    buttonArr[4].setText(playerSide);
+                                    myTurn = true;
+                                    break;
+                                case 6:
+                                    centerRightBtn.setText(playerSide);
+                                    buttonArr[5].setText(playerSide);
+                                    myTurn = true;
+                                    print();
+                                    break;
+                                case 7:
+                                    downLeftBtn.setText(playerSide);
+                                    buttonArr[6].setText(playerSide);
+                                    myTurn = true;
+                                    print();
+                                    break;
+                                case 8:
+                                    downBtn.setText(playerSide);
+                                    buttonArr[7].setText(playerSide);
+                                    myTurn = true;
+                                    print();
+                                    break;
+                                case 9:
+                                    downRightBtn.setText(playerSide);
+                                    buttonArr[8].setText(playerSide);
+                                    myTurn = true;
+                                    print();
+                                    break;
+                            }
+                            checkWinner();
+
+//                            checkWinner();
+//                            try {
+//                                Thread.sleep(100);
+//                            } catch (InterruptedException ex) {
+//                                Logger.getLogger(onlineModeGeneratedBase.class.getName()).log(Level.SEVERE, null, ex);
+//                            }
+                        });
+                    }
+//                        System.out.println("fllllllllllllg" + running);
+//                        if(running==false){
+//                            break;
+//                        }
+
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                    
+                }
+//            }
+        }).start();
+    }
 
     public void firstTurn() {
 
@@ -799,27 +880,44 @@ public class onlineModeGeneratedBase extends AnchorPane {
         App.output.flush();
     }
 
-    public void xWins(int index1, int index2, int index3) {
+    public synchronized void xWins(int index1, int index2, int index3) {
         buttonArr[index1].setStyle("-fx-background-color: #5A1E76;");
         buttonArr[index2].setStyle("-fx-background-color: #5A1E76;");
         buttonArr[index3].setStyle("-fx-background-color: #5A1E76;");
-        xWinsVideo();
-        //player1Label.setText("Player1 ");
-        //player2Label.setText("Player2");
+        Platform.runLater(() -> {
+            xWinsVideo();
+        });
+        running=false;
+//        try {
+//            Thread.sleep(100);
+//            
+//            //player1Label.setText("Player1 ");
+//            //player2Label.setText("Player2");
+//        } catch (InterruptedException ex) {
+//            Logger.getLogger(onlineModeGeneratedBase.class.getName()).log(Level.SEVERE, null, ex);
+//        }
 
     }
 
-    public void oWins(int index1, int index2, int index3) {
+    public synchronized void oWins(int index1, int index2, int index3) {
         buttonArr[index1].setStyle("-fx-background-color: #5A1E76;");
         buttonArr[index2].setStyle("-fx-background-color: #5A1E76;");
         buttonArr[index3].setStyle("-fx-background-color: #5A1E76;");
-        oWinsVideo();
-        //player1Label.setText("Player1 ");
-        //player2Label.setText("Player2");
+        Platform.runLater(() -> {
+            oWinsVideo();
+        });
+        running=false;
+//        try {
+//            Thread.sleep(100);
+//            //player1Label.setText("Player1 ");
+//            //player2Label.setText("Player2");
+//        } catch (InterruptedException ex) {
+//            Logger.getLogger(onlineModeGeneratedBase.class.getName()).log(Level.SEVERE, null, ex);
+//        }
 
     }
 
-    public void checkWinner() {
+    public synchronized void  checkWinner() {
         for (int i = 0; i < buttonArr.length; i++) {
             System.out.println("button " + i + " " + buttonArr[i].getText());
         }
@@ -932,11 +1030,11 @@ public class onlineModeGeneratedBase extends AnchorPane {
                 }
             }
             if (isBoardFull) {
+                running=false;
                 DrawPlayVideo();
                 setDisableBtn();
                 drawScore++;
                 drawScoreTxt.setText(String.valueOf(drawScore));
-
             }
         }
 
