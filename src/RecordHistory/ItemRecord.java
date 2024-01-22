@@ -17,6 +17,7 @@ import javafx.scene.text.Text;
 public class ItemRecord extends AnchorPane{
      protected final Rectangle rectangle;
     protected final Text playerTxt;
+    protected final Text playerScore;
     protected final Button inviteBTn;
     
      public ItemRecord(){
@@ -24,6 +25,7 @@ public class ItemRecord extends AnchorPane{
          
         rectangle = new Rectangle();
         playerTxt = new Text();
+        playerScore = new Text();
         inviteBTn = new Button();
         
         
@@ -49,6 +51,15 @@ public class ItemRecord extends AnchorPane{
         playerTxt.setWrappingWidth(116.6708984375);
         playerTxt.setFont(new Font(20.0));
         playerTxt.setId("txt");
+        
+        playerScore.setLayoutX(50.0);
+        playerScore.setLayoutY(43.0);
+        playerScore.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
+        playerScore.setStrokeWidth(0.0);
+        playerScore.setText("Win");
+        playerScore.setWrappingWidth(116.6708984375);
+        playerScore.setFont(new Font(20.0));
+        playerScore.setId("txt");
 
 
         inviteBTn.setLayoutX(306.0);
@@ -62,7 +73,7 @@ public class ItemRecord extends AnchorPane{
         getChildren().add(rectangle);
         getChildren().add(playerTxt);
         getChildren().add(inviteBTn);
-        
+        getChildren().add(playerScore);
          
      }
     

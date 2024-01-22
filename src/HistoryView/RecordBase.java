@@ -1,5 +1,7 @@
 package HistoryView;
 
+import Requests.App;
+import Requests.Message;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -58,6 +60,13 @@ public abstract class RecordBase extends AnchorPane {
         Status2 = new Label();
         btn1 = new Button();
         btn2 = new Button();
+        
+        App.startConnection();
+        Message msg= new Message();
+        msg.setType("showRec");
+        String request=App.gson.toJson(msg);
+        App.output.println(request);
+        App.output.flush();
 
         setId("AnchorPane");
         setPrefHeight(642.0);

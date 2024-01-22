@@ -871,7 +871,7 @@ public class ComputerModeBase extends AnchorPane {
 
     }
 
-}
+
 
     //String json = gson.toJson(buttonValues);
 

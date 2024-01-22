@@ -8,6 +8,7 @@ package Requests;
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
+import tictactoe.Views.computerMode.GamesDTO;
 
 /**
  *
@@ -30,6 +31,7 @@ public class Message {
     String status;
     String validation;
     ArrayList<PlayersDTO> playersList;
+    ArrayList<GamesDTO> GIDs;
 
      List<Integer> steps ;
   
@@ -68,7 +70,13 @@ public class Message {
         this.Score = Score;
     }
     
+     public void setGIDs(ArrayList<GamesDTO> GIDs) {
+        this.GIDs = GIDs;
+    }
     
+    public ArrayList<GamesDTO> getGIDs() {
+        return GIDs;
+    }
 
     public ArrayList<PlayersDTO> getPlayersList() {
         return playersList;

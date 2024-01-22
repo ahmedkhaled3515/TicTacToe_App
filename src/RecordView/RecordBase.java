@@ -34,7 +34,7 @@ public class RecordBase extends AnchorPane {
     protected final Label label;
     protected final Label PlayerNameLabel;
 
-    public RecordBase(Stage stage){
+    public RecordBase(Stage stage,String email){
 
         imageView = new ImageView();
         gridPane = new GridPane();
