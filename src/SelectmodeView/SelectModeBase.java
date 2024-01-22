@@ -187,6 +187,18 @@ public class SelectModeBase extends AnchorPane {
 //        user.scaleXProperty().add(1);
 //        user.scaleYProperty().add(1);
 //        user.scaleZProperty().add(1);
+//        users.setLayoutX(710);
+//        users.setLayoutY(170);
+//        users.setImage(new Image(getClass().getResource("/assets/images/u.png").toExternalForm()));
+//        users.setOnMouseClicked(new EventHandler() {
+//            @Override
+//            public void handle(Event event) {
+//                Parent root = new RecordHistory(stage);
+//                Scene scene = new Scene(root, 1000, 700);
+//                stage.setScene(scene);
+//                stage.show();
+//            }
+//        });
 
 //        userProfile.setLayoutX(630);
 //        userProfile.setLayoutY(190);
