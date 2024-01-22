@@ -129,7 +129,7 @@ public class PlayersListBaseNew extends AnchorPane {
                         }                    
                     }
                 }
-            } catch (IOException ex) {
+             catch (IOException ex) {
                 Logger.getLogger(PlayersListBase.class.getName()).log(Level.SEVERE, null, ex);
 //                    break;
             }
