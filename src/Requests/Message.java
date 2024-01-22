@@ -29,6 +29,16 @@ public class Message {
     String player2;
     int Score;
 
+    String showAlertOnLogOut;
+
+    public String getShowAlertOnLogOut() {
+        return showAlertOnLogOut;
+    }
+
+    public void setShowAlertOnLogOut(String showAlertOnLogOut) {
+        this.showAlertOnLogOut = showAlertOnLogOut;
+    }
+    
     public int getScore() {
         return Score;
     }

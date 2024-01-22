@@ -36,6 +36,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.DialogPane;
 import javafx.stage.Stage;
 import jdk.nashorn.internal.ir.Flags;
+import onlinemode.MyWindowAdapter;
 import onlinemode.onlineModeGeneratedBase;
 import onlinemode.onlineModeGeneratedBaseNew;
 
@@ -60,12 +61,22 @@ public class PlayersListBaseNew extends AnchorPane {
     Thread thread= new Thread();
     Stage stage;
     String playerEmail;
-      public static boolean myTurn = false;
+    MyWindowAdapterAvailablePlayers myWindowAdapter;
+    public static boolean myTurn = false;
     public String player1, player2;
-        Random random = new Random();
-        String playerIs;
-
+    Random random = new Random();
+    String playerIs;
     public PlayersListBaseNew(Stage stage,String email) {
+        
+        
+        
+        myWindowAdapter=new MyWindowAdapterAvailablePlayers(email);
+            // Set the event handler for window-closing
+        stage.setOnCloseRequest(event -> {
+            myWindowAdapter.handleWindowClosing(email);
+            // Prevent the default close operation (which is to close the window)
+            event.consume();
+        });
 
         this.stage=stage;
 
@@ -81,8 +92,6 @@ public class PlayersListBaseNew extends AnchorPane {
         playersCards=new ArrayList<>();
         playerEmail=email;
 
-        
-        
         App.startConnection();
         Message msg= new Message();
         msg.setType("getOnline");
@@ -214,6 +223,7 @@ public class PlayersListBaseNew extends AnchorPane {
             inviteResponse.setEmail(response.getEmail());
             App.output.println(new Gson().toJson(inviteResponse));
             App.output.flush();
+
             
             Parent root = new onlineModeGeneratedBase(stage,playerEmail,response.getEmail(),2);
             Scene scene = new Scene(root);

@@ -4,6 +4,9 @@ import Requests.App;
 import Requests.Message;
 import SelectmodeView.SelectModeBase;
 import com.google.gson.Gson;
+import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -11,6 +14,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.URL;
+import java.util.Optional;
 import java.util.Random;
 import java.util.Timer;
 import java.util.logging.Level;
@@ -24,7 +28,9 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+
 import javafx.scene.control.Alert.AlertType;
+
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -92,14 +98,35 @@ public class onlineModeGeneratedBase extends AnchorPane {
     public String opponentEmail;
     public String PlayerEmail;
     public String player1, player2;
-    public Button[] buttonArr = new Button[9];
-    public int player1Score, player2Score, drawScore;
+    Boolean isLogOutAlertShown=true;
+    public int player1Score,player2Score,drawScore;
+    
+    String opponentName;
+    
+    Button[] buttonArr;
     Alert alert;
     int turn;
     String currentPlayer;
     boolean running=true;
+    String myEmail;
+    MyWindowAdapter myWindowAdapter;
     public onlineModeGeneratedBase(Stage stage, String MyEmail, String opponentMail, int turn) {
+        buttonArr = new Button[9];
+        myWindowAdapter=new MyWindowAdapter(MyEmail,opponentMail);
+            // Set the event handler for window-closing
+        stage.setOnCloseRequest(event -> {
+            myWindowAdapter.handleWindowClosing(MyEmail,opponentMail);
+            // Prevent the default close operation (which is to close the window)
+            event.consume();
+        });
+        myEmail=MyEmail;
+        this.opponentName=opponentName;
+
+
+
+    
         this.turn = turn;
+
         imageView = new ImageView();
         gridPane = new GridPane();
         columnConstraints = new ColumnConstraints();
@@ -160,6 +187,16 @@ public class onlineModeGeneratedBase extends AnchorPane {
         player1Score = 0;
         player2Score = 0;
         drawScore = 0;
+
+        
+        
+        PlayerEmail = MyEmail;
+        opponentEmail = opponentMail;
+        player1Label.setText(MyEmail);
+        player2Label.setText(opponentMail);
+
+        System.out.println("MyEmail: " + PlayerEmail);
+        System.out.println("opponentMail :" + opponentEmail);
         PlayerEmail = MyEmail;
         opponentEmail = opponentMail;
         player1Label.setText(MyEmail);
@@ -636,8 +673,23 @@ public class onlineModeGeneratedBase extends AnchorPane {
             @Override
             public void handle(Event event) {
 
-                Parent root = new SelectModeBase(stage);
-                Scene scene = new Scene(root, 1000, 700);
+
+                String logOutAlert = "logOutShowAlert";
+                Message logOutMsg = new Message();
+                logOutMsg.setEmail(myEmail);
+                logOutMsg.setOpponentEmail(opponentMail);
+               // System.out.println(opponentMail + "qqqqqqqqqqqss");
+                logOutMsg.setType("logOut");
+                logOutMsg.setShowAlertOnLogOut(logOutAlert);
+                
+                
+                String request = gson.toJson(logOutMsg);
+                System.out.println(request);
+                App.output.println(request);
+                App.output.flush();
+                
+                Parent root = new  SelectModeBase(stage);
+                Scene scene = new Scene(root,1000,700);
                 stage.setScene(scene);
                 stage.show();
             }
@@ -828,6 +880,23 @@ public class onlineModeGeneratedBase extends AnchorPane {
 //                                Logger.getLogger(onlineModeGeneratedBase.class.getName()).log(Level.SEVERE, null, ex);
 //                            }
                         });
+                    }
+                    String logOutAlert = "logOutShowAlert";
+                  //  System.out.println(response.getShowAlertOnLogOut() + "XXXXXXXXXXXX");
+                    if(myEmail.equalsIgnoreCase(response.getOpponentEmail())){
+                        if (response.getShowAlertOnLogOut().equalsIgnoreCase(logOutAlert)){                   
+                            Platform.runLater(() -> {                    
+                                if(isLogOutAlertShown==true){
+                                    System.out.println("Log out alert");
+                                    showAlertWhenOpponentLoggingOutAndNavigateToAvailablePlayersGUI(stage,MyEmail);
+                                }
+                            });
+
+                        }else{
+                            System.out.println("Alert is not working");
+                        }
+                    }else{
+                        System.out.println("NOT THE OPPONENTTTTT");
                     }
 //                        System.out.println("fllllllllllllg" + running);
 //                        if(running==false){
@@ -1156,10 +1225,44 @@ public class onlineModeGeneratedBase extends AnchorPane {
             System.out.println("Video finished");
             mediaView.setVisible(false);
         });
+
     }
 
     public void print() {
         player2Label.setText(opponentEmail);
         player1Label.setText(PlayerEmail + " Turn");
     }
+    
+    public void showAlertWhenOpponentLoggingOutAndNavigateToAvailablePlayersGUI(Stage stage , String myEmail){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("ALERTT!!!");
+        alert.setHeaderText("The game ended");
+        alert.setContentText("Your opponent has logged out , you will be navigated to the available online players gui");
+
+        // Set up event handler for OK button
+        ButtonType okButton = new ButtonType("OK");
+        alert.getButtonTypes().setAll(okButton);
+
+        Optional<ButtonType> result = alert.showAndWait();
+
+        // Handle OK button click or closing the alert
+        if (result.isPresent() && result.get() == okButton) {
+            System.out.println("OK button clicked or alert closed");
+            Parent root = new  PlayersListBaseNew(stage, myEmail);
+            Scene scene = new Scene(root,1000,700);
+            stage.setScene(scene);
+            stage.show();
+        } else {
+            System.out.println("Alert closed without clicking OK");
+            Parent root = new  PlayersListBaseNew(stage, myEmail);
+            Scene scene = new Scene(root,1000,700);
+            stage.setScene(scene);
+            stage.show();
+        }
+        
+        isLogOutAlertShown=false;
+        
+    }
+    
 }
+
