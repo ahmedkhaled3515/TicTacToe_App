@@ -54,7 +54,7 @@ import javafx.stage.Stage;
 import static onlinemode.onlineModeGeneratedBaseNew.myTurn;
 import tictactoe.Views.AvailablePlayer.PlayersListBaseNew;
 import tictactoe.Views.computerMode.ComputerModeBase;
-import tictactoe.Views.computerMode.DataAccessObject;
+
 
 public class onlineModeGeneratedBase extends AnchorPane {
 
@@ -649,6 +649,7 @@ public class onlineModeGeneratedBase extends AnchorPane {
                     firstTurn();
 //                    buttonArr[i].setStyle("-fx-text-stroke: white;");
                 }
+                clickedPositions.clear();
                 for (int a = 0; a < 3; a++) {
                     for (int b = 0; b < 3; b++) {
                         board[a][b] = -1;
