@@ -41,6 +41,8 @@ import javafx.geometry.Side;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.paint.Color;
 import onlinemode.ClientHandler;
 import tictactoe.Views.AvailablePlayer.PlayersListBase;
 import tictactoe.Views.AvailablePlayer.PlayersListBaseNew;
@@ -49,7 +51,7 @@ public class loginBase extends AnchorPane {
 
     protected final AnchorPane anchorPane;
     protected final ImageView backgroundImg;
-    protected final Label headLabel;
+    protected final Text headLabel;
     protected final TextField txtEmail;
     protected final Button btnLogin;
     protected final Text textHaveAc;
@@ -60,7 +62,7 @@ public class loginBase extends AnchorPane {
 
         anchorPane = new AnchorPane();
         backgroundImg = new ImageView();
-        headLabel = new Label();
+        headLabel = new Text();
         txtEmail = new TextField();
         btnLogin = new Button();
         textHaveAc = new Text();
@@ -84,10 +86,20 @@ public class loginBase extends AnchorPane {
         backgroundImg.setImage(new Image(getClass().getResource("/assets/images/background.jpg").toExternalForm()));
 
         headLabel.setLayoutX(614.0);
-        headLabel.setLayoutY(108.0);
+        headLabel.setLayoutY(120.0);
         headLabel.setText("tic.tac.toe.");
-        headLabel.setTextFill(javafx.scene.paint.Color.valueOf("#c5a0d7"));
-        headLabel.setFont(new Font("Arial Rounded MT Bold", 64.0));
+        //headLabel.setTextFill(javafx.scene.paint.Color.valueOf("#c5a0d7"));
+        //headLabel.setFont(new Font("Arial Rounded MT Bold", 64.0));
+        headLabel.setFill(javafx.scene.paint.Color.valueOf("#BE8FD5"));
+        headLabel.setStroke(Color.web("#C1ADCB"));  
+        headLabel.setStrokeWidth(2); 
+        headLabel.setFont(new Font("System Bold", 64.0));
+        DropShadow dropShadow = new DropShadow();
+        dropShadow.setColor(Color.BLACK);
+        dropShadow.setRadius(5.0);
+        dropShadow.setOffsetX(3.0);
+        dropShadow.setOffsetY(3.0);
+        headLabel.setEffect(dropShadow);
 
         txtEmail.setLayoutX(648.0);
         txtEmail.setLayoutY(220.0);
@@ -229,7 +241,7 @@ public class loginBase extends AnchorPane {
 //                    }
 //                                         }).start();
             
-/*
+
         textHaveAc.setFill(javafx.scene.paint.Color.valueOf("#e8e5e5"));
         textHaveAc.setLayoutX(
                 635.0);
@@ -259,7 +271,7 @@ public class loginBase extends AnchorPane {
             }
         }
         );
-*/
+
         txtPassword.setLayoutX(
                 648.0);
         txtPassword.setLayoutY(
