@@ -26,6 +26,8 @@ public class SnakeGame extends JPanel implements  ActionListener , KeyListener{
  
     }
     
+    
+    
     int boardWidth;
     int boardHeight;
     int tileSize = 25;
