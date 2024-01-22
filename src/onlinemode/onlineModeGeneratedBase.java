@@ -110,16 +110,18 @@ public class onlineModeGeneratedBase extends AnchorPane {
     boolean running=true;
     String myEmail;
     MyWindowAdapter myWindowAdapter;
-    public onlineModeGeneratedBase(Stage stage, String MyEmail, String opponentMail, int turn) {
+    Stage stage;
+    public onlineModeGeneratedBase(Stage stage, String myEmail, String opponentMail, int turn) {
+        this.stage=stage;
+        this.myEmail=myEmail;
         buttonArr = new Button[9];
-        myWindowAdapter=new MyWindowAdapter(MyEmail,opponentMail);
+        myWindowAdapter=new MyWindowAdapter(myEmail,opponentMail);
             // Set the event handler for window-closing
         stage.setOnCloseRequest(event -> {
-            myWindowAdapter.handleWindowClosing(MyEmail,opponentMail);
+            myWindowAdapter.handleWindowClosing(myEmail,opponentMail);
             // Prevent the default close operation (which is to close the window)
             event.consume();
         });
-        myEmail=MyEmail;
         this.opponentName=opponentName;
 
 
@@ -190,20 +192,20 @@ public class onlineModeGeneratedBase extends AnchorPane {
 
         
         
-        PlayerEmail = MyEmail;
+        PlayerEmail = myEmail;
         opponentEmail = opponentMail;
-        player1Label.setText(MyEmail);
+        player1Label.setText(myEmail);
         player2Label.setText(opponentMail);
 
-        System.out.println("MyEmail: " + PlayerEmail);
+        System.out.println("myEmail: " + PlayerEmail);
         System.out.println("opponentMail :" + opponentEmail);
-        PlayerEmail = MyEmail;
+        PlayerEmail = myEmail;
         opponentEmail = opponentMail;
-        player1Label.setText(MyEmail);
+        player1Label.setText(myEmail);
         player2Label.setText(opponentMail);
         player1ScoreTxt.setText("0");
         player2ScoreTxt.setText("0");
-        System.out.println("MyEmail: " + PlayerEmail);
+        System.out.println("myEmail: " + PlayerEmail);
         System.out.println("opponentMail :" + opponentEmail);
         firstTurn();
         App.startConnection();
@@ -273,7 +275,6 @@ public class onlineModeGeneratedBase extends AnchorPane {
                     if(running)
                     {
                         listener();
-
                     }
                 }
 
@@ -883,21 +884,21 @@ public class onlineModeGeneratedBase extends AnchorPane {
                     }
                     String logOutAlert = "logOutShowAlert";
                   //  System.out.println(response.getShowAlertOnLogOut() + "XXXXXXXXXXXX");
-                    if(myEmail.equalsIgnoreCase(response.getOpponentEmail())){
-                        if (response.getShowAlertOnLogOut().equalsIgnoreCase(logOutAlert)){                   
-                            Platform.runLater(() -> {                    
-                                if(isLogOutAlertShown==true){
-                                    System.out.println("Log out alert");
-                                    showAlertWhenOpponentLoggingOutAndNavigateToAvailablePlayersGUI(stage,MyEmail);
-                                }
-                            });
-
-                        }else{
-                            System.out.println("Alert is not working");
-                        }
-                    }else{
-                        System.out.println("NOT THE OPPONENTTTTT");
-                    }
+//                    if(myEmail.equalsIgnoreCase(response.getOpponentEmail())){
+//                        if (response.getShowAlertOnLogOut().equalsIgnoreCase(logOutAlert)){                   
+//                            Platform.runLater(() -> {                    
+//                                if(isLogOutAlertShown==true){
+//                                    System.out.println("Log out alert");
+//                                    showAlertWhenOpponentLoggingOutAndNavigateToAvailablePlayersGUI(stage,myEmail);
+//                                }
+//                            });
+//
+//                        }else{
+//                            System.out.println("Alert is not working");
+//                        }
+//                    }else{
+//                        System.out.println("NOT THE OPPONENTTTTT");
+//                    }
 //                        System.out.println("fllllllllllllg" + running);
 //                        if(running==false){
 //                            break;
