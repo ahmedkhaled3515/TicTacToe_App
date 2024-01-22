@@ -80,6 +80,7 @@ public class Computerplay extends AnchorPane {
       int drawScore=0;
       boolean chhooseX=false;
       boolean chhooseO=false; 
+      
     
     public Computerplay(Stage stage,String choose) {
         if(choose=="X"){
@@ -341,10 +342,7 @@ public class Computerplay extends AnchorPane {
                     board[i]=" ";
                     buttons[i].setDisable(false);
                     buttons[i].setStyle("-fx-background-color: C5A0D7; -fx-background-radius: 15; -fx-font-family: 'Comic Sans MS'; -fx-font-size: 50;");
-                    
-                   
                      gameover = false;
-                    
                    if(choose=="X"){
                       Human="X";
                       Ai="O";
@@ -354,8 +352,6 @@ public class Computerplay extends AnchorPane {
                   }else if(computerturn==true){
                       Human="O";
                       Ai="X";
-                      
-                       
                         computerMove();
                        Playerturn=true;
                        computerturn=false;
@@ -367,10 +363,8 @@ public class Computerplay extends AnchorPane {
                 }
             }
         });
-        
-       
-      
-        if(choose=="O"){
+
+       if(choose=="O"){
             computerMove();
             Playerturn=true;
         }
@@ -449,8 +443,7 @@ public void eventClick(int index) {
     });
 }
 
-   
-    
+  
    public void computerMove() {
     Random random = new Random();
     int buttonIndex;
@@ -491,7 +484,8 @@ public void computerWin(int index1, int index2, int index3) {
         buttons[index1].setStyle("-fx-background-color: #5A1E76;");
         buttons[index2].setStyle("-fx-background-color: #5A1E76;");
         buttons[index3].setStyle("-fx-background-color: #5A1E76;");
-      //  oWinsVideo();
+      // oWinsVideo();
+      losePlayVideo();
     
     }
    
@@ -644,7 +638,7 @@ public void computerWin(int index1, int index2, int index3) {
                 break;
             }
         }
-        if (isBoardFull) {
+        if (isBoardFull&&comwin==false&&playwin==false) {
               gameover=true;
             setDisableBtn();
             drawOScore();
@@ -722,8 +716,9 @@ public void computerWin(int index1, int index2, int index3) {
         // Set the event handler for when the media finishes playing
         mediaPlayer3.setOnEndOfMedia(() -> {
             // Add any additional actions when the video finishes
+        //      getChildren().remove(mediaView);
             System.out.println("Video finished");
-            mediaView.setVisible(false);
+           mediaView.setVisible(false);
         });
     }
 
@@ -757,6 +752,7 @@ public void computerWin(int index1, int index2, int index3) {
         getChildren().add(mediaView);
 
         mediaPlayer4.setOnEndOfMedia(() -> {
+         //     getChildren().remove(mediaView);
             System.out.println("Video finished");
             mediaView.setVisible(false);
         });
@@ -795,12 +791,49 @@ public void DrawPlayVideo() {
         // Set the event handler for when the media finishes playing
         mediaPlayer6.setOnEndOfMedia(() -> {
             // Add any additional actions when the video finishes
+           //   getChildren().remove(mediaView);
             System.out.println("Video finished");
             mediaView.setVisible(false);
         });
     }   
     
+public void losePlayVideo() {
+        String videoFile = "file:/D:/TicTacToe/TicTacToe_App/src/tictactoe/Views/LocalMode2Players/LoseVideo.mp4";
 
+        // Create a Media object
+        Media media = new Media(getClass().getResource("/assets/videos/LoseVideo.mp4").toExternalForm());
+
+        // Create a MediaPlayer
+        MediaPlayer mediaPlayer6 = new MediaPlayer(media);
+
+        // Create a MediaView to display the video
+        MediaView mediaView = new MediaView(mediaPlayer6);
+
+        // Set the size of the MediaView to fit the screen without cropping
+        mediaView.setFitWidth(800.0);
+        mediaView.setFitHeight(800.0);
+
+        // Set the position of the MediaView within the WinPane
+        mediaView.setLayoutX(100.0); // Set X position
+        mediaView.setLayoutY(120.0);  // Set Y position
+
+        // Set the position of the MediaView within the WinPane
+        StackPane.setAlignment(mediaView, Pos.CENTER);
+
+        // Play the video
+        mediaPlayer6.play();
+
+        // Add the MediaView to the WinPane
+        getChildren().add(mediaView);
+
+        // Set the event handler for when the media finishes playing
+        mediaPlayer6.setOnEndOfMedia(() -> {
+            // Add any additional actions when the video finishes
+           //   getChildren().remove(mediaView);
+            System.out.println("Video finished");
+            mediaView.setVisible(false);
+        });
+    }   
   
     
   

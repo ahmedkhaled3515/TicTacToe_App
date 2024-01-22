@@ -657,8 +657,8 @@ public class ComputerModeBase extends AnchorPane {
         
     }
     
-    private void makeAIMove(int depth) {
-        int[] bestMove = minimax(boardCopy(), depth, currentPlayer.equals("O"));
+    private void makeAIMove() {
+        int[] bestMove = minimax(boardCopy(), 0, currentPlayer.equals("O"));
 
         int row = bestMove[0];
         int col = bestMove[1];

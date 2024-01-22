@@ -68,7 +68,7 @@ public class TicTacToe extends Application {
 
         Parent root = new homeBase(stage);
       // Parent root2 = new PlayersListBaseNew(stage);
-   //    Parent root2=new Computerplay(stage,"X");
+   //   Parent root2=new Computerplay(stage,"X");
         scene = new Scene(root);
        stage.setScene(scene);
        stage.show();
