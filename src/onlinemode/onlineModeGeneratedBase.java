@@ -116,14 +116,8 @@ public class onlineModeGeneratedBase extends AnchorPane {
     String myEmail;
     MyWindowAdapter myWindowAdapter;
     Stage stage;
-    public int player1Score,player2Score,drawScore;
-    String opponentName;
+    
     boolean record=false;
-
-    Button[] buttonArr = new Button[9];
-    Alert alert;
-    int turn;
-    String currentPlayer;
     private List<Integer> clickedPositions = new ArrayList<>();
     public onlineModeGeneratedBase(Stage stage, String myEmail, String opponentMail, int turn) {
         this.stage=stage;
@@ -300,8 +294,6 @@ public class onlineModeGeneratedBase extends AnchorPane {
 
 
                 }
-                
-            }
         });
 
         GridPane.setColumnIndex(topBtn, 1);
