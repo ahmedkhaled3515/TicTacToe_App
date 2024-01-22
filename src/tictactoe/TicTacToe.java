@@ -6,6 +6,7 @@
 package tictactoe;
 
 import HomeView.homeBase;
+import MinMax.MinimaxGameboardBase3;
 import RecordView.RecordBase;
 import SelectmodeView.SelectModeBase;
 import SignupView.SignupBase;
@@ -72,6 +73,7 @@ public class TicTacToe extends Application {
         
 
         scene = new Scene(root);
+
        stage.setScene(scene);
        stage.show();
        

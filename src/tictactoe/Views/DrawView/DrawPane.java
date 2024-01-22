@@ -179,13 +179,14 @@ public class DrawPane extends Pane {
         // Create a MediaView to display the video
         MediaView mediaView = new MediaView(mediaPlayer);
 
+        
         // Set the size of the MediaView to fit the screen without cropping
-        mediaView.setFitWidth(1000.0);
-        mediaView.setFitHeight(700.0);
+        mediaView.setFitWidth(800.0);
+        mediaView.setFitHeight(800.0);
 
         // Set the position of the MediaView within the WinPane
         mediaView.setLayoutX(100.0); // Set X position
-        mediaView.setLayoutY(120.0);  // Set Y position
+        mediaView.setLayoutY(130.0);  // Set Y position
 
         // Set the position of the MediaView within the WinPane
         StackPane.setAlignment(mediaView, Pos.CENTER);

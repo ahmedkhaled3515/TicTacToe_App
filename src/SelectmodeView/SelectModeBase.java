@@ -2,6 +2,7 @@ package SelectmodeView;
 
 import HomeView.homeBase;
 import RecordHistory.RecordHistory;
+import MinMax.ComputerSelectModeBase;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcons;
 
@@ -140,7 +141,9 @@ public class SelectModeBase extends AnchorPane {
 
             @Override
             public void handle(Event event) {
-                stage.setScene(new Scene(new MachineViewBase(stage), 1000, 700));
+
+                stage.setScene(new Scene(new ComputerSelectModeBase(stage),1000,700));
+                
 
             }
         });

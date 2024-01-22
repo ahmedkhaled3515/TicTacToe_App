@@ -542,22 +542,26 @@ public class ComputerModeBase extends AnchorPane {
     public void userWin() {
         System.out.println("You Win!!!");
         playerScore++;
-        score1CountText.setText("" + playerScore);
-        WinPlayVideo();
+
+        score1CountText.setText(""+playerScore);
+      //  stage.setScene(new Scene(new WinPane(stage)));
+        stage.setScene(new Scene(new WinPane(stage), 1000, 700));
     }
 
     public void computerWin() {
         System.out.println("You Lose!!");
         computerScore++;
-        score2CountText.setText("" + computerScore);
-        LosePlayVideo();
+
+        score2CountText.setText(""+computerScore);
+        stage.setScene(new Scene(new LosePane(stage),1000,700));
     }
 
     public void draw() {
         System.out.println("Draw");
         draw++;
-        drawCountText.setText("" + draw);
-        DrawPlayVideo();
+
+        drawCountText.setText(""+draw);
+        stage.setScene(new Scene(new DrawPane(stage),1000,700));
     }
 
     public void computerTurn(String play) {
