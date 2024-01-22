@@ -1,10 +1,13 @@
 package tictactoe.Views.LoseView;
 
+import SelectmodeView.SelectModeBase;
 import javafx.animation.RotateTransition;
 import javafx.animation.TranslateTransition;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.PerspectiveCamera;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.effect.Reflection;
@@ -24,6 +27,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import static org.omg.CORBA.ORB.init;
 import tictactoe.TicTacToe;
+import tictactoe.Views.computerMode.ComputerModeBase;
 
 public class LosePane extends Pane {
 
@@ -34,9 +38,17 @@ public class LosePane extends Pane {
     protected final ImageView mainMenuImage;
     protected final Text loseText;
     Stage stage;
-    
-    public LosePane(Stage stage) {
+    int userScore;
+    int computerScore;
+    int drawScore;
+    String currentSymbol;
+    public LosePane(Stage stage ,String current, int userScorP , int computerScoreP , int drawScoreP) {
 
+        userScore=userScorP;
+        computerScore=computerScoreP;
+        drawScore = drawScoreP;
+        currentSymbol = current;
+        
         backgroundImage = new ImageView();
         playAgainButton = new Button();
         playAgainImage = new ImageView();
@@ -76,7 +88,7 @@ public class LosePane extends Pane {
         playAgainButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-              //  mainApp.switchToDrawPane();
+             stage.setScene(new Scene(new ComputerModeBase(stage,currentSymbol,userScore,computerScore,drawScore)));
             }
         });
  
@@ -109,7 +121,12 @@ public class LosePane extends Pane {
                mainMenuButton.setStyle("-fx-background-color:C5A0D7 ;");
             }
         });
-          
+          mainMenuButton.setOnAction(new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent event) {
+            stage.setScene(new Scene(new SelectModeBase(stage)));
+            }
+        });
 
         mainMenuImage.setFitHeight(33.0);
         mainMenuImage.setFitWidth(38.0);

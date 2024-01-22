@@ -1,11 +1,13 @@
 package tictactoe.Views.DrawView;
 
+import SelectmodeView.SelectModeBase;
 import javafx.animation.RotateTransition;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.PerspectiveCamera;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.effect.Reflection;
@@ -25,6 +27,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import tictactoe.TicTacToe;
 import tictactoe.Views.LocalMode2Players.GameBoardBase2Players;
+import tictactoe.Views.computerMode.ComputerModeBase;
 
 public class DrawPane extends Pane {
 
@@ -35,9 +38,19 @@ public class DrawPane extends Pane {
     protected final ImageView mainMenuImage;
     protected final Text drawText;
     Stage stage;
+    String currentSymbol;
+    int userScore;
+    int computerScore;
+    int drawScore;
     
-    public DrawPane(Stage stage) {
+    public DrawPane(Stage stage , String current , int userScoreP , int computerScoreP , int drawScoreP) {
+      
         this.stage=stage;
+        currentSymbol=current;
+        userScore=userScoreP;
+        computerScore=computerScoreP;
+        drawScore=drawScoreP;
+        
         backgroundImage = new ImageView();
         playAgainButton = new Button();
         playAgainImage = new ImageView();
@@ -78,7 +91,7 @@ public class DrawPane extends Pane {
         playAgainButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-               
+               stage.setScene(new Scene(new ComputerModeBase(stage,currentSymbol,userScore,computerScore,drawScore)));
              }
         });
         
@@ -109,7 +122,12 @@ public class DrawPane extends Pane {
         mainMenuButton.setOnMouseExited(event -> {
             mainMenuButton.setStyle("-fx-background-color:C5A0D7 ;");
         });
-
+        mainMenuButton.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    stage.setScene(new Scene(new SelectModeBase(stage)));
+                }
+            });
           
         mainMenuImage.setFitHeight(33.0);
         mainMenuImage.setFitWidth(38.0);

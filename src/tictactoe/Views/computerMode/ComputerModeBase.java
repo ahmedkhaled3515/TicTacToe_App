@@ -77,7 +77,7 @@ public class ComputerModeBase extends AnchorPane {
     int playerScore = 0;
     int computerScore = 0;
     int draw = 0;
-
+    String currentSymbol;
     public class XOButton extends Button {
 
         int index;
@@ -91,8 +91,13 @@ public class ComputerModeBase extends AnchorPane {
         }
     }
 
-    public ComputerModeBase(Stage stage, String current , int userScore , int computerScore) {
-
+    public ComputerModeBase(Stage stage, String current , int userScoreP , int computerScoreP , int drawScoreP) {
+            
+        currentSymbol=current;
+        computerScore=computerScoreP;
+        playerScore=userScoreP;
+        draw= drawScoreP;
+        
         imageView = new ImageView();
         boardGrid = new GridPane();
         columnConstraints = new ColumnConstraints();
@@ -358,7 +363,7 @@ public class ComputerModeBase extends AnchorPane {
         BorderPane.setAlignment(text, javafx.geometry.Pos.CENTER);
         text.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
         text.setStrokeWidth(0.0);
-        text.setText("Player 1");
+        text.setText("Player");
         text.setFont(new Font("Arial Bold", 18.0));
         BorderPane.setMargin(text, new Insets(5.0, 0.0, 0.0, 0.0));
         score1Pane.setTop(text);
@@ -544,8 +549,8 @@ public class ComputerModeBase extends AnchorPane {
         playerScore++;
 
         score1CountText.setText(""+playerScore);
-      //  stage.setScene(new Scene(new WinPane(stage)));
-      WinPlayVideo();
+        stage.setScene(new Scene(new WinPane(stage,currentSymbol,playerScore,computerScore,draw),1000,700));
+      //WinPlayVideo();
     }
 
     public void computerWin() {
@@ -554,7 +559,9 @@ public class ComputerModeBase extends AnchorPane {
 
         score2CountText.setText(""+computerScore);
 //        stage.setScene(new Scene(new LosePane(stage),1000,700));
-        LosePlayVideo();
+        stage.setScene(new Scene(new LosePane(stage,currentSymbol,playerScore,computerScore,draw)));
+        
+        //LosePlayVideo();
     }
 
     public void draw() {
@@ -562,7 +569,9 @@ public class ComputerModeBase extends AnchorPane {
         draw++;
 
         drawCountText.setText(""+draw);
-        DrawPlayVideo();
+     //   DrawPlayVideo();
+     
+       stage.setScene(new Scene(new DrawPane(stage,currentSymbol,playerScore,computerScore,draw)));
     }
 
     public void computerTurn(String play) {
