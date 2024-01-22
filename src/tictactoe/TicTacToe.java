@@ -31,7 +31,6 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import onlinemode.onlineModeGeneratedBase;
-import onlinemode.onlineModeGeneratedBaseNew;
 import tictactoe.Views.DrawView.DrawPane;
 import tictactoe.Views.LoseView.LosePane;
 import tictactoe.Views.WinView.WinController;
@@ -64,8 +63,8 @@ public class TicTacToe extends Application {
 
     public void start(Stage stage) throws Exception {
 
-       //Parent root = new homeBase(stage);
-      Parent root = new onlineModeGeneratedBase( stage,"haneen","h@gmail",1 );
+       Parent root = new homeBase(stage);
+      //Parent root = new onlineModeGeneratedBase( stage,"haneen","h@gmail",1 );
         Parent root2=new ComputerModeBase(stage,"O");
         scene = new Scene(root);
        stage.setScene(scene);

@@ -42,7 +42,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import static onlinemode.onlineModeGeneratedBaseNew.myTurn;
 import tictactoe.Views.AvailablePlayer.PlayersListBaseNew;
 
 public class onlineModeGeneratedBase extends AnchorPane {
@@ -618,21 +617,16 @@ public class onlineModeGeneratedBase extends AnchorPane {
                     buttonArr[i].setText("");
                     buttonArr[i].setDisable(false);
                     buttonArr[i].setStyle("-fx-background-color: #d7049e;");
-                    buttonArr[i].setStyle("-fx-text-stroke: white;");
+                    buttonArr[i].setTextFill(Color.WHITE);
+ //                   buttonArr[i].setStyle("-fx-text-stroke: white;");
+                   
                 }
                 for (int a = 0; a < 3; a++) {
                     for (int b = 0; b < 3; b++) {
                         board[a][b] = -1;
                     }
                 }
-
-                Platform.runLater(() -> {
-                    Parent root = new PlayersListBaseNew(stage, PlayerEmail);
-                    Scene scene = new Scene(root);
-                    stage.setScene(scene);
-                    stage.show();
-                });
-
+                firstTurn();
             }
         });
 

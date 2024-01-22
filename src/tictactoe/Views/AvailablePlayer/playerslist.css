@@ -6,7 +6,9 @@
 .mylistview {
 	-fx-border-color:derive(gray,80%);
         -fx-padding: -20;
-        
+        -fx-background-radius: 10;
 }
+
+
 
 
