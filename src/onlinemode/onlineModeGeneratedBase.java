@@ -100,13 +100,13 @@ public class onlineModeGeneratedBase extends AnchorPane {
 
     public int player1Score,player2Score,drawScore;
     String opponentName;
-   
+    boolean record=false;
 
     Button[] buttonArr = new Button[9];
     Alert alert;
     int turn;
     String currentPlayer;
-
+    private List<Integer> clickedPositions = new ArrayList<>();
     public onlineModeGeneratedBase(Stage stage, String MyEmail, String opponentMail, int turn) {
         this.opponentName=opponentName;
         this.turn = turn;
@@ -343,8 +343,10 @@ public class onlineModeGeneratedBase extends AnchorPane {
                     sendMove(1, currentPlayer);
                     player2Label.setText(opponentEmail + " Turn");
                     player1Label.setText(PlayerEmail);
-                    checkWinner();
-              //      positions.add(0);
+                    checkWinner();      
+                    clickedPositions.add(0);
+                    print();
+
                 }
                 
             }
@@ -368,7 +370,9 @@ public class onlineModeGeneratedBase extends AnchorPane {
                     player2Label.setText(opponentEmail + " Turn");
                     player1Label.setText(PlayerEmail);
                     checkWinner();
-                 //   positions.add(1);
+                    clickedPositions.add(1);
+                    print();
+
                 }
 
             }
@@ -391,7 +395,9 @@ public class onlineModeGeneratedBase extends AnchorPane {
                     player2Label.setText(opponentEmail + " Turn");
                     player1Label.setText(PlayerEmail);
                     checkWinner();
-                  //  positions.add(2);
+                    clickedPositions.add(2);
+                                        print();
+
                 }
 
             }
@@ -414,7 +420,8 @@ public class onlineModeGeneratedBase extends AnchorPane {
                     player2Label.setText(opponentEmail + " Turn");
                     player1Label.setText(PlayerEmail);
                     checkWinner();
-                 //   positions.add(3);
+                    clickedPositions.add(3);
+                    print();
                 }
 
             }
@@ -438,7 +445,9 @@ public class onlineModeGeneratedBase extends AnchorPane {
                     player2Label.setText(opponentEmail + " Turn");
                     player1Label.setText(PlayerEmail);
                     checkWinner();
-                 //   positions.add(4);
+                    clickedPositions.add(4);
+                                        print();
+
                 }
 
             }
@@ -462,7 +471,8 @@ public class onlineModeGeneratedBase extends AnchorPane {
                     player2Label.setText(opponentEmail + " Turn");
                     player1Label.setText(PlayerEmail);
                     checkWinner();
-                  //  positions.add(5);
+                    clickedPositions.add(5);
+                    print();
                 }
 
             }
@@ -485,7 +495,9 @@ public class onlineModeGeneratedBase extends AnchorPane {
                     player2Label.setText(opponentEmail + " Turn");
                     player1Label.setText(PlayerEmail);
                     checkWinner();
-                //    positions.add(6);
+                    clickedPositions.add(6);
+                                        print();
+
                 }
 
             }
@@ -509,7 +521,9 @@ public class onlineModeGeneratedBase extends AnchorPane {
                     player2Label.setText(opponentEmail + " Turn");
                     player1Label.setText(PlayerEmail);
                     checkWinner();
-                   // positions.add(7);
+                    clickedPositions.add(7);
+                                        print();
+
                 }
 
             }
@@ -533,7 +547,9 @@ public class onlineModeGeneratedBase extends AnchorPane {
                     player2Label.setText(opponentEmail + " Turn");
                     player1Label.setText(PlayerEmail);
                     checkWinner();
-                   // positions.add(8);
+                    clickedPositions.add(8);
+                                        print();
+
                 }
 
             }
@@ -746,8 +762,8 @@ public class onlineModeGeneratedBase extends AnchorPane {
 
             @Override
             public void handle(Event event) {
-                  recording(buttonArr);
-                 
+//                  recording(buttonArr);   
+                    record=true;
             }
         });
         getChildren().add(imageView);
@@ -837,6 +853,18 @@ public class onlineModeGeneratedBase extends AnchorPane {
         buttonArr[index2].setStyle("-fx-background-color: #5A1E76;");
         buttonArr[index3].setStyle("-fx-background-color: #5A1E76;");
         xWinsVideo();
+                        System.out.println("////////////"+record);
+
+        if(record==true)
+        {
+            Message msg = new Message();
+            msg.setType("record");
+            msg.setSteps(clickedPositions);
+            String gsonMessage = App.gson.toJson(msg);
+            App.output.println(gsonMessage);
+            App.output.flush();
+        }
+        
         //player1Label.setText("Player1 ");
         //player2Label.setText("Player2");
 
@@ -847,6 +875,17 @@ public class onlineModeGeneratedBase extends AnchorPane {
         buttonArr[index2].setStyle("-fx-background-color: #5A1E76;");
         buttonArr[index3].setStyle("-fx-background-color: #5A1E76;");
         oWinsVideo();
+                        System.out.println("////////////"+record);
+
+        if(record==true)
+        {
+            Message msg = new Message();
+            msg.setType("record");
+            msg.setSteps(clickedPositions);
+            String gsonMessage = App.gson.toJson(msg);
+            App.output.println(gsonMessage);
+            App.output.flush();
+        }
         //player1Label.setText("Player1 ");
         //player2Label.setText("Player2");
 
@@ -969,7 +1008,16 @@ public class onlineModeGeneratedBase extends AnchorPane {
                 setDisableBtn();
                 drawScore++;
                 drawScoreTxt.setText(String.valueOf(drawScore));
-
+                System.out.println("////////////"+record);
+                if(record==true)
+                {
+                    Message msg = new Message();
+                    msg.setType("record");
+                    msg.setSteps(clickedPositions);
+                    String gsonMessage = App.gson.toJson(msg);
+                    App.output.println(gsonMessage);
+                    App.output.flush();
+                }
             }
         }
 
@@ -1096,7 +1144,7 @@ public class onlineModeGeneratedBase extends AnchorPane {
     public void print() {
         player2Label.setText(opponentEmail);
         player1Label.setText(PlayerEmail + " Turn");
-        printClickedPositions();
+//        printClickedPositions();
         System.out.println(clickedPositions.toString());
                 
 
@@ -1105,9 +1153,10 @@ public class onlineModeGeneratedBase extends AnchorPane {
   
 
 
-    private List<Integer> clickedPositions = new ArrayList<>();
+    
 
     private void recording(Button[] buttons) {
+        App.startConnection();
         EventHandler<ActionEvent> buttonClickHandler = event -> {
             Button clickedButton = (Button) event.getSource();
             int position = -1;
@@ -1120,17 +1169,14 @@ public class onlineModeGeneratedBase extends AnchorPane {
 
             if (position != -1) {
                 clickedPositions.add(position);
-
                 System.out.println("Button clicked at position: " + position);
             }
-            String steps = clickedPositions.toString();
-            System.out.println("All positions:");
-            Message msg = new Message();
-            msg.setType("record");
-            msg.setSteps(clickedPositions);
-            String gsonMessage = App.gson.toJson(msg);
-            App.output.println(gsonMessage);
-            App.output.flush();
+//            Message msg = new Message();
+//            msg.setType("record");
+//            msg.setSteps(clickedPositions);
+//            String gsonMessage = App.gson.toJson(msg);
+//            App.output.println(gsonMessage);
+//            App.output.flush();
         };
 
         for (Button button : buttons) {

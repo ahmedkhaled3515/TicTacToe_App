@@ -19,7 +19,7 @@ public class Message {
     String email;
     String password;
     String opponentUserName;
-
+    int score;
     String opponentEmail;
     InetAddress ipAddress;
 

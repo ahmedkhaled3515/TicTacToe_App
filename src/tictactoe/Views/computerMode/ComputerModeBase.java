@@ -807,49 +807,10 @@ private int evaluateBoard(char[][] board) {
     
     Gson gson = new Gson();
   private void Recording(Button[][] buttons) {
-      /*
-    List<String> positions = new ArrayList<>();
-
-    for (int i = 0; i < buttons.length; i++) {
-        for (int j = 0; j < buttons[i].length; j++) {
-            Button button = buttons[i][j];
-            if (button.getText().equals("x")) {
-               // positions.add(i + " " + j);
-                System.out.println(i + " " + j);
-            }
-        }
-    }
-    */    
-  /*
-     List<Integer> positions = new ArrayList<>();
-            int currentPlayer = 1; 
-
-            for (int j = 0; j < 9; j++) {
-                int selectedCell = -1;
-
-                while (selectedCell < 0 || selectedCell >= 9 || positions.contains(selectedCell)) {
-                    selectedCell = (int) (Math.random() * 9);
-                }
-
-                positions.add(selectedCell);
-                System.out.println("Player " + currentPlayer + " selected cell: " + selectedCell);
-
-                currentPlayer = 3 - currentPlayer;
-            }
-            System.out.println("//////////////////////////////////////////////////////////");
-            System.out.println("All positions:");
-              Message msg = new Message();
-                 msg.setType("record");
-                msg.setSteps(positions);
-                String json = gson.toJson(msg);
-                 String jsonS = gson.toJson(positions);
-                 System.out.println(json);
-                 System.out.println(json);
-           */      
+    
         String email = "Somia@";
         List<Integer> positions = new ArrayList<>();
         int currentPlayer = 1;
-
         for (int j = 0; j < 9; j++) {
             int selectedCell = -1;
 
