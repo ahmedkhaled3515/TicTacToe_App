@@ -11,9 +11,11 @@ package MinMax;
  * @author sarah
  */
 
+import HomeView.homeBase;
 import SelectmodeView.SelectModeBase;
 import java.util.Arrays;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -33,6 +35,9 @@ import tictactoe.Views.LoseView.LosePane;
 
 public class MinimaxGameboardBase3 extends AnchorPane {
 
+    
+    String player1="User";
+    String player2="Computer";
     private static final int SIZE = 3;
     private static final String PLAYER_X = "X";
     private static final String PLAYER_O = "O";
@@ -41,15 +46,43 @@ public class MinimaxGameboardBase3 extends AnchorPane {
     private String[][] board = new String[SIZE][SIZE];
     protected final ImageView backgroundImage;
    // protected final Button newGameButton;
-   // protected final Button mainMenuButton;
-    public MinimaxGameboardBase3(Stage stage) {
+    protected final Button mainMenuButton;
+    
+    protected final BorderPane score1Pane;
+    protected final Text player1Text;
+    protected Text player1ScoreText;
+    protected final BorderPane drawPane;
+    protected final Text drawScoreText;
+    protected final Text drawText;
+    protected final BorderPane score2Pane;
+    protected Text player2ScoreText;
+    protected final Text player2Text;
+    protected final GridPane scoreGrid;
+      protected final ImageView backBtn;
+    int computerWinsCounter;
+    public MinimaxGameboardBase3(Stage stage , int computerScore) {
         
+        computerWinsCounter=computerScore; 
         boardGrid = new GridPane();
         initializeBoard(stage);
-/*
+        mainMenuButton = new Button();
+        
+        score1Pane = new BorderPane();
+        player1Text = new Text();
+        player1ScoreText = new Text();
+        drawPane = new BorderPane();
+        drawScoreText = new Text();
+        drawText = new Text();
+        score2Pane = new BorderPane();
+        player2ScoreText = new Text();
+        player2Text = new Text();
+            backBtn = new ImageView();
+        
+        
+        /*
         // Existing code...
         newGameButton = new Button();
-        mainMenuButton = new Button();
+        
         newGameButton.setLayoutX(300.0);
         newGameButton.setLayoutY(552.0);
         newGameButton.setMnemonicParsing(false);
@@ -72,6 +105,67 @@ public class MinimaxGameboardBase3 extends AnchorPane {
 
             }
         });
+     */   
+        
+        
+        score1Pane.setPrefHeight(200.0);
+        score1Pane.setPrefWidth(143.0);
+        score1Pane.setStyle("-fx-background-radius: 15; -fx-background-color: white;");
+
+        BorderPane.setAlignment(player1Text, javafx.geometry.Pos.CENTER);
+        player1Text.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
+        player1Text.setStrokeWidth(0.0);
+        player1Text.setText(player1);
+        player1Text.setFont(new Font("Arial Bold", 27.0));
+        BorderPane.setMargin(player1Text, new Insets(5.0, 0.0, 0.0, 0.0));
+        score1Pane.setTop(player1Text);
+
+        BorderPane.setAlignment(player1ScoreText, javafx.geometry.Pos.CENTER);
+        player1ScoreText.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
+        player1ScoreText.setStrokeWidth(0.0);
+        player1ScoreText.setText("0");
+        player1ScoreText.setFont(new Font("Arial Bold", 36.0));
+        score1Pane.setCenter(player1ScoreText);
+
+        GridPane.setColumnIndex(drawPane, 1);
+        drawPane.setPrefHeight(200.0);
+        drawPane.setPrefWidth(200.0);
+        drawPane.setStyle("-fx-background-radius: 15; -fx-background-color: white;");
+        
+        BorderPane.setAlignment(drawScoreText, javafx.geometry.Pos.CENTER);
+        drawScoreText.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
+        drawScoreText.setStrokeWidth(0.0);
+        drawScoreText.setText("0");
+        drawScoreText.setFont(new Font("Arial Bold", 36.0));
+        drawPane.setCenter(drawScoreText);
+
+        BorderPane.setAlignment(drawText, javafx.geometry.Pos.CENTER);
+        drawText.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
+        drawText.setStrokeWidth(0.0);
+        drawText.setText("Draw");
+        drawText.setFont(new Font("Arial Bold", 27.0));
+        BorderPane.setMargin(drawText, new Insets(5.0, 0.0, 0.0, 0.0));
+        drawPane.setTop(drawText);
+
+        GridPane.setColumnIndex(score2Pane, 2);
+        score2Pane.setPrefHeight(88.0);
+        score2Pane.setPrefWidth(142.0);
+        score2Pane.setStyle("-fx-background-radius: 15; -fx-background-color: white;");
+
+        BorderPane.setAlignment(player2ScoreText, javafx.geometry.Pos.CENTER);
+        player2ScoreText.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
+        player2ScoreText.setStrokeWidth(0.0);
+        player2ScoreText.setText(Integer.toString(computerWinsCounter));
+        player2ScoreText.setFont(new Font("Arial Bold", 36.0));
+        score2Pane.setCenter(player2ScoreText);
+
+        BorderPane.setAlignment(player2Text, javafx.geometry.Pos.CENTER);
+        player2Text.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
+        player2Text.setStrokeWidth(0.0);
+        player2Text.setText(player2);
+        player2Text.setFont(new Font("Arial Bold", 27.0));
+        BorderPane.setMargin(player2Text, new Insets(5.0, 0.0, 0.0, 0.0));
+        score2Pane.setTop(player2Text);
         
         
         mainMenuButton.setLayoutX(510.0);
@@ -89,8 +183,37 @@ public class MinimaxGameboardBase3 extends AnchorPane {
         mainMenuButton.setOnMouseExited(event -> {
             mainMenuButton.setStyle("-fx-background-color: #68CFD1 ;"); 
         });
+        mainMenuButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+               //SelectModeBase
+               stage.setScene(new Scene(new SelectModeBase(stage)));
+            }
+        });
 
-*/
+        
+        backBtn.setLayoutX(100.0);
+        backBtn.setLayoutY(50.0);
+        backBtn.setImage(new Image(getClass().getResource("/assets/images/a.png").toExternalForm()));
+        backBtn.setId("arrow");
+        backBtn.setOnMouseClicked(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                Parent root = new homeBase(stage);
+                Scene scene = new Scene(root, 1000, 700);
+                stage.setScene(scene);
+                stage.show();
+            }
+        });
+
+        
+        
+        scoreGrid = new GridPane();
+        scoreGrid.setHgap(10.0);
+        scoreGrid.setLayoutX(276.0);
+        scoreGrid.setLayoutY(43.0);
+        scoreGrid.setPrefHeight(99.0);
+        scoreGrid.setPrefWidth(448.0);
         // Set the layout for the boardGrid
         boardGrid.setHgap(10.0);
         boardGrid.setVgap(10.0);
@@ -111,8 +234,14 @@ public class MinimaxGameboardBase3 extends AnchorPane {
         backgroundImage.setImage(new Image(getClass().getResource("/assets/images/backgroundImageGif.gif").toExternalForm()));
         getChildren().add(backgroundImage);
         getChildren().add(boardGrid);
+         //getChildren().add(backBtn);
+        scoreGrid.getChildren().add(score1Pane);
+        scoreGrid.getChildren().add(drawPane);
+        scoreGrid.getChildren().add(score2Pane);
+       
+        getChildren().add(scoreGrid);
       //  getChildren().add(newGameButton);
-      //  getChildren().add(mainMenuButton);
+        getChildren().add(mainMenuButton);
         stage.setScene(scene);
     }
 
@@ -126,8 +255,14 @@ public class MinimaxGameboardBase3 extends AnchorPane {
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
                 Button button = new Button();
-                button.setPrefHeight(130.0);
-                button.setPrefWidth(211.0);
+                button.setPrefHeight(127.0);
+                button.setPrefWidth(234.0);
+                button.setStyle("-fx-background-color: #d7049e; -fx-text-fill: white;");
+                button.setMnemonicParsing(false);
+               // button6.setPrefHeight(127.0);
+               // button6.setPrefWidth(234.0);
+                button.setFont(new Font(50)); 
+                
                 int row = i;
                 int col = j;
                 button.setOnAction(e -> handleButtonClick(row, col, button , stage));
@@ -251,8 +386,8 @@ public class MinimaxGameboardBase3 extends AnchorPane {
     }
 
     if (!foundMove) {
-        System.err.println("No valid move found");
-        stage.setScene(new Scene(new DrawPaneMiniMax(stage),1000,700));
+        System.out.println("No valid move found");
+        stage.setScene(new Scene(new DrawPaneMiniMax(stage , computerWinsCounter),1000,700));
     }
 
     return bestMove;
@@ -330,8 +465,10 @@ public class MinimaxGameboardBase3 extends AnchorPane {
             disableAllButtonsExceptWinning();
             System.out.println("Player " + winner + " wins!");
             
-           stage.setScene(new Scene(new LosePaneMiniMax(stage)));
             
+            computerWinsCounter+=1;
+            player2ScoreText.setText(Integer.toString(computerWinsCounter));
+            stage.setScene(new Scene(new LosePaneMiniMax(stage,computerWinsCounter)));
             
             // You can add additional logic here based on the winner
         } else if (isBoardFull()) {

@@ -91,7 +91,7 @@ public class ComputerModeBase extends AnchorPane {
         }
     }
 
-    public ComputerModeBase(Stage stage, String current) {
+    public ComputerModeBase(Stage stage, String current , int userScore , int computerScore) {
 
         imageView = new ImageView();
         boardGrid = new GridPane();

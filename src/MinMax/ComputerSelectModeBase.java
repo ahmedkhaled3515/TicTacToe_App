@@ -1,8 +1,11 @@
 package MinMax;
 
+import HomeView.homeBase;
 import SelectmodeView.SelectModeBase;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -21,6 +24,7 @@ public class ComputerSelectModeBase extends Pane {
     protected final Button hardGameButton;
     protected final Button easyGameButton;
     protected final Text ComputerText;
+        protected final ImageView backBtn;
 
     public ComputerSelectModeBase(Stage stage) {
 
@@ -28,6 +32,7 @@ public class ComputerSelectModeBase extends Pane {
         hardGameButton = new Button();
         easyGameButton = new Button();
         ComputerText = new Text();
+           backBtn = new ImageView();
 
         setMaxHeight(USE_PREF_SIZE);
         setMaxWidth(USE_PREF_SIZE);
@@ -57,7 +62,7 @@ public class ComputerSelectModeBase extends Pane {
         hardGameButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                stage.setScene(new Scene(new MinimaxGameboardBase3(stage),1000,700));
+                stage.setScene(new Scene(new MinimaxGameboardBase3(stage , 0),1000,700));
             }
         });
         
@@ -76,6 +81,22 @@ public class ComputerSelectModeBase extends Pane {
         });
         
         
+           
+        backBtn.setLayoutX(100.0);
+        backBtn.setLayoutY(50.0);
+        backBtn.setImage(new Image(getClass().getResource("/assets/images/a.png").toExternalForm()));
+        backBtn.setId("arrow");
+        backBtn.setOnMouseClicked(new EventHandler() {
+            @Override
+            public void handle(Event event) {
+                Parent root = new SelectModeBase(stage);
+                Scene scene = new Scene(root, 1000, 700);
+                stage.setScene(scene);
+                stage.show();
+            }
+        });
+        
+        
         ComputerText.setFill(javafx.scene.paint.Color.valueOf("#d7049e"));
         ComputerText.setLayoutX(500.0);
         ComputerText.setLayoutY(182.0);
@@ -89,6 +110,7 @@ public class ComputerSelectModeBase extends Pane {
         getChildren().add(hardGameButton);
         getChildren().add(easyGameButton);
         getChildren().add(ComputerText);
+        getChildren().add(backBtn);
 
     }
 }

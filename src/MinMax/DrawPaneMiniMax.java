@@ -32,18 +32,21 @@ import tictactoe.Views.LocalMode2Players.GameBoardBase2Players;
 public class DrawPaneMiniMax extends Pane {
 
     protected final ImageView backgroundImage;
- //   protected final Button playAgainButton;
- //   protected final ImageView playAgainImage;
+    protected final Button playAgainButton;
+    protected final ImageView playAgainImage;
     protected final Button mainMenuButton;
     protected final ImageView mainMenuImage;
     protected final Text drawText;
     Stage stage;
+    int drawPaneComputerScore;
     
-    public DrawPaneMiniMax(Stage stage) {
+    public DrawPaneMiniMax(Stage stage , int computerScore) {
+        
+        drawPaneComputerScore=computerScore;
         this.stage=stage;
         backgroundImage = new ImageView();
-    //    playAgainButton = new Button();
-    //    playAgainImage = new ImageView();
+        playAgainButton = new Button();
+        playAgainImage = new ImageView();
         mainMenuButton = new Button();
         mainMenuImage = new ImageView();
         drawText = new Text();
@@ -63,7 +66,7 @@ public class DrawPaneMiniMax extends Pane {
         backgroundImage.setPreserveRatio(true);
         backgroundImage.getStyleClass().add("win");
         backgroundImage.setImage(new Image(getClass().getResource("/assets/images/backgroundImageGif.gif").toExternalForm()));
-/*
+
         playAgainButton.setLayoutX(650.0);
         playAgainButton.setLayoutY(500.0);
         playAgainButton.setMnemonicParsing(false);
@@ -81,7 +84,7 @@ public class DrawPaneMiniMax extends Pane {
         playAgainButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-               
+                stage.setScene(new Scene(new MinimaxGameboardBase3(stage,drawPaneComputerScore),1000,700));
              }
         });
         
@@ -96,7 +99,7 @@ public class DrawPaneMiniMax extends Pane {
         playAgainImage.setPreserveRatio(true);
         playAgainImage.setImage(new Image(getClass().getResource("/assets/images/Replay2.png").toExternalForm()));
 
-     */   
+        
         
         
         mainMenuButton.setLayoutX(650.0);
@@ -164,11 +167,11 @@ public class DrawPaneMiniMax extends Pane {
         rotateTransition.play();
         
         getChildren().add(backgroundImage);
-     //   getChildren().add(playAgainButton);
+        getChildren().add(playAgainButton);
         getChildren().add(mainMenuButton);
         getChildren().add(mainMenuImage);
         getChildren().add(drawText);
-   //     getChildren().add(playAgainImage);
+        getChildren().add(playAgainImage);
 
         DrawPlayVideo();
         

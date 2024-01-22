@@ -2,16 +2,34 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/G:/Java%20project/TicTacToe_App/src/tictactoe/TicTacToe.java</file>
-        </group>
         <group/>
         <group>
             <file>file:/G:/Java%20project/TicTacToe_App/src/tictactoe/Views/AvailablePlayer/PlayersListBaseNew.java</file>
             <file>file:/G:/Java%20project/TicTacToe_App/src/onlinemode/onlineModeGeneratedBase.java</file>
             <file>file:/G:/Java%20project/TicTacToe_App/src/tictactoe/TicTacToe.java</file>
             <file>file:/G:/Java%20project/TicTacToe_App/src/tictactoe/Views/login/loginBase.java</file>
-
+        </group>
+        <group>
+            <file>file:/D:/TicTacToe/TicTacToe/TicTacToe_App/src/tictactoe/Views/computerMode/ComputerModeBase.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe/TicTacToe_App/src/tictactoe/Views/WinView/WinController.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe/TicTacToe_App/src/tictactoe/machineView/MachineViewBase.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe/TicTacToe_App/src/tictactoe/Views/DrawView/DrawPane.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe/TicTacToe_App/src/tictactoe/Views/WinView/WinPane.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe/TicTacToe_App/src/onlinemode/BackgroundImage.png</file>
+            <file>file:/D:/TicTacToe/TicTacToe/TicTacToe_App/src/onlinemode/onlineModeGeneratedBase.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe/TicTacToe_App/src/tictactoe/Views/LocalMode2Players/GameBoardBase2Players.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe/TicTacToe_App/src/SelectmodeView/SelectModeBase.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe/TicTacToe_App/src/tictactoe/Views/LocalMode2Players/LocalMode2PlayersController.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe/TicTacToe_App/src/Requests/Message.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe/TicTacToe_App/src/tictactoe/Views/computerMode/ComputerModeBase2.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe/TicTacToe_App/src/tictactoe/localmode/LocalViewBase.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe/TicTacToe_App/src/onlinemode/OnlineModeController.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe/TicTacToe_App/src/tictactoe/Views/LoseView/LoseController.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe/TicTacToe_App/src/Requests/ClientHandler.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe/TicTacToe_App/src/tictactoe/Views/LoseView/LosePane.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe/TicTacToe_App/src/onlinemode/ClientHandler.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe/TicTacToe_App/src/tictactoe/Views/AvailablePlayer/PlayersListBase.java</file>
+            <file>file:/D:/TicTacToe/TicTacToe/TicTacToe_App/src/tictactoe/TicTacToe.java</file>
         </group>
     </open-files>
 </project-private>
