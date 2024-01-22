@@ -41,6 +41,13 @@ import javafx.geometry.Side;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.Stop;
 import onlinemode.ClientHandler;
 import tictactoe.Views.AvailablePlayer.PlayersListBase;
 import tictactoe.Views.AvailablePlayer.PlayersListBaseNew;
@@ -49,23 +56,26 @@ public class loginBase extends AnchorPane {
 
     protected final AnchorPane anchorPane;
     protected final ImageView backgroundImg;
-    protected final Label headLabel;
+    protected final Text headLabel;
     protected final TextField txtEmail;
     protected final Button btnLogin;
     protected final Text textHaveAc;
     protected final PasswordField txtPassword;
     protected final FontAwesomeIcon arrow;
-     Gson gson;
+    protected final ImageView backBtn;
+    Gson gson;
+
     public loginBase(Stage stage) {
 
         anchorPane = new AnchorPane();
         backgroundImg = new ImageView();
-        headLabel = new Label();
+        headLabel = new Text();
         txtEmail = new TextField();
         btnLogin = new Button();
         textHaveAc = new Text();
         txtPassword = new PasswordField();
         arrow = new FontAwesomeIcon();
+        backBtn = new ImageView();
 
         setId("AnchorPane");
         setPrefHeight(700.0);
@@ -80,14 +90,22 @@ public class loginBase extends AnchorPane {
 
         backgroundImg.setFitHeight(700);
         backgroundImg.setFitWidth(1000);
-//        backgroundImg.setLayoutX(-6.0);
+//      backgroundImg.setLayoutX(-6.0);
         backgroundImg.setImage(new Image(getClass().getResource("/assets/images/background.jpg").toExternalForm()));
 
         headLabel.setLayoutX(614.0);
-        headLabel.setLayoutY(108.0);
+        headLabel.setLayoutY(150.0);
         headLabel.setText("tic.tac.toe.");
-        headLabel.setTextFill(javafx.scene.paint.Color.valueOf("#c5a0d7"));
-        headLabel.setFont(new Font("Arial Rounded MT Bold", 64.0));
+        headLabel.setFill(javafx.scene.paint.Color.valueOf("#BE8FD5"));
+        headLabel.setStroke(Color.web("#C1ADCB"));
+        headLabel.setStrokeWidth(2);
+        headLabel.setFont(new Font("System Bold", 64.0));
+        DropShadow dropShadow = new DropShadow();
+        dropShadow.setColor(Color.BLACK);
+        dropShadow.setRadius(5.0);
+        dropShadow.setOffsetX(3.0);
+        dropShadow.setOffsetY(3.0);
+        headLabel.setEffect(dropShadow);
 
         txtEmail.setLayoutX(648.0);
         txtEmail.setLayoutY(220.0);
@@ -96,11 +114,11 @@ public class loginBase extends AnchorPane {
         txtEmail.setPromptText("Email");
         txtEmail.setFont(new Font(18.0));
 
-        btnLogin.setLayoutX(686.0);
+        btnLogin.setLayoutX(670.0);
         btnLogin.setLayoutY(408.0);
         btnLogin.setMnemonicParsing(false);
-        btnLogin.setPrefHeight(36.0);
-        btnLogin.setPrefWidth(174.0);
+        btnLogin.setPrefHeight(50.0);
+        btnLogin.setPrefWidth(200.0);
         btnLogin.setText("Login");
 
         App.startConnection();
@@ -119,12 +137,12 @@ public class loginBase extends AnchorPane {
 
 //        App.resetCon();
         btnLogin.setOnAction((event) -> {
-           
-           Message msg=new Message();
-           msg.setEmail(txtEmail.getText());
-           msg.setPassword(txtPassword.getText());
-           msg.setType("login");
-           String message=App.gson.toJson(msg);
+
+            Message msg = new Message();
+            msg.setEmail(txtEmail.getText());
+            msg.setPassword(txtPassword.getText());
+            msg.setType("login");
+            String message = App.gson.toJson(msg);
 //           System.out.println(message);
            App.output.println(message);
            App.output.flush();
@@ -184,8 +202,9 @@ public class loginBase extends AnchorPane {
 //                } catch (IOException ex) {
 //                    Logger.getLogger(loginBase.class.getName()).log(Level.SEVERE, null, ex);
 //                }
+
 //            App.closeConnection();
-        }).start();
+            }).start();
         });
         
 //         new Thread(() -> {
@@ -230,6 +249,46 @@ public class loginBase extends AnchorPane {
 //                                         }).start();
             
 /*
+
+
+        // Gson gson = new Gson();
+        // btnLogin.setOnAction((event) -> {
+        //         Message msg = new Message();
+        //         msg.setType("login");
+        //         msg.setEmail(txtEmail.getText());
+        //         msg.setPassword(txtPassword.getText());
+        //         String gsonMessage = gson.toJson(msg);
+        //         System.out.println(gsonMessage);
+        //         App.output.println(gsonMessage);
+        //         App.output.flush();
+        // });
+        // new Thread(() -> {
+        //             while (App.server.isConnected()) {
+        //                 try {
+        //                     String valid = App.input.readLine();
+        //                     if (valid.equals("true")) {
+        //                         Platform.runLater(() -> {
+        //                         Parent root = new PlayersListBaseNew(stage);
+        //                         Scene scene = new Scene(root, 1000, 700);
+        //                         stage.setScene(scene);
+        //                         stage.show();
+        //                         });
+        //                     } if (valid.equals("false")){
+        //                          Platform.runLater(() -> {
+        //                         Alert alert = new Alert(AlertType.INFORMATION);
+        //                         alert.setTitle("Wrong Email or Password");
+        //                         alert.setHeaderText(null);
+        //                         alert.setContentText("Please Try Again");
+        //                         alert.showAndWait();
+        //                          });
+        //                     }
+        //                 } catch (IOException ex) {
+        //                     System.out.println("server closed !!!");
+        //                     Logger.getLogger(SignupBase.class.getName()).log(Level.SEVERE, null, ex);
+        //                     break;
+        //                 }
+        //             }
+        //         }).start();
         textHaveAc.setFill(javafx.scene.paint.Color.valueOf("#e8e5e5"));
         textHaveAc.setLayoutX(
                 635.0);
@@ -271,36 +330,79 @@ public class loginBase extends AnchorPane {
         txtPassword.setPromptText(
                 "Password");
 
-        arrow.setLayoutX(
-                15);
-        arrow.setLayoutY(
-                115.0);
-        arrow.setIcon(FontAwesomeIcons.ARROW_LEFT);
-
-        arrow.setSize(
-                "7em");
-        arrow.setId(
-                "arrow");
-        arrow.scaleXProperty()
-                .add(1);
-        arrow.scaleYProperty()
-                .add(1);
-        arrow.scaleZProperty()
-                .add(1);
-
-        arrow.setOnMouseClicked(
-                new EventHandler() {
+//       arrow.setLayoutX(
+//                15);
+//        arrow.setLayoutY(
+//                115.0);
+//        arrow.setIcon(FontAwesomeIcons.ARROW_LEFT);
+//
+//        arrow.setSize(
+//                "7em");
+//        arrow.setId(
+//                "arrow");
+//        arrow.scaleXProperty()
+//                .add(1);
+//        arrow.scaleYProperty()
+//                .add(1);
+//        arrow.scaleZProperty()
+//                .add(1);
+//
+//        arrow.setOnMouseClicked(
+//                new EventHandler() {
+//
+//            @Override
+//            public void handle(Event event
+//            ) {
+//                Parent root = new SelectModeBase(stage);
+//                Scene scene = new Scene(root, 1000, 700);
+//                stage.setScene(scene);
+//                stage.show();
+//            }
+//        }
+//        );       arrow.setLayoutX(
+//                15);
+//        arrow.setLayoutY(
+//                115.0);
+//        arrow.setIcon(FontAwesomeIcons.ARROW_LEFT);
+//
+//        arrow.setSize(
+//                "7em");
+//        arrow.setId(
+//                "arrow");
+//        arrow.scaleXProperty()
+//                .add(1);
+//        arrow.scaleYProperty()
+//                .add(1);
+//        arrow.scaleZProperty()
+//                .add(1);
+//
+//        arrow.setOnMouseClicked(
+//                new EventHandler() {
+//
+//            @Override
+//            public void handle(Event event
+//            ) {
+//                Parent root = new SelectModeBase(stage);
+//                Scene scene = new Scene(root, 1000, 700);
+//                stage.setScene(scene);
+//                stage.show();
+//            }
+//        }
+//        );
+//        
+        backBtn.setLayoutX(100.0);
+        backBtn.setLayoutY(50.0);
+        backBtn.setImage(new Image(getClass().getResource("/assets/images/a.png").toExternalForm()));
+        backBtn.setOnMouseClicked(new EventHandler() {
 
             @Override
-            public void handle(Event event
-            ) {
+            public void handle(Event event) {
                 Parent root = new SelectModeBase(stage);
                 Scene scene = new Scene(root, 1000, 700);
                 stage.setScene(scene);
                 stage.show();
             }
-        }
-        );
+        });
 
         anchorPane.getChildren()
                 .add(backgroundImg);
@@ -318,6 +420,7 @@ public class loginBase extends AnchorPane {
                 .add(arrow);
         getChildren()
                 .add(anchorPane);
+        anchorPane.getChildren().add(backBtn);
 
     }
 

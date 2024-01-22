@@ -3,15 +3,62 @@
  */
 
 
-.inviteBtn{
-    -fx-content-display: center;
-    -fx-background-color: white;
-    -fx-background-size:100% 100%;
-    -fx-text-fill: black;
-   
+.Button{
+    /*    -fx-content-display: center;
+        -fx-background-color: white;
+        -fx-background-size:100% 100%;*/
+
+
+    -fx-background-color:
+        linear-gradient(#C08ADD, #8C3E9A),
+        linear-gradient(#BE78D2, #A95ACF),
+        linear-gradient(#BD75D1, #A354BD),
+        linear-gradient(#BD72D1 0%, #A95ACF 50%, #9C49B7 100%),
+        linear-gradient(from 0% 0% to 15% 50%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0));
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 20;
+    -fx-background-radius: 30;
+
+}
+
+#btn{
+
+    -fx-background-color:
+      linear-gradient(#7D6EC9, #584CDC),
+    /* Use this line for the first gradient */
+
+   linear-gradient(#725DC5, #584CDC),
+    /* Use this line for the second gradient */
+
+   linear-gradient(#705CC4, #584CDC),
+    /* Use this line for the third gradient */
+
+  linear-gradient(#705BC4 0%, #584CDC 50%, #4E43B4 100%),
+    /* Use this line for the fourth gradient */
+
+   linear-gradient(from 0% 0% to 15% 50%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0));
+    /* Use this line for the fifth gradient */
+
+    /*        linear-gradient(#C08ADD, #8C3E9A),
+            linear-gradient(#BE78D2, #A95ACF),
+            linear-gradient(#BD75D1, #A354BD),
+            linear-gradient(#BD72D1 0%, #A95ACF 50%, #9C49B7 100%),
+            linear-gradient(from 0% 0% to 15% 50%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0));*/
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 20;
+    -fx-background-radius: 30;  
+}
+
+#txt{
+    -fx-font-weight: bold;
+    -fx-font-size: 20;
+    -fx-text-fill: white;
+    -fx-fill: white;
 }
 
 .inviteBtn:pressed{
-     -fx-background-color: #938a26;
+    -fx-background-color: #938a26;
 }
 

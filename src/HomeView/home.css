@@ -1,6 +1,20 @@
 .button{
-    -fx-background-color: #72CFF9; 
-    -fx-background-radius: 26;
+/*    -fx-background-color: #72CFF9; 
+    -fx-background-radius: 26;*/
+    
+    
+     -fx-background-color:
+        linear-gradient(#C08ADD, #8C3E9A),
+        linear-gradient(#BE78D2, #A95ACF),
+        linear-gradient(#BD75D1, #A354BD),
+        linear-gradient(#BD72D1 0%, #A95ACF 50%, #9C49B7 100%),
+        linear-gradient(from 0% 0% to 15% 50%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0));
+    -fx-background-size:100% 100%;
+    -fx-text-fill: white;
+     -fx-font-weight: bold;
+     -fx-font-size: 35;
+    -fx-content-display: center;
+    -fx-background-radius: 30;
 }
 
 .button:hover{
@@ -8,9 +22,9 @@
     -fx-background-radius: 26;
 }
 
-.text{
+/*.text{
     -fx-fill:#5a1e76;
 }
 .text:hover { 
     -fx-fill: F4F6F5;   
-}
+}*/
