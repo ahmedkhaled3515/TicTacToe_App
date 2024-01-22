@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.URL;
+import java.util.Optional;
 import java.util.Random;
 import java.util.Timer;
 import java.util.logging.Level;
@@ -24,8 +25,8 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -43,6 +44,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import static onlinemode.onlineModeGeneratedBaseNew.myTurn;
+import tictactoe.Views.AvailablePlayer.PlayersListBase;
 import tictactoe.Views.AvailablePlayer.PlayersListBaseNew;
 
 public class onlineModeGeneratedBase extends AnchorPane {
@@ -98,7 +100,10 @@ public class onlineModeGeneratedBase extends AnchorPane {
     int turn;
     String currentPlayer;
     boolean running=true;
+    boolean newGameButton=false;
+    Stage stage;
     public onlineModeGeneratedBase(Stage stage, String MyEmail, String opponentMail, int turn) {
+        this.stage=stage;
         this.turn = turn;
         imageView = new ImageView();
         gridPane = new GridPane();
@@ -477,7 +482,6 @@ public class onlineModeGeneratedBase extends AnchorPane {
                     if(running)
                     {
                         listener();
-
                     }
 
                 }
@@ -585,26 +589,13 @@ public class onlineModeGeneratedBase extends AnchorPane {
 
             @Override
             public void handle(Event event) {
-                for (int i = 0; i < 9; i++) {
-                    buttonArr[i].setText("");
-                    buttonArr[i].setTextFill(Color.WHITE);
-                    buttonArr[i].setDisable(false);
-                    buttonArr[i].setStyle("-fx-background-color: #d7049e;");
-                    firstTurn();
-//                    buttonArr[i].setStyle("-fx-text-stroke: white;");
-                }
-                for (int a = 0; a < 3; a++) {
-                    for (int b = 0; b < 3; b++) {
-                        board[a][b] = -1;
-                    }
-                }
-                running=true;
-                if(turn == 2 && running)
-                {
-                    System.out.println("///////////////////////////////////// new game");
-                    listener();
-                }
-
+                newGame();
+                newGameButton=true;
+                Message request=new Message();
+                request.setType("newGame");
+                request.setOpponentEmail(opponentEmail);
+                App.output.println(gson.toJson(request));
+                App.output.flush();
 //                Platform.runLater(() -> {
 //                    Parent root = new PlayersListBaseNew(stage, PlayerEmail);
 //                    Scene scene = new Scene(root);
@@ -888,6 +879,51 @@ public class onlineModeGeneratedBase extends AnchorPane {
             xWinsVideo();
         });
         running=false;
+        newGameButton=false;
+//        newGameBtn.setOnAction((event) -> {
+//            newGameButton=true;
+//        });
+                try {
+                Thread.sleep(10000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(onlineModeGeneratedBase.class.getName()).log(Level.SEVERE, null, ex);
+                }
+        if(turn==2 || turn ==1)
+        {
+        new Thread(() -> {
+            
+            if(newGameButton==false)
+            {
+                try {
+                    String response = App.input.readLine();
+                    Message responseMsg=gson.fromJson(response,Message.class);
+                    if(responseMsg.getType().equals("newGame"))
+                    {
+                        Platform.runLater(() -> {
+                            Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"do you want to play again ?",ButtonType.OK,ButtonType.CANCEL);
+                            alert.setX(stage.getX()+(stage.getWidth()/2));
+                            alert.setY(stage.getY()+(stage.getHeight()/2));
+                            Optional<ButtonType> result=alert.showAndWait();
+                            if(result.get() == ButtonType.OK)
+                            {
+                                newGame();
+                            }
+                            else if (result.get() == ButtonType.CANCEL){
+                                Parent root = new PlayersListBaseNew(stage, PlayerEmail);
+                                Scene scene = new Scene(root);
+                                stage.setScene(scene);
+                                stage.show();
+                            }
+                            
+                        });
+                    }
+                    
+                } catch (IOException ex) {
+                    Logger.getLogger(onlineModeGeneratedBase.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            }).start();
+        }
 //        try {
 //            Thread.sleep(100);
 //            
@@ -907,6 +943,57 @@ public class onlineModeGeneratedBase extends AnchorPane {
             oWinsVideo();
         });
         running=false;
+        newGameButton=false;
+        try {
+            //        newGameBtn.setOnAction((event) -> {
+//            newGameButton=true;
+//        });
+        Thread.sleep(10000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(onlineModeGeneratedBase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if(turn==2 || turn ==1)
+        {
+        new Thread(() -> {
+//            try {
+//                Thread.sleep(10000);
+//                } catch (InterruptedException ex) {
+//                    Logger.getLogger(onlineModeGeneratedBase.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+            if(newGameButton==false)
+            {
+                try {
+                    String response = App.input.readLine();
+                    Message responseMsg=gson.fromJson(response,Message.class);
+                    if(responseMsg.getType().equals("newGame"))
+                    {
+                        Platform.runLater(() -> {
+                            Alert alert=new Alert(Alert.AlertType.CONFIRMATION,"do you want to play again ?",ButtonType.OK,ButtonType.CANCEL);
+                            alert.setX(stage.getX()+(stage.getWidth()/2));
+                            alert.setY(stage.getY()+(stage.getHeight()/2));
+                            Optional<ButtonType> result=alert.showAndWait();
+                            if(result.get() == ButtonType.OK)
+                            {
+                                newGame();
+                            }
+                            else if (result.get() == ButtonType.CANCEL){
+                                Parent root = new PlayersListBaseNew(stage, PlayerEmail);
+                                Scene scene = new Scene(root);
+                                stage.setScene(scene);
+                                stage.show();
+                            }
+                            
+                        });
+                    }
+                    
+                } catch (IOException ex) {
+                    Logger.getLogger(onlineModeGeneratedBase.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            }).start();
+        }
+        
+        
 //        try {
 //            Thread.sleep(100);
 //            //player1Label.setText("Player1 ");
@@ -918,9 +1005,9 @@ public class onlineModeGeneratedBase extends AnchorPane {
     }
 
     public synchronized void  checkWinner() {
-        for (int i = 0; i < buttonArr.length; i++) {
-            System.out.println("button " + i + " " + buttonArr[i].getText());
-        }
+//        for (int i = 0; i < buttonArr.length; i++) {
+//            System.out.println("button " + i + " " + buttonArr[i].getText());
+//        }
         if (buttonArr[0].getText().equalsIgnoreCase("X")
                 && buttonArr[1].getText().equalsIgnoreCase("X")
                 && buttonArr[2].getText().equalsIgnoreCase("X")) {
@@ -1161,5 +1248,36 @@ public class onlineModeGeneratedBase extends AnchorPane {
     public void print() {
         player2Label.setText(opponentEmail);
         player1Label.setText(PlayerEmail + " Turn");
+    }
+    public void newGame()
+    {
+        for (int i = 0; i < 9; i++) {
+                    buttonArr[i].setText("");
+                    buttonArr[i].setTextFill(Color.WHITE);
+                    buttonArr[i].setDisable(false);
+                    buttonArr[i].setStyle("-fx-background-color: #d7049e;");
+                    firstTurn();
+//                    buttonArr[i].setStyle("-fx-text-stroke: white;");
+                }
+                for (int a = 0; a < 3; a++) {
+                    for (int b = 0; b < 3; b++) {
+                        board[a][b] = -1;
+                    }
+                }
+                running=true;
+                if(turn == 2 && running)
+                {
+                    System.out.println("///////////////////////////////////// new game");
+                    listener();
+                }
+                
+                
+//                Platform.runLater(() -> {
+//                    Parent root = new PlayersListBaseNew(stage, PlayerEmail);
+//                    Scene scene = new Scene(root);
+//                    stage.setScene(scene);
+//                    stage.show();
+//                });
+
     }
 }
