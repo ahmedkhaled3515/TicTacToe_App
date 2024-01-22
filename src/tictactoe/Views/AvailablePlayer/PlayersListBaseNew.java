@@ -103,7 +103,7 @@ public class PlayersListBaseNew extends AnchorPane {
 //            {
                 try {
                     String jsonResponse= App.input.readLine();
-                    System.out.println(jsonResponse);
+                    System.out.println("/////////////////"+jsonResponse);
                     Message response=App.gson.fromJson(jsonResponse,Message.class);
                     ArrayList<PlayersDTO> players =response.getPlayersList();
                     if(response.getType().equals("getOnline"))

@@ -7,6 +7,7 @@ package Requests;
 
 import java.net.InetAddress;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -18,14 +19,44 @@ public class Message {
     String email;
     String password;
     String opponentUserName;
-    InetAddress ipAddress;
+    int score;
     String opponentEmail;
+    InetAddress ipAddress;
+
+
     int location;
     int step;
     String XO;
     String status;
     String validation;
     ArrayList<PlayersDTO> playersList;
+
+     List<Integer> steps ;
+  
+
+    public int getLocation() {
+        return location;
+    }
+
+    public void setLocation(int location) {
+        this.location = location;
+    }
+    public String getOpponentEmail() {
+        return opponentEmail;
+    }
+
+    public void setOpponentEmail(String opponentEmail) {
+        this.opponentEmail = opponentEmail;
+    }
+
+    public List<Integer> getSteps() {
+        return steps;
+    }
+
+    public void setSteps(List<Integer> steps) {
+        this.steps = steps;
+    }
+
     String player2;
     int Score;
 
@@ -58,7 +89,6 @@ public class Message {
     }
     
     public String getStatus() {
-
         return status;
     }
 
@@ -73,7 +103,6 @@ public class Message {
     public void setValidation(String validation) {
         this.validation = validation;
     }
-
     public String getEmail() {
         return email;
     }
@@ -139,21 +168,6 @@ public class Message {
         this.XO = XO;
     }
 
-    public String getOpponentEmail() {
-        return opponentEmail;
-    }
-
-    public void setOpponentEmail(String opponentEmail) {
-        this.opponentEmail = opponentEmail;
-    }
-
-    public int getLocation() {
-        return location;
-    }
-
-    public void setLocation(int location) {
-        this.location = location;
-    }
 
     public String getPlayer2() {
         return player2;
@@ -168,6 +182,7 @@ public class Message {
 
     
     
+
     public Message()
     {}
    public Message(String type, String userName, String opponentUserName, InetAddress ipAddress, int step, String XO,String validation) {

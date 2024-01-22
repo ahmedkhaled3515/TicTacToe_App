@@ -104,6 +104,19 @@ public class loginBase extends AnchorPane {
         btnLogin.setText("Login");
 
         App.startConnection();
+
+         Gson gson = new Gson();
+         btnLogin.setOnAction((event) -> {
+                 Message msg = new Message();
+                 msg.setType("login");
+                 msg.setEmail(txtEmail.getText());
+                 msg.setPassword(txtPassword.getText());
+                 String gsonMessage = gson.toJson(msg);
+                 System.out.println(gsonMessage);
+                 App.output.println(gsonMessage);
+                 App.output.flush();
+         });
+
 //        App.resetCon();
         btnLogin.setOnAction((event) -> {
            
@@ -116,71 +129,107 @@ public class loginBase extends AnchorPane {
            App.output.println(message);
            App.output.flush();
            new Thread(() -> {
-                try {
-                        String jsonResponse=App.input.readLine();
-//                        System.out.println(jsonResponse);
-                        Message response2= new Gson().fromJson(jsonResponse,Message.class);
-                        System.out.println(response2.getType());
-                        if(response2.getType().equals("login"))
-                        {
-                            if(response2.getValidation().equals("valid"))
-                            {
-                                String email= response2.getEmail();
-                                Platform.runLater(() -> {
-                                    stage.setScene(new Scene(new PlayersListBaseNew(stage,email),1000,700));
-                                });   
-                            }
-                        }
-                } catch (IOException ex) {
-                    Logger.getLogger(loginBase.class.getName()).log(Level.SEVERE, null, ex);
-                }
+               try {
+                             String valid = App.input.readLine();
+                             System.out.println("fffffffffffffffffffffffffffffffffff");
+                             System.out.println("///////////////"+valid);
+                             Message response= gson.fromJson(valid,Message.class);
+                             System.out.println("inside the while loop "+valid);
+                             if (response.getValidation().equals("valid")) {
+                                 Platform.runLater(() -> {
+                                 Parent root = new PlayersListBaseNew(stage,response.getEmail());
+                                 Scene scene = new Scene(root, 1000, 700);
+                                 stage.setScene(scene);
+                                 stage.show();
+                                 });
+                                 //break;
+                             } else if (response.getValidation().equals("invalidPassword") || response.getValidation().equals("emailNotFound")){
+                                  Platform.runLater(() -> {
+                                 Alert alert = new Alert(AlertType.INFORMATION);
+                                 alert.setTitle("Wrong Email or Password");
+                                 alert.setHeaderText(null);
+                                 alert.setContentText("Please Try Again");
+                                 alert.showAndWait();
+                                  });
+                             }
+                             else if (response.getValidation().equals("alreadyLoggedIn") ){
+                                 Platform.runLater(() -> {
+                                      Alert alert = new Alert(AlertType.ERROR);
+                                        alert.setTitle("alreadyLoggedIn");
+                                        alert.setHeaderText(null);
+                                        alert.setContentText("Sorry this email is alreadyLoggedIn");
+                                        alert.showAndWait();
+                                         });
+                             }
+                         } catch (IOException ex) {
+                             System.out.println("server closed !!!");
+                             Logger.getLogger(SignupBase.class.getName()).log(Level.SEVERE, null, ex);
+                             //break;
+                      }
+//                try {
+//                        String jsonResponse=App.input.readLine();
+////                        System.out.println(jsonResponse);
+//                        Message response2= new Gson().fromJson(jsonResponse,Message.class);
+//                        System.out.println(response2.getType());
+//                        if(response2.getType().equals("login"))
+//                        {
+//                            if(response2.getValidation().equals("valid"))
+//                            {
+//                                String email= response2.getEmail();
+//                                Platform.runLater(() -> {
+//                                    stage.setScene(new Scene(new PlayersListBaseNew(stage,email),1000,700));
+//                                });   
+//                            }
+//                        }
+//                } catch (IOException ex) {
+//                    Logger.getLogger(loginBase.class.getName()).log(Level.SEVERE, null, ex);
+//                }
 //            App.closeConnection();
         }).start();
         });
         
-
-        // Gson gson = new Gson();
-        // btnLogin.setOnAction((event) -> {
-        //         Message msg = new Message();
-        //         msg.setType("login");
-        //         msg.setEmail(txtEmail.getText());
-        //         msg.setPassword(txtPassword.getText());
-        //         String gsonMessage = gson.toJson(msg);
-        //         System.out.println(gsonMessage);
-        //         App.output.println(gsonMessage);
-        //         App.output.flush();
-        // });
-        
-        // new Thread(() -> {
-        //             while (App.server.isConnected()) {
-        //                 try {
-        //                     String valid = App.input.readLine();
-        //                     if (valid.equals("true")) {
-        //                         Platform.runLater(() -> {
-        //                         Parent root = new PlayersListBaseNew(stage);
-        //                         Scene scene = new Scene(root, 1000, 700);
-        //                         stage.setScene(scene);
-        //                         stage.show();
-        //                         });
-        //                     } if (valid.equals("false")){
-        //                          Platform.runLater(() -> {
-        //                         Alert alert = new Alert(AlertType.INFORMATION);
-        //                         alert.setTitle("Wrong Email or Password");
-        //                         alert.setHeaderText(null);
-        //                         alert.setContentText("Please Try Again");
-        //                         alert.showAndWait();
-        //                          });
-        //                     }
-        //                 } catch (IOException ex) {
-        //                     System.out.println("server closed !!!");
-        //                     Logger.getLogger(SignupBase.class.getName()).log(Level.SEVERE, null, ex);
-        //                     break;
-        //                 }
-
-        //             }
-        //         }).start();
+//         new Thread(() -> {
+//                     while (App.server.isConnected()) {
+//                         try {
+//                             String valid = App.input.readLine();
+//                             Message response= gson.fromJson(valid,Message.class);
+//                             System.out.println("inside the while loop "+valid);
+//                             if (response.getValidation().equals("valid")) {
+//                                 Platform.runLater(() -> {
+//                                 Parent root = new PlayersListBaseNew(stage,response.getEmail());
+//                                 Scene scene = new Scene(root, 1000, 700);
+//                                 stage.setScene(scene);
+//                                 stage.show();
+//                                 });
+//                                 break;
+//                             } if (response.getValidation().equals("invalidPassword") || response.getValidation().equals("emailNotFound")){
+//                                  Platform.runLater(() -> {
+//                                 Alert alert = new Alert(AlertType.INFORMATION);
+//                                 alert.setTitle("Wrong Email or Password");
+//                                 alert.setHeaderText(null);
+//                                 alert.setContentText("Please Try Again");
+//                                 alert.showAndWait();
+//                                  });
+//                             }
+//                             if (response.getValidation().equals("alreadyLoggedIn") ){
+//                                 Platform.runLater(() -> {
+//                                      Alert alert = new Alert(AlertType.ERROR);
+//                                        alert.setTitle("alreadyLoggedIn");
+//                                        alert.setHeaderText(null);
+//                                        alert.setContentText("Sorry this email is alreadyLoggedIn");
+//                                        alert.showAndWait();
+//                                         });
+//                             }
+//                         } catch (IOException ex) {
+//                             System.out.println("server closed !!!");
+//                             Logger.getLogger(SignupBase.class.getName()).log(Level.SEVERE, null, ex);
+//                             break;
+//                      }
+//
+//                    }
+//                                         }).start();
             
-
+/*
         textHaveAc.setFill(javafx.scene.paint.Color.valueOf("#e8e5e5"));
         textHaveAc.setLayoutX(
                 635.0);
@@ -210,7 +259,7 @@ public class loginBase extends AnchorPane {
             }
         }
         );
-
+*/
         txtPassword.setLayoutX(
                 648.0);
         txtPassword.setLayoutY(

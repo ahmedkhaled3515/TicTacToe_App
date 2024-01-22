@@ -1,9 +1,15 @@
 package tictactoe.Views.computerMode;
 
+import Requests.App;
+import Requests.Message;
 import SelectmodeView.SelectModeBase;
+import com.google.gson.Gson;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -500,7 +506,10 @@ public class ComputerModeBase extends AnchorPane {
     }
     public void userWin()
     {
-        System.out.println("You Win!!!");
+        System.out.println("You Win!!!");      
+        Recording(buttons);
+
+        
         playerScore++;
         score1CountText.setText(""+playerScore);
         stage.setScene(new Scene(new WinPane(stage)));
@@ -508,6 +517,8 @@ public class ComputerModeBase extends AnchorPane {
     public void computerWin()
     {
         System.out.println("You Lost!!");
+                        Recording(buttons);
+
         computerScore++;
         score2CountText.setText(""+computerScore);
         stage.setScene(new Scene(new LosePane(stage)));
@@ -646,11 +657,14 @@ public class ComputerModeBase extends AnchorPane {
                 System.out.println("You Won!");
                 win=true;
                 game=false;
+                Recording(buttons);
             }
             else if(computerPositions.containsAll(pos))
             {
                 System.out.println("You Lost!!!");
                 game=false;
+                Recording(buttons);
+
             }
         }
         return win;
@@ -791,8 +805,46 @@ private int evaluateBoard(char[][] board) {
         return row >= 0 && row < 3 && col >= 0 && col < 3 && buttons[row][col].getText().isEmpty();
     }
     
+    Gson gson = new Gson();
+  private void Recording(Button[][] buttons) {
     
+        String email = "Somia@";
+        List<Integer> positions = new ArrayList<>();
+        int currentPlayer = 1;
+        for (int j = 0; j < 9; j++) {
+            int selectedCell = -1;
+
+            while (selectedCell < 0 || selectedCell >= 9 || positions.contains(selectedCell)) {
+                selectedCell = (int) (Math.random() * 9);
+            }
+
+            positions.add(selectedCell);
+            System.out.println("Player " + currentPlayer + " selected cell: " + selectedCell);
+
+            currentPlayer = 3 - currentPlayer;
+        }
+        String steps = positions.toString();
+        System.out.println("All positions:");
+        Message msg = new Message();
+        msg.setType("record");
+        msg.setSteps(positions);
+
+        int id;
+        try {
+            id = DataAccessObject.retriveID(email);
+            DataAccessObject.insertRecord(id, positions);
+        } catch (SQLException ex) {
+            Logger.getLogger(ComputerModeBase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+}
+
+    //String json = gson.toJson(buttonValues);
+
+    //System.out.println(json);}
     
 
     
-}
+

@@ -19,6 +19,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import tictactoe.Views.computerMode.ComputerModeBase;
+import tictactoe.Views.computerMode.ComputerModeBase2;
 
 public  class MachineViewBase extends AnchorPane {
 
@@ -77,17 +78,22 @@ public  class MachineViewBase extends AnchorPane {
         recording.setText("Recording");
         recording.setFont(new Font(29.0));
         
-        recording.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                        if (recordingClickState) {
+       recording.setOnAction(new EventHandler<ActionEvent>() {
+    @Override
+    public void handle(ActionEvent event) {
+        if (recordingClickState) {
             recording.setStyle("-fx-background-color: C5A0D7; -fx-background-radius: 26 26 26 26;");
         } else {
             recording.setStyle("-fx-background-color: 72CFF9; -fx-background-radius: 26 26 26 26;");
         }
-        recordingClickState= !recordingClickState;
+        recordingClickState = !recordingClickState;
+
+        Parent root = new ComputerModeBase2(stage);
+        Scene scene = new Scene(root, 1000, 700);
+        stage.setScene(scene);
+        stage.show();
     }
-        });
+});
 
         continuw.setLayoutX(639.0);
         continuw.setLayoutY(519.0);

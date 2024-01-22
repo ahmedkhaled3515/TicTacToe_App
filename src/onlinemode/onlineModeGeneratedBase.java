@@ -15,6 +15,9 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.URL;
 import java.util.Optional;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.Timer;
 import java.util.logging.Level;
@@ -50,6 +53,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import static onlinemode.onlineModeGeneratedBaseNew.myTurn;
 import tictactoe.Views.AvailablePlayer.PlayersListBaseNew;
+import tictactoe.Views.computerMode.ComputerModeBase;
+import tictactoe.Views.computerMode.DataAccessObject;
 
 public class onlineModeGeneratedBase extends AnchorPane {
 
@@ -111,6 +116,15 @@ public class onlineModeGeneratedBase extends AnchorPane {
     String myEmail;
     MyWindowAdapter myWindowAdapter;
     Stage stage;
+    public int player1Score,player2Score,drawScore;
+    String opponentName;
+    boolean record=false;
+
+    Button[] buttonArr = new Button[9];
+    Alert alert;
+    int turn;
+    String currentPlayer;
+    private List<Integer> clickedPositions = new ArrayList<>();
     public onlineModeGeneratedBase(Stage stage, String myEmail, String opponentMail, int turn) {
         this.stage=stage;
         this.myEmail=myEmail;
@@ -123,10 +137,6 @@ public class onlineModeGeneratedBase extends AnchorPane {
             event.consume();
         });
         this.opponentName=opponentName;
-
-
-
-    
         this.turn = turn;
 
         imageView = new ImageView();
@@ -186,6 +196,13 @@ public class onlineModeGeneratedBase extends AnchorPane {
         buttonArr[6] = downLeftBtn;
         buttonArr[7] = downBtn;
         buttonArr[8] = downRightBtn;
+
+        
+        
+        player1Score=0;
+        player2Score=0;
+        drawScore=0;
+
         player1Score = 0;
         player2Score = 0;
         drawScore = 0;
@@ -214,6 +231,7 @@ public class onlineModeGeneratedBase extends AnchorPane {
             listener();
         }
         
+
 
         setId("AnchorPane");
         setPrefHeight(672.0);
@@ -271,6 +289,8 @@ public class onlineModeGeneratedBase extends AnchorPane {
                     player2Label.setText(opponentEmail + " Turn");
                     player1Label.setText(PlayerEmail);
                     checkWinner();
+                    clickedPositions.add(0);
+
                     System.out.println("fllllllllllllg" + running);
                     if(running)
                     {
@@ -278,6 +298,9 @@ public class onlineModeGeneratedBase extends AnchorPane {
                     }
                 }
 
+
+                }
+                
             }
         });
 
@@ -299,10 +322,12 @@ public class onlineModeGeneratedBase extends AnchorPane {
                     player2Label.setText(opponentEmail + " Turn");
                     player1Label.setText(PlayerEmail);
                     checkWinner();
+                    clickedPositions.add(1);
                     System.out.println("lllllllllllllllll "+ running);
                     if(running)
                     {
                         listener();
+
 
                     }
                 }
@@ -327,11 +352,14 @@ public class onlineModeGeneratedBase extends AnchorPane {
                     player2Label.setText(opponentEmail + " Turn");
                     player1Label.setText(PlayerEmail);
                     checkWinner();
+                    clickedPositions.add(2);
+
                     System.out.println("lllllllllllllllll "+ running);
                     if(running)
                     {
                         listener();
                     }
+
 
                 }
 
@@ -355,14 +383,13 @@ public class onlineModeGeneratedBase extends AnchorPane {
                     player2Label.setText(opponentEmail + " Turn");
                     player1Label.setText(PlayerEmail);
                     checkWinner();
-                    System.out.println("lllllllllllllllll "+ running);
+                                        clickedPositions.add(3);
                 System.out.println("lllllllllllllllll "+ running);
                     if(running)
                     {
                         listener();
 
                     }
-
                 }
 
             }
@@ -386,13 +413,14 @@ public class onlineModeGeneratedBase extends AnchorPane {
                     player2Label.setText(opponentEmail + " Turn");
                     player1Label.setText(PlayerEmail);
                     checkWinner();
-                                        System.out.println("lllllllllllllllll "+ running);
+                    clickedPositions.add(4);
                 System.out.println("lllllllllllllllll "+ running);
                     if(running)
                     {
                         listener();
 
                     }
+
 
 
                 }
@@ -418,14 +446,13 @@ public class onlineModeGeneratedBase extends AnchorPane {
                     player2Label.setText(opponentEmail + " Turn");
                     player1Label.setText(PlayerEmail);
                     checkWinner();
-                                        System.out.println("lllllllllllllllll "+ running);
-                System.out.println("lllllllllllllllll "+ running);
+                    clickedPositions.add(5);
+                    System.out.println("lllllllllllllllll "+ running);
                     if(running)
                     {
                         listener();
 
                     }
-
                 }
 
             }
@@ -448,8 +475,8 @@ public class onlineModeGeneratedBase extends AnchorPane {
                     player2Label.setText(opponentEmail + " Turn");
                     player1Label.setText(PlayerEmail);
                     checkWinner();
-                                        System.out.println("lllllllllllllllll "+ running);
-                System.out.println("lllllllllllllllll "+ running);
+                    clickedPositions.add(6);
+                    System.out.println("lllllllllllllllll "+ running);
                     if(running)
                     {
                         listener();
@@ -479,8 +506,8 @@ public class onlineModeGeneratedBase extends AnchorPane {
                     player2Label.setText(opponentEmail + " Turn");
                     player1Label.setText(PlayerEmail);
                     checkWinner();
-                                        System.out.println("lllllllllllllllll "+ running);
-                System.out.println("lllllllllllllllll "+ running);
+                    clickedPositions.add(7);
+                    System.out.println("lllllllllllllllll "+ running);
                     if(running)
                     {
                         listener();
@@ -510,14 +537,13 @@ public class onlineModeGeneratedBase extends AnchorPane {
                     player2Label.setText(opponentEmail + " Turn");
                     player1Label.setText(PlayerEmail);
                     checkWinner();
+                    clickedPositions.add(8);
                     System.out.println("lllllllllllllllll "+ running);
                                     System.out.println("lllllllllllllllll "+ running);
                     if(running)
                     {
                         listener();
-
                     }
-
                 }
 
             }
@@ -748,7 +774,15 @@ public class onlineModeGeneratedBase extends AnchorPane {
             recordBtn.setStyle("-fx-background-color: #68CFD1 ;");
         });
         recordBtn.setText("Record");
+       
+        recordBtn.setOnMouseClicked(new EventHandler() {
 
+            @Override
+            public void handle(Event event) {
+//                  recording(buttonArr);   
+                    record=true;
+            }
+        });
         getChildren().add(imageView);
         gridPane.getColumnConstraints().add(columnConstraints);
         gridPane.getColumnConstraints().add(columnConstraints0);
@@ -802,6 +836,8 @@ public class onlineModeGeneratedBase extends AnchorPane {
                     Message response = App.gson.fromJson(jsonResponse, Message.class);
                     String playerSide = response.getXO();
                     int location = response.getLocation();
+                    int step=location-1;
+                    clickedPositions.add(step);
                     if (response.getType().equals("updateOpponentScore")) {
                         int score = response.getScore();
                         player2ScoreTxt.setText(String.valueOf(score));
@@ -967,6 +1003,17 @@ public class onlineModeGeneratedBase extends AnchorPane {
 //            Logger.getLogger(onlineModeGeneratedBase.class.getName()).log(Level.SEVERE, null, ex);
 //        }
 
+        if(record==true)
+        {
+            Message msg = new Message();
+            msg.setType("record");
+            msg.setSteps(clickedPositions);
+            String gsonMessage = App.gson.toJson(msg);
+            App.output.println(gsonMessage);
+            App.output.flush();
+        }
+
+
     }
 
     public synchronized void oWins(int index1, int index2, int index3) {
@@ -984,13 +1031,24 @@ public class onlineModeGeneratedBase extends AnchorPane {
 //        } catch (InterruptedException ex) {
 //            Logger.getLogger(onlineModeGeneratedBase.class.getName()).log(Level.SEVERE, null, ex);
 //        }
+        if(record==true)
+        {
+            Message msg = new Message();
+            msg.setType("record");
+            msg.setSteps(clickedPositions);
+            String gsonMessage = App.gson.toJson(msg);
+            App.output.println(gsonMessage);
+            App.output.flush();
+        }
+        //player1Label.setText("Player1 ");
+        //player2Label.setText("Player2");
 
     }
 
-    public synchronized void  checkWinner() {
-        for (int i = 0; i < buttonArr.length; i++) {
-            System.out.println("button " + i + " " + buttonArr[i].getText());
-        }
+    public void checkWinner() {
+//        for (int i = 0; i < positions.size(); i++) {
+//            System.out.println("button " + i + " " + buttonArr[i].getText());
+//        }
         if (buttonArr[0].getText().equalsIgnoreCase("X")
                 && buttonArr[1].getText().equalsIgnoreCase("X")
                 && buttonArr[2].getText().equalsIgnoreCase("X")) {
@@ -1105,6 +1163,16 @@ public class onlineModeGeneratedBase extends AnchorPane {
                 setDisableBtn();
                 drawScore++;
                 drawScoreTxt.setText(String.valueOf(drawScore));
+                System.out.println("////////////"+record);
+                if(record==true)
+                {
+                    Message msg = new Message();
+                    msg.setType("record");
+                    msg.setSteps(clickedPositions);
+                    String gsonMessage = App.gson.toJson(msg);
+                    App.output.println(gsonMessage);
+                    App.output.flush();
+                }
             }
         }
 
@@ -1232,6 +1300,10 @@ public class onlineModeGeneratedBase extends AnchorPane {
     public void print() {
         player2Label.setText(opponentEmail);
         player1Label.setText(PlayerEmail + " Turn");
+//        printClickedPositions();
+        System.out.println(clickedPositions.toString());
+                
+
     }
     
     public void showAlertWhenOpponentLoggingOutAndNavigateToAvailablePlayersGUI(Stage stage , String myEmail){
@@ -1265,5 +1337,46 @@ public class onlineModeGeneratedBase extends AnchorPane {
         
     }
     
+
+  
+
+
+    
+
+    private void recording(Button[] buttons) {
+        App.startConnection();
+        EventHandler<ActionEvent> buttonClickHandler = event -> {
+            Button clickedButton = (Button) event.getSource();
+            int position = -1;
+            for (int i = 0; i < 9; i++) {
+                if (buttons[i] == clickedButton) {
+                    position = i;
+                    break;
+                }
+            }
+
+            if (position != -1) {
+                clickedPositions.add(position);
+                System.out.println("Button clicked at position: " + position);
+            }
+//            Message msg = new Message();
+//            msg.setType("record");
+//            msg.setSteps(clickedPositions);
+//            String gsonMessage = App.gson.toJson(msg);
+//            App.output.println(gsonMessage);
+//            App.output.flush();
+        };
+
+        for (Button button : buttons) {
+            button.setOnAction(buttonClickHandler);
+        }
+    }
+
+    private void printClickedPositions() {
+        for (int clickedPosition : clickedPositions) {
+            System.out.println("Clicked position: " + clickedPosition);
+        }
+    }
 }
+    
 
