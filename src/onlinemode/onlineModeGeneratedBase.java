@@ -701,13 +701,10 @@ public class onlineModeGeneratedBase extends AnchorPane {
                // System.out.println(opponentMail + "qqqqqqqqqqqss");
                 logOutMsg.setType("logOut");
                 logOutMsg.setShowAlertOnLogOut(logOutAlert);
-                
-                
                 String request = gson.toJson(logOutMsg);
                 System.out.println(request);
                 App.output.println(request);
                 App.output.flush();
-                
                 Parent root = new  SelectModeBase(stage);
                 Scene scene = new Scene(root,1000,700);
                 stage.setScene(scene);
