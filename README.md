@@ -2,9 +2,10 @@
 <div>
 <img src = "https://github.com/ahmedkhaled3515/TicTacToe_App/assets/105312434/d3728c8f-3bc8-467f-a535-014d1a173797" width = "400">
 <img src = "https://github.com/ahmedkhaled3515/TicTacToe_App/assets/105312434/6173bf4b-04f6-47ed-b344-76fd2facb64f" width = "400">
+  
 </div>
 
-## Defination 
+## Definition 
 <div>
 Tic Tac Toe game is a game in which there are three options to play
   </div>
@@ -29,11 +30,26 @@ Tic Tac Toe game is a game in which there are three options to play
 * Socket Server
 * File Input and Output stream
 
+  ## Features
+  Client-Side Features:
+•	Login
+•	Signup
+•	Play with computer (Easy level, Hard level).
+•	Play with online friends.
+•	Record game (online Mode).
+•	View all recorded games history.
+•	See all the online available players.
+
+Server-Side Features:
+•	Start and stop server.
+•	See all online and offline players.
+
+
 ## DataBase Schema 
 <img src = "https://github.com/ahmedkhaled3515/TicTacToe_App/assets/105312434/167972d8-b81e-4ce6-928f-91ad30a77c44" width = "300">
 
-## Developers 
-* Ahmed Khaled
+## Team Members 
+* Ahmed Khaled Hassan
 * Sarah Talaat
 * Haneen Medhat
 * Mahmoud Said
