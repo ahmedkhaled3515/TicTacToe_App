@@ -74,110 +74,95 @@ boolean turnX=true;
         label = new Label();
         PlayerNameLabel = new Label();
         
-            Timeline timeline=new Timeline();
-           
-        for(int step:intSteps)
-        {
-             KeyFrame key= new KeyFrame(Duration.seconds(1),(event) -> {
-                 switch(step)
-            {
-                case 0:
-                    if(turnX)
-                    {
-                            topLeftBtn17.setText("X");
+            Timeline timeline = new Timeline();
+            int delayInSeconds = 1;
+
+            for (int i = 0; i < intSteps.size(); i++) {
+                int step = intSteps.get(i);
+                KeyFrame key = new KeyFrame(Duration.seconds(delayInSeconds), (event) -> {
+                    Button button;
+                    if (turnX) {
+                        switch (step) {
+                            case 0:
+                                button = topLeftBtn17;
+                                break;
+                            case 1:
+                                button = topLeftBtn14;
+                                break;
+                            case 2:
+                                button = topLeftBtn13;
+                                break;
+                            case 3:
+                                button = topLeftBtn12;
+                                break;
+                            case 4:
+                                button = topLeftBtn1;
+                                break;
+                            case 5:
+                                button = topLeftBtn16;
+                                break;
+                            case 6:
+                                button = topLeftBtn11;
+                                break;
+                            case 7:
+                                button = topLeftBtn;
+                                break;
+                            case 8:
+                                button = topLeftBtn15;
+                                break;
+                            default:
+                                return;
+                        }
+                    } else {
+                        switch (step) {
+                            case 0:
+                                button = topLeftBtn17;
+                                break;
+                            case 1:
+                                button = topLeftBtn14;
+                                break;
+                            case 2:
+                                button = topLeftBtn13;
+                                break;
+                            case 3:
+                                button = topLeftBtn12;
+                                break;
+                            case 4:
+                                button = topLeftBtn1;
+                                break;
+                            case 5:
+                                button = topLeftBtn16;
+                                break;
+                            case 6:
+                                button = topLeftBtn11;
+                                break;
+                            case 7:
+                                button = topLeftBtn;
+                                break;
+                            case 8:
+                                button = topLeftBtn15;
+                                break;
+                            default:
+                                return;
+                        }
                     }
-                    else{
-                        topLeftBtn17.setText("O");
+
+                    if (turnX) {
+                        button.setText("X");
+                    } else {
+                        button.setText("O");
                     }
-                    turnX=!turnX;
-                    break;
-                    case 1:
-                    if(turnX)
-                    {
-                            topLeftBtn14.setText("X");
-                    }
-                    else{
-                        topLeftBtn14.setText("O");
-                    }
-                    turnX=!turnX;
-                    break;
-                    case 2:
-                    if(turnX)
-                    {
-                            topLeftBtn13.setText("X");
-                    }
-                    else{
-                        topLeftBtn13.setText("O");
-                    }
-                    turnX=!turnX;
-                    break;
-                    case 3:
-                    if(turnX)
-                    {
-                            topLeftBtn12.setText("X");
-                    }
-                    else{
-                        topLeftBtn12.setText("O");
-                    }
-                    turnX=!turnX;
-                    break;
-                    case 4:
-                    if(turnX)
-                    {
-                            topLeftBtn1.setText("X");
-                    }
-                    else{
-                        topLeftBtn1.setText("O");
-                    }
-                    turnX=!turnX;
-                    break;
-                    case 5:
-                    if(turnX)
-                    {
-                            topLeftBtn16.setText("X");
-                    }
-                    else{
-                        topLeftBtn16.setText("O");
-                    }
-                    turnX=!turnX;
-                    break;
-                    case 6:
-                    if(turnX)
-                    {
-                            topLeftBtn11.setText("X");
-                    }
-                    else{
-                        topLeftBtn11.setText("O");
-                    }
-                    turnX=!turnX;
-                    break;
-                    case 7:
-                    if(turnX)
-                    {
-                            topLeftBtn.setText("X");
-                    }
-                    else{
-                        topLeftBtn.setText("O");
-                    }
-                    turnX=!turnX;
-                    break;
-                    case 8:
-                    if(turnX)
-                    {
-                            topLeftBtn15.setText("X");
-                    }
-                    else{
-                        topLeftBtn15.setText("O");
-                    }
-                    turnX=!turnX;
-                    break;
+
+                    turnX = !turnX;
+                });
+
+                timeline.getKeyFrames().add(key);
+                delayInSeconds += 1;
             }
-             });
-             timeline.getKeyFrames().addAll(key);
-             timeline.setCycleCount(Timeline.INDEFINITE);
+
+            timeline.setCycleCount(intSteps.size());
             timeline.play();
-        }
-        
+            
         setId("AnchorPane");
         setPrefHeight(642.0);
         setPrefWidth(1034.0);
