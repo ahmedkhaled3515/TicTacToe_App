@@ -32,18 +32,19 @@ import tictactoe.TicTacToe;
 public class LosePaneMiniMax extends Pane {
 
     protected final ImageView backgroundImage;
-   // protected final Button playAgainButton;
-  //  protected final ImageView playAgainImage;
+    protected final Button playAgainButton;
+    protected final ImageView playAgainImage;
     protected final Button mainMenuButton;
     protected final ImageView mainMenuImage;
     protected final Text loseText;
     Stage stage;
-    
-    public LosePaneMiniMax(Stage stage) {
+    int losePaneComputerScore;
+    public LosePaneMiniMax(Stage stage , int computerScore) {
 
+        losePaneComputerScore = computerScore;
         backgroundImage = new ImageView();
-    //    playAgainButton = new Button();
-    //    playAgainImage = new ImageView();
+        playAgainButton = new Button();
+        playAgainImage = new ImageView();
         mainMenuButton = new Button();
         mainMenuImage = new ImageView();
         loseText = new Text();
@@ -63,7 +64,7 @@ public class LosePaneMiniMax extends Pane {
         backgroundImage.setPreserveRatio(true);
         backgroundImage.getStyleClass().add("win");
         backgroundImage.setImage(new Image(getClass().getResource("/assets/images/backgroundImageGif.gif").toExternalForm()));
-/*
+
         playAgainButton.setLayoutX(650.0);
         playAgainButton.setLayoutY(500.0);
         playAgainButton.setMnemonicParsing(false);
@@ -80,12 +81,12 @@ public class LosePaneMiniMax extends Pane {
         playAgainButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-              //  mainApp.switchToDrawPane();
+              stage.setScene(new Scene(new MinimaxGameboardBase3(stage , losePaneComputerScore),1000,700));
             }
         });
  
         
-        
+       
         playAgainImage.setFitHeight(33.0);
         playAgainImage.setFitWidth(38.0);
         playAgainImage.setLayoutX(660.0);
@@ -93,7 +94,7 @@ public class LosePaneMiniMax extends Pane {
         playAgainImage.setPickOnBounds(true);
         playAgainImage.setPreserveRatio(true);
         playAgainImage.setImage(new Image(getClass().getResource("/assets/images/Replay2.png").toExternalForm()));
-*/
+
         mainMenuButton.setLayoutX(650.0);
         mainMenuButton.setLayoutY(400.0);
         mainMenuButton.setMnemonicParsing(false);
@@ -166,11 +167,11 @@ public class LosePaneMiniMax extends Pane {
         rotateTransition.play();
         
         getChildren().add(backgroundImage);
-       // getChildren().add(playAgainButton);
+        getChildren().add(playAgainButton);
         getChildren().add(mainMenuButton);
         getChildren().add(mainMenuImage);
         getChildren().add(loseText);
-      //  getChildren().add(playAgainImage);
+        getChildren().add(playAgainImage);
         LosePlayVideo();
         
     }

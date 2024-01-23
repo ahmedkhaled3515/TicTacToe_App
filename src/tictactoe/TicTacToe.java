@@ -67,7 +67,7 @@ public class TicTacToe extends Application {
        Parent root = new homeBase(stage);
 
       //Parent root = new onlineModeGeneratedBase( stage,"haneen","h@gmail",1 );
-       Parent root2=new ComputerModeBase(stage,"O");
+       Parent root2=new ComputerModeBase(stage,"O" , 0,0,0);
               //Parent root = new onlineModeGeneratedBase( stage,"haneen","h@gmail",1 );
 
         

@@ -121,12 +121,12 @@ public class MachineViewBase extends AnchorPane {
             @Override
             public void handle(Event event) {
                 if (choseXClickState) {
-                    Parent root = new ComputerModeBase(stage, "X");
+                    Parent root = new ComputerModeBase(stage, "X" ,0,0,0);
                     Scene scene = new Scene(root, 1000, 700);
                     stage.setScene(scene);
                     stage.show();
                 } else {
-                    Parent root = new ComputerModeBase(stage, "O");
+                    Parent root = new ComputerModeBase(stage, "O",0,0,0);
                     Scene scene = new Scene(root, 1000, 700);
                     stage.setScene(scene);
                     stage.show();

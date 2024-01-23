@@ -1,10 +1,13 @@
 package tictactoe.Views.LoseView;
 
+import SelectmodeView.SelectModeBase;
 import javafx.animation.RotateTransition;
 import javafx.animation.TranslateTransition;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.PerspectiveCamera;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.effect.Reflection;
@@ -24,6 +27,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import static org.omg.CORBA.ORB.init;
 import tictactoe.TicTacToe;
+import tictactoe.Views.computerMode.ComputerModeBase;
 
 public class LosePane extends Pane {
 
@@ -34,9 +38,17 @@ public class LosePane extends Pane {
     protected final ImageView mainMenuImage;
     protected final Text loseText;
     Stage stage;
-    
-    public LosePane(Stage stage) {
+    int userScore;
+    int computerScore;
+    int drawScore;
+    String currentSymbol;
+    public LosePane(Stage stage ,String current, int userScorP , int computerScoreP , int drawScoreP) {
 
+        userScore=userScorP;
+        computerScore=computerScoreP;
+        drawScore = drawScoreP;
+        currentSymbol = current;
+        
         backgroundImage = new ImageView();
         playAgainButton = new Button();
         playAgainImage = new ImageView();
@@ -50,6 +62,9 @@ public class LosePane extends Pane {
         setMinWidth(USE_PREF_SIZE);
         
         setPrefSize(1000.0,700.0);
+        
+         getStyleClass().add("mainFxmlClass");
+        getStylesheets().add("/tictactoe/Views/LoseView/lose.css");
 
         backgroundImage.setFitHeight(700.0);
         backgroundImage.setFitWidth(1100.0);
@@ -62,21 +77,23 @@ public class LosePane extends Pane {
 
         playAgainButton.setLayoutX(650.0);
         playAgainButton.setLayoutY(500.0);
+          playAgainButton.setPrefHeight(65.0);
+        playAgainButton.setPrefWidth(240.0);
         playAgainButton.setMnemonicParsing(false);
-        playAgainButton.setStyle("-fx-background-color: C5A0D7;");
+        //playAgainButton.setStyle("-fx-background-color: C5A0D7;");
         playAgainButton.setText("     Play Again");
         playAgainButton.setFont(new Font("Arial Bold", 28.0));
-        playAgainButton.setOnMouseEntered(event -> {
-            playAgainButton.setStyle("-fx-background-color: D7049E;");
-        });
-
-        playAgainButton.setOnMouseExited(event -> {
-            playAgainButton.setStyle("-fx-background-color:C5A0D7 ;");
-        });
+//        playAgainButton.setOnMouseEntered(event -> {
+//            playAgainButton.setStyle("-fx-background-color: D7049E;");
+//        });
+//
+//        playAgainButton.setOnMouseExited(event -> {
+//            playAgainButton.setStyle("-fx-background-color:C5A0D7 ;");
+//        });
         playAgainButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-              //  mainApp.switchToDrawPane();
+             stage.setScene(new Scene(new ComputerModeBase(stage,currentSymbol,userScore,computerScore,drawScore)));
             }
         });
  
@@ -84,37 +101,44 @@ public class LosePane extends Pane {
         
         playAgainImage.setFitHeight(33.0);
         playAgainImage.setFitWidth(38.0);
-        playAgainImage.setLayoutX(660.0);
-        playAgainImage.setLayoutY(510.0);
+         playAgainImage.setLayoutX(670.0);
+        playAgainImage.setLayoutY(520.0);
         playAgainImage.setPickOnBounds(true);
         playAgainImage.setPreserveRatio(true);
         playAgainImage.setImage(new Image(getClass().getResource("/assets/images/Replay2.png").toExternalForm()));
 
         mainMenuButton.setLayoutX(650.0);
         mainMenuButton.setLayoutY(400.0);
+           mainMenuButton.setPrefHeight(65.0);
+        mainMenuButton.setPrefWidth(240.0);
         mainMenuButton.setMnemonicParsing(false);
         mainMenuButton.setText("     Main Menu");
         mainMenuButton.setFont(new Font("Arial Bold", 28.0));
-        mainMenuButton.setStyle("-fx-background-color: C5A0D7;");
-        mainMenuButton.setOnMouseEntered(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-               mainMenuButton.setStyle("-fx-background-color: D7049E;");
+        //mainMenuButton.setStyle("-fx-background-color: C5A0D7;");
+//        mainMenuButton.setOnMouseEntered(new EventHandler<MouseEvent>() {
+//            @Override
+//            public void handle(MouseEvent event) {
+//               mainMenuButton.setStyle("-fx-background-color: D7049E;");
+//            }
+//        });
+//        
+//         mainMenuButton.setOnMouseExited(new EventHandler<MouseEvent>() {
+//            @Override
+//            public void handle(MouseEvent event) {
+//               mainMenuButton.setStyle("-fx-background-color:C5A0D7 ;");
+//            }
+//        });
+          mainMenuButton.setOnAction(new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent event) {
+            stage.setScene(new Scene(new SelectModeBase(stage)));
             }
         });
-        
-         mainMenuButton.setOnMouseExited(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-               mainMenuButton.setStyle("-fx-background-color:C5A0D7 ;");
-            }
-        });
-          
 
         mainMenuImage.setFitHeight(33.0);
         mainMenuImage.setFitWidth(38.0);
-        mainMenuImage.setLayoutX(660.0);
-        mainMenuImage.setLayoutY(410.0);
+         mainMenuImage.setLayoutX(670.0);
+        mainMenuImage.setLayoutY(420.0);
         mainMenuImage.setPickOnBounds(true);
         mainMenuImage.setPreserveRatio(true);
         mainMenuImage.setImage(new Image(getClass().getResource("/assets/images/main-menu_3916045.png").toExternalForm()));
