@@ -529,6 +529,7 @@ public class onlineModeGeneratedBase extends AnchorPane {
                     player1Label.setText(PlayerEmail);
                     checkWinner();
                     clickedPositions.add(8);
+                    
                     System.out.println("lllllllllllllllll "+ running);
               //    System.out.println("lllllllllllllllll "+ running);
                     if(running)
