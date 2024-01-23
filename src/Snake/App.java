@@ -6,6 +6,7 @@
 package Snake;
 import javax.swing.AbstractAction.*;
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 /**
  *
  * @author sarah
@@ -21,7 +22,9 @@ public class App {
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    
+
+        
+        
         SnakeGame snakeGame = new SnakeGame(boardWidth, boardHeight);
         frame.add(snakeGame);
         frame.pack();
