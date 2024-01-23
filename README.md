@@ -31,7 +31,7 @@ Tic Tac Toe game is a game in which there are three options to play
 * File Input and Output stream
 
   ## Features
-* Client-Side Features:
+ Client-Side Features:
 * Login
 * Signup
 * Play with computer (Easy level, Hard level).
@@ -39,7 +39,9 @@ Tic Tac Toe game is a game in which there are three options to play
 * Record game (online Mode).
 * View all recorded games history.
 * See all the online available players.
-* Server-Side Features:
+
+  
+  Server-Side Features:
 *	Start and stop server.
 *	See all online and offline players.
 
