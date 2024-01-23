@@ -57,7 +57,7 @@ import tictactoe.Views.computerMode.ComputerModeBase;
 
 
 public class onlineModeGeneratedBase extends AnchorPane {
-
+  private List<Integer> clickedPositions = new ArrayList<>();
     protected final ImageView imageView;
     protected final GridPane gridPane;
     protected final ColumnConstraints columnConstraints;
@@ -118,7 +118,6 @@ public class onlineModeGeneratedBase extends AnchorPane {
     Stage stage;
     
     boolean record=false;
-    private List<Integer> clickedPositions = new ArrayList<>();
     public onlineModeGeneratedBase(Stage stage, String myEmail, String opponentMail, int turn) {
         this.stage=stage;
         this.myEmail=myEmail;
@@ -531,7 +530,7 @@ public class onlineModeGeneratedBase extends AnchorPane {
                     checkWinner();
                     clickedPositions.add(8);
                     System.out.println("lllllllllllllllll "+ running);
-                                    System.out.println("lllllllllllllllll "+ running);
+              //    System.out.println("lllllllllllllllll "+ running);
                     if(running)
                     {
                         listener();

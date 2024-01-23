@@ -1,12 +1,19 @@
 package RecordView;
 
+import SelectmodeView.SelectModeBase;
 import com.google.gson.Gson;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcons;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -18,6 +25,7 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import tictactoe.Views.login.loginBase;
 
 public class RecordBase extends AnchorPane {
 
@@ -40,16 +48,18 @@ public class RecordBase extends AnchorPane {
     protected final Button topLeftBtn17;
     protected final Label label;
     protected final Label PlayerNameLabel;
+    protected final FontAwesomeIcon arrow;
 boolean turnX=true;
          Stage stage;
         String stepsArray;
         public RecordBase(Stage stage,String stepsArray) {
         this.stage=stage;
         this.stepsArray=stepsArray;
+          arrow = new FontAwesomeIcon();
         ArrayList<Double> steps= new Gson().fromJson(stepsArray,ArrayList.class);
-        
         System.out.println(steps.toString());
         ArrayList<Integer> intSteps=new ArrayList<Integer>();
+        
         for(double step:steps)
         {
             intSteps.add((int) step);
@@ -256,23 +266,23 @@ boolean turnX=true;
         topLeftBtn17.setPrefHeight(113.0);
         topLeftBtn17.setPrefWidth(286.0);
 
-        label.setAlignment(javafx.geometry.Pos.CENTER);
-        label.setLayoutX(420.0);
-        label.setLayoutY(14.0);
-        label.setPrefHeight(75.0);
-        label.setPrefWidth(636.0);
-        label.setText("Your Record with");
-        label.setTextFill(javafx.scene.paint.Color.valueOf("#da12b5"));
-        label.setFont(new Font("Arial Black", 51.0));
-
-        PlayerNameLabel.setAlignment(javafx.geometry.Pos.CENTER);
-        PlayerNameLabel.setLayoutX(430.0);
-        PlayerNameLabel.setLayoutY(89.0);
-        PlayerNameLabel.setPrefHeight(75.0);
-        PlayerNameLabel.setPrefWidth(636.0);
-        PlayerNameLabel.setText("PlayerName");
-        PlayerNameLabel.setTextFill(javafx.scene.paint.Color.valueOf("#da12b5"));
-        PlayerNameLabel.setFont(new Font("Arial Black", 51.0));
+//        label.setAlignment(javafx.geometry.Pos.CENTER);
+//        label.setLayoutX(420.0);
+//        label.setLayoutY(14.0);
+//        label.setPrefHeight(75.0);
+//        label.setPrefWidth(636.0);
+//        label.setText("Your Record with");
+//        label.setTextFill(javafx.scene.paint.Color.valueOf("#da12b5"));
+//        label.setFont(new Font("Arial Black", 51.0));
+//
+//        PlayerNameLabel.setAlignment(javafx.geometry.Pos.CENTER);
+//        PlayerNameLabel.setLayoutX(430.0);
+//        PlayerNameLabel.setLayoutY(89.0);
+//        PlayerNameLabel.setPrefHeight(75.0);
+//        PlayerNameLabel.setPrefWidth(636.0);
+//        PlayerNameLabel.setText("PlayerName");
+//        PlayerNameLabel.setTextFill(javafx.scene.paint.Color.valueOf("#da12b5"));
+//        PlayerNameLabel.setFont(new Font("Arial Black", 51.0));
 
         getChildren().add(imageView);
         gridPane.getColumnConstraints().add(columnConstraints);
@@ -291,6 +301,39 @@ boolean turnX=true;
         gridPane.getChildren().add(topLeftBtn16);
         gridPane.getChildren().add(topLeftBtn17);
         
+        
+        
+        arrow.setLayoutX(
+                15);
+        arrow.setLayoutY(
+                115.0);
+        arrow.setIcon(FontAwesomeIcons.ARROW_LEFT);
+
+        arrow.setSize(
+                "7em");
+        arrow.setId(
+                "arrow");
+        arrow.scaleXProperty()
+                .add(1);
+        arrow.scaleYProperty()
+                .add(1);
+        arrow.scaleZProperty()
+                .add(1);
+
+        arrow.setOnMouseClicked(
+                new EventHandler() {
+
+            @Override
+            public void handle(Event event
+            ) {
+                Parent root = new loginBase(stage);
+                Scene scene = new Scene(root, 1000, 700);
+                stage.setScene(scene);
+                stage.show();
+            }
+        }
+        );
+        
           topLeftBtn.setStyle("-fx-background-color: #d7049e; -fx-text-fill: white;");
         topLeftBtn1.setStyle("-fx-background-color: #d7049e; -fx-text-fill: white;");
         topLeftBtn11.setStyle("-fx-background-color: #d7049e; -fx-text-fill: white;");
@@ -304,6 +347,7 @@ boolean turnX=true;
         getChildren().add(gridPane);
         getChildren().add(label);
         getChildren().add(PlayerNameLabel);
+         getChildren() .add(arrow);
 
     }
 

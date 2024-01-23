@@ -43,7 +43,7 @@ public class ItemRecord extends AnchorPane{
         rectangle.setStrokeType(javafx.scene.shape.StrokeType.INSIDE);
         rectangle.setWidth(510.0);
 
-        playerTxt.setLayoutX(20.0);
+        playerTxt.setLayoutX(30.0);
         playerTxt.setLayoutY(43.0);
         playerTxt.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
         playerTxt.setStrokeWidth(0.0);
@@ -51,20 +51,30 @@ public class ItemRecord extends AnchorPane{
         playerTxt.setWrappingWidth(116.6708984375);
         playerTxt.setFont(new Font(20.0));
         playerTxt.setId("txt");
+        
+        
+          winTxt.setLayoutX(60.0);
+        winTxt.setLayoutY(43.0);
+        winTxt.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
+        winTxt.setStrokeWidth(0.0);
+        winTxt.setText("Score");
+        winTxt.setWrappingWidth(116.6708984375);
+        winTxt.setFont(new Font(20.0));
+        winTxt.setId("txt");
 
 
         inviteBTn.setLayoutX(306.0);
         inviteBTn.setLayoutY(20.0);
         inviteBTn.setMnemonicParsing(false);
         inviteBTn.setPrefHeight(31.0);
-        inviteBTn.setPrefWidth(120.0);
+        inviteBTn.setPrefWidth(150.0);
         inviteBTn.setText("View Record");
          inviteBTn.setId("btn");
 
         getChildren().add(rectangle);
         getChildren().add(playerTxt);
         getChildren().add(inviteBTn);
-        getChildren().add(winTxt);
+       // getChildren().add(winTxt);
         
          
      }
