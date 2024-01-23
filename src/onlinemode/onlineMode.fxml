@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" prefHeight="672.0" prefWidth="944.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="onlinemode.OnlineModeController">
+    <stylesheets>
+        <URL value="@onlinemode.css" />
+    </stylesheets>
+   <children>
+      <ImageView fitHeight="672.0" fitWidth="992.0" layoutY="3.0">
+         <image>
+            <Image url="@../../../../gaming-blank-banner-background_23-2150390423.jpg" />
+         </image>
+      </ImageView>
+      <GridPane layoutX="246.0" layoutY="191.0" prefHeight="334.0" prefWidth="545.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Button fx:id="topLeftBtn" mnemonicParsing="false" prefHeight="102.0" prefWidth="178.0" />
+            <Button fx:id="topBtn" mnemonicParsing="false" prefHeight="102.0" prefWidth="178.0" GridPane.columnIndex="1" />
+            <Button fx:id="topRightBtn" mnemonicParsing="false" prefHeight="102.0" prefWidth="178.0" GridPane.columnIndex="2" />
+            <Button fx:id="centerLeftBtn" mnemonicParsing="false" prefHeight="102.0" prefWidth="178.0" GridPane.rowIndex="1" />
+            <Button fx:id="centerBtn" mnemonicParsing="false" prefHeight="102.0" prefWidth="178.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Button fx:id="centerRightBtn" mnemonicParsing="false" prefHeight="102.0" prefWidth="178.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <Button fx:id="downLeftBtn" mnemonicParsing="false" prefHeight="102.0" prefWidth="178.0" GridPane.rowIndex="2" />
+            <Button fx:id="downBtn" mnemonicParsing="false" prefHeight="102.0" prefWidth="178.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Button fx:id="downRightBtn" mnemonicParsing="false" prefHeight="102.0" prefWidth="178.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+         </children>
+      </GridPane>
+      <GridPane layoutX="301.0" layoutY="57.0" prefHeight="111.0" prefWidth="404.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <BorderPane prefHeight="111.0" prefWidth="117.0">
+               <top>
+                  <Text fx:id="player1Txt" strokeType="OUTSIDE" strokeWidth="0.0" text="Player 1" BorderPane.alignment="CENTER" />
+               </top>
+               <center>
+                  <Text fx:id="player1ScoreTxt" layoutX="100.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" BorderPane.alignment="CENTER" />
+               </center>
+               <GridPane.margin>
+                  <Insets right="5.0" />
+               </GridPane.margin>
+            </BorderPane>
+            <BorderPane prefHeight="111.0" prefWidth="119.0" GridPane.columnIndex="1">
+               <top>
+                  <Text fx:id="drawTxt" strokeType="OUTSIDE" strokeWidth="0.0" text="Draw" BorderPane.alignment="CENTER" />
+               </top>
+               <center>
+                  <Text fx:id="drawScoreTxt" strokeType="OUTSIDE" strokeWidth="0.0" text="0" BorderPane.alignment="CENTER" />
+               </center>
+               <GridPane.margin>
+                  <Insets left="5.0" right="5.0" />
+               </GridPane.margin>
+            </BorderPane>
+            <BorderPane prefHeight="111.0" prefWidth="119.0" GridPane.columnIndex="2">
+               <top>
+                  <Text fx:id="player2Txt" strokeType="OUTSIDE" strokeWidth="0.0" text="Player 2" BorderPane.alignment="CENTER" />
+               </top>
+               <center>
+                  <Text fx:id="player2ScoreTxt" strokeType="OUTSIDE" strokeWidth="0.0" text="0" BorderPane.alignment="CENTER" />
+               </center>
+               <GridPane.margin>
+                  <Insets left="5.0" right="5.0" />
+               </GridPane.margin>
+            </BorderPane>
+         </children>
+      </GridPane>
+      <Button fx:id="newGameBtn" layoutX="246.0" layoutY="560.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="155.0" text="New Game" />
+      <Button fx:id="menueBtn" layoutX="441.0" layoutY="560.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="155.0" text="Main Menue" />
+      <Label fx:id="player1Label" layoutX="78.0" layoutY="358.0" text="Player1">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+      <Label fx:id="player2Label" layoutX="825.0" layoutY="358.0" text="Player 2">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="117.0" fitWidth="119.0" layoutX="58.0" layoutY="222.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../../Downloads/icons8-player-64.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="111.0" fitWidth="117.0" layoutX="822.0" layoutY="225.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../../Downloads/icons8-anonymous-64.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="recordBtn" layoutX="628.0" layoutY="560.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="155.0" text="Record Game" />
+   </children>
+</AnchorPane>

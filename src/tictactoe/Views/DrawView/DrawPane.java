@@ -1,11 +1,13 @@
 package tictactoe.Views.DrawView;
 
+import SelectmodeView.SelectModeBase;
 import javafx.animation.RotateTransition;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.PerspectiveCamera;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.effect.Reflection;
@@ -25,6 +27,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import tictactoe.TicTacToe;
 import tictactoe.Views.LocalMode2Players.GameBoardBase2Players;
+import tictactoe.Views.computerMode.ComputerModeBase;
 
 public class DrawPane extends Pane {
 
@@ -35,15 +38,28 @@ public class DrawPane extends Pane {
     protected final ImageView mainMenuImage;
     protected final Text drawText;
     Stage stage;
+    String currentSymbol;
+    int userScore;
+    int computerScore;
+    int drawScore;
     
-    public DrawPane(Stage stage) {
+    public DrawPane(Stage stage , String current , int userScoreP , int computerScoreP , int drawScoreP) {
+      
         this.stage=stage;
+        currentSymbol=current;
+        userScore=userScoreP;
+        computerScore=computerScoreP;
+        drawScore=drawScoreP;
+        
         backgroundImage = new ImageView();
         playAgainButton = new Button();
         playAgainImage = new ImageView();
         mainMenuButton = new Button();
         mainMenuImage = new ImageView();
         drawText = new Text();
+        
+        getStyleClass().add("mainFxmlClass");
+        getStylesheets().add("/tictactoe/Views/DrawView/draw.css");
 
         setMaxHeight(USE_PREF_SIZE);
         setMaxWidth(USE_PREF_SIZE);
@@ -63,22 +79,24 @@ public class DrawPane extends Pane {
 
         playAgainButton.setLayoutX(650.0);
         playAgainButton.setLayoutY(500.0);
+        playAgainButton.setPrefHeight(65.0);
+        playAgainButton.setPrefWidth(240.0);
         playAgainButton.setMnemonicParsing(false);
-        playAgainButton.setStyle("-fx-background-color: C5A0D7;");
+        //playAgainButton.setStyle("-fx-background-color: C5A0D7;");
         playAgainButton.setText("     Play Again");
         playAgainButton.setFont(new Font("Arial Bold", 28.0));
-        playAgainButton.setOnMouseEntered(event -> {
-            playAgainButton.setStyle("-fx-background-color: D7049E;");
-        });
-
-        playAgainButton.setOnMouseExited(event -> {
-            playAgainButton.setStyle("-fx-background-color:C5A0D7;");
-        });
-        
+//        playAgainButton.setOnMouseEntered(event -> {
+//            playAgainButton.setStyle("-fx-background-color: D7049E;");
+//        });
+//
+//        playAgainButton.setOnMouseExited(event -> {
+//            playAgainButton.setStyle("-fx-background-color:C5A0D7;");
+//        });
+//        
         playAgainButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-               
+               stage.setScene(new Scene(new ComputerModeBase(stage,currentSymbol,userScore,computerScore,drawScore)));
              }
         });
         
@@ -87,8 +105,8 @@ public class DrawPane extends Pane {
         
         playAgainImage.setFitHeight(33.0);
         playAgainImage.setFitWidth(38.0);
-        playAgainImage.setLayoutX(660.0);
-        playAgainImage.setLayoutY(510.0);
+        playAgainImage.setLayoutX(670.0);
+        playAgainImage.setLayoutY(520.0);
         playAgainImage.setPickOnBounds(true);
         playAgainImage.setPreserveRatio(true);
         playAgainImage.setImage(new Image(getClass().getResource("/assets/images/Replay2.png").toExternalForm()));
@@ -98,23 +116,30 @@ public class DrawPane extends Pane {
         
         mainMenuButton.setLayoutX(650.0);
         mainMenuButton.setLayoutY(400.0);
+        mainMenuButton.setPrefHeight(65.0);
+        mainMenuButton.setPrefWidth(240.0);
         mainMenuButton.setMnemonicParsing(false);
-        mainMenuButton.setStyle("-fx-background-color: C5A0D7;");
+        //mainMenuButton.setStyle("-fx-background-color: C5A0D7;");
         mainMenuButton.setText("     Main Menu");
         mainMenuButton.setFont(new Font("Arial Bold", 28.0));
-        mainMenuButton.setOnMouseEntered(event -> {
-            mainMenuButton.setStyle("-fx-background-color: D7049E;");
-        });
-
-        mainMenuButton.setOnMouseExited(event -> {
-            mainMenuButton.setStyle("-fx-background-color:C5A0D7 ;");
-        });
-
+//        mainMenuButton.setOnMouseEntered(event -> {
+//            mainMenuButton.setStyle("-fx-background-color: D7049E;");
+//        });
+//
+//        mainMenuButton.setOnMouseExited(event -> {
+//            mainMenuButton.setStyle("-fx-background-color:C5A0D7 ;");
+//        });
+        mainMenuButton.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    stage.setScene(new Scene(new SelectModeBase(stage)));
+                }
+            });
           
         mainMenuImage.setFitHeight(33.0);
         mainMenuImage.setFitWidth(38.0);
-        mainMenuImage.setLayoutX(660.0);
-        mainMenuImage.setLayoutY(410.0);
+        mainMenuImage.setLayoutX(670.0);
+        mainMenuImage.setLayoutY(420.0);
         mainMenuImage.setPickOnBounds(true);
         mainMenuImage.setPreserveRatio(true);
         mainMenuImage.setImage(new Image(getClass().getResource("/assets/images/main-menu_3916045.png").toExternalForm()));
@@ -179,13 +204,14 @@ public class DrawPane extends Pane {
         // Create a MediaView to display the video
         MediaView mediaView = new MediaView(mediaPlayer);
 
+        
         // Set the size of the MediaView to fit the screen without cropping
-        mediaView.setFitWidth(1000.0);
-        mediaView.setFitHeight(700.0);
+        mediaView.setFitWidth(800.0);
+        mediaView.setFitHeight(800.0);
 
         // Set the position of the MediaView within the WinPane
         mediaView.setLayoutX(100.0); // Set X position
-        mediaView.setLayoutY(120.0);  // Set Y position
+        mediaView.setLayoutY(130.0);  // Set Y position
 
         // Set the position of the MediaView within the WinPane
         StackPane.setAlignment(mediaView, Pos.CENTER);

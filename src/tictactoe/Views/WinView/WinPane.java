@@ -3,6 +3,7 @@ package tictactoe.Views.WinView;
 //import Libraries.fxyz3d.geometry.Point3D;
 //import Libraries.fxyz3d.shapes.composites.Text3DMesh;
 
+import SelectmodeView.SelectModeBase;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.RotateTransition;
@@ -39,6 +40,8 @@ import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import tictactoe.TicTacToe;
+import tictactoe.Views.DrawView.DrawPane;
+import tictactoe.Views.computerMode.ComputerModeBase;
 
 public class WinPane extends AnchorPane {
 
@@ -51,8 +54,20 @@ public class WinPane extends AnchorPane {
     protected final Button playAgainButtonSound;
    // protected final Text3DMesh winText3D; 
     Stage stage;
-    public WinPane(Stage stage) {
+    int userScore;
+    int computerScore;
+    int drawScore;
+    String currentSymbol;
+    
+    public WinPane(Stage stage , String current ,int userScoreP , int computerScoreP , int drawScoreP) {
+       
+    userScore = userScoreP;
+    computerScore = computerScoreP;
+    drawScore=drawScoreP;
+    currentSymbol=current;
+        
         this.stage=stage;
+        stage.setResizable(false);
         backgroundImage = new ImageView();
         playAgainButton = new Button();
         playAgainImage = new ImageView();
@@ -61,12 +76,11 @@ public class WinPane extends AnchorPane {
         playAgainButtonSound = new Button();
         winText = new Text();
         
+        getStyleClass().add("mainFxmlClass");
+        getStylesheets().add("/tictactoe/Views/WinView/win.css");
 
-        setPrefHeight(700);
-        setPrefWidth(1000);
-
-        backgroundImage.setFitHeight(700.0);
-        backgroundImage.setFitWidth(1000.0);
+        backgroundImage.setFitHeight(getPrefHeight());
+        backgroundImage.setFitWidth(getPrefWidth());
         backgroundImage.setLayoutX(0.0);
         backgroundImage.setLayoutY(0.0);
         backgroundImage.setPickOnBounds(true);
@@ -74,56 +88,71 @@ public class WinPane extends AnchorPane {
         backgroundImage.getStyleClass().add("win");
         backgroundImage.setImage(new Image(getClass().getResource("/assets/images/backgroundImageGif.gif").toExternalForm()));
 
+        backgroundImage.setPreserveRatio(false); // Set to false to stretch the image
+
+        
+        
         playAgainButton.setLayoutX(650.0);
         playAgainButton.setLayoutY(500.0);
+        playAgainButton.setPrefHeight(65.0);
+        playAgainButton.setPrefWidth(240.0);
         playAgainButton.setMnemonicParsing(false);
-        playAgainButton.setStyle("-fx-background-color: C5A0D7;");
+        //playAgainButton.setStyle("-fx-background-color: C5A0D7;");
         playAgainButton.setText("     Play Again");
         playAgainButton.setFont(new Font("Arial Bold", 28.0));
-        playAgainButton.setOnMouseEntered(event -> {
-            playAgainButton.setStyle("-fx-background-color: D7049E;");
-        });
-
-        playAgainButton.setOnMouseExited(event -> {
-            playAgainButton.setStyle("-fx-background-color:C5A0D7 ;"); 
-        });
+//        playAgainButton.setOnMouseEntered(event -> {
+//            playAgainButton.setStyle("-fx-background-color: D7049E;");
+//        });
+//
+//        playAgainButton.setOnMouseExited(event -> {
+//            playAgainButton.setStyle("-fx-background-color:C5A0D7 ;"); 
+//        });
         
         playAgainButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-               // mainApp.switchToLosePane();
+               stage.setScene(new Scene(new ComputerModeBase(stage,currentSymbol,userScore,computerScore,drawScore)));
                
             }
         });
 
         playAgainImage.setFitHeight(33.0);
         playAgainImage.setFitWidth(38.0);
-        playAgainImage.setLayoutX(660.0);
-        playAgainImage.setLayoutY(510.0);
+        playAgainImage.setLayoutX(670.0);
+        playAgainImage.setLayoutY(520.0);
         playAgainImage.setPickOnBounds(true);
         playAgainImage.setPreserveRatio(true);
         playAgainImage.setImage(new Image(getClass().getResource("/assets/images/Replay2.png").toExternalForm()));
 
-        
+
         mainMenuButton.setLayoutX(650.0);
         mainMenuButton.setLayoutY(400.0);
+        mainMenuButton.setPrefHeight(65.0);
+        mainMenuButton.setPrefWidth(240.0);
         mainMenuButton.setMnemonicParsing(false);
-        mainMenuButton.setStyle("-fx-background-color: C5A0D7;");
+        //mainMenuButton.setStyle("-fx-background-color: C5A0D7;");
         mainMenuButton.setText("     Main Menu");
         mainMenuButton.setFont(new Font("Arial Bold", 28.0));
         
-        mainMenuButton.setOnMouseEntered(event -> {
-            mainMenuButton.setStyle("-fx-background-color: D7049E;");  
-        });
-
-        mainMenuButton.setOnMouseExited(event -> {        
-            mainMenuButton.setStyle("-fx-background-color:C5A0D7 ;");         
-        });
+        //mainMenuButton.setOnMouseEntered(event -> {
+//            mainMenuButton.setStyle("-fx-background-color: D7049E;");  
+//        });
+//
+//        mainMenuButton.setOnMouseExited(event -> {        
+//            mainMenuButton.setStyle("-fx-background-color:C5A0D7 ;");         
+//        });
+        
+        mainMenuButton.setOnAction(new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent event) {
+            stage.setScene(new Scene(new SelectModeBase(stage)));
+        }
+    });
         
         mainMenuImage.setFitHeight(33.0);
         mainMenuImage.setFitWidth(38.0);
-        mainMenuImage.setLayoutX(660.0);
-        mainMenuImage.setLayoutY(410.0);
+        mainMenuImage.setLayoutX(670.0);
+        mainMenuImage.setLayoutY(420.0);
         mainMenuImage.setPickOnBounds(true);
         mainMenuImage.setPreserveRatio(true);
         mainMenuImage.setImage(new Image(getClass().getResource("/assets/images/main-menu_3916045.png").toExternalForm()));
@@ -178,7 +207,8 @@ public class WinPane extends AnchorPane {
         getChildren().add(mainMenuButton);
         getChildren().add(mainMenuImage);
         getChildren().add(winText);
-        
+        setPrefHeight(700);
+        setPrefWidth(1000);
         
         
        WinPlayVideo();
@@ -196,13 +226,14 @@ public class WinPane extends AnchorPane {
         // Create a MediaView to display the video
         MediaView mediaView = new MediaView(mediaPlayer);
 
+
         // Set the size of the MediaView to fit the screen without cropping
         mediaView.setFitWidth(800.0);
         mediaView.setFitHeight(800.0);
 
         // Set the position of the MediaView within the WinPane
         mediaView.setLayoutX(100.0); // Set X position
-        mediaView.setLayoutY(120.0);  // Set Y position
+        mediaView.setLayoutY(130.0);  // Set Y position
 
         // Set the position of the MediaView within the WinPane
         StackPane.setAlignment(mediaView, Pos.CENTER);

@@ -25,16 +25,20 @@ import javafx.stage.Stage;
 import tictactoe.Views.LocalMode2Players.GameBoardBase2Players;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcons;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.paint.Color;
+
 
 public  class LocalViewBase extends AnchorPane {
 
     protected final AnchorPane anchorPane;
     protected final ImageView backgroundimage;
-    protected final Label headLabel;
+    protected final Text headLabel;
     protected final Button startbutton;
     protected final TextField playerOneName;
     protected final TextField playerTwoName;
     FontAwesomeIcon arrow;
+    protected final ImageView backBtn;
     TicTacToe mainApp;
   
     
@@ -44,11 +48,12 @@ public  class LocalViewBase extends AnchorPane {
 
         anchorPane = new AnchorPane();
         backgroundimage = new ImageView();
-        headLabel = new Label();
+        headLabel = new Text();
         startbutton = new Button();
         playerOneName = new TextField();
         playerTwoName = new TextField();
         arrow = new FontAwesomeIcon();
+        backBtn = new ImageView();
          
          
  
@@ -69,18 +74,29 @@ public  class LocalViewBase extends AnchorPane {
         backgroundimage.setImage(new Image(getClass().getResource("/assets/images/background.jpg").toExternalForm()));
 
         headLabel.setLayoutX(614.0);
-        headLabel.setLayoutY(108.0);
+        headLabel.setLayoutY(180.0);
         headLabel.setText("tic.tac.toe.");
-        headLabel.setTextFill(javafx.scene.paint.Color.valueOf("#c5a0d7"));
-        headLabel.setFont(new Font("Arial Rounded MT Bold", 64.0));
+        headLabel.setFill(javafx.scene.paint.Color.valueOf("#BE8FD5"));
+        headLabel.setStroke(Color.web("#C1ADCB"));  
+        headLabel.setStrokeWidth(2); 
+        headLabel.setFont(new Font("System Bold", 64.0));
+        DropShadow dropShadow = new DropShadow();
+        dropShadow.setColor(Color.BLACK);
+        dropShadow.setRadius(5.0);
+        dropShadow.setOffsetX(3.0);
+        dropShadow.setOffsetY(3.0);
+        headLabel.setEffect(dropShadow);
+        
+        //headLabel.setTextFill(javafx.scene.paint.Color.valueOf("#c5a0d7"));
+        //headLabel.setFont(new Font("Arial Rounded MT Bold", 64.0));
 
-        startbutton.setId("buttonstyles");
-        startbutton.setLayoutX(658.0);
+        //startbutton.setId("buttonstyles");
+        startbutton.setLayoutX(675.0);
         startbutton.setLayoutY(471.0);
         startbutton.setMnemonicParsing(false);
-        startbutton.setPrefHeight(23.0);
-        startbutton.setPrefWidth(257.0);
-        startbutton.setStyle("-fx-background-color: C5A0D7; -fx-background-radius: 90;");
+        startbutton.setPrefHeight(50.0);
+        startbutton.setPrefWidth(200.0);
+        //startbutton.setStyle("-fx-background-color: C5A0D7; -fx-background-radius: 90;");
         startbutton.setText("start");
         startbutton.setFont(new Font("Arial", 26.0));
         startbutton.setOnAction(new EventHandler<ActionEvent>() {
@@ -122,36 +138,41 @@ public  class LocalViewBase extends AnchorPane {
 
         playerOneName.setLayoutX(664.0);
         playerOneName.setLayoutY(289.0);
-        playerOneName.setPrefHeight(42.0);
+        playerOneName.setPrefHeight(45.0);
         playerOneName.setPrefWidth(234.0);
         playerOneName.setPromptText("player one");
-        playerOneName.setStyle("-fx-background-radius: 26 26 26 26;");
-        playerOneName.setFont(new Font("System Bold", 19.0));
+        //playerOneName.setStyle("-fx-background-radius: 26 26 26 26;");
+        playerOneName.setFont(new Font("System ", 19.0));
 
         playerTwoName.setLayoutX(664.0);
         playerTwoName.setLayoutY(382.0);
-        playerTwoName.setPrefHeight(42.0);
+        playerTwoName.setPrefHeight(45.0);
         playerTwoName.setPrefWidth(234.0);
         playerTwoName.setPromptText("player two");
-        playerTwoName.setStyle("-fx-background-radius: 26 26 26 26;");
-        playerTwoName.setFont(new Font("System Bold",19.0));
+       // playerTwoName.setStyle("-fx-background-radius: 26 26 26 26;");
+        playerTwoName.setFont(new Font("System ",19.0));
 
-        arrow.setLayoutX(15.0);
-        arrow.setLayoutY(115.0);
-        arrow.setIcon(FontAwesomeIcons.ARROW_LEFT);
-        arrow.setSize("7em");
-        arrow.setId("arrow");
-        arrow.scaleXProperty().add(1);
-        arrow.scaleYProperty().add(1);
-        arrow.scaleZProperty().add(1);
-        arrow.setOnMouseClicked(new EventHandler() {
+//        arrow.setLayoutX(15.0);
+//        arrow.setLayoutY(115.0);
+//        arrow.setIcon(FontAwesomeIcons.ARROW_LEFT);
+//        arrow.setSize("7em");
+//        arrow.setId("arrow");
+//        arrow.scaleXProperty().add(1);
+//        arrow.scaleYProperty().add(1);
+//        arrow.scaleZProperty().add(1);
+        
+        backBtn.setLayoutX(100.0);
+        backBtn.setLayoutY(50.0);
+        backBtn.setImage(new Image(getClass().getResource("/assets/images/a.png").toExternalForm()));
+        backBtn.setOnMouseClicked(new EventHandler() {
 
             @Override
             public void handle(Event event) {
                 Parent root = new SelectModeBase(stage);
                 Scene scene = new Scene(root,1000,700);
                 stage.setScene(scene);
-                stage.show();            }
+                stage.show();           
+            }
         });
         anchorPane.getChildren().add(backgroundimage);
         anchorPane.getChildren().add(headLabel);
@@ -159,6 +180,7 @@ public  class LocalViewBase extends AnchorPane {
         anchorPane.getChildren().add(playerOneName);
         anchorPane.getChildren().add(playerTwoName);
         anchorPane.getChildren().add(arrow);
+        anchorPane.getChildren().add(backBtn);
         getChildren().add(anchorPane);
 
     }
