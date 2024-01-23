@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package RecordHistory;
+import RecordView.RecordBase;
 import Requests.App;
 import static Requests.App.input;
 import Requests.Message;
@@ -46,6 +47,7 @@ import onlinemode.onlineModeGeneratedBase;
 import tictactoe.Views.AvailablePlayer.ItemBase;
 import tictactoe.Views.AvailablePlayer.PlayersListBaseNew;
 import static tictactoe.Views.AvailablePlayer.PlayersListBaseNew.avaliable;
+import tictactoe.Views.computerMode.GamesDTO;
 import tictactoe.Views.login.loginBase;
 /**
  *
@@ -93,8 +95,41 @@ public class RecordHistory extends AnchorPane{
         playersCards = new ArrayList<>();
          playerEmail = email;
         
-        
-        
+        System.out.println("hi from record history");
+        Message request=new Message();
+        request.setType("showRec");
+        App.output.println(new Gson().toJson(request));
+        App.output.flush();
+        new Thread(() -> {
+            try {
+                String jsonResponse = App.input.readLine();
+                System.out.println(jsonResponse);
+                Message response = App.gson.fromJson(jsonResponse, Message.class);
+                ArrayList<GamesDTO> games = response.getGames();
+                if (response.getType().equals("showRec")) {
+                    for (GamesDTO game : games) {
+                        ItemRecord item = new ItemRecord();
+                        item.playerTxt.setText(String.valueOf(game.getGameID()));
+                        if (game.isWin()) {
+                            item.winTxt.setText("Winner");
+                        } else {
+                            item.winTxt.setText("Loser");
+                        }
+                        listView.getItems().add(item);
+                        listView.refresh();
+                        item.inviteBTn.setOnAction((event) -> { 
+                            Parent root = new RecordBase(stage, game.getSteps());
+                            Scene scene = new Scene(root, 1000, 700);
+                            stage.setScene(scene);
+                            stage.show();
+                        });
+                    }
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+
+            }
+        }).start();
          setId("AnchorPane");
         setPrefHeight(400.0);
         setPrefWidth(600.0);

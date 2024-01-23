@@ -1,6 +1,12 @@
 package RecordView;
 
+import com.google.gson.Gson;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -11,6 +17,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class RecordBase extends AnchorPane {
 
@@ -33,9 +40,20 @@ public class RecordBase extends AnchorPane {
     protected final Button topLeftBtn17;
     protected final Label label;
     protected final Label PlayerNameLabel;
-
-    public RecordBase(Stage stage){
-
+boolean turnX=true;
+         Stage stage;
+        String stepsArray;
+        public RecordBase(Stage stage,String stepsArray) {
+        this.stage=stage;
+        this.stepsArray=stepsArray;
+        ArrayList<Double> steps= new Gson().fromJson(stepsArray,ArrayList.class);
+        
+        System.out.println(steps.toString());
+        ArrayList<Integer> intSteps=new ArrayList<Integer>();
+        for(double step:steps)
+        {
+            intSteps.add((int) step);
+        }
         imageView = new ImageView();
         gridPane = new GridPane();
         columnConstraints = new ColumnConstraints();
@@ -55,7 +73,96 @@ public class RecordBase extends AnchorPane {
         topLeftBtn17 = new Button();
         label = new Label();
         PlayerNameLabel = new Label();
+        
+            Timeline timeline = new Timeline();
+            int delayInSeconds = 1;
 
+            for (int i = 0; i < intSteps.size(); i++) {
+                int step = intSteps.get(i);
+                KeyFrame key = new KeyFrame(Duration.seconds(delayInSeconds), (event) -> {
+                    Button button;
+                    if (turnX) {
+                        switch (step) {
+                            case 0:
+                                button = topLeftBtn17;
+                                break;
+                            case 1:
+                                button = topLeftBtn14;
+                                break;
+                            case 2:
+                                button = topLeftBtn13;
+                                break;
+                            case 3:
+                                button = topLeftBtn12;
+                                break;
+                            case 4:
+                                button = topLeftBtn1;
+                                break;
+                            case 5:
+                                button = topLeftBtn16;
+                                break;
+                            case 6:
+                                button = topLeftBtn11;
+                                break;
+                            case 7:
+                                button = topLeftBtn;
+                                break;
+                            case 8:
+                                button = topLeftBtn15;
+                                break;
+                            default:
+                                return;
+                        }
+                    } else {
+                        switch (step) {
+                            case 0:
+                                button = topLeftBtn17;
+                                break;
+                            case 1:
+                                button = topLeftBtn14;
+                                break;
+                            case 2:
+                                button = topLeftBtn13;
+                                break;
+                            case 3:
+                                button = topLeftBtn12;
+                                break;
+                            case 4:
+                                button = topLeftBtn1;
+                                break;
+                            case 5:
+                                button = topLeftBtn16;
+                                break;
+                            case 6:
+                                button = topLeftBtn11;
+                                break;
+                            case 7:
+                                button = topLeftBtn;
+                                break;
+                            case 8:
+                                button = topLeftBtn15;
+                                break;
+                            default:
+                                return;
+                        }
+                    }
+
+                    if (turnX) {
+                        button.setText("X");
+                    } else {
+                        button.setText("O");
+                    }
+
+                    turnX = !turnX;
+                });
+
+                timeline.getKeyFrames().add(key);
+                delayInSeconds += 1;
+            }
+
+            timeline.setCycleCount(intSteps.size());
+            timeline.play();
+            
         setId("AnchorPane");
         setPrefHeight(642.0);
         setPrefWidth(1034.0);

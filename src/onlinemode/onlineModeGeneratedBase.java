@@ -999,6 +999,7 @@ public class onlineModeGeneratedBase extends AnchorPane {
             msg.setType("record");
             msg.setSteps(clickedPositions);
             String gsonMessage = App.gson.toJson(msg);
+            System.out.println(gsonMessage);
             App.output.println(gsonMessage);
             App.output.flush();
         }
@@ -1027,6 +1028,7 @@ public class onlineModeGeneratedBase extends AnchorPane {
             msg.setType("record");
             msg.setSteps(clickedPositions);
             String gsonMessage = App.gson.toJson(msg);
+            System.out.println(gsonMessage);
             App.output.println(gsonMessage);
             App.output.flush();
         }

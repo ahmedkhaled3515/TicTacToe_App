@@ -194,19 +194,19 @@ public class PlayersListBaseNew extends AnchorPane {
         listView.getStyleClass().add("mylistview");
         listView.setStyle("-fx-background-color: transparent;");
         
-        
-        users.setLayoutX(400);
-        users.setLayoutY(50);
-        users.setImage(new Image(getClass().getResource("/assets/images/u.png").toExternalForm()));
-        users.setOnMouseClicked(new EventHandler() {
-            @Override
-            public void handle(Event event) {
-                Parent root = new RecordHistory(stage,playerEmail);
-                Scene scene = new Scene(root, 1000, 700);
-                stage.setScene(scene);
-                stage.show();
-            }
-        });
+//        
+//        users.setLayoutX(400);
+//        users.setLayoutY(50);
+//        users.setImage(new Image(getClass().getResource("/assets/images/u.png").toExternalForm()));
+//        users.setOnMouseClicked(new EventHandler() {
+//            @Override
+//            public void handle(Event event) {
+//                Parent root = new RecordHistory(stage,playerEmail);
+//                Scene scene = new Scene(root, 1000, 700);
+//                stage.setScene(scene);
+//                stage.show();
+//            }
+//        });
 
 
         anchorPane.getChildren().add(backgroundImg);

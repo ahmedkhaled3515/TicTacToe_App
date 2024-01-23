@@ -1,5 +1,7 @@
 package HistoryView;
 
+import com.google.gson.Gson;
+import java.util.ArrayList;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -10,8 +12,9 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 
-public abstract class RecordBase extends AnchorPane {
+public  class RecordBase extends AnchorPane {
 
     protected final AnchorPane anchorPane;
     protected final ImageView image;
@@ -34,9 +37,13 @@ public abstract class RecordBase extends AnchorPane {
     protected final Label Status2;
     protected final Button btn1;
     protected final Button btn2;
-
-    public RecordBase() {
-
+    Stage stage;
+    String stepsArray;
+    public RecordBase(Stage stage,String stepsArray) {
+        this.stage=stage;
+        this.stepsArray=stepsArray;
+        ArrayList<Integer> steps= new Gson().fromJson(stepsArray,ArrayList.class);
+        System.out.println(steps.toString());
         anchorPane = new AnchorPane();
         image = new ImageView();
         label = new Label();
@@ -71,7 +78,7 @@ public abstract class RecordBase extends AnchorPane {
         image.setFitHeight(656.0);
         image.setFitWidth(1054.0);
         image.setLayoutX(-7.0);
-        image.setImage(new Image(getClass().getResource("../../../../../Downloads/WhatsApp%20Image%202023-12-28%20at%203.56.37%20PM.jpeg").toExternalForm()));
+        image.setImage(new Image(getClass().getResource("/assets/images/background.jpg").toExternalForm()));
 
         label.setAlignment(javafx.geometry.Pos.CENTER);
         label.setContentDisplay(javafx.scene.control.ContentDisplay.CENTER);
