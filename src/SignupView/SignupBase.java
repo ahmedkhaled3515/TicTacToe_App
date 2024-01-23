@@ -44,8 +44,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javax.swing.GroupLayout;
 import onlinemode.onlineModeGeneratedBase;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
+//import org.json.simple.JSONObject;
+//import org.json.simple.parser.JSONParser;
 import tictactoe.Views.login.loginBase;
 
 public class SignupBase extends AnchorPane {

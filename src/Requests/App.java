@@ -38,7 +38,7 @@ public class App {
     public static void startConnection() {
         if (server == null) {
             try {
-                server = new Socket("192.168.242.57", 6000);
+                server = new Socket("127.0.0.1", 6000);
                 input = new BufferedReader(new InputStreamReader(server.getInputStream()));
                 output = new PrintWriter(server.getOutputStream());
             } catch (IOException ex) {
